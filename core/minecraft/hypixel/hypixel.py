@@ -20,4 +20,4 @@ class Hypixel():
         if player_json["success"] and player_json["player"]:
             return player_json
         elif player_json["success"] and player_json["player"] == None:
-            raise NameError
+            raise NameError(f"Player \"{player}\" does not exist!")
