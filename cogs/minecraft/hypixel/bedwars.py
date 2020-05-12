@@ -45,6 +45,9 @@ class BedwarsCommands(commands.Cog):
                 title = f"{(await self.minecraft.get_profile(player))['name']}\'s Bedwars Stats",
                 color = int((await self.bedwars.get_prestige_data(player))['prestige_color'], 16) # 16 - Hex value.
             )
+            player_stats_embed.set_thumbnail(
+                url = hypixel.icons['Bedwars']
+            )
             player_stats_embed.add_field(
                 name = "Level",
                 value = f"{await self.bedwars.get_star(player)} ({(await self.bedwars.get_prestige_data(player))['prestige']} Prestige)",

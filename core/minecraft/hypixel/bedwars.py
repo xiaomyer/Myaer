@@ -86,6 +86,20 @@ class Bedwars():
         }
         return prestige_data
 
+    async def get_games_played(self, player):
+        try:
+            games_played = core.minecraft.hypixel.hypixel.player_json['player']['stats']['Bedwars']['games_played_bedwars']
+            return games_played
+        except KeyError:
+            return 0
+
+    async def get_coins(self, player):
+        try:
+            coins = core.minecraft.hypixel.hypixel.player_json['player']['stats']['Bedwars']['coins_bedwars']
+            return coins
+        except KeyError:
+            return 0
+
     async def get_final_kills(self, player):
         try:
             final_kills = core.minecraft.hypixel.hypixel.player_json['player']['stats']['Bedwars']['final_kills_bedwars']

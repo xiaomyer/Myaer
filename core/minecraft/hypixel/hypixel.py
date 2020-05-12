@@ -28,12 +28,17 @@ import json
 from core.minecraft.minecraft import Minecraft
 
 hypixel_api = "https://api.hypixel.net/"
+icons = {
+    "Bedwars" : "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/bedwars.png",
+    "Skywars" : "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/skywars.png"
+}
 
 class Hypixel():
     def __init__(self):
         self.config = Config()
         self.minecraft = Minecraft()
         self.hypixel_api_key = self.config.hypixel_api_key
+        self.icons = icons
 
     async def send_request(self, player):
         uuid = (await self.minecraft.get_profile(player))["uuid"]
