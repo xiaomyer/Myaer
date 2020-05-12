@@ -1,7 +1,7 @@
 import json
 import core.minecraft.hypixel.hypixel
 
-bedwars_prestige_colors = {
+prestige_colors = {
     "Stone" : "607D8B",
     "Iron" : "95A5A6",
     "Gold" : "FFAC0F",
@@ -16,69 +16,111 @@ bedwars_prestige_colors = {
 }
 
 class Bedwars():
-    async def get_bedwars_star(self, player):
-        bedwars_star = core.minecraft.hypixel.hypixel.player_json["player"]["achievements"]["bedwars_level"]
-        return bedwars_star
+    async def get_star(self, player):
+        star = core.minecraft.hypixel.hypixel.player_json['player']['achievements']['bedwars_level']
+        return star
 
-    async def get_bedwars_prestige_data(self, player):
-        bedwars_star = await self.get_bedwars_star(player)
-        if bedwars_star in range(0, 99):
-            bedwars_prestige = "Stone"
-            bedwars_prestige_color = bedwars_prestige_colors["Stone"]
-        elif bedwars_star in range(100, 199):
-            bedwars_prestige = "Iron"
-            bedwars_prestige_color = bedwars_prestige_colors["Iron"]
-        elif bedwars_star in range(200, 299):
-            bedwars_prestige = "Gold"
-            bedwars_prestige_color = bedwars_prestige_colors["Gold"]
-        elif bedwars_star in range(300, 399):
-            bedwars_prestige = "Diamond"
-            bedwars_prestige_color = bedwars_prestige_colors["Diamond"]
-        elif bedwars_star in range(400, 499):
-            bedwars_prestige = "Emerald"
-            bedwars_prestige_color = bedwars_prestige_colors["Emerald"]
-        elif bedwars_star in range(500, 599):
-            bedwars_prestige = "Sapphire"
-            bedwars_prestige_color = bedwars_prestige_colors["Sapphire"]
-        elif bedwars_star in range(600, 699):
-            bedwars_prestige = "Ruby"
-            bedwars_prestige_color = bedwars_prestige_colors["Ruby"]
-        elif bedwars_star in range(700, 799):
-            bedwars_prestige = "Crystal"
-            bedwars_prestige_color = bedwars_prestige_colors["Crystal"]
-        elif bedwars_star in range(800, 899):
-            bedwars_prestige = "Opal"
-            bedwars_prestige_color = bedwars_prestige_colors["Opal"]
-        elif bedwars_star in range(900, 999):
-            bedwars_prestige = "Amethyst"
-            bedwars_prestige_color = bedwars_prestige_colors["Amethyst"]
+    async def get_prestige_data(self, player):
+        star = await self.get_star(player)
+        if star in range(0, 99):
+            prestige = "Stone"
+            prestige_color = prestige_colors["Stone"]
+        elif star in range(100, 199):
+            prestige = "Iron"
+            prestige_color = prestige_colors["Iron"]
+        elif star in range(200, 299):
+            prestige = "Gold"
+            prestige_color = prestige_colors["Gold"]
+        elif star in range(300, 399):
+            prestige = "Diamond"
+            prestige_color = prestige_colors["Diamond"]
+        elif star in range(400, 499):
+            prestige = "Emerald"
+            prestige_color = prestige_colors["Emerald"]
+        elif star in range(500, 599):
+            prestige = "Sapphire"
+            prestige_color = prestige_colors["Sapphire"]
+        elif star in range(600, 699):
+            prestige = "Ruby"
+            prestige_color = prestige_colors["Ruby"]
+        elif star in range(700, 799):
+            prestige = "Crystal"
+            prestige_color = prestige_colors["Crystal"]
+        elif star in range(800, 899):
+            prestige = "Opal"
+            prestige_color = prestige_colors["Opal"]
+        elif star in range(900, 999):
+            prestige = "Amethyst"
+            prestige_color = prestige_colors["Amethyst"]
         else:
-            bedwars_prestige = "Rainbow"
-            bedwars_prestige_color = bedwars_prestige_colors["Rainbow"]
+            prestige = "Rainbow"
+            prestige_color = prestige_colors["Rainbow"]
 
-        bedwars_prestige_data = {
-            "bedwars_prestige" : f"{bedwars_prestige}",
-            "bedwars_prestige_color" : f"{bedwars_prestige_color}"
+        prestige_data = {
+            "prestige" : f"{prestige}",
+            "prestige_color" : f"{prestige_color}"
         }
-        return bedwars_prestige_data
+        return prestige_data
 
-    async def get_bedwars_final_kills(self, player):
+    async def get_final_kills(self, player):
         try:
-            final_kills = core.minecraft.hypixel.hypixel.player_json["player"]["stats"]["Bedwars"]["final_kills_bedwars"]
+            final_kills = core.minecraft.hypixel.hypixel.player_json['player']['stats']['Bedwars']['final_kills_bedwars']
             return final_kills
         except KeyError:
             return 0
 
-    async def get_bedwars_final_deaths(self, player):
+    async def get_final_deaths(self, player):
         try:
-            final_deaths = core.minecraft.hypixel.hypixel.player_json["player"]["stats"]["Bedwars"]["final_deaths_bedwars"]
+            final_deaths = core.minecraft.hypixel.hypixel.player_json['player']['stats']['Bedwars']['final_deaths_bedwars']
             return final_deaths
         except KeyError:
             return 0
 
-    async def get_bedwars_fkdr(self, player):
-        final_kills = await self.get_bedwars_final_kills(player)
-        final_deaths = await self.get_bedwars_final_deaths(player)
+    async def get_fkdr(self, player):
+        final_kills = await self.get_final_kills(player)
+        final_deaths = await self.get_final_deaths(player)
 
         fkdr = final_kills / final_deaths
         return round(fkdr, 2)
+
+    async def get_beds_broken(self, player):
+        try:
+            beds_broken = core.minecraft.hypixel.hypixel.player_json['player']['stats']['Bedwars']['beds_broken_bedwars']
+            return beds_broken
+        except KeyError:
+            return 0
+
+    async def get_beds_lost(self, player):
+        try:
+            beds_lost = core.minecraft.hypixel.hypixel.player_json['player']['stats']['Bedwars']['beds_lost_bedwars']
+            return beds_lost
+        except KeyError:
+            return 0
+
+    async def get_bblr(self, player):
+        beds_broken = await self.get_beds_broken(player)
+        beds_lost = await self.get_beds_lost(player)
+
+        bblr = beds_broken / beds_lost
+        return round(bblr, 2)
+
+    async def get_wins(self, player):
+        try:
+            wins = core.minecraft.hypixel.hypixel.player_json['player']['stats']['Bedwars']['wins_bedwars']
+            return wins
+        except KeyError:
+            return 0
+
+    async def get_losses(self, player):
+        try:
+            losses = core.minecraft.hypixel.hypixel.player_json['player']['stats']['Bedwars']['losses_bedwars']
+            return losses
+        except KeyError:
+            return 0
+
+    async def get_wlr(self, player):
+        wins = await self.get_wins(player)
+        losses = await self.get_losses(player)
+
+        wlr = wins / losses
+        return round(wlr, 2)
