@@ -40,7 +40,7 @@ class BedwarsCommands(commands.Cog):
     @commands.command(name="bw", aliases=["bwstats"])
     async def get_stats(self, ctx, player):
         try:
-            await self.hypixel.send_request(player) # Sets global variable player_json in core.minecraft.hypixel
+            await self.hypixel.send_request(player) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel
             player_stats_embed = discord.Embed(
                 title = f"{(await self.minecraft.get_profile(player))['name']}\'s Bedwars Stats",
                 color = int((await self.bedwars.get_prestige_data(player))['prestige_color'], 16) # 16 - Hex value.

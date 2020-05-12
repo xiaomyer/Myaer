@@ -41,44 +41,44 @@ prestige_colors = {
 
 class Bedwars():
     async def get_star(self, player):
-        star = core.minecraft.hypixel.hypixel.player_json['player']['achievements']['bedwars_level']
+        star = core.minecraft.hypixel.hypixel.player_json['player']['achievements']['bedwars_level'] # what the fuck why is bedwars_level in achievements bruh
         return star
 
     async def get_prestige_data(self, player):
         star = await self.get_star(player)
         if star in range(0, 99):
-            prestige = "Stone"
-            prestige_color = prestige_colors["Stone"]
+            prestige = 'Stone'
+            prestige_color = prestige_colors['Stone']
         elif star in range(100, 199):
-            prestige = "Iron"
-            prestige_color = prestige_colors["Iron"]
+            prestige = 'Iron'
+            prestige_color = prestige_colors['Iron']
         elif star in range(200, 299):
-            prestige = "Gold"
-            prestige_color = prestige_colors["Gold"]
+            prestige = 'Gold'
+            prestige_color = prestige_colors['Gold']
         elif star in range(300, 399):
-            prestige = "Diamond"
-            prestige_color = prestige_colors["Diamond"]
+            prestige = 'Diamond'
+            prestige_color = prestige_colors['Diamond']
         elif star in range(400, 499):
-            prestige = "Emerald"
-            prestige_color = prestige_colors["Emerald"]
+            prestige = 'Emerald'
+            prestige_color = prestige_colors['Emerald']
         elif star in range(500, 599):
-            prestige = "Sapphire"
-            prestige_color = prestige_colors["Sapphire"]
+            prestige = 'Sapphire'
+            prestige_color = prestige_colors['Sapphire']
         elif star in range(600, 699):
-            prestige = "Ruby"
-            prestige_color = prestige_colors["Ruby"]
+            prestige = 'Ruby'
+            prestige_color = prestige_colors['Ruby']
         elif star in range(700, 799):
-            prestige = "Crystal"
-            prestige_color = prestige_colors["Crystal"]
+            prestige = 'Crystal'
+            prestige_color = prestige_colors['Crystal']
         elif star in range(800, 899):
-            prestige = "Opal"
-            prestige_color = prestige_colors["Opal"]
+            prestige = 'Opal'
+            prestige_color = prestige_colors['Opal']
         elif star in range(900, 999):
-            prestige = "Amethyst"
-            prestige_color = prestige_colors["Amethyst"]
+            prestige = 'Amethyst'
+            prestige_color = prestige_colors['Amethyst']
         else:
-            prestige = "Rainbow"
-            prestige_color = prestige_colors["Rainbow"]
+            prestige = 'Rainbow'
+            prestige_color = prestige_colors['Rainbow']
 
         prestige_data = {
             "prestige" : f"{prestige}",
