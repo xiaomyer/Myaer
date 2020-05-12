@@ -1,0 +1,4 @@
+# Cache files
+__pycache__/
+
+*.json
