@@ -26,7 +26,7 @@ from core.minecraft.hypixel.bedwars import Bedwars
 from core.config import Config
 from discord.ext import commands
 import discord
-from core.minecraft.hypixel.hypixel import Hypixel
+import core.minecraft.hypixel.hypixel
 from core.minecraft.minecraft import Minecraft
 
 class BedwarsCommands(commands.Cog):
@@ -34,7 +34,7 @@ class BedwarsCommands(commands.Cog):
         self.bot = bot
         self.config = Config()
         self.bedwars = Bedwars()
-        self.hypixel = Hypixel()
+        self.hypixel = core.minecraft.hypixel.hypixel.Hypixel()
         self.minecraft = Minecraft()
 
     @commands.command(name="bw", aliases=["bwstats"])
@@ -46,7 +46,7 @@ class BedwarsCommands(commands.Cog):
                 color = int((await self.bedwars.get_prestige_data(player))['prestige_color'], 16) # 16 - Hex value.
             )
             player_stats_embed.set_thumbnail(
-                url = hypixel.icons['Bedwars']
+                url = core.minecraft.hypixel.hypixel.icons['Bedwars']
             )
             player_stats_embed.add_field(
                 name = "Level",
