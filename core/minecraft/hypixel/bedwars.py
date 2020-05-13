@@ -121,6 +121,14 @@ class Bedwars():
         fkdr = final_kills / final_deaths
         return round(fkdr, 2)
 
+    async def get_increase_fkdr(self, player, increase): # Calculates how many finals it would take to increase player's FKDR by one
+        final_kills = await self.get_final_kills(player)
+        final_deaths = await self.get_final_deaths(player)
+        fkdr = await self.get_fkdr(player)
+
+        needed = (fkdr + increase) * final_deaths - final_kills
+        return round(needed)
+
     async def get_beds_broken(self, player):
         try:
             beds_broken = core.minecraft.hypixel.hypixel.player_json['player']['stats']['Bedwars']['beds_broken_bedwars']
