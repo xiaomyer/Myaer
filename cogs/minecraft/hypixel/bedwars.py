@@ -47,7 +47,8 @@ class BedwarsCommands(commands.Cog):
         try:
             await self.hypixel.send_request(player) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel
             player_stats_embed = discord.Embed(
-                title = await self.markdown.underline((await self.markdown.bold(f"{(await self.minecraft.get_profile(player))['name']}\'s Bedwars Stats"))),
+#                title = await self.markdown.underline((await self.markdown.bold(f"{(discord.utils.escape_markdown((await self.minecraft.get_profile(player)))['name'])}\'s Bedwars Stats"))),
+                title = await self.markdown.italic((await self.markdown.bold(f"{discord.utils.escape_markdown((await self.minecraft.get_profile(player))['name'])}\'s Bedwars Stats"))),
                 color = int((await self.bedwars.get_prestige_data(player))['prestige_color'], 16) # 16 - Hex value.
             )
             player_stats_embed.set_thumbnail(
@@ -96,7 +97,7 @@ class BedwarsCommands(commands.Cog):
             )
             await ctx.send(embed = player_stats_embed)
         except NameError:
-            await ctx.send(f"Player \"{player}\" does not exist!")
+            await ctx.send(f"\"{player}\" is not a valid username or UUID.")
 
     @commands.command(name = "fkdr")
     async def get_fkdr_data(self, ctx, player):
