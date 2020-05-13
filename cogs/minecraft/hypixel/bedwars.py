@@ -22,6 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+stats_needed_disclaimer = "Note - The amount needed for stat increase assumes that no negative stats are taken (no final deaths, no losses, etc)"
+
 from core.minecraft.hypixel.bedwars import Bedwars
 import core.characters
 from core.config import Config
@@ -92,7 +94,7 @@ class BedwarsCommands(commands.Cog):
                 name = await self.markdown.underline((await self.markdown.bold(f"{core.characters.arrow_bullet_point} WLR"))),
                 value = f"{await self.bedwars.get_wlr(player)}"
             )
-            await ctx.send(embed=player_stats_embed)
+            await ctx.send(embed = player_stats_embed)
         except NameError:
             await ctx.send(f"Player \"{player}\" does not exist!")
 
@@ -127,6 +129,9 @@ class BedwarsCommands(commands.Cog):
             player_fkdr_embed.add_field(
                 name = await self.markdown.underline((await self.markdown.bold(f"{core.characters.arrow_bullet_point} +2 FKDR"))),
                 value = f"{await self.bedwars.get_increase_stat(player, (await self.bedwars.get_final_kills(player)), (await self.bedwars.get_final_deaths(player)), 2)} needed"
+            )
+            player_fkdr_embed.set_footer(
+                text = stats_needed_disclaimer
             )
             await ctx.send(embed = player_fkdr_embed)
         except NameError:
@@ -164,6 +169,9 @@ class BedwarsCommands(commands.Cog):
                 name = await self.markdown.underline((await self.markdown.bold(f"{core.characters.arrow_bullet_point} +2 BBLR"))),
                 value = f"{await self.bedwars.get_increase_stat(player, (await self.bedwars.get_beds_broken(player)), (await self.bedwars.get_beds_lost(player)), 2)} needed"
             )
+            player_bblr_embed.set_footer(
+                text = stats_needed_disclaimer
+            )
             await ctx.send(embed = player_bblr_embed)
         except NameError:
             await ctx.send(f"Player \"{player}\" does not exist!")
@@ -199,6 +207,9 @@ class BedwarsCommands(commands.Cog):
             player_wlr_embed.add_field(
                 name = await self.markdown.underline((await self.markdown.bold(f"{core.characters.arrow_bullet_point} +2 WLR"))),
                 value = f"{await self.bedwars.get_increase_stat(player, (await self.bedwars.get_wins(player)), (await self.bedwars.get_losses(player)), 2)} needed"
+            )
+            player_fkdr_embed.set_footer(
+                text = stats_needed_disclaimer
             )
             await ctx.send(embed = player_wlr_embed)
         except NameError:
