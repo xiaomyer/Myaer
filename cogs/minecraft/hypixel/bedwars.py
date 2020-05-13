@@ -23,6 +23,7 @@ SOFTWARE.
 """
 
 from core.minecraft.hypixel.bedwars import Bedwars
+import core.characters
 from core.config import Config
 from discord.ext import commands
 import discord
@@ -37,7 +38,7 @@ class BedwarsCommands(commands.Cog):
         self.hypixel = core.minecraft.hypixel.hypixel.Hypixel()
         self.minecraft = Minecraft()
 
-    @commands.command(name="bw", aliases=["bwstats"])
+    @commands.command(name="bedwarsstats", aliases=["bw", "bwstats"])
     async def get_stats(self, ctx, player):
         try:
             await self.hypixel.send_request(player) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel
@@ -49,47 +50,83 @@ class BedwarsCommands(commands.Cog):
                 url = core.minecraft.hypixel.hypixel.icons['Bedwars']
             )
             player_stats_embed.add_field(
-                name = "Level",
+                name = f"{core.characters.arrow_bullet_point} Level",
                 value = f"{await self.bedwars.get_star(player)} ({(await self.bedwars.get_prestige_data(player))['prestige']} Prestige)",
                 inline = False
             )
             player_stats_embed.add_field(
-                name = "Final Kills",
+                name = f"{core.characters.arrow_bullet_point} Final Kills",
                 value = f"{await self.bedwars.get_final_kills(player)}"
             )
             player_stats_embed.add_field(
-                name = "Final Deaths",
+                name = f"{core.characters.arrow_bullet_point} Final Deaths",
                 value = f"{await self.bedwars.get_final_deaths(player)}"
             )
             player_stats_embed.add_field(
-                name = "FKDR",
+                name = f"{core.characters.arrow_bullet_point} FKDR",
                 value = f"{await self.bedwars.get_fkdr(player)}"
             )
             player_stats_embed.add_field(
-                name = "Beds Broken",
+                name = f"{core.characters.arrow_bullet_point} Beds Broken",
                 value = f"{await self.bedwars.get_beds_broken(player)}"
             )
             player_stats_embed.add_field(
-                name = "Beds Lost",
+                name = f"{core.characters.arrow_bullet_point} Beds Lost",
                 value = f"{await self.bedwars.get_beds_lost(player)}"
             )
             player_stats_embed.add_field(
-                name = "BBLR",
+                name = f"{core.characters.arrow_bullet_point} BBLR",
                 value = f"{await self.bedwars.get_bblr(player)}"
             )
             player_stats_embed.add_field(
-                name = "Wins",
+                name = f"{core.characters.arrow_bullet_point} Wins",
                 value = f"{await self.bedwars.get_wins(player)}"
             )
             player_stats_embed.add_field(
-                name = "Losses",
+                name = f"{core.characters.arrow_bullet_point} Losses",
                 value = f"{await self.bedwars.get_losses(player)}"
             )
             player_stats_embed.add_field(
-                name = "WLR",
+                name = f"{core.characters.arrow_bullet_point} WLR",
                 value = f"{await self.bedwars.get_wlr(player)}"
             )
             await ctx.send(embed=player_stats_embed)
+        except NameError:
+            await ctx.send(f"Player \"{player}\" does not exist!")
+
+    @commands.command(name="fkdr")
+    async def get_fkdr_data(self, ctx, player):
+        try:
+            await self.hypixel.send_request(player) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel
+            player_fkdr_embed = discord.Embed(
+                title = f"{(await self.minecraft.get_profile(player))['name']}\'s FKDR",
+                color = int((await self.bedwars.get_prestige_data(player))['prestige_color'], 16) # 16 - Hex value.
+            )
+            player_fkdr_embed.set_thumbnail(
+                url = core.minecraft.hypixel.hypixel.icons['Bedwars']
+            )
+            player_fkdr_embed.add_field(
+                name = "FKDR",
+                value = f"{await self.bedwars.get_fkdr(player)}"
+            )
+            player_fkdr_embed.add_field(
+                name = "Final Kills",
+                value = f"{await self.bedwars.get_final_kills(player)}"
+            )
+            player_fkdr_embed.add_field(
+                name = "Final Deaths",
+                value = f"{await self.bedwars.get_final_deaths(player)}"
+            )
+            player_fkdr_embed.add_field(
+                name = "+1 FKDR",
+                value = f"{await self.bedwars.get_increase_fkdr(player, 1)} needed",
+                inline = False
+            )
+            player_fkdr_embed.add_field(
+                name = "+2 FKDR",
+                value = f"{await self.bedwars.get_increase_fkdr(player, 2)} needed"
+            )
+            await ctx.send(embed = player_fkdr_embed)
         except NameError:
             await ctx.send(f"Player \"{player}\" does not exist!")
 
