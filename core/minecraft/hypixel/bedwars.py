@@ -129,6 +129,14 @@ class Bedwars():
         needed = (fkdr + increase) * final_deaths - final_kills
         return round(needed)
 
+    async def get_increase_stat(self, player, positive_stat, negative_stat, increase):
+        # positive_stat is a "good" stat like final_kills
+        # negative_stat is a "bad" stat like final_deaths
+        # increase is the amount the positive_stat to negative_stat ratio needs to increase
+        stat = positive_stat / negative_stat
+        needed = (stat + increase) * negative_stat - positive_stat
+        return round(needed)
+
     async def get_beds_broken(self, player):
         try:
             beds_broken = core.minecraft.hypixel.hypixel.player_json['player']['stats']['Bedwars']['beds_broken_bedwars']
@@ -150,6 +158,14 @@ class Bedwars():
         bblr = beds_broken / beds_lost
         return round(bblr, 2)
 
+    async def get_increase_bblr(self, player, increase): # Calculates how many finals it would take to increase player's FKDR by one
+        beds_broken = await self.get_beds_broken(player)
+        beds_lost = await self.get_beds_lost(player)
+        bblr = await self.get_bblr(player)
+
+        needed = (bblr + increase) * beds_lost - beds_broken
+        return round(needed)
+
     async def get_wins(self, player):
         try:
             wins = core.minecraft.hypixel.hypixel.player_json['player']['stats']['Bedwars']['wins_bedwars']
@@ -170,3 +186,11 @@ class Bedwars():
 
         wlr = wins / losses
         return round(wlr, 2)
+
+    async def get_increase_wlr(self, player, increase):
+        wins = await self.get_wins(player)
+        losses = await self.get_losses(player)
+        wlr = await self.get_wlr(player)
+
+        needed = (wlr + increase) * wins - losses
+        return round(needed)
