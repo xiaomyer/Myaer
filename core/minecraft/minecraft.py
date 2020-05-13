@@ -24,8 +24,10 @@ SOFTWARE.
 
 import aiohttp
 import json
+import re
 
 mojang_api = "https://api.mojang.com/"
+mojang_session_server = "https://sessionserver.mojang.com/"
 
 class Minecraft():
     async def get_profile(self, player):
@@ -38,5 +40,15 @@ class Minecraft():
                 "uuid" : profile_json["id"]
                 }
         except Exception: # Mojang API returns wrong mimetype if player does not exist
-            raise NameError(f"Player \"{player}\" does not exist")
+            try:
+                async with aiohttp.ClientSession() as session:
+                    profile = await session.get(f"{mojang_session_server}session/minecraft/profile/{re.sub('-', '', player)}") # Mojang session server does not accept UUIDs with "-"
+                    profile_json = await profile.json()
+                    profile_data = {
+                    "name" : profile_json["name"],
+                    "uuid" : profile_json["id"]
+                    }
+            except Exception:
+                raise NameError(f"Player \"{player}\" does not exist")
+
         return profile_data
