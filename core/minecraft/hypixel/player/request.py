@@ -22,6 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+import aiohttp
+from core.config import Config
+import json
+from core.minecraft.minecraft import Minecraft
+
+hypixel_api = "https://api.hypixel.net/"
 icons = { # Game logos
     "Main" : "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/main.png",
     "Arcade" : "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/arcade.png",
@@ -47,4 +53,18 @@ icons = { # Game logos
 
 class Hypixel():
     def __init__(self):
+        self.config = Config()
+        self.minecraft = Minecraft()
+        self.hypixel_api_key = self.config.hypixel_api_key
         self.icons = icons
+
+    async def send_player_request(self, player):
+        uuid = (await self.minecraft.get_profile(player))["uuid"] # &name= is deprecated for the Hypixel API, so convert name to UUID with Mojang API
+        async with aiohttp.ClientSession() as session:
+            raw = await session.get(f"{hypixel_api}player?key={self.hypixel_api_key}&uuid={uuid}")
+            global player_json # So requests aren't sent per stat
+            player_json = await raw.json() # but rather per player
+        if player_json["success"] and player_json["player"]:
+            return player_json
+        elif player_json["success"] and player_json["player"] == None: # Hypixel API still returns "success" even if the player does not exist, hence the more complicated check
+            raise NameError(f"Player \"{player}\" does not exist!")

@@ -24,13 +24,14 @@ SOFTWARE.
 
 stats_needed_disclaimer = "Note - The amount needed for stat increase assumes that no negative stats are taken (no final deaths, no losses, etc)"
 
-from core.minecraft.hypixel.bedwars import Bedwars
+from core.minecraft.hypixel.player.bedwars import Bedwars
 import core.characters
 from core.config import Config
 from discord.ext import commands
 import discord
-import core.minecraft.hypixel.hypixel
+from core.minecraft.hypixel.hypixel import Hypixel
 import core.discord.markdown
+import core.minecraft.hypixel.request
 from core.minecraft.minecraft import Minecraft
 
 class BedwarsCommands(commands.Cog):
@@ -38,16 +39,16 @@ class BedwarsCommands(commands.Cog):
         self.bot = bot
         self.config = Config()
         self.bedwars = Bedwars()
-        self.hypixel = core.minecraft.hypixel.hypixel.Hypixel()
+        self.hypixel = Hypixel()
         self.minecraft = Minecraft()
         self.markdown = core.discord.markdown.Markdown()
+        self.request = core.minecraft.hypixel.request.Request()
 
     @commands.command(name = "bedwarsstats", aliases = ["bw", "bwstats"])
     async def get_general_stats(self, ctx, player):
         try:
-            await self.hypixel.send_request(player) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel
+            await self.request.send_player_request(player) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel
             player_stats_embed = discord.Embed(
-#                title = await self.markdown.underline((await self.markdown.bold(f"{(discord.utils.escape_markdown((await self.minecraft.get_profile(player)))['name'])}\'s Bedwars Stats"))),
                 title = await self.markdown.italic((await self.markdown.bold(f"{discord.utils.escape_markdown((await self.minecraft.get_profile(player))['name'])}\'s Bedwars Stats"))),
                 color = int((await self.bedwars.get_prestige_data(player))['prestige_color'], 16) # 16 - Hex value.
             )
@@ -102,7 +103,7 @@ class BedwarsCommands(commands.Cog):
     @commands.command(name = "fkdr")
     async def get_fkdr_data(self, ctx, player):
         try:
-            await self.hypixel.send_request(player) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel
+            await self.request.send_player_request(player) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel
             player_fkdr_embed = discord.Embed(
                 title = await self.markdown.underline((await self.markdown.bold(f"{(await self.minecraft.get_profile(player))['name']}\'s FKDR"))),
                 color = int((await self.bedwars.get_prestige_data(player))['prestige_color'], 16) # 16 - Hex value.
@@ -141,7 +142,7 @@ class BedwarsCommands(commands.Cog):
     @commands.command(name = "bblr")
     async def get_bblr_data(self, ctx, player):
         try:
-            await self.hypixel.send_request(player) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel
+            await self.request.send_player_request(player) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel
             player_bblr_embed = discord.Embed(
                 title = await self.markdown.underline((await self.markdown.bold(f"{(await self.minecraft.get_profile(player))['name']}\'s BBLR"))),
                 color = int((await self.bedwars.get_prestige_data(player))['prestige_color'], 16) # 16 - Hex value.
@@ -180,7 +181,7 @@ class BedwarsCommands(commands.Cog):
     @commands.command(name = "wlr")
     async def get_wlr_data(self, ctx, player):
         try:
-            await self.hypixel.send_request(player) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel
+            await self.request.send_player_request(player) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel
             player_wlr_embed = discord.Embed(
                 title = await self.markdown.underline((await self.markdown.bold(f"{(await self.minecraft.get_profile(player))['name']}\'s WLR"))),
                 color = int((await self.bedwars.get_prestige_data(player))['prestige_color'], 16) # 16 - Hex value.
@@ -209,7 +210,7 @@ class BedwarsCommands(commands.Cog):
                 name = await self.markdown.underline((await self.markdown.bold(f"{core.characters.arrow_bullet_point} +2 WLR"))),
                 value = f"{await self.bedwars.get_increase_stat(player, (await self.bedwars.get_wins(player)), (await self.bedwars.get_losses(player)), 2)} needed"
             )
-            player_fkdr_embed.set_footer(
+            player_wlr_embed.set_footer(
                 text = stats_needed_disclaimer
             )
             await ctx.send(embed = player_wlr_embed)
