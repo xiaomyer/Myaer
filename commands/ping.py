@@ -29,6 +29,7 @@ class Ping(commands.Cog):
         self.bot = bot
 
     @commands.command(name = "ping")
+    @commands.cooldown(1, 1, commands.BucketType.user)
     async def ping(self, ctx):
         ping = self.bot.latency * 1000
         await ctx.send(f"Pong! ``{round(ping, 2)} ms``.")
