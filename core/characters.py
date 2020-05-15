@@ -23,3 +23,4 @@ SOFTWARE.
 """
 
 arrow_bullet_point = "➤"
+bedwars_star = "✫"
