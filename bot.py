@@ -28,6 +28,15 @@ import datetime
 import discord
 from discord.ext import commands
 import json
+import logging
+import sys
+import traceback
+
+logger = logging.getLogger('discord')
+logger.setLevel(logging.DEBUG)
+handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
+handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+logger.addHandler(handler)
 
 async def get_prefix(bot, message):
     return commands.when_mentioned_or("/", "myaer ", "Myaer ")(bot, message)
@@ -40,7 +49,7 @@ bot = commands.Bot(
 extensions = [
     "jishaku",
     "cogs.minecraft.hypixel.bedwars.bedwars",
-    "cogs.minecraft.hypixel.bedwars.leaderboards",
+    "cogs.minecraft.hypixel.leaderboards",
     "commands.ping"
 ]
 
@@ -61,5 +70,30 @@ if __name__ == "__main__":
         except Exception as e:
             exception = '{}: {}'.format(type(e).__name__, e)
             print("Failed to load extension {}\n{}".format(extension, exception))
+
+@bot.event
+async def on_command_error(ctx, error):
+    ignored = (commands.CommandNotFound)
+
+    if hasattr(ctx.command, "on_command"):
+        return
+
+    error = getattr(error, 'original', error)
+
+    if isinstance(error, ignored):
+        return
+
+    elif isinstance(error, commands.CommandOnCooldown):
+        cooldown_embed = discord.Embed(
+            name = "Cooldown"
+        )
+        cooldown_embed.add_field(
+            name = "Cooldown",
+            value = "You are sending commands too fast. Try again in a bit."
+        )
+        await ctx.send(embed = cooldown_embed)
+
+    print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
+    traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
 
 bot.run(config.token)
