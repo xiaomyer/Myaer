@@ -26,7 +26,7 @@ stats_needed_disclaimer = "Note - The amount needed for stat increase assumes th
 
 import asyncio
 from core.minecraft.hypixel.player.bedwars import Bedwars
-import core.characters
+import core.static
 from discord.ext import commands
 import discord
 from core.minecraft.hypixel.hypixel import Hypixel
@@ -56,44 +56,44 @@ class BedwarsCommands(commands.Cog):
                 url = core.minecraft.hypixel.hypixel.icons['Bedwars']
             )
             player_stats_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.characters.arrow_bullet_point} Level"))),
-                value = f"{await self.bedwars.get_star(player)} {core.characters.bedwars_star} ({(await self.bedwars.get_prestige_data(player))['prestige']} Prestige)",
+                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Level"))),
+                value = f"{await self.bedwars.get_star(player)} {core.static.bedwars_star} ({(await self.bedwars.get_prestige_data(player))['prestige']} Prestige)",
                 inline = False
             )
             player_stats_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.characters.arrow_bullet_point} Final Kills"))),
+                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Final Kills"))),
                 value = f"{await self.bedwars.get_final_kills(player)}"
             )
             player_stats_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.characters.arrow_bullet_point} Final Deaths"))),
+                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Final Deaths"))),
                 value = f"{await self.bedwars.get_final_deaths(player)}"
             )
             player_stats_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.characters.arrow_bullet_point} FKDR"))),
+                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} FKDR"))),
                 value = f"{await self.bedwars.get_fkdr(player)}"
             )
             player_stats_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.characters.arrow_bullet_point} Beds Broken"))),
+                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Beds Broken"))),
                 value = f"{await self.bedwars.get_beds_broken(player)}"
             )
             player_stats_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.characters.arrow_bullet_point} Beds Lost"))),
+                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Beds Lost"))),
                 value = f"{await self.bedwars.get_beds_lost(player)}"
             )
             player_stats_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.characters.arrow_bullet_point} BBLR"))),
+                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} BBLR"))),
                 value = f"{await self.bedwars.get_bblr(player)}"
             )
             player_stats_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.characters.arrow_bullet_point} Wins"))),
+                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Wins"))),
                 value = f"{await self.bedwars.get_wins(player)}"
             )
             player_stats_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.characters.arrow_bullet_point} Losses"))),
+                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Losses"))),
                 value = f"{await self.bedwars.get_losses(player)}"
             )
             player_stats_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.characters.arrow_bullet_point} WLR"))),
+                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} WLR"))),
                 value = f"{await self.bedwars.get_wlr(player)}"
             )
             await ctx.send(embed = player_stats_embed)
@@ -113,24 +113,24 @@ class BedwarsCommands(commands.Cog):
                 url = core.minecraft.hypixel.hypixel.icons['Bedwars']
             )
             player_fkdr_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.characters.arrow_bullet_point} FKDR"))),
+                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} FKDR"))),
                 value = f"{await self.bedwars.get_fkdr(player)}"
             )
             player_fkdr_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.characters.arrow_bullet_point} Final Kills"))),
+                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Final Kills"))),
                 value = f"{await self.bedwars.get_final_kills(player)}"
             )
             player_fkdr_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.characters.arrow_bullet_point} Final Deaths"))),
+                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Final Deaths"))),
                 value = f"{await self.bedwars.get_final_deaths(player)}"
             )
             player_fkdr_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.characters.arrow_bullet_point} +1 FKDR"))),
+                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} +1 FKDR"))),
                 value = f"{await self.bedwars.get_increase_stat(player, (await self.bedwars.get_final_kills(player)), (await self.bedwars.get_final_deaths(player)), 1)} needed",
                 inline = False
             )
             player_fkdr_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.characters.arrow_bullet_point} +2 FKDR"))),
+                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} +2 FKDR"))),
                 value = f"{await self.bedwars.get_increase_stat(player, (await self.bedwars.get_final_kills(player)), (await self.bedwars.get_final_deaths(player)), 2)} needed"
             )
             player_fkdr_embed.set_footer(
@@ -153,24 +153,24 @@ class BedwarsCommands(commands.Cog):
                 url = core.minecraft.hypixel.hypixel.icons['Bedwars']
             )
             player_bblr_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.characters.arrow_bullet_point} BBLR"))),
+                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} BBLR"))),
                 value = f"{await self.bedwars.get_bblr(player)}"
             )
             player_bblr_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.characters.arrow_bullet_point} Beds Broken"))),
+                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Beds Broken"))),
                 value = f"{await self.bedwars.get_beds_broken(player)}"
             )
             player_bblr_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.characters.arrow_bullet_point} Beds Lost"))),
+                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Beds Lost"))),
                 value = f"{await self.bedwars.get_beds_lost(player)}"
             )
             player_bblr_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.characters.arrow_bullet_point} +1 BBLR"))),
+                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} +1 BBLR"))),
                 value = f"{await self.bedwars.get_increase_stat(player, (await self.bedwars.get_beds_broken(player)), (await self.bedwars.get_beds_lost(player)), 1)} needed",
                 inline = False
             )
             player_bblr_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.characters.arrow_bullet_point} +2 BBLR"))),
+                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} +2 BBLR"))),
                 value = f"{await self.bedwars.get_increase_stat(player, (await self.bedwars.get_beds_broken(player)), (await self.bedwars.get_beds_lost(player)), 2)} needed"
             )
             player_bblr_embed.set_footer(
@@ -193,24 +193,24 @@ class BedwarsCommands(commands.Cog):
                 url = core.minecraft.hypixel.hypixel.icons['Bedwars']
             )
             player_wlr_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.characters.arrow_bullet_point} WLR"))),
+                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} WLR"))),
                 value = f"{await self.bedwars.get_wlr(player)}"
             )
             player_wlr_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.characters.arrow_bullet_point} Wins"))),
+                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Wins"))),
                 value = f"{await self.bedwars.get_wins(player)}"
             )
             player_wlr_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.characters.arrow_bullet_point} Losses"))),
+                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Losses"))),
                 value = f"{await self.bedwars.get_losses(player)}"
             )
             player_wlr_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.characters.arrow_bullet_point} +1 WLR"))),
+                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} +1 WLR"))),
                 value = f"{await self.bedwars.get_increase_stat(player, (await self.bedwars.get_wins(player)), (await self.bedwars.get_losses(player)), 1)} needed",
                 inline = False
             )
             player_wlr_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.characters.arrow_bullet_point} +2 WLR"))),
+                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} +2 WLR"))),
                 value = f"{await self.bedwars.get_increase_stat(player, (await self.bedwars.get_wins(player)), (await self.bedwars.get_losses(player)), 2)} needed"
             )
             player_wlr_embed.set_footer(

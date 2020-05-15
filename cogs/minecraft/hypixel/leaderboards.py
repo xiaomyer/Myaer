@@ -25,7 +25,7 @@ SOFTWARE.
 import asyncio
 from core.minecraft.hypixel.player.bedwars import Bedwars
 from core.minecraft.hypixel.leaderboards.bedwars import BedwarsLeaderboards
-import core.characters
+import core.static
 from discord.ext import commands
 import discord
 import core.discord.markdown
@@ -64,7 +64,7 @@ class LeaderboardCommands(commands.Cog):
                 leaderboard.append([await self.bedwars.get_star(player), core.minecraft.hypixel.request.player_json['player']['displayname'], await self.bedwars.get_fkdr(player)])
                 level_leaderboard_embed.add_field(
                     name = f"#{index + 1}",
-                    value = await self.markdown.bold(discord.utils.escape_markdown(f"[{leaderboard[index][0]}{core.characters.bedwars_star}] {leaderboard[index][1]}")),
+                    value = await self.markdown.bold(discord.utils.escape_markdown(f"[{leaderboard[index][0]}{core.static.bedwars_star}] {leaderboard[index][1]}")),
                     inline = False
                 )
                 index += 1
