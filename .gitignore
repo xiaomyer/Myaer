@@ -6,3 +6,6 @@ __pycache__/
 
 # Run in background output
 nohup.out
+
+# Logs
+discord.log
