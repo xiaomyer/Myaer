@@ -22,10 +22,32 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import json
+from core.minecraft.hypixel.leaderboards.bedwars import BedwarsLeaderboards
+from discord.ext import commands
+import discord
+import core.discord.markdown
 import core.minecraft.hypixel.request
 
-class BedwarsLeaderboards():
-    async def get_levels(self):
-        leaderboard = core.minecraft.hypixel.request.leaderboards_json["leaderboards"]["BEDWARS"][0]["leaders"]
-        return leaderboard
+class BedwarsLeaderboardsCommands(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+        self.markdown = core.discord.markdown.Markdown()
+        self.request = core.minecraft.hypixel.request.Request()
+        self.leaderboards = core.minecraft.hypixel.leaderboards.bedwars.BedwarsLeaderboards()
+
+    @commands.command(name = "lbbw")
+    async def get_level_leaderboard(self, ctx):
+        await self.request.send_leaderboard_request()
+        level_leaderboard_embed = discord.Embed(
+            name = "Levels Leaderboard",
+            color = ctx.author.color
+        )
+        level_leaderboard_embed.add_field(
+            name = "1st",
+            value = f"{(await self.leaderboards.get_levels())[0]}"
+        )
+        await ctx.send(embed = level_leaderboard_embed)
+
+def setup(bot):
+    bot.add_cog(BedwarsLeaderboardsCommands(bot))
+    print("Reloaded cogs.minecraft.hypixel.bedwars.leaderboards")

@@ -26,7 +26,6 @@ stats_needed_disclaimer = "Note - The amount needed for stat increase assumes th
 
 from core.minecraft.hypixel.player.bedwars import Bedwars
 import core.characters
-from core.config import Config
 from discord.ext import commands
 import discord
 from core.minecraft.hypixel.hypixel import Hypixel
@@ -37,14 +36,13 @@ from core.minecraft.minecraft import Minecraft
 class BedwarsCommands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.config = Config()
         self.bedwars = Bedwars()
         self.hypixel = Hypixel()
         self.minecraft = Minecraft()
         self.markdown = core.discord.markdown.Markdown()
         self.request = core.minecraft.hypixel.request.Request()
 
-    @commands.command(name = "bedwarsstats", aliases = ["bw", "bwstats"])
+    @commands.command(name = "bw", aliases = ["bwstats"])
     async def get_general_stats(self, ctx, player):
         try:
             await self.request.send_player_request(player) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel
@@ -57,7 +55,7 @@ class BedwarsCommands(commands.Cog):
             )
             player_stats_embed.add_field(
                 name = await self.markdown.underline((await self.markdown.bold(f"{core.characters.arrow_bullet_point} Level"))),
-                value = f"{await self.bedwars.get_star(player)} ({(await self.bedwars.get_prestige_data(player))['prestige']} Prestige)",
+                value = f"{await self.bedwars.get_star(player)} {core.characters.bedwars_star} ({(await self.bedwars.get_prestige_data(player))['prestige']} Prestige)",
                 inline = False
             )
             player_stats_embed.add_field(
@@ -219,4 +217,4 @@ class BedwarsCommands(commands.Cog):
 
 def setup(bot):
     bot.add_cog(BedwarsCommands(bot))
-    print("Reloaded cogs.minecraft.hypixel.bedwars")
+    print("Reloaded cogs.minecraft.hypixel.bedwars.bedwars")
