@@ -25,7 +25,7 @@ SOFTWARE.
 import json
 import core.minecraft.hypixel.request
 
-class BedwarsLeaderboards():
+class BedwarsLeaderboards:
     async def get_levels(self):
         leaderboard = core.minecraft.hypixel.request.leaderboards_json["leaderboards"]["BEDWARS"][0]["leaders"]
-        return leaderboard
+        return leaderboard[:10]

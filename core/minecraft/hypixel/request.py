@@ -46,6 +46,16 @@ class Request():
         elif player_json["success"] and player_json["player"] == None: # Hypixel API still returns "success" even if the player does not exist, hence the more complicated check
             raise NameError(f"Player \"{player}\" does not exist!")
 
+    async def send_player_request_uuid(self, uuid):
+        async with aiohttp.ClientSession() as session:
+            raw = await session.get(f"{hypixel_api}player?key={self.hypixel_api_key}&uuid={uuid.replace('-','')}")
+            global player_json
+            player_json = await raw.json()
+            if player_json["success"] and player_json["player"]:
+                return player_json
+            elif player_json["success"] and player_json["player"] == None: # Hypixel API still returns "success" even if the player does not exist, hence the more complicated check
+                raise NameError(f"Player \"{player}\" does not exist!")
+
     async def send_leaderboard_request(self):
         async with aiohttp.ClientSession() as session:
             raw = await session.get(f"{hypixel_api}leaderboards?key={self.hypixel_api_key}")

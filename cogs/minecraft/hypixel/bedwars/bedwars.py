@@ -24,6 +24,7 @@ SOFTWARE.
 
 stats_needed_disclaimer = "Note - The amount needed for stat increase assumes that no negative stats are taken (no final deaths, no losses, etc)"
 
+import asyncio
 from core.minecraft.hypixel.player.bedwars import Bedwars
 import core.characters
 from discord.ext import commands
@@ -43,6 +44,7 @@ class BedwarsCommands(commands.Cog):
         self.request = core.minecraft.hypixel.request.Request()
 
     @commands.command(name = "bw", aliases = ["bwstats"])
+    @commands.cooldown(1, 1, commands.BucketType.user)
     async def get_general_stats(self, ctx, player):
         try:
             await self.request.send_player_request(player) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel
@@ -99,6 +101,7 @@ class BedwarsCommands(commands.Cog):
             await ctx.send(f"\"{player}\" is not a valid username or UUID.")
 
     @commands.command(name = "fkdr")
+    @commands.cooldown(1, 1, commands.BucketType.user)
     async def get_fkdr_data(self, ctx, player):
         try:
             await self.request.send_player_request(player) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel
@@ -138,6 +141,7 @@ class BedwarsCommands(commands.Cog):
             await ctx.send(f"Player \"{player}\" does not exist!")
 
     @commands.command(name = "bblr")
+    @commands.cooldown(1, 1, commands.BucketType.user)
     async def get_bblr_data(self, ctx, player):
         try:
             await self.request.send_player_request(player) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel
@@ -177,6 +181,7 @@ class BedwarsCommands(commands.Cog):
             await ctx.send(f"Player \"{player}\" does not exist!")
 
     @commands.command(name = "wlr")
+    @commands.cooldown(1, 1, commands.BucketType.user)
     async def get_wlr_data(self, ctx, player):
         try:
             await self.request.send_player_request(player) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel

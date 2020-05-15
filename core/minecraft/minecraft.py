@@ -24,13 +24,21 @@ SOFTWARE.
 
 import aiohttp
 import json
-import re
 
 mojang_api = "https://api.mojang.com/"
 mojang_session_server = "https://sessionserver.mojang.com/"
 
 class Minecraft():
-    async def get_profile(self, player):
+    async def get_profile(self, player): # When input could be name or UUID
+        try:
+            return await self.get_profile_name(player)
+        except NameError:
+            try:
+                return await self.get_profile_uuid(player)
+            except NameError:
+                raise NameError(f"Invalid player name or UUID {player}")
+
+    async def get_profile_name(self, player): # When input is name
         try:
             async with aiohttp.ClientSession() as session:
                 profile = await session.get(f"{mojang_api}users/profiles/minecraft/{player}")
@@ -40,15 +48,20 @@ class Minecraft():
                 "uuid" : profile_json["id"]
                 }
         except Exception: # Mojang API returns wrong mimetype if player does not exist
-            try:
-                async with aiohttp.ClientSession() as session:
-                    profile = await session.get(f"{mojang_session_server}session/minecraft/profile/{re.sub('-', '', player)}") # Mojang session server does not accept UUIDs with "-"
-                    profile_json = await profile.json()
-                    profile_data = {
-                    "name" : profile_json["name"],
-                    "uuid" : profile_json["id"]
-                    }
-            except Exception:
-                raise NameError(f"Player \"{player}\" does not exist")
+            raise NameError(f"Player \"{player}\" does not exist")
+
+        return profile_data
+
+    async def get_profile_uuid(self, player): # When input is only UUID
+        try:
+            async with aiohttp.ClientSession() as session:
+                profile = await session.get(f"{mojang_session_server}session/minecraft/profile/{player.replace('-','')}") # Mojang session server does not accept UUIDs with "-"
+                profile_json = await profile.json()
+                profile_data = {
+                "name" : profile_json["name"],
+                "uuid" : profile_json["id"]
+                }
+        except Exception:
+            raise NameError(f"Invalid UUID \"{player}\"")
 
         return profile_data
