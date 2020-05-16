@@ -35,6 +35,8 @@ import sys
 import time
 import traceback
 
+bedwars_leaderboard_types = []
+
 class LeaderboardCommands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -64,15 +66,17 @@ class LeaderboardCommands(commands.Cog):
                 leaderboard.append([await self.bedwars.get_star(player), core.minecraft.hypixel.request.player_json['player']['displayname'], await self.bedwars.get_fkdr(player)])
                 level_leaderboard_embed.add_field(
                     name = f"#{index + 1}",
-                    value = await self.markdown.bold(discord.utils.escape_markdown(f"[{leaderboard[index][0]}{core.static.bedwars_star}] {leaderboard[index][1]}")),
+                    value = f"{await self.markdown.bold(discord.utils.escape_markdown(f'[{leaderboard[index][0]}{core.static.bedwars_star}] {leaderboard[index][1]}'))} - {leaderboard[index][2]} FKDR",
                     inline = False
                 )
                 index += 1
                 print(leaderboard)
 
             await ctx.send(embed = level_leaderboard_embed)
-        elif "level" not in stat:
-            await ctx.send("[debug] stat != level")
+        elif bedwars_leaderboard_types not in stat:
+            ctx.command.reset_cooldown(ctx)
+            await ctx.send(f'Invalid leaderboard type "{stat[0]}".') # Temporary
+            raise NameError(f'Invalid leaderboard type "{stat[0]}"')
 
     @get_level_leaderboard.error
     async def get_level_leaderboard_error(self, ctx, error):
