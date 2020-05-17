@@ -2,6 +2,7 @@
 Myaer is a Discord bot written with discord.py in Python 3.8.2. It is focused around Minecraft and Hypixel, but other commands can and will be added.
 ## Information
 - Invite the bot to your server with [this link](https://discord.com/api/oauth2/authorize?client_id=700133917264445480&permissions=8&scope=bot)
+- Join my public [Discord Server](https://inv.wtf/myerfire) for support
 ## Command List
 ### General
 - **/help** - (custom help command coming soon™)
@@ -11,7 +12,7 @@ Myaer is a Discord bot written with discord.py in Python 3.8.2. It is focused ar
 - **/bw <player>** - Shows general Bedwars stats
 - **/bblr <player>** - Shows bed break/loss ratio and other calculations
 - **/fkdr <player>** - Shows final kill/death ratio and other calculations
-- **/wlr <player>** - Shows win loss ratio and other calculations
+- **/wlr <player>** - Shows win/loss ratio and other calculations
 #### Leaderboards
 - **/lb bw <levels/level/star>** - Shows Bedwars level leaderboard
   - Default Bedwars leaderboard is level leaderboard, therefore **/lb bw** works
