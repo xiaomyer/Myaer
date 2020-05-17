@@ -35,8 +35,6 @@ import sys
 import time
 import traceback
 
-bedwars_leaderboard_types = []
-
 class LeaderboardCommands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -52,46 +50,103 @@ class LeaderboardCommands(commands.Cog):
 
     @leaderboards.command(name = "bw")
     @commands.cooldown(1, 60, commands.BucketType.user)
-    async def get_level_leaderboard(self, ctx, *stat):
-        if "level" in stat or not stat:
-            await ctx.send("Loading level leaderboard...")
-            index = 0
-            leaderboard = []
+    async def bedwars(self, ctx, *args):
+        try:
+            leaderboard_type = args[0]
+            try:
+                leaderboard_time = args[1]
+            except IndexError:
+                leaderboard_time = None
+        except IndexError:
+            leaderboard_type = None
+        if (leaderboard_type == "level" or leaderboard_type == "star" or leaderboard_type == "levels") or not leaderboard_type:
+            loading_embed = discord.Embed(
+                name = "Loading",
+                description = "Loading Bedwars level leaderboard..."
+            )
+            message = await ctx.send(embed = loading_embed)
             level_leaderboard_embed = discord.Embed(
                 name = "Levels leaderboard"
             )
+            index = 0
+            leaderboard = []
             await self.request.send_leaderboard_request()
             for player in await self.bedwarsleaderboards.get_levels():
-                await self.request.send_player_request_uuid(player)
-                leaderboard.append([await self.bedwars.get_star(player), core.minecraft.hypixel.request.player_json['player']['displayname'], await self.bedwars.get_fkdr(player)])
-                level_leaderboard_embed.add_field(
-                    name = f"#{index + 1}",
-                    value = f"{await self.markdown.bold(discord.utils.escape_markdown(f'[{leaderboard[index][0]}{core.static.bedwars_star}] {leaderboard[index][1]}'))} - {leaderboard[index][2]} FKDR",
-                    inline = False
+                    await self.request.send_player_request_uuid(player)
+                    leaderboard.append([await self.bedwars.get_star(player), core.minecraft.hypixel.request.player_json['player']['displayname'], await self.bedwars.get_fkdr(player)])
+                    level_leaderboard_embed.add_field(
+                        name = f"#{index + 1}",
+                        value = f"{await self.markdown.bold(discord.utils.escape_markdown(f'[{leaderboard[index][0]}{core.static.bedwars_star}] {leaderboard[index][1]}'))} - {leaderboard[index][2]} FKDR",
+                        inline = False
+                    )
+                    index += 1
+                    print(leaderboard)
+
+            await message.edit(embed = level_leaderboard_embed)
+
+        elif leaderboard_type == "wins":
+            if leaderboard_time == "overall" or not leaderboard_time:
+                loading_embed = discord.Embed(
+                            name = "Loading",
+                            description = "Loading overall Bedwars wins leaderboard..."
+                        )
+                message = await ctx.send(embed = loading_embed)
+                overall_wins_leaderboard_embed = discord.Embed(
+                    name = "Levels leaderboard"
                 )
-                index += 1
-                print(leaderboard)
+                index = 0
+                leaderboard = []
+                await self.request.send_leaderboard_request()
+                for player in await self.bedwarsleaderboards.get_wins():
+                    await self.request.send_player_request_uuid(player)
+                    leaderboard.append([await self.bedwars.get_star(player), core.minecraft.hypixel.request.player_json['player']['displayname'], await self.bedwars.get_wins(player)])
+                    overall_wins_leaderboard_embed.add_field(
+                        name = f"#{index + 1}",
+                        value = f"{await self.markdown.bold(discord.utils.escape_markdown(f'[{leaderboard[index][0]}{core.static.bedwars_star}] {leaderboard[index][1]}'))} - {leaderboard[index][2]} wins",
+                        inline = False
+                    )
+                    index += 1
+                    print(leaderboard)
 
-            await ctx.send(embed = level_leaderboard_embed)
-        elif bedwars_leaderboard_types not in stat:
-            ctx.command.reset_cooldown(ctx)
-            await ctx.send(f'Invalid leaderboard type "{stat[0]}".') # Temporary
-            raise NameError(f'Invalid leaderboard type "{stat[0]}"')
+                await message.edit(embed = overall_wins_leaderboard_embed)
 
-    @get_level_leaderboard.error
-    async def get_level_leaderboard_error(self, ctx, error):
+            elif leaderboard_time == "weekly":
+                loading_embed = discord.Embed(
+                    name = "Loading",
+                    description = "Loading weekly Bedwars wins leaderboard..."
+                )
+                message = await ctx.send(embed = loading_embed)
+                weekly_wins_leaderboard_embed = discord.Embed(
+                    name = "Levels leaderboard"
+                )
+                index = 0
+                leaderboard = []
+                await self.request.send_leaderboard_request()
+                for player in await self.bedwarsleaderboards.get_wins_weekly():
+                    await self.request.send_player_request_uuid(player)
+                    leaderboard.append([await self.bedwars.get_star(player), core.minecraft.hypixel.request.player_json['player']['displayname'], await self.bedwars.get_wins(player)])
+                    weekly_wins_leaderboard_embed.add_field(
+                        name = f"#{index + 1}",
+                        value = f"{await self.markdown.bold(discord.utils.escape_markdown(f'[{leaderboard[index][0]}{core.static.bedwars_star}] {leaderboard[index][1]}'))} - {leaderboard[index][2]} wins",
+                        inline = False
+                    )
+                    index += 1
+                    print(leaderboard)
+                await message.edit(embed = weekly_wins_leaderboard_embed)
+
+    @bedwars.error
+    async def bedwars_leaderboards_error(self, ctx, error):
         if isinstance(error, commands.CommandOnCooldown):
             cooldown_embed = discord.Embed(
-                name = "Cooldown"
-            )
-            cooldown_embed.add_field(
                 name = "Cooldown",
-                value = "Leaderboard commands have a cooldown of 60s."
+                color = ctx.author.color,
+                description = "Leaderboard commands have a cooldown of 60s."
             )
             await ctx.send(embed = cooldown_embed)
 
         print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
         traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
+
 def setup(bot):
     bot.add_cog(LeaderboardCommands(bot))
     print("Reloaded cogs.minecraft.hypixel.leaderboards")

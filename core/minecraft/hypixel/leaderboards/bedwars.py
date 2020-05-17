@@ -29,3 +29,11 @@ class BedwarsLeaderboards:
     async def get_levels(self):
         leaderboard = core.minecraft.hypixel.request.leaderboards_json["leaderboards"]["BEDWARS"][0]["leaders"]
         return leaderboard[:10]
+
+    async def get_wins(self):
+        leaderboard = core.minecraft.hypixel.request.leaderboards_json["leaderboards"]["BEDWARS"][1]["leaders"]
+        return leaderboard[:10]
+
+    async def get_wins_weekly(self):
+        leaderboard = core.minecraft.hypixel.request.leaderboards_json["leaderboards"]["BEDWARS"][2]["leaders"]
+        return leaderboard[:10]

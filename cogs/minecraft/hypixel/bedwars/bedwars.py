@@ -44,7 +44,7 @@ class BedwarsCommands(commands.Cog):
         self.request = core.minecraft.hypixel.request.Request()
 
     @commands.command(name = "bw", aliases = ["bwstats"])
-    @commands.cooldown(1, 1, commands.BucketType.user)
+    @commands.max_concurrency(1, per = commands.BucketType.user)
     async def get_general_stats(self, ctx, player):
         try:
             await self.request.send_player_request(player) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel
@@ -98,10 +98,14 @@ class BedwarsCommands(commands.Cog):
             )
             await ctx.send(embed = player_stats_embed)
         except NameError:
-            await ctx.send(f"\"{player}\" is not a valid username or UUID.")
+            nameerror_embed = discord.Embed(
+                name = "Invalid input",
+                description = f"\"{player}\" is not a valid username or UUID."
+            )
+            await ctx.send(embed = nameerror_embed)
 
     @commands.command(name = "fkdr")
-    @commands.cooldown(1, 1, commands.BucketType.user)
+    @commands.max_concurrency(1, per = commands.BucketType.user)
     async def get_fkdr_data(self, ctx, player):
         try:
             await self.request.send_player_request(player) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel
@@ -138,10 +142,14 @@ class BedwarsCommands(commands.Cog):
             )
             await ctx.send(embed = player_fkdr_embed)
         except NameError:
-            await ctx.send(f"Player \"{player}\" does not exist!")
+            nameerror_embed = discord.Embed(
+                name = "Invalid input",
+                description = f"\"{player}\" is not a valid username or UUID."
+            )
+            await ctx.send(embed = nameerror_embed)
 
     @commands.command(name = "bblr")
-    @commands.cooldown(1, 1, commands.BucketType.user)
+    @commands.max_concurrency(1, per = commands.BucketType.user)
     async def get_bblr_data(self, ctx, player):
         try:
             await self.request.send_player_request(player) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel
@@ -178,10 +186,14 @@ class BedwarsCommands(commands.Cog):
             )
             await ctx.send(embed = player_bblr_embed)
         except NameError:
-            await ctx.send(f"Player \"{player}\" does not exist!")
+            nameerror_embed = discord.Embed(
+                name = "Invalid input",
+                description = f"\"{player}\" is not a valid username or UUID."
+            )
+            await ctx.send(embed = nameerror_embed)
 
     @commands.command(name = "wlr")
-    @commands.cooldown(1, 1, commands.BucketType.user)
+    @commands.max_concurrency(1, per = commands.BucketType.user)
     async def get_wlr_data(self, ctx, player):
         try:
             await self.request.send_player_request(player) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel
@@ -218,7 +230,11 @@ class BedwarsCommands(commands.Cog):
             )
             await ctx.send(embed = player_wlr_embed)
         except NameError:
-            await ctx.send(f"Player \"{player}\" does not exist!")
+            nameerror_embed = discord.Embed(
+                name = "Invalid input",
+                description = f"\"{player}\" is not a valid username or UUID."
+            )
+            await ctx.send(embed = nameerror_embed)
 
 def setup(bot):
     bot.add_cog(BedwarsCommands(bot))
