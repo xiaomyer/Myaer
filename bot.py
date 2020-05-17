@@ -58,10 +58,58 @@ config = Config()
 @bot.event
 async def on_ready():
     time = datetime.datetime.now().strftime("%A, %b %d, %Y - %m/%d/%Y - %I:%M:%S %p")
-    global status_log_channel
     status_log_channel = bot.get_channel(config.status_log_channel)
     print(f"Connection with Discord established at {time}")
     await status_log_channel.send(f"Logged in at {time}.")
+
+@bot.event
+async def on_command_error(ctx, error):
+    ignored = (commands.CommandNotFound)
+
+    if hasattr(ctx.command, "on_error"):
+        return
+
+    error = getattr(error, 'original', error)
+
+    if isinstance(error, ignored):
+        return
+
+    elif isinstance(error, commands.MaxConcurrencyReached):
+        concurrency_embed = discord.Embed(
+            name = "Cooldown",
+            color = ctx.author.color,
+            description = f"{ctx.author.name}, this command is being ratelimited. Try again in a bit."
+        )
+        await ctx.send(embed = concurrency_embed)
+
+    elif isinstance(error, commands.CommandOnCooldown):
+        cooldown_embed = discord.Embed(
+            name = "Cooldown",
+            color = ctx.author.color,
+            description = f"{ctx.author.name}, you are sending commands too fast. Try again in a bit."
+        )
+        await ctx.send(embed = cooldown_embed)
+
+    elif isinstance(error, commands.MissingRequiredArgument):
+        argument_embed = discord.Embed(
+            name = "Error",
+            color = ctx.author.color,
+            description = f"{ctx.author.name}, you forgot to provide an input of some sort."
+        )
+        await ctx.send(embed = argument_embed)
+
+    print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
+    traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
+
+@bot.check
+async def blacklist_check(ctx):
+    blacklist = json.load(open("/home/myerfire/Myaer/blacklist.json"))
+    if ctx.author.id == bot.owner_id:
+        return True
+    elif ctx.author.id in blacklist["users"]:
+        return False
+    else:
+        return True
 
 if __name__ == "__main__":
     for extension in extensions:
@@ -70,30 +118,5 @@ if __name__ == "__main__":
         except Exception as e:
             exception = '{}: {}'.format(type(e).__name__, e)
             print("Failed to load extension {}\n{}".format(extension, exception))
-
-@bot.event
-async def on_command_error(ctx, error):
-    ignored = (commands.CommandNotFound)
-
-    if hasattr(ctx.command, "on_command"):
-        return
-
-    error = getattr(error, 'original', error)
-
-    if isinstance(error, ignored):
-        return
-
-    elif isinstance(error, commands.CommandOnCooldown):
-        cooldown_embed = discord.Embed(
-            name = "Cooldown"
-        )
-        cooldown_embed.add_field(
-            name = "Cooldown",
-            value = "You are sending commands too fast. Try again in a bit."
-        )
-        await ctx.send(embed = cooldown_embed)
-
-    print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
-    traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
 
 bot.run(config.token)
