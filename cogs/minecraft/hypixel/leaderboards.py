@@ -82,7 +82,6 @@ class LeaderboardCommands(commands.Cog):
                         inline = False
                     )
                     index += 1
-                    print(leaderboard)
 
             await message.edit(embed = level_leaderboard_embed)
 
@@ -108,7 +107,6 @@ class LeaderboardCommands(commands.Cog):
                         inline = False
                     )
                     index += 1
-                    print(leaderboard)
 
                 await message.edit(embed = overall_wins_leaderboard_embed)
 
@@ -133,7 +131,7 @@ class LeaderboardCommands(commands.Cog):
                         inline = False
                     )
                     index += 1
-                    print(leaderboard)
+
                 weekly_wins_leaderboard_embed.set_footer(
                     text = accuracy_disclaimer
                 )
@@ -161,7 +159,6 @@ class LeaderboardCommands(commands.Cog):
                         inline = False
                     )
                     index += 1
-                    print(leaderboard)
 
                 await message.edit(embed = overall_finals_leaderboard_embed)
             elif leaderboard_time == "weekly":
@@ -185,7 +182,6 @@ class LeaderboardCommands(commands.Cog):
                         inline = False
                     )
                     index += 1
-                    print(leaderboard)
                 weekly_finals_leaderboard_embed.set_footer(
                     text = accuracy_disclaimer
                 )
