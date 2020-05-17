@@ -35,8 +35,6 @@ import sys
 import time
 import traceback
 
-accuracy_disclaimer = "Weekly leaderboard information is not guranteed to be 100% accurate as the Hypixel API is quite odd."
-
 class LeaderboardCommands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -117,24 +115,20 @@ class LeaderboardCommands(commands.Cog):
                 )
                 message = await ctx.send(embed = loading_embed)
                 weekly_wins_leaderboard_embed = discord.Embed(
-                    name = "Levels leaderboard"
+                    name = "Weekly wins leaderboard"
                 )
                 index = 0
                 leaderboard = []
                 await self.request.send_leaderboard_request()
                 for player in await self.bedwarsleaderboards.get_weekly_wins():
                     await self.request.send_player_request_uuid(player)
-                    leaderboard.append([await self.bedwars.get_star(player), core.minecraft.hypixel.request.player_json['player']['displayname'], await self.bedwars.get_wins(player)])
+                    leaderboard.append([await self.bedwars.get_star(player), core.minecraft.hypixel.request.player_json['player']['displayname']])
                     weekly_wins_leaderboard_embed.add_field(
                         name = f"#{index + 1}",
-                        value = f"{await self.markdown.bold(discord.utils.escape_markdown(f'[{leaderboard[index][0]}{core.static.bedwars_star}] {leaderboard[index][1]}'))} - {leaderboard[index][2]} wins",
+                        value = f"{await self.markdown.bold(discord.utils.escape_markdown(f'[{leaderboard[index][0]}{core.static.bedwars_star}] {leaderboard[index][1]}'))}",
                         inline = False
                     )
                     index += 1
-
-                weekly_wins_leaderboard_embed.set_footer(
-                    text = accuracy_disclaimer
-                )
 
                 await message.edit(embed = weekly_wins_leaderboard_embed)
         elif (leaderboard_type == "finals" or leaderboard_type == "final"):
@@ -145,7 +139,7 @@ class LeaderboardCommands(commands.Cog):
                 )
                 message = await ctx.send(embed = loading_embed)
                 overall_finals_leaderboard_embed = discord.Embed(
-                    name = "Levels leaderboard"
+                    name = "Finals leaderboard"
                 )
                 index = 0
                 leaderboard = []
@@ -168,25 +162,22 @@ class LeaderboardCommands(commands.Cog):
                 )
                 message = await ctx.send(embed = loading_embed)
                 weekly_finals_leaderboard_embed = discord.Embed(
-                    name = "Levels leaderboard"
+                    name = "Weekly finals leaderboard"
                 )
                 index = 0
                 leaderboard = []
                 await self.request.send_leaderboard_request()
                 for player in await self.bedwarsleaderboards.get_weekly_finals():
                     await self.request.send_player_request_uuid(player)
-                    leaderboard.append([await self.bedwars.get_star(player), core.minecraft.hypixel.request.player_json['player']['displayname'], await self.bedwars.get_final_kills(player)])
+                    leaderboard.append([await self.bedwars.get_star(player), core.minecraft.hypixel.request.player_json['player']['displayname']])
                     weekly_finals_leaderboard_embed.add_field(
                         name = f"#{index + 1}",
-                        value = f"{await self.markdown.bold(discord.utils.escape_markdown(f'[{leaderboard[index][0]}{core.static.bedwars_star}] {leaderboard[index][1]}'))} - {leaderboard[index][2]} finals",
+                        value = f"{await self.markdown.bold(discord.utils.escape_markdown(f'[{leaderboard[index][0]}{core.static.bedwars_star}] {leaderboard[index][1]}'))}",
                         inline = False
                     )
                     index += 1
-                weekly_finals_leaderboard_embed.set_footer(
-                    text = accuracy_disclaimer
-                )
 
-                await message.edit(embed = weekly_wins_leaderboard_embed)
+                await message.edit(embed = weekly_finals_leaderboard_embed)
 
     @bedwars.error
     async def bedwars_leaderboards_error(self, ctx, error):
