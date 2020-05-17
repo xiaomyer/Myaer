@@ -23,16 +23,23 @@ SOFTWARE.
 """
 
 from discord.ext import commands
+import discord
+from core.discord.markdown import Markdown
 
 class Ping(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.markdown = Markdown()
 
     @commands.command(name = "ping")
-    @commands.cooldown(1, 1, commands.BucketType.user)
+    @commands.max_concurrency(1, per = commands.BucketType.user)
     async def ping(self, ctx):
         ping = self.bot.latency * 1000
-        await ctx.send(f"Pong! ``{round(ping, 2)} ms``.")
+        ping_embed = discord.Embed(
+            name = "Ping",
+            description = f"Pong! {await self.markdown.bold(round(ping,2))} ms."
+        )
+        await ctx.send(embed = ping_embed)
 
 def setup(bot):
     bot.add_cog(Ping(bot))
