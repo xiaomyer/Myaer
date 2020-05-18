@@ -29,31 +29,29 @@ from core.minecraft.hypixel.player.bedwars import Bedwars
 import core.static
 from discord.ext import commands
 import discord
-from core.minecraft.hypixel.hypixel import Hypixel
 import core.discord.markdown
 import core.minecraft.hypixel.request
-from core.minecraft.minecraft import Minecraft
+from core.minecraft.request import MojangAPI
 
 class BedwarsCommands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.bedwars = Bedwars()
-        self.hypixel = Hypixel()
-        self.minecraft = Minecraft()
+        self.hypixel = core.minecraft.hypixel.request.HypixelAPI()
+        self.mojang = MojangAPI()
         self.markdown = core.discord.markdown.Markdown()
-        self.request = core.minecraft.hypixel.request.Request()
 
     @commands.command(name = "bw", aliases = ["bwstats"])
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def get_general_stats(self, ctx, player):
         try:
-            await self.request.send_player_request(player) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel
+            await self.hypixel.send_player_request(player) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
             player_stats_embed = discord.Embed(
-                title = await self.markdown.italic((await self.markdown.bold(f"{discord.utils.escape_markdown((await self.minecraft.get_profile(player))['name'])}\'s Bedwars Stats"))),
+                title = await self.markdown.italic((await self.markdown.bold(f"{discord.utils.escape_markdown((await self.mojang.get_profile(player))['name'])}\'s Bedwars Stats"))),
                 color = int((await self.bedwars.get_prestige_data(player))['prestige_color'], 16) # 16 - Hex value.
             )
             player_stats_embed.set_thumbnail(
-                url = core.minecraft.hypixel.hypixel.icons['Bedwars']
+                url = core.static.hypixel_game_icons['Bedwars']
             )
             player_stats_embed.add_field(
                 name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Level"))),
@@ -108,13 +106,13 @@ class BedwarsCommands(commands.Cog):
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def get_fkdr_data(self, ctx, player):
         try:
-            await self.request.send_player_request(player) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel
+            await self.hypixel.send_player_request(player) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
             player_fkdr_embed = discord.Embed(
-                title = await self.markdown.underline((await self.markdown.bold(f"{(await self.minecraft.get_profile(player))['name']}\'s FKDR"))),
+                title = await self.markdown.underline((await self.markdown.bold(f"{(await self.mojang.get_profile(player))['name']}\'s FKDR"))),
                 color = int((await self.bedwars.get_prestige_data(player))['prestige_color'], 16) # 16 - Hex value.
             )
             player_fkdr_embed.set_thumbnail(
-                url = core.minecraft.hypixel.hypixel.icons['Bedwars']
+                url = core.static.hypixel_game_icons['Bedwars']
             )
             player_fkdr_embed.add_field(
                 name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} FKDR"))),
@@ -152,13 +150,13 @@ class BedwarsCommands(commands.Cog):
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def get_bblr_data(self, ctx, player):
         try:
-            await self.request.send_player_request(player) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel
+            await self.hypixel.send_player_request(player) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
             player_bblr_embed = discord.Embed(
-                title = await self.markdown.underline((await self.markdown.bold(f"{(await self.minecraft.get_profile(player))['name']}\'s BBLR"))),
+                title = await self.markdown.underline((await self.markdown.bold(f"{(await self.mojang.get_profile(player))['name']}\'s BBLR"))),
                 color = int((await self.bedwars.get_prestige_data(player))['prestige_color'], 16) # 16 - Hex value.
             )
             player_bblr_embed.set_thumbnail(
-                url = core.minecraft.hypixel.hypixel.icons['Bedwars']
+                url = core.static.hypixel_game_icons['Bedwars']
             )
             player_bblr_embed.add_field(
                 name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} BBLR"))),
@@ -196,13 +194,13 @@ class BedwarsCommands(commands.Cog):
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def get_wlr_data(self, ctx, player):
         try:
-            await self.request.send_player_request(player) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel
+            await self.hypixel.send_player_request(player) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
             player_wlr_embed = discord.Embed(
-                title = await self.markdown.underline((await self.markdown.bold(f"{(await self.minecraft.get_profile(player))['name']}\'s WLR"))),
+                title = await self.markdown.underline((await self.markdown.bold(f"{(await self.mojang.get_profile(player))['name']}\'s WLR"))),
                 color = int((await self.bedwars.get_prestige_data(player))['prestige_color'], 16) # 16 - Hex value.
             )
             player_wlr_embed.set_thumbnail(
-                url = core.minecraft.hypixel.hypixel.icons['Bedwars']
+                url = core.static.hypixel_game_icons['Bedwars']
             )
             player_wlr_embed.add_field(
                 name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} WLR"))),

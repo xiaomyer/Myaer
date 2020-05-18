@@ -29,7 +29,6 @@ import core.static
 from discord.ext import commands
 import discord
 import core.discord.markdown
-from core.minecraft.minecraft import Minecraft
 import core.minecraft.hypixel.request
 import sys
 import time
@@ -41,8 +40,7 @@ class LeaderboardCommands(commands.Cog):
         self.bedwars = Bedwars()
         self.bedwarsleaderboards  = core.minecraft.hypixel.leaderboards.bedwars.BedwarsLeaderboards()
         self.markdown = core.discord.markdown.Markdown()
-        self.minecraft = core.minecraft.minecraft.Minecraft()
-        self.request = core.minecraft.hypixel.request.Request()
+        self.hypixel = core.minecraft.hypixel.request.HypixelAPI()
 
     @commands.group(name = "leaderboards", aliases = ["lb", "leaderboard"])
     async def leaderboards(self, ctx):
@@ -71,9 +69,9 @@ class LeaderboardCommands(commands.Cog):
             )
             index = 0
             leaderboard = []
-            await self.request.send_leaderboard_request()
+            await self.hypixel.send_leaderboard_request()
             for player in await self.bedwarsleaderboards.get_levels():
-                    await self.request.send_player_request_uuid(player)
+                    await self.hypixel.send_player_request_uuid(player)
                     leaderboard.append([await self.bedwars.get_star(player), core.minecraft.hypixel.request.player_json['player']['displayname'], await self.bedwars.get_fkdr(player)])
                     level_leaderboard_embed.add_field(
                         name = f"#{index + 1}",
@@ -96,9 +94,9 @@ class LeaderboardCommands(commands.Cog):
                 )
                 index = 0
                 leaderboard = []
-                await self.request.send_leaderboard_request()
+                await self.hypixel.send_leaderboard_request()
                 for player in await self.bedwarsleaderboards.get_wins():
-                    await self.request.send_player_request_uuid(player)
+                    await self.hypixel.send_player_request_uuid(player)
                     leaderboard.append([await self.bedwars.get_star(player), core.minecraft.hypixel.request.player_json['player']['displayname'], await self.bedwars.get_wins(player)])
                     overall_wins_leaderboard_embed.add_field(
                         name = f"#{index + 1}",
@@ -120,9 +118,9 @@ class LeaderboardCommands(commands.Cog):
                 )
                 index = 0
                 leaderboard = []
-                await self.request.send_leaderboard_request()
+                await self.hypixel.send_leaderboard_request()
                 for player in await self.bedwarsleaderboards.get_weekly_wins():
-                    await self.request.send_player_request_uuid(player)
+                    await self.hypixel.send_player_request_uuid(player)
                     leaderboard.append([await self.bedwars.get_star(player), core.minecraft.hypixel.request.player_json['player']['displayname']])
                     weekly_wins_leaderboard_embed.add_field(
                         name = f"#{index + 1}",
@@ -144,9 +142,9 @@ class LeaderboardCommands(commands.Cog):
                 )
                 index = 0
                 leaderboard = []
-                await self.request.send_leaderboard_request()
+                await self.hypixel.send_leaderboard_request()
                 for player in await self.bedwarsleaderboards.get_finals():
-                    await self.request.send_player_request_uuid(player)
+                    await self.hypixel.send_player_request_uuid(player)
                     leaderboard.append([await self.bedwars.get_star(player), core.minecraft.hypixel.request.player_json['player']['displayname'], await self.bedwars.get_final_kills(player)])
                     overall_finals_leaderboard_embed.add_field(
                         name = f"#{index + 1}",
@@ -167,9 +165,9 @@ class LeaderboardCommands(commands.Cog):
                 )
                 index = 0
                 leaderboard = []
-                await self.request.send_leaderboard_request()
+                await self.hypixel.send_leaderboard_request()
                 for player in await self.bedwarsleaderboards.get_weekly_finals():
-                    await self.request.send_player_request_uuid(player)
+                    await self.hypixel.send_player_request_uuid(player)
                     leaderboard.append([await self.bedwars.get_star(player), core.minecraft.hypixel.request.player_json['player']['displayname']])
                     weekly_finals_leaderboard_embed.add_field(
                         name = f"#{index + 1}",

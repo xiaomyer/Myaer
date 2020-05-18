@@ -29,7 +29,7 @@ from core.minecraft.minecraft import Minecraft
 
 hypixel_api = "https://api.hypixel.net/"
 
-class Request():
+class HypixelAPI():
     def __init__(self):
         self.config = Config()
         self.minecraft = Minecraft()
