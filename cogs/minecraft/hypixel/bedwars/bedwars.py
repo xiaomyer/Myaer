@@ -22,8 +22,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-stats_needed_disclaimer = "Note - The amount needed for stat increase assumes that no negative stats are taken (no final deaths, no losses, etc)"
-
 import asyncio
 from core.minecraft.hypixel.player.bedwars import Bedwars
 import core.static
@@ -47,9 +45,16 @@ class BedwarsCommands(commands.Cog):
         try:
             loading_embed = discord.Embed(
                 name = "Loading",
-                description = f"Loading {await self.mojang.get_profile(player)}\'s Bedwars stats..."
+                description = f"Loading {(await self.mojang.get_profile(player))['name']}\'s Bedwars stats..."
             )
             message = await ctx.send(embed = loading_embed)
+        except NameError:
+            nameerror_embed = discord.Embed(
+                name = "Invalid input",
+                description = f"\"{player}\" is not a valid username or UUID."
+            )
+            await ctx.send(embed = nameerror_embed)
+        if message:
             await self.hypixel.send_player_request(player) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
             player_stats_embed = discord.Embed(
                 title = await self.markdown.italic((await self.markdown.bold(f"{discord.utils.escape_markdown((await self.mojang.get_profile(player))['name'])}\'s Bedwars Stats"))),
@@ -100,12 +105,6 @@ class BedwarsCommands(commands.Cog):
                 value = f"{await self.bedwars.get_wlr(player)}"
             )
             await message.edit(embed = player_stats_embed)
-        except NameError:
-            nameerror_embed = discord.Embed(
-                name = "Invalid input",
-                description = f"\"{player}\" is not a valid username or UUID."
-            )
-            await message.edit(embed = nameerror_embed)
 
     @commands.command(name = "fkdr")
     @commands.max_concurrency(1, per = commands.BucketType.user)
@@ -113,9 +112,16 @@ class BedwarsCommands(commands.Cog):
         try:
             loading_embed = discord.Embed(
                 name = "Loading",
-                description = f"Loading {await self.mojang.get_profile(player)}\'s Bedwars FKDR data..."
+                description = f"Loading {(await self.mojang.get_profile(player))['name']}\'s Bedwars FKDR data..."
             )
             message = await ctx.send(embed = loading_embed)
+        except NameError:
+            nameerror_embed = discord.Embed(
+                name = "Invalid input",
+                description = f"\"{player}\" is not a valid username or UUID."
+            )
+            await ctx.send(embed = nameerror_embed)
+        if message:
             await self.hypixel.send_player_request(player) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
             player_fkdr_embed = discord.Embed(
                 title = await self.markdown.underline((await self.markdown.bold(f"{(await self.mojang.get_profile(player))['name']}\'s FKDR"))),
@@ -146,15 +152,9 @@ class BedwarsCommands(commands.Cog):
                 value = f"{await self.bedwars.get_increase_stat(player, (await self.bedwars.get_final_kills(player)), (await self.bedwars.get_final_deaths(player)), 2)} needed"
             )
             player_fkdr_embed.set_footer(
-                text = stats_needed_disclaimer
+                text = core.static.stats_needed_disclaimer
             )
             await message.edit(embed = player_fkdr_embed)
-        except NameError:
-            nameerror_embed = discord.Embed(
-                name = "Invalid input",
-                description = f"\"{player}\" is not a valid username or UUID."
-            )
-            await message.edit(embed = nameerror_embed)
 
     @commands.command(name = "bblr")
     @commands.max_concurrency(1, per = commands.BucketType.user)
@@ -162,9 +162,16 @@ class BedwarsCommands(commands.Cog):
         try:
             loading_embed = discord.Embed(
                 name = "Loading",
-                description = f"Loading {await self.mojang.get_profile(player)}\'s Bedwars BBLR data..."
+                description = f"Loading {(await self.mojang.get_profile(player))['name']}\'s Bedwars BBLR data..."
             )
             message = await ctx.send(embed = loading_embed)
+        except NameError:
+            nameerror_embed = discord.Embed(
+                name = "Invalid input",
+                description = f"\"{player}\" is not a valid username or UUID."
+            )
+            await ctx.send(embed = nameerror_embed)
+        if message:
             await self.hypixel.send_player_request(player) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
             player_bblr_embed = discord.Embed(
                 title = await self.markdown.underline((await self.markdown.bold(f"{(await self.mojang.get_profile(player))['name']}\'s BBLR"))),
@@ -195,15 +202,9 @@ class BedwarsCommands(commands.Cog):
                 value = f"{await self.bedwars.get_increase_stat(player, (await self.bedwars.get_beds_broken(player)), (await self.bedwars.get_beds_lost(player)), 2)} needed"
             )
             player_bblr_embed.set_footer(
-                text = stats_needed_disclaimer
+                text = core.static.stats_needed_disclaimer
             )
             await message.edit(embed = player_bblr_embed)
-        except NameError:
-            nameerror_embed = discord.Embed(
-                name = "Invalid input",
-                description = f"\"{player}\" is not a valid username or UUID."
-            )
-            await message.edit(embed = nameerror_embed)
 
     @commands.command(name = "wlr")
     @commands.max_concurrency(1, per = commands.BucketType.user)
@@ -211,9 +212,16 @@ class BedwarsCommands(commands.Cog):
         try:
             loading_embed = discord.Embed(
                 name = "Loading",
-                description = f"Loading {await self.mojang.get_profile(player)}\'s Bedwars WLR data..."
+                description = f"Loading {(await self.mojang.get_profile(player))['name']}\'s Bedwars WLR data..."
             )
             message = await ctx.send(embed = loading_embed)
+        except NameError:
+            nameerror_embed = discord.Embed(
+                name = "Invalid input",
+                description = f"\"{player}\" is not a valid username or UUID."
+            )
+            await ctx.send(embed = nameerror_embed)
+        if message:
             await self.hypixel.send_player_request(player) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
             player_wlr_embed = discord.Embed(
                 title = await self.markdown.underline((await self.markdown.bold(f"{(await self.mojang.get_profile(player))['name']}\'s WLR"))),
@@ -244,15 +252,9 @@ class BedwarsCommands(commands.Cog):
                 value = f"{await self.bedwars.get_increase_stat(player, (await self.bedwars.get_wins(player)), (await self.bedwars.get_losses(player)), 2)} needed"
             )
             player_wlr_embed.set_footer(
-                text = stats_needed_disclaimer
+                text = core.static.stats_needed_disclaimer
             )
             await message.edit(embed = player_wlr_embed)
-        except NameError:
-            nameerror_embed = discord.Embed(
-                name = "Invalid input",
-                description = f"\"{player}\" is not a valid username or UUID."
-            )
-            await message.edit(embed = nameerror_embed)
 
 def setup(bot):
     bot.add_cog(BedwarsCommands(bot))

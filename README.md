@@ -9,12 +9,12 @@ Myaer is a Discord bot written with discord.py in Python 3.8.2. It is focused ar
 - **/ping** - Shows bot latency.
 ### Bedwars
 #### Player Stats
-- **/bw <player>** - Shows general Bedwars stats
-- **/bblr <player>** - Shows bed break/loss ratio and other calculations
-- **/fkdr <player>** - Shows final kill/death ratio and other calculations
-- **/wlr <player>** - Shows win/loss ratio and other calculations
+- **/bw \<player\>** - Shows general Bedwars stats
+- **/bblr \<player\>** - Shows bed break/loss ratio and other calculations
+- **/fkdr \<player\>** - Shows final kill/death ratio and other calculations
+- **/wlr \<player\>** - Shows win/loss ratio and other calculations
 #### Leaderboards
-- **/lb bw <levels/level/star>** - Shows Bedwars level leaderboard
+- **/lb bw \<levels/level/star\>** - Shows Bedwars level leaderboard
   - Default Bedwars leaderboard is level leaderboard, therefore **/lb bw** works
 - **/lb bw finals** - Shows overall Bedwars final kills leaderboard
 - **/lb bw finals weekly** - Shows weekly Bedwars final kills leaderboard

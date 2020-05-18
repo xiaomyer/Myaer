@@ -46,3 +46,4 @@ hypixel_game_icons = { # Hypixel game icons
     "UHC" : "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/uhc_champions", # UHC Champions is the only thing resembling UHC on Hypixel
     "Warlords" : "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/warlords.png"
 }
+stats_needed_disclaimer = "Note - The amount needed for stat increase assumes that no negative stats are taken (no final deaths, no losses, etc)"
