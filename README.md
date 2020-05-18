@@ -20,3 +20,7 @@ Myaer is a Discord bot written with discord.py in Python 3.8.2. It is focused ar
 - **/lb bw finals weekly** - Shows weekly Bedwars final kills leaderboard
 - **/lb bw wins** - Shows overall Bedwars wins leaderboard
 - **/lb bw wins weekly** - Shows weekly Bedwars wins leaderboard
+
+## Authors
+- **MyerFire** *myer#0001* *https://www.youtube.com/myerfire*
+  - Anyone may submit a pull request and it will possibly be implemented
