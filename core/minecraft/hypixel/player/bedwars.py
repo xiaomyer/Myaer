@@ -40,13 +40,13 @@ prestige_colors = {
 }
 
 class Bedwars():
-    async def get_star(self, player):
+    async def get_star(self):
         star = core.minecraft.hypixel.request.player_json['player']['achievements']['bedwars_level'] # what the fuck why is bedwars_level in achievements bruh
         return star
 
-    async def get_prestige_data(self, player):
-        star = await self.get_star(player)
-        if star in range(0, 99):
+    async def get_prestige_data(self):
+        star = await self.get_star()
+        if star in range(0, 100):
             prestige = 'Stone'
             prestige_color = prestige_colors['Stone']
         elif star in range(100, 199):
@@ -81,55 +81,44 @@ class Bedwars():
             prestige_color = prestige_colors['Rainbow']
 
         prestige_data = {
-            "prestige" : f"{prestige}",
-            "prestige_color" : f"{prestige_color}"
+            "prestige" : prestige,
+            "prestige_color" : prestige_color
         }
         return prestige_data
 
-    async def get_games_played(self, player):
+    async def get_games_played(self):
         try:
             games_played = core.minecraft.hypixel.request.player_json['player']['stats']['Bedwars']['games_played_bedwars']
             return games_played
         except KeyError:
             return 0
 
-    async def get_coins(self, player):
+    async def get_coins(self):
         try:
             coins = core.minecraft.hypixel.request.player_json['player']['stats']['Bedwars']['coins_bedwars']
             return coins
         except KeyError:
             return 0
 
-    async def get_final_kills(self, player):
+    async def get_ratio(self, positive_stat, negative_stat):
+        ratio = positive_stat / negative_stat
+        return round(ratio, 2)
+
+    async def get_final_kills(self):
         try:
             final_kills = core.minecraft.hypixel.request.player_json['player']['stats']['Bedwars']['final_kills_bedwars']
             return final_kills
         except KeyError:
             return 0
 
-    async def get_final_deaths(self, player):
+    async def get_final_deaths(self):
         try:
             final_deaths = core.minecraft.hypixel.request.player_json['player']['stats']['Bedwars']['final_deaths_bedwars']
             return final_deaths
         except KeyError:
             return 0
 
-    async def get_fkdr(self, player):
-        final_kills = await self.get_final_kills(player)
-        final_deaths = await self.get_final_deaths(player)
-
-        fkdr = final_kills / final_deaths
-        return round(fkdr, 2)
-
-    async def get_increase_fkdr(self, player, increase): # Calculates how many finals it would take to increase player's FKDR by one
-        final_kills = await self.get_final_kills(player)
-        final_deaths = await self.get_final_deaths(player)
-        fkdr = await self.get_fkdr(player)
-
-        needed = (fkdr + increase) * final_deaths - final_kills
-        return round(needed)
-
-    async def get_increase_stat(self, player, positive_stat, negative_stat, increase):
+    async def get_increase_stat(self, positive_stat, negative_stat, increase):
         # positive_stat is a "good" stat like final_kills
         # negative_stat is a "bad" stat like final_deaths
         # increase is the amount the positive_stat to negative_stat ratio needs to increase
@@ -137,60 +126,30 @@ class Bedwars():
         needed = (stat + increase) * negative_stat - positive_stat
         return round(needed)
 
-    async def get_beds_broken(self, player):
+    async def get_beds_broken(self):
         try:
             beds_broken = core.minecraft.hypixel.request.player_json['player']['stats']['Bedwars']['beds_broken_bedwars']
             return beds_broken
         except KeyError:
             return 0
 
-    async def get_beds_lost(self, player):
+    async def get_beds_lost(self):
         try:
             beds_lost = core.minecraft.hypixel.request.player_json['player']['stats']['Bedwars']['beds_lost_bedwars']
             return beds_lost
         except KeyError:
             return 0
 
-    async def get_bblr(self, player):
-        beds_broken = await self.get_beds_broken(player)
-        beds_lost = await self.get_beds_lost(player)
-
-        bblr = beds_broken / beds_lost
-        return round(bblr, 2)
-
-    async def get_increase_bblr(self, player, increase): # Calculates how many finals it would take to increase player's FKDR by one
-        beds_broken = await self.get_beds_broken(player)
-        beds_lost = await self.get_beds_lost(player)
-        bblr = await self.get_bblr(player)
-
-        needed = (bblr + increase) * beds_lost - beds_broken
-        return round(needed)
-
-    async def get_wins(self, player):
+    async def get_wins(self):
         try:
             wins = core.minecraft.hypixel.request.player_json['player']['stats']['Bedwars']['wins_bedwars']
             return wins
         except KeyError:
             return 0
 
-    async def get_losses(self, player):
+    async def get_losses(self):
         try:
             losses = core.minecraft.hypixel.request.player_json['player']['stats']['Bedwars']['losses_bedwars']
             return losses
         except KeyError:
             return 0
-
-    async def get_wlr(self, player):
-        wins = await self.get_wins(player)
-        losses = await self.get_losses(player)
-
-        wlr = wins / losses
-        return round(wlr, 2)
-
-    async def get_increase_wlr(self, player, increase):
-        wins = await self.get_wins(player)
-        losses = await self.get_losses(player)
-        wlr = await self.get_wlr(player)
-
-        needed = (wlr + increase) * wins - losses
-        return round(needed)

@@ -48,11 +48,12 @@ bot = commands.Bot(
 
 extensions = [
     "jishaku",
-    "cogs.minecraft.hypixel.bedwars.bedwars",
+    "cogs.minecraft.hypixel.bedwars",
     "commands.help",
     "cogs.minecraft.hypixel.leaderboards",
     "cogs.minecraft.minecraft",
-    "commands.ping"
+    "commands.ping",
+    "cogs.minecraft.hypixel.skywars"
 ]
 
 config = Config()
