@@ -49,7 +49,7 @@ class LeaderboardCommands(commands.Cog):
         return
 
     @leaderboards.command(name = "bw")
-    @commands.cooldown(1, 60, commands.BucketType.user)
+#    @commands.cooldown(1, 60, commands.BucketType.user)
     @commands.cooldown(1, 60, commands.BucketType.guild)
     async def bedwars(self, ctx, *args):
         try:
