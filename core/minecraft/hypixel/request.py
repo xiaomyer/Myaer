@@ -25,18 +25,18 @@ SOFTWARE.
 import aiohttp
 from core.config import Config
 import json
-from core.minecraft.minecraft import Minecraft
+from core.minecraft.request import MojangAPI
 
 hypixel_api = "https://api.hypixel.net/"
 
 class HypixelAPI():
     def __init__(self):
         self.config = Config()
-        self.minecraft = Minecraft()
+        self.mojang = MojangAPI()
         self.hypixel_api_key = self.config.hypixel_api_key
 
     async def send_player_request(self, player):
-        uuid = (await self.minecraft.get_profile(player))["uuid"] # &name= is deprecated for the Hypixel API, so convert name to UUID with Mojang API
+        uuid = (await self.mojang.get_profile(player))["uuid"] # &name= is deprecated for the Hypixel API, so convert name to UUID with Mojang API
         async with aiohttp.ClientSession() as session:
             raw = await session.get(f"{hypixel_api}player?key={self.hypixel_api_key}&uuid={uuid}")
             global player_json # So requests aren't sent per stat
