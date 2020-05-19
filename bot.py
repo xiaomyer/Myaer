@@ -53,7 +53,8 @@ extensions = [
     "cogs.minecraft.hypixel.leaderboards",
     "cogs.minecraft.minecraft",
     "commands.ping",
-    "cogs.minecraft.hypixel.skywars"
+    "cogs.minecraft.hypixel.skywars",
+    "cogs.wristspasm"
 ]
 
 config = Config()
