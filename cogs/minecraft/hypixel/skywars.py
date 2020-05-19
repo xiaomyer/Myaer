@@ -53,58 +53,64 @@ class SkywarsStats(commands.Cog):
                 description = f"\"{player}\" is not a valid username or UUID."
             )
             await ctx.send(embed = nameerror_embed)
-            message = None
-        if message:
+        try:
             await self.hypixel.send_player_request(player) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
-            player_stats_embed = discord.Embed(
-                title = (await self.markdown.bold(f"{discord.utils.escape_markdown((await self.mojang.get_profile(player))['name'])}\'s Skywars Stats")),
-                color = int((await self.skywars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
+        except NameError:
+            nameerror_embed = discord.Embed(
+                name = "Invalid input",
+                description = f"\"{player}\" does not seem to have Hypixel stats."
             )
-            player_stats_embed.set_thumbnail(
-                url = core.static.hypixel_game_icons['Skywars']
-            )
-            player_stats_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Level"))),
-                value = f"{await self.skywars.get_star()} {core.static.bedwars_star} ({(await self.skywars.get_prestige_data())['prestige']} Prestige)",
-                inline = False
-            )
-            player_stats_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Coins"))),
-                value = f"{await self.skywars.get_coins()}"
-            )
-            player_stats_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Tokens"))),
-                value = f"{await self.skywars.get_tokens()}"
-            )
-            player_stats_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Souls"))),
-                value = f"{await self.skywars.get_souls()}"
-            )
-            player_stats_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Kills"))),
-                value = f"{await self.skywars.get_kills()}"
-            )
-            player_stats_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Deaths"))),
-                value = f"{await self.skywars.get_deaths()}"
-            )
-            player_stats_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} KDR"))),
-                value = f"{(await self.skywars.get_ratio((await self.skywars.get_kills()), (await self.skywars.get_deaths())))}"
-            )
-            player_stats_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Wins"))),
-                value = f"{await self.skywars.get_wins()}"
-            )
-            player_stats_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Losses"))),
-                value = f"{await self.skywars.get_losses()}"
-            )
-            player_stats_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} WLR"))),
-                value = f"{(await self.skywars.get_ratio((await self.skywars.get_wins()), (await self.skywars.get_losses())))}"
-            )
-            await message.edit(embed = player_stats_embed)
+            await ctx.send(embed = nameerror_embed)
+            return
+        player_stats_embed = discord.Embed(
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown((await self.mojang.get_profile(player))['name'])}\'s Skywars Stats")),
+            color = int((await self.skywars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
+        )
+        player_stats_embed.set_thumbnail(
+            url = core.static.hypixel_game_icons['Skywars']
+        )
+        player_stats_embed.add_field(
+            name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Level"))),
+            value = f"{await self.skywars.get_star()} {core.static.bedwars_star} ({(await self.skywars.get_prestige_data())['prestige']} Prestige)",
+            inline = False
+        )
+        player_stats_embed.add_field(
+            name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Coins"))),
+            value = f"{await self.skywars.get_coins()}"
+        )
+        player_stats_embed.add_field(
+            name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Tokens"))),
+            value = f"{await self.skywars.get_tokens()}"
+        )
+        player_stats_embed.add_field(
+            name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Souls"))),
+            value = f"{await self.skywars.get_souls()}"
+        )
+        player_stats_embed.add_field(
+            name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Kills"))),
+            value = f"{await self.skywars.get_kills()}"
+        )
+        player_stats_embed.add_field(
+            name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Deaths"))),
+            value = f"{await self.skywars.get_deaths()}"
+        )
+        player_stats_embed.add_field(
+            name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} KDR"))),
+            value = f"{(await self.skywars.get_ratio((await self.skywars.get_kills()), (await self.skywars.get_deaths())))}"
+        )
+        player_stats_embed.add_field(
+            name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Wins"))),
+            value = f"{await self.skywars.get_wins()}"
+        )
+        player_stats_embed.add_field(
+            name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Losses"))),
+            value = f"{await self.skywars.get_losses()}"
+        )
+        player_stats_embed.add_field(
+            name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} WLR"))),
+            value = f"{(await self.skywars.get_ratio((await self.skywars.get_wins()), (await self.skywars.get_losses())))}"
+        )
+        await message.edit(embed = player_stats_embed)
 
 def setup(bot):
     bot.add_cog(SkywarsStats(bot))

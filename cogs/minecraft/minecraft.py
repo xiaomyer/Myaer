@@ -27,12 +27,14 @@ import datetime
 import discord
 from core.discord.markdown import Markdown
 from core.minecraft.request import MojangAPI
+from core.minecraft.verification.verification import Verification
 
 class Minecraft(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.markdown = Markdown()
         self.mojang = MojangAPI()
+        self.verification = Verification()
 
     @commands.group(name = "minecraft", aliases = ["mc"], invoke_without_command = True)
     async def minecraft(self, ctx):
@@ -87,6 +89,53 @@ class Minecraft(commands.Cog):
             )
             await ctx.send(embed = nameerror_embed)
 
+    @minecraft.command(name = "verify", aliases = ["link"])
+    @commands.max_concurrency(1, per = commands.BucketType.user)
+    async def verify(self, ctx, ign):
+        try:
+            player_data = await self.mojang.get_profile(ign)
+        except NameError:
+            nameerror_embed = discord.Embed(
+                name = "Invalid input",
+                description = f"\"{ign}\" is not a valid username or UUID."
+            )
+            await ctx.send(embed = nameerror_embed)
+        try:
+            await self.verification.verify(ctx.author.id, f"{ctx.author.name}#{ctx.author.discriminator}", player_data['uuid'])
+            verified_embed = discord.Embed(
+                name = "Verified Minecraft IGN",
+                description = f"Verified your Minecraft account as \"{player_data['name']}\""
+            )
+            verified_embed.set_footer(
+                text = "Verified with Myaer."
+            )
+            await ctx.send(embed = verified_embed)
+        except NameError:
+            nameerror_embed = discord.Embed(
+                name = "Invalid input",
+                description = f"\"{player_data['name']}\" does not seem to have Hypixel stats."
+            )
+            await ctx.send(embed = nameerror_embed)
+            return
+        except ValueError:
+            already_has_discord_hypixel_embed = discord.Embed(
+                name = "Already linked on Hypixel",
+                description = f"{player_data['name']} has a linked Discord account on Hypixel that is not yours."
+            )
+            already_has_discord_hypixel_embed.set_footer(
+                text = "If this is your Minecraft account, update your Discord name on Hypixel."
+            )
+            await ctx.send(embed = already_has_discord_hypixel_embed)
+        except AttributeError:
+            no_discord_hypixel_embed = discord.Embed(
+                name = "No Discord linked on Hypixel",
+                description = f"{player_data['name']} does not have a linked Discord name on Hypixel."
+            )
+            no_discord_hypixel_embed.set_footer(
+                text = "Set your Discord name on Hypixel."
+            )
+            await ctx.send(embed = no_discord_hypixel_embed)
+
 def setup(bot):
     bot.add_cog(Minecraft(bot))
-    print("Reloaded cogs.minecraft.")
+    print("Reloaded cogs.minecraft")
