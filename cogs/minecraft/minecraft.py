@@ -49,7 +49,7 @@ class Minecraft(commands.Cog):
                 name = "Name history"
             )
             for name in name_history:
-                if index == 0:
+                if index == 0: # First name does not have changedToAt attribute
                     name_history_embed.add_field(
                         name = f"Name #{index + 1}",
                         value = f"{name_history[index][0]} (Original)",
