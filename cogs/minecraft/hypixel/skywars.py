@@ -29,6 +29,7 @@ from core.discord.markdown import Markdown
 import core.minecraft.hypixel.request
 from core.minecraft.hypixel.player.skywars import Skywars
 from core.minecraft.request import MojangAPI
+from core.minecraft.verification.verification import Verification
 
 class SkywarsStats(commands.Cog):
     def __init__(self, bot):
@@ -37,33 +38,50 @@ class SkywarsStats(commands.Cog):
         self.markdown = Markdown()
         self.mojang = MojangAPI()
         self.skywars = Skywars()
+        self.verification = Verification()
 
     @commands.group(name = "sw", invoke_without_command = True)
     @commands.max_concurrency(1, per = commands.BucketType.user)
-    async def skywars(self, ctx, player):
+    async def skywars(self, ctx, *args):
         try:
-            loading_embed = discord.Embed(
-                name = "Loading",
-                description = f"Loading {(await self.mojang.get_profile(player))['name']}\'s Skywars stats..."
-            )
-            message = await ctx.send(embed = loading_embed)
+            player = args[0]
+            player_formatted_name = (await self.mojang.get_profile(player))['name']
+            player_uuid = (await self.mojang.get_profile(player))['uuid']
+        except IndexError: # If no arguments
+            try:
+                db_data = await self.verification.find_uuid(ctx.author.id)
+                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
+                player_uuid = db_data[0]['minecraft_uuid']
+            except IndexError:
+                unverified_embed = discord.Embed(
+                    name = "Not verified",
+                    description = "You have to verify with `/mc verify <minecraft-ign>` first."
+                )
+                await ctx.send(embed = unverified_embed)
+                return
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
                 description = f"\"{player}\" is not a valid username or UUID."
             )
             await ctx.send(embed = nameerror_embed)
+            return
+        loading_embed = discord.Embed(
+            name = "Loading",
+            description = f"Loading {player_formatted_name}\'s Skywars stats..."
+        )
+        message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request(player) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_uuid) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
-                description = f"\"{player}\" does not seem to have Hypixel stats."
+                description = f"\"{player_formatted_name}\" does not seem to have Hypixel stats."
             )
             await ctx.send(embed = nameerror_embed)
             return
         player_stats_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown((await self.mojang.get_profile(player))['name'])}\'s Skywars Stats")),
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_formatted_name)}\'s Skywars Stats")),
             color = int((await self.skywars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
         )
         player_stats_embed.set_thumbnail(

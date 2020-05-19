@@ -41,29 +41,45 @@ class Verification():
             hypixel_discord_name = core.minecraft.hypixel.request.player_json['player']['socialMedia']['links']['DISCORD']
         except KeyError:
             hypixel_discord_name = None
-        print(f"hpd {hypixel_discord_name}")
-        print(f"dn {discord_name}")
         if (discord_name != hypixel_discord_name) and (hypixel_discord_name != None):
             raise ValueError("Minecraft account already has verified Discord name on Hypixel.")
         elif discord_name == hypixel_discord_name:
             if db.search(where("discord_id") == discord_id):
                 db.update({"minecraft_uuid" : minecraft_uuid}, Users.discord_id == discord_id)
-                print(f"updated {discord_id} to {minecraft_uuid}")
             elif db.search(where("minecraft_uuid") == minecraft_uuid):
-                print("elif - removed and updated")
                 db.remove(Users.minecraft_uuid == minecraft_uuid)
                 db.insert({"discord_id" : discord_id, "minecraft_uuid" : minecraft_uuid})
             else:
-                print("else, not in db so insert")
                 db.insert({"discord_id" : discord_id, "minecraft_uuid" : minecraft_uuid})
         else:
             raise AttributeError("Does not have Discord name set on Hypixel.")
+
+    async def force_verify(self, discord_id, minecraft_uuid):
+        db = TinyDB("/home/myerfire/Myaer/core/minecraft/verification/verified.json")
+        Users = Query()
+        if db.search(where("discord_id") == discord_id):
+            db.update({"minecraft_uuid" : minecraft_uuid}, Users.discord_id == discord_id)
+        elif db.search(where("minecraft_uuid") == minecraft_uuid):
+            db.remove(Users.minecraft_uuid == minecraft_uuid)
+            db.insert({"discord_id" : discord_id, "minecraft_uuid" : minecraft_uuid})
+        else:
+            db.insert({"discord_id" : discord_id, "minecraft_uuid" : minecraft_uuid})
+
+    async def unverify(self, discord_id):
+        db = TinyDB("/home/myerfire/Myaer/core/minecraft/verification/verified.json")
+        Users = Query()
+        if db.search(where("discord_id") == discord_id):
+            saved_data = db.search(where("discord_id") == discord_id)
+            db.remove(Users.discord_id == discord_id)
+            return saved_data
+        else:
+            print("not verified")
+            raise NameError("User is not verified.")
 
     async def find_uuid(self, discord_id):
         db = TinyDB("/home/myerfire/Myaer/core/minecraft/verification/verified.json")
         Users = Query()
         try:
-            print(db.search(where("discord_id") == discord_id))
             return db.search(where("discord_id") == discord_id)
         except:
             return None

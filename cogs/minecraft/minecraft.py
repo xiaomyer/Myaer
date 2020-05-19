@@ -74,20 +74,35 @@ class Minecraft(commands.Cog):
 
     @minecraft.command(name = "uuid")
     @commands.max_concurrency(1, per = commands.BucketType.user)
-    async def uuid(self, ctx, player):
+    async def uuid(self, ctx, *args):
         try:
-            player_data = await self.mojang.get_profile_name(player)
-            player_uuid_embed = discord.Embed(
-                name = "Player UUID",
-                description = f"{player_data['name']}\'s UUID is {player_data['uuid']}."
-            )
-            await ctx.send(embed = player_uuid_embed)
+            player = args[0]
+            player_formatted_name = (await self.mojang.get_profile(player))['name']
+            player_uuid = (await self.mojang.get_profile(player))['uuid']
+        except IndexError: # If no arguments
+            try:
+                db_data = await self.verification.find_uuid(ctx.author.id)
+                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
+                player_uuid = db_data[0]['minecraft_uuid']
+            except IndexError:
+                unverified_embed = discord.Embed(
+                    name = "Not verified",
+                    description = "You have to verify with `/mc verify <minecraft-ign>` first."
+                )
+                await ctx.send(embed = unverified_embed)
+                return
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
-                description = f"\"{player}\" is not a valid username."
+                description = f"\"{player}\" is not a valid username or UUID."
             )
             await ctx.send(embed = nameerror_embed)
+            return
+        player_uuid_embed = discord.Embed(
+            name = "Player UUID",
+            description = f"{player_formatted_name}\'s UUID is {player_uuid}."
+        )
+        await ctx.send(embed = player_uuid_embed)
 
     @minecraft.command(name = "verify", aliases = ["link"])
     @commands.max_concurrency(1, per = commands.BucketType.user)
@@ -107,7 +122,7 @@ class Minecraft(commands.Cog):
                 description = f"Verified your Minecraft account as \"{player_data['name']}\""
             )
             verified_embed.set_footer(
-                text = "Verified with Myaer."
+                text = "... with Myaer."
             )
             await ctx.send(embed = verified_embed)
         except NameError:
@@ -135,6 +150,73 @@ class Minecraft(commands.Cog):
                 text = "Set your Discord name on Hypixel."
             )
             await ctx.send(embed = no_discord_hypixel_embed)
+
+    @minecraft.command(name = "forceverify", aliases = ["forcelink"])
+    @commands.is_owner()
+    async def force_verify(self, ctx, target: discord.Member, ign):
+        try:
+            player_data = await self.mojang.get_profile(ign)
+        except NameError:
+            nameerror_embed = discord.Embed(
+                name = "Invalid input",
+                description = f"\"{ign}\" is not a valid username or UUID."
+            )
+            await ctx.send(embed = nameerror_embed)
+            return
+        await self.verification.force_verify(target.id, player_data['uuid'])
+        verified_embed = discord.Embed(
+            name = "Verified Minecraft IGN",
+            description = f"Verified {target}\'s Minecraft account as \"{player_data['name']}\""
+        )
+        verified_embed.set_footer(
+            text = "... with Myaer."
+        )
+        await ctx.send(embed = verified_embed)
+
+    @minecraft.command(name = "unverify", aliases = ["unlink"])
+    async def unverify(self, ctx):
+        try:
+            unverified_data = await self.verification.unverify(ctx.author.id)
+            unverified_embed = discord.Embed(
+                name = "Unverified",
+                description = f"Unverified your Minecraft account \"{(await self.mojang.get_profile_uuid((unverified_data[0]['minecraft_uuid'])))['name']}\"."
+            )
+            unverified_embed.set_footer(
+                text = f"UUID was {(await self.mojang.get_profile_uuid(unverified_data[0]['minecraft_uuid']))['uuid']}"
+            )
+            await ctx.send(embed = unverified_embed)
+        except NameError:
+            not_verified_embed = discord.Embed(
+                name = "Not verified",
+                description = "Your Minecraft account was not verified."
+            )
+            not_verified_embed.set_footer(
+                text = "... with Myaer."
+            )
+            await ctx.send(embed = not_verified_embed)
+
+    @minecraft.command(name = "forceunverify", aliases = ["forceunlink"])
+    @commands.is_owner()
+    async def force_unverify(self, ctx, target: discord.Member):
+        try:
+            unverified_data = await self.verification.unverify(target.id)
+            unverified_embed = discord.Embed(
+                name = "Unverified",
+                description = f"Unverified {target}\'s Minecraft account \"{(await self.mojang.get_profile_uuid((unverified_data[0]['minecraft_uuid'])))['name']}\"."
+            )
+            unverified_embed.set_footer(
+                text = f"UUID was {(await self.mojang.get_profile_uuid(unverified_data[0]['minecraft_uuid']))['uuid']}"
+            )
+            await ctx.send(embed = unverified_embed)
+        except NameError:
+            not_verified_embed = discord.Embed(
+                name = "Not verified",
+                description = f"{target}\'s Minecraft account was not verified."
+            )
+            not_verified_embed.set_footer(
+                text = "... with Myaer."
+            )
+            await ctx.send(embed = not_verified_embed)
 
 def setup(bot):
     bot.add_cog(Minecraft(bot))

@@ -26,8 +26,10 @@ import asyncio
 from core.minecraft.hypixel.player.bedwars import Bedwars
 from core.minecraft.hypixel.leaderboards.bedwars import BedwarsLeaderboards
 import core.static
+import datetime
 from discord.ext import commands
 import discord
+import humanfriendly
 import core.discord.markdown
 import core.minecraft.hypixel.request
 import sys
@@ -181,10 +183,11 @@ class LeaderboardCommands(commands.Cog):
     @bedwars.error
     async def bedwars_leaderboards_error(self, ctx, error):
         if isinstance(error, commands.CommandOnCooldown):
+            cooldown = datetime.timedelta(seconds = error.retry_after)
             cooldown_embed = discord.Embed(
                 name = "Cooldown",
                 color = ctx.author.color,
-                description = "Leaderboard commands have a cooldown of 60s."
+                description = f"Leaderboard commands have a cooldown of 60s. Try again in {humanfriendly.format_timespan(cooldown)}"
             )
             await ctx.send(embed = cooldown_embed)
 
