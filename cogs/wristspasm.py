@@ -114,37 +114,25 @@ class WristSpasm(commands.Cog):
                 description = f"You already have the {prestige} Prestige role."
             )
             await ctx.send(embed = already_have_role_embed)
-            for role in self.roles:
-                role_object = ctx.guild.get_role(self.roles[role])
-                if (role_object in ctx.author.roles) and role_object != prestige_role_object:
-                    role_remove_embed = discord.Embed(
-                        name = "Role removed",
-                        description = f"Removed role <@{self.roles[role]}> from you."
-                    )
-                    role_remove_embed.set_footer(
-                        text = "You are only supposed to have one Bedwars prestige role."
-                    )
-                    await ctx.author.remove_roles(role_object)
-                    await ctx.send(embed = role_remove_embed)
         else:
-            for role in self.roles:
-                role_object = ctx.guild.get_role(self.roles[role])
-                if role_object in ctx.author.roles:
-                    role_remove_embed = discord.Embed(
-                        name = "Role removed",
-                        description = f"Removed role <@{self.roles[role]}> from you."
-                    )
-                    role_remove_embed.set_footer(
-                        text = "You are only supposed to have one Bedwars prestige role."
-                    )
-                    await ctx.author.remove_roles(role_object)
-                    await ctx.send(embed = role_remove_embed)
             await ctx.author.add_roles(prestige_role_object)
             added_role_embed = discord.Embed(
                 name = "Added role",
                 description = f"Gave you the {prestige} Prestige role."
             )
             await ctx.send(embed = added_role_embed)
+        for role in self.roles:
+            role_object = ctx.guild.get_role(self.roles[role])
+            if (role_object in ctx.author.roles) and role_object is not prestige_role_object:
+                await ctx.author.remove_roles(role_object)
+                role_remove_embed = discord.Embed(
+                    name = "Role removed",
+                    description = f"Removed role <@{self.roles[role]}> from you."
+                )
+                role_remove_embed.set_footer(
+                    text = "You are only supposed to have one Bedwars prestige role."
+                )
+                await ctx.send(embed = role_remove_embed)
 
     @wristspasm.command(name = "override")
     @commands.check(staff_check)
@@ -186,37 +174,25 @@ class WristSpasm(commands.Cog):
                 description = f"{target} already has the {prestige} Prestige role."
             )
             await ctx.send(embed = already_have_role_embed)
-            for role in self.roles:
-                role_object = ctx.guild.get_role(self.roles[role])
-                if (role_object in target.roles) and role_object != prestige_role_object:
-                    role_remove_embed = discord.Embed(
-                        name = "Role removed",
-                        description = f"Removed role <@{self.roles[role]}> from {target}."
-                    )
-                    role_remove_embed.set_footer(
-                        text = "You are only supposed to have one Bedwars prestige role."
-                    )
-                    await ctx.author.remove_roles(role_object)
-                    await ctx.send(embed = role_remove_embed)
         else:
-            for role in self.roles:
-                role_object = ctx.guild.get_role(self.roles[role])
-                if role_object in target.roles:
-                    role_remove_embed = discord.Embed(
-                        name = "Role removed",
-                        description = f"Removed role <@{self.roles[role]}> from {target}."
-                    )
-                    role_remove_embed.set_footer(
-                        text = "You are only supposed to have one Bedwars prestige role."
-                    )
-                    await ctx.author.remove_roles(role_object)
-                    await ctx.send(embed = role_remove_embed)
-            await ctx.author.add_roles(prestige_role_object)
+            await target.add_roles(prestige_role_object)
             added_role_embed = discord.Embed(
                 name = "Added role",
-                description = f"Gave you the {prestige} Prestige role."
+                description = f"Gave {target} the {prestige} Prestige role."
             )
             await ctx.send(embed = added_role_embed)
+        for role in self.roles:
+            role_object = ctx.guild.get_role(self.roles[role])
+            if (role_object in target.roles) and role_object is not prestige_role_object:
+                role_remove_embed = discord.Embed(
+                    name = "Role removed",
+                    description = f"Removed role <@{self.roles[role]}> from {target}."
+                )
+                role_remove_embed.set_footer(
+                    text = "You are only supposed to have one Bedwars prestige role."
+                )
+                await target.remove_roles(role_object)
+                await ctx.send(embed = role_remove_embed)
 
 def setup(bot):
     bot.add_cog(WristSpasm(bot))
