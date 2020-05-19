@@ -28,18 +28,26 @@ import discord
 import core.minecraft.hypixel.request
 from core.minecraft.request import MojangAPI
 
-staff = [
+
+master = 394984668656566274
+
+admins = [
     324025871255994368, # 10k
     324025871255994368, # CallLifeAlert
     436991256124588043, # _Disappointed
     259185628611215360, # FreakinDope
-    328192039810236417, # x_10k (Sweet)
+    328192039810236417 # x_10k (Sweet)
+]
+
+moderators = [
     465980302372634640, # freightcar
     368780147563823114 # MyerFire
 ]
 
-async def staff_check(ctx):
-    if ctx.author.id in staff:
+trial_moderators = []
+
+async def override_check(ctx):
+    if (ctx.author.id == master) or (ctx.author.id in admins) or (ctx.author.id in moderators) or (ctx.author.id in trial_moderators):
         return True
     else:
         return False
@@ -135,7 +143,7 @@ class WristSpasm(commands.Cog):
                 await ctx.send(embed = role_remove_embed)
 
     @wristspasm.command(name = "override")
-    @commands.check(staff_check)
+    @commands.check(override_check)
     async def verify_override(self, ctx, target: discord.Member, ign):
         try:
             name = (await self.mojang.get_profile(ign))['name']
@@ -184,6 +192,7 @@ class WristSpasm(commands.Cog):
         for role in self.roles:
             role_object = ctx.guild.get_role(self.roles[role])
             if (role_object in target.roles) and role_object is not prestige_role_object:
+                await target.remove_roles(role_object)
                 role_remove_embed = discord.Embed(
                     name = "Role removed",
                     description = f"Removed role <@{self.roles[role]}> from {target}."
@@ -191,7 +200,6 @@ class WristSpasm(commands.Cog):
                 role_remove_embed.set_footer(
                     text = "You are only supposed to have one Bedwars prestige role."
                 )
-                await target.remove_roles(role_object)
                 await ctx.send(embed = role_remove_embed)
 
 def setup(bot):
