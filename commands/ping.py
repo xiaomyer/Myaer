@@ -43,4 +43,4 @@ class Ping(commands.Cog):
 
 def setup(bot):
     bot.add_cog(Ping(bot))
-    print("Reloaded commands.ping.")
+    print("Reloaded commands.ping")

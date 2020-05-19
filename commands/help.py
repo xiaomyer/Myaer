@@ -39,6 +39,7 @@ class Help(commands.Cog):
             description =
             "Here is some information about me\n\
             [Commands](https://github.com/MyerFire/Myaer#command-list)\n\
+            [GitHub](https://github.com/MyerFire/Myaer)\n\
             [Support/Info (My Discord Server)](https://inv.wtf/myerfire)\n\
             [Invite Me](https://discord.com/api/oauth2/authorize?client_id=700133917264445480&permissions=8&scope=bot)"
         )
@@ -54,4 +55,4 @@ class Help(commands.Cog):
 def setup(bot):
     bot.remove_command("help")
     bot.add_cog(Help(bot))
-    print("Reloaded commands.help.")
+    print("Reloaded commands.help")
