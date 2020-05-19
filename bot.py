@@ -49,6 +49,7 @@ bot = commands.Bot(
 extensions = [
     "jishaku",
     "cogs.minecraft.hypixel.bedwars",
+    "events.command_error",
     "commands.help",
     "cogs.minecraft.hypixel.leaderboards",
     "cogs.minecraft.minecraft",
@@ -65,55 +66,6 @@ async def on_ready():
     status_log_channel = bot.get_channel(config.status_log_channel)
     print(f"Connection with Discord established at {time}")
     await status_log_channel.send(f"Logged in at {time}.")
-
-@bot.event
-async def on_command_error(ctx, error):
-    ignored = (commands.CommandNotFound)
-
-    if hasattr(ctx.command, "on_error"):
-        return
-
-    error = getattr(error, 'original', error)
-
-    if isinstance(error, ignored):
-        return
-
-    elif isinstance(error, commands.MaxConcurrencyReached):
-        concurrency_embed = discord.Embed(
-            name = "Cooldown",
-            color = ctx.author.color,
-            description = f"{ctx.author.name}, this command is being ratelimited. Try again in a bit."
-        )
-        await ctx.send(embed = concurrency_embed)
-
-    elif isinstance(error, commands.CommandOnCooldown):
-        cooldown_embed = discord.Embed(
-            name = "Cooldown",
-            color = ctx.author.color,
-            description = f"{ctx.author.name}, you are sending commands too fast. Try again in a bit."
-        )
-        await ctx.send(embed = cooldown_embed)
-
-    elif isinstance(error, commands.MissingRequiredArgument):
-        argument_embed = discord.Embed(
-            name = "Error",
-            color = ctx.author.color,
-            description = f"{ctx.author.name}, you forgot to provide an input of some sort."
-        )
-        await ctx.send(embed = argument_embed)
-
-    print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
-    traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
-
-@bot.check
-async def blacklist_check(ctx):
-    blacklist = json.load(open("/home/myerfire/Myaer/blacklist.json"))
-    if ctx.author.id == bot.owner_id:
-        return True
-    elif ctx.author.id in blacklist["users"]:
-        return False
-    else:
-        return True
 
 if __name__ == "__main__":
     for extension in extensions:
