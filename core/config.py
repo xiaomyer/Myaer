@@ -24,7 +24,8 @@ SOFTWARE.
 
 import json
 
-config_json = json.load(open("/home/myerfire/Myaer/config.json"))
+with open("/home/myerfire/Myaer/config.json") as config_raw:
+    config_json = json.load(config_raw)
 
 class Config():
     def __init__(self):
