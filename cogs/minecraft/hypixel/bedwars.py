@@ -53,58 +53,57 @@ class BedwarsStats(commands.Cog):
                 description = f"\"{player}\" is not a valid username or UUID."
             )
             await ctx.send(embed = nameerror_embed)
-            message = None
-        if message:
-            await self.hypixel.send_player_request(player) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
-            player_stats_embed = discord.Embed(
-                title = (await self.markdown.bold(f"{discord.utils.escape_markdown((await self.mojang.get_profile(player))['name'])}\'s Bedwars Stats")),
-                color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
-            )
-            player_stats_embed.set_thumbnail(
-                url = core.static.hypixel_game_icons['Bedwars']
-            )
-            player_stats_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Level"))),
-                value = f"{await self.bedwars.get_star()} {core.static.bedwars_star} ({(await self.bedwars.get_prestige_data())['prestige']} Prestige)",
-                inline = False
-            )
-            player_stats_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Final Kills"))),
-                value = f"{await self.bedwars.get_final_kills()}"
-            )
-            player_stats_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Final Deaths"))),
-                value = f"{await self.bedwars.get_final_deaths()}"
-            )
-            player_stats_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} FKDR"))),
-                value = f"{await self.bedwars.get_ratio((await self.bedwars.get_final_kills()), ((await self.bedwars.get_final_deaths())))}"
-            )
-            player_stats_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Beds Broken"))),
-                value = f"{await self.bedwars.get_beds_broken()}"
-            )
-            player_stats_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Beds Lost"))),
-                value = f"{await self.bedwars.get_beds_lost()}"
-            )
-            player_stats_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} BBLR"))),
-                value = f"{await self.bedwars.get_ratio((await self.bedwars.get_beds_broken()), ((await self.bedwars.get_beds_lost())))}"
-            )
-            player_stats_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Wins"))),
-                value = f"{await self.bedwars.get_wins()}"
-            )
-            player_stats_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Losses"))),
-                value = f"{await self.bedwars.get_losses()}"
-            )
-            player_stats_embed.add_field(
-                name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} WLR"))),
-                value = f"{await self.bedwars.get_ratio((await self.bedwars.get_wins()), ((await self.bedwars.get_losses())))}"
-            )
-            await message.edit(embed = player_stats_embed)
+            return
+        await self.hypixel.send_player_request(player) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+        player_stats_embed = discord.Embed(
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown((await self.mojang.get_profile(player))['name'])}\'s Bedwars Stats")),
+            color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
+        )
+        player_stats_embed.set_thumbnail(
+            url = core.static.hypixel_game_icons['Bedwars']
+        )
+        player_stats_embed.add_field(
+            name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Level"))),
+            value = f"{await self.bedwars.get_star()} {core.static.bedwars_star} ({(await self.bedwars.get_prestige_data())['prestige']} Prestige)",
+            inline = False
+        )
+        player_stats_embed.add_field(
+            name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Final Kills"))),
+            value = f"{await self.bedwars.get_final_kills()}"
+        )
+        player_stats_embed.add_field(
+            name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Final Deaths"))),
+            value = f"{await self.bedwars.get_final_deaths()}"
+        )
+        player_stats_embed.add_field(
+            name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} FKDR"))),
+            value = f"{await self.bedwars.get_ratio((await self.bedwars.get_final_kills()), ((await self.bedwars.get_final_deaths())))}"
+        )
+        player_stats_embed.add_field(
+            name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Beds Broken"))),
+            value = f"{await self.bedwars.get_beds_broken()}"
+        )
+        player_stats_embed.add_field(
+            name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Beds Lost"))),
+            value = f"{await self.bedwars.get_beds_lost()}"
+        )
+        player_stats_embed.add_field(
+            name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} BBLR"))),
+            value = f"{await self.bedwars.get_ratio((await self.bedwars.get_beds_broken()), ((await self.bedwars.get_beds_lost())))}"
+        )
+        player_stats_embed.add_field(
+            name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Wins"))),
+            value = f"{await self.bedwars.get_wins()}"
+        )
+        player_stats_embed.add_field(
+            name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Losses"))),
+            value = f"{await self.bedwars.get_losses()}"
+        )
+        player_stats_embed.add_field(
+            name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} WLR"))),
+            value = f"{await self.bedwars.get_ratio((await self.bedwars.get_wins()), ((await self.bedwars.get_losses())))}"
+        )
+        await message.edit(embed = player_stats_embed)
 
     @bedwars.command(name = "fkdr")
     @commands.max_concurrency(1, per = commands.BucketType.user)

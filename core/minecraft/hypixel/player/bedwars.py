@@ -41,8 +41,11 @@ prestige_colors = {
 
 class Bedwars():
     async def get_star(self):
-        star = core.minecraft.hypixel.request.player_json['player']['achievements']['bedwars_level'] # what the fuck why is bedwars_level in achievements bruh
-        return star
+        try:
+            star = core.minecraft.hypixel.request.player_json['player']['achievements']['bedwars_level'] # what the fuck why is bedwars_level in achievements bruh
+            return star
+        except KeyError:
+            return 0
 
     async def get_prestige_data(self):
         star = await self.get_star()
@@ -101,8 +104,14 @@ class Bedwars():
             return 0
 
     async def get_ratio(self, positive_stat, negative_stat):
-        ratio = positive_stat / negative_stat
-        return round(ratio, 2)
+        try:
+            ratio = positive_stat / negative_stat
+            return round(ratio, 2)
+        except ZeroDivisionError:
+            if positive_stat > 0:
+                return float("inf")
+            else:
+                return 0
 
     async def get_final_kills(self):
         try:

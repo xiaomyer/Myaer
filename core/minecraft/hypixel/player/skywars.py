@@ -57,9 +57,12 @@ class Skywars():
         return star
 
     async def get_star(self):
-        skywars_experience = core.minecraft.hypixel.request.player_json['player']['stats']['SkyWars']['skywars_experience']
-        star = await self.get_star_experience(skywars_experience)
-        return math.trunc(star)
+        try:
+            skywars_experience = core.minecraft.hypixel.request.player_json['player']['stats']['SkyWars']['skywars_experience']
+            star = await self.get_star_experience(skywars_experience)
+            return math.trunc(star)
+        except KeyError:
+            return 0
 
     async def get_prestige_data(self):
         star = await self.get_star()
@@ -107,37 +110,67 @@ class Skywars():
         return prestige_data
 
     async def get_games_played(self):
-        games_played = core.minecraft.hypixel.request.player_json['player']['stats']['SkyWars']['games_played_skywars']
-        return games_played
+        try:
+            games_played = core.minecraft.hypixel.request.player_json['player']['stats']['SkyWars']['games_played_skywars']
+            return games_played
+        except KeyError:
+            return 0
 
     async def get_coins(self):
-        coins = core.minecraft.hypixel.request.player_json['player']['stats']['SkyWars']['coins']
-        return coins
+        try:
+            coins = core.minecraft.hypixel.request.player_json['player']['stats']['SkyWars']['coins']
+            return coins
+        except KeyError:
+            return 0
 
     async def get_tokens(self):
-        tokens = core.minecraft.hypixel.request.player_json['player']['stats']['SkyWars']['cosmetic_tokens']
-        return tokens
+        try:
+            tokens = core.minecraft.hypixel.request.player_json['player']['stats']['SkyWars']['cosmetic_tokens']
+            return tokens
+        except KeyError:
+            return 0
 
     async def get_souls(self):
-        souls = core.minecraft.hypixel.request.player_json['player']['stats']['SkyWars']['souls']
-        return souls
+        try:
+            souls = core.minecraft.hypixel.request.player_json['player']['stats']['SkyWars']['souls']
+            return souls
+        except KeyError:
+            return 0
 
     async def get_ratio(self, positive_stat, negative_stat):
-        ratio = positive_stat / negative_stat
-        return round(ratio, 2)
+        try:
+            ratio = positive_stat / negative_stat
+            return round(ratio, 2)
+        except ZeroDivisionError:
+            if positive_stat > 0:
+                return float("inf")
+            else:
+                return 0
 
     async def get_kills(self):
-        kills = core.minecraft.hypixel.request.player_json['player']['stats']['SkyWars']['kills']
-        return kills
+        try:
+            kills = core.minecraft.hypixel.request.player_json['player']['stats']['SkyWars']['kills']
+            return kills
+        except KeyError:
+            return 0
 
     async def get_deaths(self):
-        deaths = core.minecraft.hypixel.request.player_json['player']['stats']['SkyWars']['deaths']
-        return deaths
+        try:
+            deaths = core.minecraft.hypixel.request.player_json['player']['stats']['SkyWars']['deaths']
+            return deaths
+        except KeyError:
+            return 0
 
     async def get_wins(self):
-        wins = core.minecraft.hypixel.request.player_json['player']['stats']['SkyWars']['wins']
-        return wins
+        try:
+            wins = core.minecraft.hypixel.request.player_json['player']['stats']['SkyWars']['wins']
+            return wins
+        except KeyError:
+            return 0
 
     async def get_losses(self):
-        losses = core.minecraft.hypixel.request.player_json['player']['stats']['SkyWars']['losses']
-        return losses
+        try:
+            losses = core.minecraft.hypixel.request.player_json['player']['stats']['SkyWars']['losses']
+            return losses
+        except KeyError:
+            return 0

@@ -55,7 +55,7 @@ class MojangAPI():
     async def get_profile_uuid(self, player): # When input is only UUID
         try:
             async with aiohttp.ClientSession() as session:
-                profile = await session.get(f"{mojang_session_server}session/minecraft/profile/{player.replace('-','')}") # Mojang session server does not accept UUIDs with "-"
+                profile = await session.get(f"{mojang_session_server}session/minecraft/profiles/{player.replace('-','')}") # Mojang session server does not accept UUIDs with "-"
                 profile_json = await profile.json()
                 profile_data = {
                 "name" : profile_json["name"],
@@ -65,3 +65,19 @@ class MojangAPI():
             raise NameError(f"Invalid UUID \"{player}\"")
 
         return profile_data
+
+    async def get_name_history_uuid(self, player):
+        try:
+            name_history = []
+            async with aiohttp.ClientSession() as session:
+                name_history_raw = await session.get(f"{mojang_api}user/profiles/{player}/names")
+                name_history_json = await name_history_raw.json()
+                for name in name_history_json:
+                    try:
+                        name_history.append([name['name'], name['changedToAt']])
+                    except KeyError:
+                        name_history.append([name['name'], None])
+        except Exception:
+            raise NameError(f"Invalid UUID \"{player}\"")
+
+        return name_history
