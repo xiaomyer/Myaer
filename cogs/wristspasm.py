@@ -31,23 +31,17 @@ from core.minecraft.request import MojangAPI
 
 master = 394984668656566274
 
-admins = [
-    324025871255994368, # 10k
-    324025871255994368, # CallLifeAlert
-    436991256124588043, # _Disappointed
-    259185628611215360, # FreakinDope
-    328192039810236417 # x_10k (Sweet)
-]
+admin_role = 633073051784708099
 
-moderators = [
-    465980302372634640, # freightcar
-    368780147563823114 # MyerFire
-]
+moderator_role = 700177102925987850
 
-trial_moderators = []
+trial_moderator_role = 700177445957140521
 
 async def override_check(ctx):
-    if (ctx.author.id == master) or (ctx.author.id in admins) or (ctx.author.id in moderators) or (ctx.author.id in trial_moderators):
+    admin_role_object = ctx.guild.get_role(admin_role)
+    moderator_role_object = ctx.guild.get_role(moderator_role)
+    trial_moderator_role_object = ctx.guild.get_role(trial_moderator_role)
+    if (ctx.author.id == master) or (admin_role_object in ctx.author.roles) or (moderator_role_object in ctx.author.roles) or (trial_moderator_role_object in ctx.author.roles):
         return True
     else:
         return False
