@@ -48,7 +48,8 @@ class LeaderboardCommands(commands.Cog):
     async def leaderboards(self, ctx):
         return
 
-    @leaderboards.command(name = "bw") # TODO: rewrite this part with invoke_without_command = True
+    @leaderboards.command(name = "bw") # There's probably a much better way to do this command, but I have my reasons:
+    # I need it to be able to accept /lb bw and /lb bw level and return the level leaderboard, without repeated code
 #    @commands.cooldown(1, 60, commands.BucketType.user)
     @commands.cooldown(1, 60, commands.BucketType.guild)
     async def bedwars(self, ctx, *args):

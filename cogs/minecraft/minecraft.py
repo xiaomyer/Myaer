@@ -40,7 +40,7 @@ class Minecraft(commands.Cog):
     async def minecraft(self, ctx):
         return
 
-    @minecraft.command(name = "name") # TODO: implement database
+    @minecraft.command(name = "name")
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def name_history(self, ctx, *args):
         try:
