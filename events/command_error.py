@@ -51,7 +51,7 @@ class CommandError(commands.Cog):
         if isinstance(error, ignored):
             return
 
-        if (str(ctx.command)).starswith("leaderboards"):
+        if (str(ctx.command)).startswith("leaderboards"):
             return
 
         if isinstance(error, commands.MaxConcurrencyReached):
