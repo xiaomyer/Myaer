@@ -48,7 +48,7 @@ class LeaderboardCommands(commands.Cog):
     async def leaderboards(self, ctx):
         return
 
-    @leaderboards.command(name = "bw")
+    @leaderboards.command(name = "bw") # TODO: rewrite this part with invoke_without_command = True
 #    @commands.cooldown(1, 60, commands.BucketType.user)
     @commands.cooldown(1, 60, commands.BucketType.guild)
     async def bedwars(self, ctx, *args):
