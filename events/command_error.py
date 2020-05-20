@@ -38,6 +38,9 @@ class CommandError(commands.Cog):
         if hasattr(ctx.command, "on_error"):
             return
 
+        if hasattr(ctx.command, "on_cog_error"):
+            return
+
         if isinstance(error, commands.CommandNotFound):
             return
 
@@ -56,7 +59,7 @@ class CommandError(commands.Cog):
             )
             await ctx.send(embed = concurrency_embed)
 
-        if isinstance(error, commands.CommandOnCooldown):
+        if (isinstance(error, commands.CommandOnCooldown)) and not ((str(ctx.command)).startswith("leaderboards")):
             cooldown = datetime.timedelta(seconds = error.retry_after)
             cooldown_embed = discord.Embed(
                 name = "Cooldown",

@@ -44,145 +44,174 @@ class LeaderboardCommands(commands.Cog):
         self.markdown = core.discord.markdown.Markdown()
         self.hypixel = core.minecraft.hypixel.request.HypixelAPI()
 
-    @commands.group(name = "leaderboards", aliases = ["lb", "leaderboard"])
+    @commands.group(name = "leaderboards", aliases = ["lb", "leaderboard"], invoke_without_command = True)
+    @commands.cooldown(1, 60, commands.BucketType.guild)
     async def leaderboards(self, ctx):
         return
 
-    @leaderboards.command(name = "bw") # There's probably a much better way to do this command, but I have my reasons:
-    # I need it to be able to accept /lb bw and /lb bw level and return the level leaderboard, without repeated code
-#    @commands.cooldown(1, 60, commands.BucketType.user)
+    @leaderboards.group(name = "bedwars", aliases = ["bw"], invoke_without_command = True)
     @commands.cooldown(1, 60, commands.BucketType.guild)
-    async def bedwars(self, ctx, *args):
-        try:
-            leaderboard_type = args[0]
-            try:
-                leaderboard_time = args[1]
-            except IndexError:
-                leaderboard_time = None
-        except IndexError:
-            leaderboard_type = None
-        if (leaderboard_type == "level" or leaderboard_type == "star" or leaderboard_type == "levels") or not leaderboard_type:
-            loading_embed = discord.Embed(
-                name = "Loading",
-                description = "Loading Bedwars level leaderboard..."
+    async def bedwars(self, ctx):
+        loading_embed = discord.Embed(
+            name = "Loading",
+            description = "Loading Bedwars level leaderboard..."
+        )
+        message = await ctx.send(embed = loading_embed)
+        await message.edit(embed = await self.get_bedwars_level())
+
+    @bedwars.command(name = "level", aliases = ["levels", "stars"]) # The same thing, just repeated for the sake of all the aliases
+    @commands.cooldown(1, 60, commands.BucketType.guild)
+    async def bedwars_level(self, ctx):
+        loading_embed = discord.Embed(
+            name = "Loading",
+            description = "Loading Bedwars level leaderboard..."
+        )
+        message = await ctx.send(embed = loading_embed)
+        await message.edit(embed = await self.get_bedwars_level())
+
+    @bedwars.group(name = "wins", aliases = ["win"], invoke_without_command = True)
+    @commands.cooldown(1, 60, commands.BucketType.guild)
+    async def bedwars_wins(self, ctx):
+        loading_embed = discord.Embed(
+            name = "Loading",
+            description = "Loading Bedwars overall wins leaderboard..."
+        )
+        message = await ctx.send(embed = loading_embed)
+        await message.edit(embed = await self.get_bedwars_overall_wins())
+
+    @bedwars_wins.command(name = "overall", aliases = ["lifetime"])
+    @commands.cooldown(1, 60, commands.BucketType.guild)
+    async def bedwars_overall_wins(self, ctx):
+        loading_embed = discord.Embed(
+            name = "Loading",
+            description = "Loading Bedwars overall wins leaderboard..."
+        )
+        message = await ctx.send(embed = loading_embed)
+        await message.edit(embed = await self.get_bedwars_overall_wins())
+
+    @bedwars_wins.command(name = "weekly")
+    @commands.cooldown(1, 60, commands.BucketType.guild)
+    async def bedwars_weekly_wins(self, ctx):
+        loading_embed = discord.Embed(
+            name = "Loading",
+            description = "Loading Bedwars weekly wins leaderboard..."
+        )
+        message = await ctx.send(embed = loading_embed)
+        await message.edit(embed = await self.get_bedwars_weekly_wins())
+
+    @bedwars.group(name = "finals", aliases = ["final"], invoke_without_command = True)
+    @commands.cooldown(1, 60, commands.BucketType.guild)
+    async def bedwars_finals(self, ctx):
+        loading_embed = discord.Embed(
+            name = "Loading",
+            description = "Loading Bedwars overall final kills leaderboard..."
+        )
+        message = await ctx.send(embed = loading_embed)
+        await message.edit(embed = await self.get_bedwars_overall_finals())
+
+    @bedwars_finals.command(name = "weekly")
+    @commands.cooldown(1, 60, commands.BucketType.guild)
+    async def bedwars_weekly_finals(self, ctx):
+        loading_embed = discord.Embed(
+            name = "Loading",
+            description = "Loading Bedwars weekly final kills leaderboard..."
+        )
+        message = await ctx.send(embed = loading_embed)
+        await message.edit(embed = await self.get_bedwars_weekly_finals())
+# Backend-ish things
+
+    async def get_bedwars_level(self):
+        await self.hypixel.send_leaderboard_request()
+        leaderboard = []
+        index = 0
+        bedwars_level_leaderboard_embed = discord.Embed(
+            name = "Level leaderboard"
+        )
+        for player in await self.bedwarsleaderboards.get_levels():
+            await self.hypixel.send_player_request_uuid(player)
+            leaderboard.append([await self.bedwars.get_star(), core.minecraft.hypixel.request.player_json['player']['displayname'], await self.bedwars.get_ratio(await self.bedwars.get_final_kills(), await self.bedwars.get_final_deaths())])
+            bedwars_level_leaderboard_embed.add_field(
+                name = f"#{index + 1}",
+                value = f"{await self.markdown.bold(discord.utils.escape_markdown(f'[{leaderboard[index][0]}{core.static.bedwars_star}] {leaderboard[index][1]}'))} - {leaderboard[index][2]} FKDR",
+                inline = False
             )
-            message = await ctx.send(embed = loading_embed)
-            level_leaderboard_embed = discord.Embed(
-                name = "Levels leaderboard"
+            index += 1
+        return bedwars_level_leaderboard_embed
+
+    async def get_bedwars_overall_wins(self):
+        await self.hypixel.send_leaderboard_request()
+        leaderboard = []
+        index = 0
+        bedwars_overall_wins_leaderboard_embed = discord.Embed(
+            name = "Overall wins leaderboard",
+        )
+        for player in await self.bedwarsleaderboards.get_wins():
+            await self.hypixel.send_player_request_uuid(player)
+            leaderboard.append([await self.bedwars.get_star(), core.minecraft.hypixel.request.player_json['player']['displayname'], await self.bedwars.get_wins()])
+            bedwars_overall_wins_leaderboard_embed.add_field(
+                name = f"#{index + 1}",
+                value = f"{await self.markdown.bold(discord.utils.escape_markdown(f'[{leaderboard[index][0]}{core.static.bedwars_star}] {leaderboard[index][1]}'))} - {leaderboard[index][2]} wins",
+                inline = False
             )
-            index = 0
-            leaderboard = []
-            await self.hypixel.send_leaderboard_request()
-            for player in await self.bedwarsleaderboards.get_levels():
-                    await self.hypixel.send_player_request_uuid(player)
-                    leaderboard.append([await self.bedwars.get_star(), core.minecraft.hypixel.request.player_json['player']['displayname'], await self.bedwars.get_ratio(await self.bedwars.get_final_kills(), await self.bedwars.get_final_deaths())])
-                    level_leaderboard_embed.add_field(
-                        name = f"#{index + 1}",
-                        value = f"{await self.markdown.bold(discord.utils.escape_markdown(f'[{leaderboard[index][0]}{core.static.bedwars_star}] {leaderboard[index][1]}'))} - {leaderboard[index][2]} FKDR",
-                        inline = False
-                    )
-                    index += 1
+            index += 1
+        return bedwars_overall_wins_leaderboard_embed
 
-            await message.edit(embed = level_leaderboard_embed)
+    async def get_bedwars_weekly_wins(self):
+        await self.hypixel.send_leaderboard_request()
+        leaderboard = []
+        index = 0
+        bedwars_weekly_wins_leaderboard_embed = discord.Embed(
+            name = "Bedwars weekly wins leaderboard"
+        )
+        for player in await self.bedwarsleaderboards.get_weekly_wins():
+            await self.hypixel.send_player_request_uuid(player)
+            leaderboard.append([await self.bedwars.get_star(), core.minecraft.hypixel.request.player_json['player']['displayname']])
+            bedwars_weekly_wins_leaderboard_embed.add_field(
+                name = f"#{index + 1}",
+                value = f"{await self.markdown.bold(discord.utils.escape_markdown(f'[{leaderboard[index][0]}{core.static.bedwars_star}] {leaderboard[index][1]}'))}",
+                inline = False
+            )
+            index += 1
+        return bedwars_weekly_wins_leaderboard_embed
 
-        elif leaderboard_type == "wins":
-            if leaderboard_time == "overall" or not leaderboard_time:
-                loading_embed = discord.Embed(
-                            name = "Loading",
-                            description = "Loading overall Bedwars wins leaderboard..."
-                        )
-                message = await ctx.send(embed = loading_embed)
-                overall_wins_leaderboard_embed = discord.Embed(
-                    name = "Levels leaderboard"
-                )
-                index = 0
-                leaderboard = []
-                await self.hypixel.send_leaderboard_request()
-                for player in await self.bedwarsleaderboards.get_wins():
-                    await self.hypixel.send_player_request_uuid(player)
-                    leaderboard.append([await self.bedwars.get_star(), core.minecraft.hypixel.request.player_json['player']['displayname'], await self.bedwars.get_wins()])
-                    overall_wins_leaderboard_embed.add_field(
-                        name = f"#{index + 1}",
-                        value = f"{await self.markdown.bold(discord.utils.escape_markdown(f'[{leaderboard[index][0]}{core.static.bedwars_star}] {leaderboard[index][1]}'))} - {leaderboard[index][2]} wins",
-                        inline = False
-                    )
-                    index += 1
+    async def get_bedwars_overall_finals(self):
+        await self.hypixel.send_leaderboard_request()
+        leaderboard = []
+        index = 0
+        bedwars_overall_finals_leaderboard_embed = discord.Embed(
+            name = "Bedwars overall finals leaderboard"
+        )
+        for player in await self.bedwarsleaderboards.get_finals():
+            await self.hypixel.send_player_request_uuid(player)
+            leaderboard.append([await self.bedwars.get_star(), core.minecraft.hypixel.request.player_json['player']['displayname'], await self.bedwars.get_final_kills()])
+            bedwars_overall_finals_leaderboard_embed.add_field(
+                name = f"#{index + 1}",
+                value = f"{await self.markdown.bold(discord.utils.escape_markdown(f'[{leaderboard[index][0]}{core.static.bedwars_star}] {leaderboard[index][1]}'))} - {leaderboard[index][2]} finals",
+                inline = False
+            )
+            index += 1
+        return bedwars_overall_finals_leaderboard_embed
 
-                await message.edit(embed = overall_wins_leaderboard_embed)
+    async def get_bedwars_weekly_finals(self):
+        await self.hypixel.send_leaderboard_request()
+        leaderboard = []
+        index = 0
+        bedwars_weekly_finals_leaderboard_embed = discord.Embed(
+            name = "Bedwars weekly finals leaderboard"
+        )
+        for player in await self.bedwarsleaderboards.get_weekly_finals():
+            await self.hypixel.send_player_request_uuid(player)
+            leaderboard.append([await self.bedwars.get_star(), core.minecraft.hypixel.request.player_json['player']['displayname']])
+            bedwars_weekly_finals_leaderboard_embed.add_field(
+                name = f"#{index + 1}",
+                value = f"{await self.markdown.bold(discord.utils.escape_markdown(f'[{leaderboard[index][0]}{core.static.bedwars_star}] {leaderboard[index][1]}'))}",
+                inline = False
+            )
+            index += 1
+        return bedwars_weekly_finals_leaderboard_embed
 
-            elif leaderboard_time == "weekly":
-                loading_embed = discord.Embed(
-                    name = "Loading",
-                    description = "Loading weekly Bedwars wins leaderboard..."
-                )
-                message = await ctx.send(embed = loading_embed)
-                weekly_wins_leaderboard_embed = discord.Embed(
-                    name = "Weekly wins leaderboard"
-                )
-                index = 0
-                leaderboard = []
-                await self.hypixel.send_leaderboard_request()
-                for player in await self.bedwarsleaderboards.get_weekly_wins():
-                    await self.hypixel.send_player_request_uuid(player)
-                    leaderboard.append([await self.bedwars.get_star(), core.minecraft.hypixel.request.player_json['player']['displayname']])
-                    weekly_wins_leaderboard_embed.add_field(
-                        name = f"#{index + 1}",
-                        value = f"{await self.markdown.bold(discord.utils.escape_markdown(f'[{leaderboard[index][0]}{core.static.bedwars_star}] {leaderboard[index][1]}'))}",
-                        inline = False
-                    )
-                    index += 1
 
-                await message.edit(embed = weekly_wins_leaderboard_embed)
-        elif (leaderboard_type == "finals" or leaderboard_type == "final"):
-            if leaderboard_time == "overall" or not leaderboard_time:
-                loading_embed = discord.Embed(
-                    name = "Loading",
-                    description = "Loading overall Bedwars final kills leaderboard..."
-                )
-                message = await ctx.send(embed = loading_embed)
-                overall_finals_leaderboard_embed = discord.Embed(
-                    name = "Finals leaderboard"
-                )
-                index = 0
-                leaderboard = []
-                await self.hypixel.send_leaderboard_request()
-                for player in await self.bedwarsleaderboards.get_finals():
-                    await self.hypixel.send_player_request_uuid(player)
-                    leaderboard.append([await self.bedwars.get_star(), core.minecraft.hypixel.request.player_json['player']['displayname'], await self.bedwars.get_final_kills()])
-                    overall_finals_leaderboard_embed.add_field(
-                        name = f"#{index + 1}",
-                        value = f"{await self.markdown.bold(discord.utils.escape_markdown(f'[{leaderboard[index][0]}{core.static.bedwars_star}] {leaderboard[index][1]}'))} - {leaderboard[index][2]} finals",
-                        inline = False
-                    )
-                    index += 1
-
-                await message.edit(embed = overall_finals_leaderboard_embed)
-            elif leaderboard_time == "weekly":
-                loading_embed = discord.Embed(
-                    name = "Loading",
-                    description = "Loading weekly Bedwars final kills leaderboard..."
-                )
-                message = await ctx.send(embed = loading_embed)
-                weekly_finals_leaderboard_embed = discord.Embed(
-                    name = "Weekly finals leaderboard"
-                )
-                index = 0
-                leaderboard = []
-                await self.hypixel.send_leaderboard_request()
-                for player in await self.bedwarsleaderboards.get_weekly_finals():
-                    await self.hypixel.send_player_request_uuid(player)
-                    leaderboard.append([await self.bedwars.get_star(), core.minecraft.hypixel.request.player_json['player']['displayname']])
-                    weekly_finals_leaderboard_embed.add_field(
-                        name = f"#{index + 1}",
-                        value = f"{await self.markdown.bold(discord.utils.escape_markdown(f'[{leaderboard[index][0]}{core.static.bedwars_star}] {leaderboard[index][1]}'))}",
-                        inline = False
-                    )
-                    index += 1
-
-                await message.edit(embed = weekly_finals_leaderboard_embed)
-
-    @bedwars.error
-    async def bedwars_leaderboards_error(self, ctx, error):
+    async def cog_command_error(self, ctx, error):
         if isinstance(error, commands.CommandOnCooldown):
             cooldown = datetime.timedelta(seconds = error.retry_after)
             cooldown_embed = discord.Embed(
