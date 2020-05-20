@@ -40,6 +40,24 @@ prestige_colors = {
 }
 
 class Bedwars():
+    async def get_ratio(self, positive_stat, negative_stat):
+        try:
+            ratio = positive_stat / negative_stat
+            return round(ratio, 2)
+        except ZeroDivisionError:
+            if positive_stat > 0:
+                return float("inf")
+            else:
+                return 0
+
+    async def get_increase_stat(self, positive_stat, negative_stat, increase):
+        # positive_stat is a "good" stat like final_kills
+        # negative_stat is a "bad" stat like final_deaths
+        # increase is the amount the positive_stat to negative_stat ratio needs to increase
+        stat = positive_stat / negative_stat
+        needed = (stat + increase) * negative_stat - positive_stat
+        return round(needed)
+
     async def get_star(self):
         try:
             star = core.minecraft.hypixel.request.player_json['player']['achievements']['bedwars_level'] # what the fuck why is bedwars_level in achievements bruh
@@ -89,6 +107,13 @@ class Bedwars():
         }
         return prestige_data
 
+    async def get_coins(self):
+        try:
+            coins = core.minecraft.hypixel.request.player_json['player']['stats']['Bedwars']['coins_bedwars']
+            return coins
+        except KeyError:
+            return 0
+
     async def get_games_played(self):
         try:
             games_played = core.minecraft.hypixel.request.player_json['player']['stats']['Bedwars']['games_played_bedwars']
@@ -124,22 +149,12 @@ class Bedwars():
         except KeyError:
             return 0
 
-    async def get_coins(self):
+    async def get_four_v_four_games_played(self):
         try:
-            coins = core.minecraft.hypixel.request.player_json['player']['stats']['Bedwars']['coins_bedwars']
-            return coins
+            four_v_four_games_played = core.minecraft.hypixel.request.player_json['player']['stats']['Bedwars']['two_four_games_played_bedwars']
+            return four_v_four_games_played
         except KeyError:
             return 0
-
-    async def get_ratio(self, positive_stat, negative_stat):
-        try:
-            ratio = positive_stat / negative_stat
-            return round(ratio, 2)
-        except ZeroDivisionError:
-            if positive_stat > 0:
-                return float("inf")
-            else:
-                return 0
 
     async def get_final_kills(self):
         try:
@@ -173,6 +188,13 @@ class Bedwars():
         try:
             fours_final_kills = core.minecraft.hypixel.request.player_json['player']['stats']['Bedwars']['four_four_final_kills_bedwars']
             return fours_final_kills
+        except KeyError:
+            return 0
+
+    async def get_four_v_four_final_kills(self):
+        try:
+            four_v_four_final_kills = core.minecraft.hypixel.request.player_json['player']['stats']['Bedwars']['two_four_final_kills_bedwars']
+            return four_v_four_final_kills
         except KeyError:
             return 0
 
@@ -211,13 +233,12 @@ class Bedwars():
         except KeyError:
             return 0
 
-    async def get_increase_stat(self, positive_stat, negative_stat, increase):
-        # positive_stat is a "good" stat like final_kills
-        # negative_stat is a "bad" stat like final_deaths
-        # increase is the amount the positive_stat to negative_stat ratio needs to increase
-        stat = positive_stat / negative_stat
-        needed = (stat + increase) * negative_stat - positive_stat
-        return round(needed)
+    async def get_four_v_four_final_deaths(self):
+        try:
+            four_v_four_final_deaths = core.minecraft.hypixel.request.player_json['player']['stats']['Bedwars']['two_four_final_deaths_bedwars']
+            return four_v_four_final_deaths
+        except KeyError:
+            return 0
 
     async def get_beds_broken(self):
         try:
@@ -251,6 +272,13 @@ class Bedwars():
         try:
             fours_beds_broken = core.minecraft.hypixel.request.player_json['player']['stats']['Bedwars']['four_four_beds_broken_bedwars']
             return fours_beds_broken
+        except KeyError:
+            return 0
+
+    async def get_four_v_four_beds_broken(self):
+        try:
+            four_v_four_beds_broken = core.minecraft.hypixel.request.player_json['player']['stats']['Bedwars']['two_four_beds_broken_bedwars']
+            return four_v_four_beds_broken
         except KeyError:
             return 0
 
@@ -289,6 +317,13 @@ class Bedwars():
         except KeyError:
             return 0
 
+    async def get_four_v_four_beds_lost(self):
+        try:
+            four_v_four_beds_lost = core.minecraft.hypixel.request.player_json['player']['stats']['Bedwars']['two_four_beds_lost_bedwars']
+            return four_v_four_beds_lost
+        except KeyError:
+            return 0
+
     async def get_wins(self):
         try:
             wins = core.minecraft.hypixel.request.player_json['player']['stats']['Bedwars']['wins_bedwars']
@@ -324,6 +359,13 @@ class Bedwars():
         except KeyError:
             return 0
 
+    async def get_four_v_four_wins(self):
+        try:
+            four_v_four_wins = core.minecraft.hypixel.request.player_json['player']['stats']['Bedwars']['two_four_wins_bedwars']
+            return four_v_four_wins
+        except KeyError:
+            return 0
+
     async def get_losses(self):
         try:
             losses = core.minecraft.hypixel.request.player_json['player']['stats']['Bedwars']['losses_bedwars']
@@ -356,5 +398,12 @@ class Bedwars():
         try:
             fours_losses = core.minecraft.hypixel.request.player_json['player']['stats']['Bedwars']['four_four_losses_bedwars']
             return fours_losses
+        except KeyError:
+            return 0
+
+    async def get_four_v_four_losses(self):
+        try:
+            four_v_four_losses = core.minecraft.hypixel.request.player_json['player']['stats']['Bedwars']['two_four_losses_bedwars']
+            return four_v_four_losses
         except KeyError:
             return 0
