@@ -49,6 +49,8 @@ class LeaderboardCommands(commands.Cog):
     async def leaderboards(self, ctx):
         return
 
+# Bedwars
+
     @leaderboards.group(name = "bedwars", aliases = ["bw"], invoke_without_command = True)
     @commands.cooldown(1, 60, commands.BucketType.guild)
     async def bedwars(self, ctx):
@@ -57,70 +59,6 @@ class LeaderboardCommands(commands.Cog):
             description = "Loading Bedwars level leaderboard..."
         )
         message = await ctx.send(embed = loading_embed)
-        await message.edit(embed = await self.get_bedwars_level())
-
-    @bedwars.command(name = "level", aliases = ["levels", "stars"]) # The same thing, just repeated for the sake of all the aliases
-    @commands.cooldown(1, 60, commands.BucketType.guild)
-    async def bedwars_level(self, ctx):
-        loading_embed = discord.Embed(
-            name = "Loading",
-            description = "Loading Bedwars level leaderboard..."
-        )
-        message = await ctx.send(embed = loading_embed)
-        await message.edit(embed = await self.get_bedwars_level())
-
-    @bedwars.group(name = "wins", aliases = ["win"], invoke_without_command = True)
-    @commands.cooldown(1, 60, commands.BucketType.guild)
-    async def bedwars_wins(self, ctx):
-        loading_embed = discord.Embed(
-            name = "Loading",
-            description = "Loading Bedwars overall wins leaderboard..."
-        )
-        message = await ctx.send(embed = loading_embed)
-        await message.edit(embed = await self.get_bedwars_overall_wins())
-
-    @bedwars_wins.command(name = "overall", aliases = ["lifetime"])
-    @commands.cooldown(1, 60, commands.BucketType.guild)
-    async def bedwars_overall_wins(self, ctx):
-        loading_embed = discord.Embed(
-            name = "Loading",
-            description = "Loading Bedwars overall wins leaderboard..."
-        )
-        message = await ctx.send(embed = loading_embed)
-        await message.edit(embed = await self.get_bedwars_overall_wins())
-
-    @bedwars_wins.command(name = "weekly")
-    @commands.cooldown(1, 60, commands.BucketType.guild)
-    async def bedwars_weekly_wins(self, ctx):
-        loading_embed = discord.Embed(
-            name = "Loading",
-            description = "Loading Bedwars weekly wins leaderboard..."
-        )
-        message = await ctx.send(embed = loading_embed)
-        await message.edit(embed = await self.get_bedwars_weekly_wins())
-
-    @bedwars.group(name = "finals", aliases = ["final"], invoke_without_command = True)
-    @commands.cooldown(1, 60, commands.BucketType.guild)
-    async def bedwars_finals(self, ctx):
-        loading_embed = discord.Embed(
-            name = "Loading",
-            description = "Loading Bedwars overall final kills leaderboard..."
-        )
-        message = await ctx.send(embed = loading_embed)
-        await message.edit(embed = await self.get_bedwars_overall_finals())
-
-    @bedwars_finals.command(name = "weekly")
-    @commands.cooldown(1, 60, commands.BucketType.guild)
-    async def bedwars_weekly_finals(self, ctx):
-        loading_embed = discord.Embed(
-            name = "Loading",
-            description = "Loading Bedwars weekly final kills leaderboard..."
-        )
-        message = await ctx.send(embed = loading_embed)
-        await message.edit(embed = await self.get_bedwars_weekly_finals())
-# Backend-ish things
-
-    async def get_bedwars_level(self):
         await self.hypixel.send_leaderboard_request()
         leaderboard = []
         index = 0
@@ -136,9 +74,16 @@ class LeaderboardCommands(commands.Cog):
                 inline = False
             )
             index += 1
-        return bedwars_level_leaderboard_embed
+        await message.edit(embed = bedwars_level_leaderboard_embed)
 
-    async def get_bedwars_overall_wins(self):
+    @bedwars.group(name = "wins", aliases = ["win"], invoke_without_command = True)
+    @commands.cooldown(1, 60, commands.BucketType.guild)
+    async def bedwars_wins(self, ctx):
+        loading_embed = discord.Embed(
+            name = "Loading",
+            description = "Loading Bedwars overall wins leaderboard..."
+        )
+        message = await ctx.send(embed = loading_embed)
         await self.hypixel.send_leaderboard_request()
         leaderboard = []
         index = 0
@@ -154,9 +99,16 @@ class LeaderboardCommands(commands.Cog):
                 inline = False
             )
             index += 1
-        return bedwars_overall_wins_leaderboard_embed
+        await message.edit(embed = bedwars_overall_wins_leaderboard_embed)
 
-    async def get_bedwars_weekly_wins(self):
+    @bedwars_wins.command(name = "weekly")
+    @commands.cooldown(1, 60, commands.BucketType.guild)
+    async def bedwars_weekly_wins(self, ctx):
+        loading_embed = discord.Embed(
+            name = "Loading",
+            description = "Loading Bedwars weekly wins leaderboard..."
+        )
+        message = await ctx.send(embed = loading_embed)
         await self.hypixel.send_leaderboard_request()
         leaderboard = []
         index = 0
@@ -172,9 +124,16 @@ class LeaderboardCommands(commands.Cog):
                 inline = False
             )
             index += 1
-        return bedwars_weekly_wins_leaderboard_embed
+        await message.edit(embed = bedwars_weekly_wins_leaderboard_embed)
 
-    async def get_bedwars_overall_finals(self):
+    @bedwars.group(name = "finals", aliases = ["final"], invoke_without_command = True)
+    @commands.cooldown(1, 60, commands.BucketType.guild)
+    async def bedwars_finals(self, ctx):
+        loading_embed = discord.Embed(
+            name = "Loading",
+            description = "Loading Bedwars overall final kills leaderboard..."
+        )
+        message = await ctx.send(embed = loading_embed)
         await self.hypixel.send_leaderboard_request()
         leaderboard = []
         index = 0
@@ -190,9 +149,16 @@ class LeaderboardCommands(commands.Cog):
                 inline = False
             )
             index += 1
-        return bedwars_overall_finals_leaderboard_embed
+        await message.edit(embed = bedwars_overall_finals_leaderboard_embed)
 
-    async def get_bedwars_weekly_finals(self):
+    @bedwars_finals.command(name = "weekly")
+    @commands.cooldown(1, 60, commands.BucketType.guild)
+    async def bedwars_weekly_finals(self, ctx):
+        loading_embed = discord.Embed(
+            name = "Loading",
+            description = "Loading Bedwars weekly final kills leaderboard..."
+        )
+        message = await ctx.send(embed = loading_embed)
         await self.hypixel.send_leaderboard_request()
         leaderboard = []
         index = 0
@@ -208,8 +174,7 @@ class LeaderboardCommands(commands.Cog):
                 inline = False
             )
             index += 1
-        return bedwars_weekly_finals_leaderboard_embed
-
+        await message.edit(embed = bedwars_weekly_finals_leaderboard_embed)
 
     async def cog_command_error(self, ctx, error):
         if isinstance(error, commands.CommandOnCooldown):

@@ -51,6 +51,9 @@ class CommandError(commands.Cog):
         if isinstance(error, ignored):
             return
 
+        if (str(ctx.command)).starswith("leaderboards"):
+            return
+
         if isinstance(error, commands.MaxConcurrencyReached):
             concurrency_embed = discord.Embed(
                 name = "Cooldown",
@@ -59,7 +62,7 @@ class CommandError(commands.Cog):
             )
             await ctx.send(embed = concurrency_embed)
 
-        if (isinstance(error, commands.CommandOnCooldown)) and not ((str(ctx.command)).startswith("leaderboards")):
+        if isinstance(error, commands.CommandOnCooldown):
             cooldown = datetime.timedelta(seconds = error.retry_after)
             cooldown_embed = discord.Embed(
                 name = "Cooldown",
