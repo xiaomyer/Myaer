@@ -25,8 +25,11 @@ SOFTWARE.
 from discord.ext import commands
 import datetime
 import discord
+import humanfriendly
 from core.discord.markdown import Markdown
 from core.minecraft.request import MojangAPI
+import sys
+import traceback
 from core.minecraft.verification.verification import Verification
 
 class Minecraft(commands.Cog):
@@ -130,7 +133,7 @@ class Minecraft(commands.Cog):
         await message.edit(embed = player_uuid_embed)
 
     @minecraft.command(name = "verify", aliases = ["link"])
-    @commands.max_concurrency(1, per = commands.BucketType.user)
+    @commands.cooldown(1, 60, commands.BucketType.guild)
     async def verify(self, ctx, ign):
         try:
             player_data = await self.mojang.get_profile(ign)
@@ -161,6 +164,7 @@ class Minecraft(commands.Cog):
                 description = f"\"{player_data['name']}\" does not seem to have Hypixel stats."
             )
             await message.edit(embed = nameerror_embed)
+            raise NameError("Invalid input")
             return
         except ValueError:
             already_has_discord_hypixel_embed = discord.Embed(
@@ -171,6 +175,7 @@ class Minecraft(commands.Cog):
                 text = "If this is your Minecraft account, update your Discord name on Hypixel."
             )
             await message.edit(embed = already_has_discord_hypixel_embed)
+            raise ValueError("Already linked on Hypixel")
             return
         except AttributeError:
             no_discord_hypixel_embed = discord.Embed(
@@ -181,6 +186,7 @@ class Minecraft(commands.Cog):
                 text = "Set your Discord name on Hypixel."
             )
             await message.edit(embed = no_discord_hypixel_embed)
+            raise AttributeError("No Discord linked on Hypixel")
             return
 
     @minecraft.command(name = "forceverify", aliases = ["forcelink"])
@@ -211,6 +217,7 @@ class Minecraft(commands.Cog):
         await message.edit(embed = verified_embed)
 
     @minecraft.command(name = "unverify", aliases = ["unlink"])
+    @commands.cooldown(1, 60, commands.BucketType.guild)
     async def unverify(self, ctx):
         try:
             loading_embed = discord.Embed(
@@ -264,6 +271,24 @@ class Minecraft(commands.Cog):
                 text = "... with Myaer."
             )
             await message.edit(embed = not_verified_embed)
+
+    async def cog_command_error(self, ctx, error):
+
+        error = getattr(error, "original", error)
+
+        if (isinstance(error, NameError)) or (isinstance(error, ValueError)) or (isinstance(error, AttributeError)):
+            await ctx.command.reset_cooldown(ctx)
+        if isinstance(error, commands.CommandOnCooldown):
+            cooldown = datetime.timedelta(seconds = error.retry_after)
+            cooldown_embed = discord.Embed(
+                name = "Cooldown",
+                color = ctx.author.color,
+                description = f"Verification commands should not need to be used this often. Try again in {humanfriendly.format_timespan(cooldown)}"
+            )
+            await ctx.send(embed = cooldown_embed)
+
+        print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
+        traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
 
 def setup(bot):
     bot.add_cog(Minecraft(bot))
