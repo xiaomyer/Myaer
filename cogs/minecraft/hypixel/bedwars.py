@@ -141,7 +141,7 @@ class BedwarsStats(commands.Cog):
 
     @bedwars.command(name = "stats") # Safety net in case the player's name is "solo" or "doubles"
     async def bedwars_stats(self, ctx, *args):
-        try:
+        if len(args):
             try:
                 player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
@@ -161,7 +161,7 @@ class BedwarsStats(commands.Cog):
                 )
                 await ctx.send(embed = nameerror_embed)
                 return
-        except IndexError: # If no arguments
+        else: # If no arguments
             try:
                 player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
@@ -237,7 +237,7 @@ class BedwarsStats(commands.Cog):
 
     @bedwars.command(name = "solo", aliases = ["1", "solos"])
     async def solo_bedwars(self, ctx, *args):
-        try:
+        if len(args):
             try:
                 player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
@@ -257,7 +257,7 @@ class BedwarsStats(commands.Cog):
                 )
                 await ctx.send(embed = nameerror_embed)
                 return
-        except IndexError: # If no arguments
+        else: # If no arguments
             try:
                 player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
@@ -328,7 +328,7 @@ class BedwarsStats(commands.Cog):
 
     @bedwars.command(name = "doubles", aliases = ["2", "2s", "double", "twos"])
     async def doubles_bedwars(self, ctx, *args):
-        try:
+        if len(args):
             try:
                 player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
@@ -348,7 +348,7 @@ class BedwarsStats(commands.Cog):
                 )
                 await ctx.send(embed = nameerror_embed)
                 return
-        except IndexError: # If no arguments
+        else: # If no arguments
             try:
                 player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
@@ -419,7 +419,7 @@ class BedwarsStats(commands.Cog):
 
     @bedwars.command(name = "threes", aliases = ["3", "3s", "triple", "three"])
     async def threes_bedwars(self, ctx, *args):
-        try:
+        if len(args):
             try:
                 player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
@@ -439,7 +439,7 @@ class BedwarsStats(commands.Cog):
                 )
                 await ctx.send(embed = nameerror_embed)
                 return
-        except IndexError: # If no arguments
+        else: # If no arguments
             try:
                 player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
@@ -510,7 +510,7 @@ class BedwarsStats(commands.Cog):
 
     @bedwars.command(name = "fours", aliases = ["4", "4s", "four"])
     async def fours_bedwars(self, ctx, *args):
-        try:
+        if len(args):
             try:
                 player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
@@ -530,7 +530,7 @@ class BedwarsStats(commands.Cog):
                 )
                 await ctx.send(embed = nameerror_embed)
                 return
-        except IndexError: # If no arguments
+        else: # If no arguments
             try:
                 player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
@@ -601,7 +601,7 @@ class BedwarsStats(commands.Cog):
 
     @bedwars.command(name = "4v4")
     async def four_v_four_bedwars(self, ctx, *args):
-        try:
+        if len(args):
             try:
                 player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
@@ -621,7 +621,7 @@ class BedwarsStats(commands.Cog):
                 )
                 await ctx.send(embed = nameerror_embed)
                 return
-        except IndexError: # If no arguments
+        else: # If no arguments
             try:
                 player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
@@ -693,7 +693,7 @@ class BedwarsStats(commands.Cog):
     @bedwars.group(name = "fkdr", invoke_without_command = True)
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def fkdr(self, ctx, *args):
-        try:
+        if len(args):
             try:
                 player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
@@ -713,7 +713,7 @@ class BedwarsStats(commands.Cog):
                 )
                 await ctx.send(embed = nameerror_embed)
                 return
-        except IndexError: # If no arguments
+        else: # If no arguments
             try:
                 player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
@@ -773,7 +773,7 @@ class BedwarsStats(commands.Cog):
     @fkdr.command(name = "solo", aliases = ["1", "solos"])
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def solo_fkdr(self, ctx, *args):
-        try:
+        if len(args):
             try:
                 player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
@@ -793,7 +793,7 @@ class BedwarsStats(commands.Cog):
                 )
                 await ctx.send(embed = nameerror_embed)
                 return
-        except IndexError: # If no arguments
+        else: # If no arguments
             try:
                 player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
@@ -853,7 +853,7 @@ class BedwarsStats(commands.Cog):
     @fkdr.command(name = "doubles", aliases = ["2", "2s", "double"])
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def doubles_fkdr(self, ctx, *args):
-        try:
+        if len(args):
             try:
                 player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
@@ -873,7 +873,7 @@ class BedwarsStats(commands.Cog):
                 )
                 await ctx.send(embed = nameerror_embed)
                 return
-        except IndexError: # If no arguments
+        else: # If no arguments
             try:
                 player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
@@ -933,7 +933,7 @@ class BedwarsStats(commands.Cog):
     @fkdr.command(name = "threes", aliases = ["3", "3s", "triple", "three"])
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def threes_fkdr(self, ctx, *args):
-        try:
+        if len(args):
             try:
                 player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
@@ -953,7 +953,7 @@ class BedwarsStats(commands.Cog):
                 )
                 await ctx.send(embed = nameerror_embed)
                 return
-        except IndexError: # If no arguments
+        else: # If no arguments
             try:
                 player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
@@ -1013,7 +1013,7 @@ class BedwarsStats(commands.Cog):
     @fkdr.command(name = "fours", aliases = ["4", "4s", "four"])
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def fours_fkdr(self, ctx, *args):
-        try:
+        if len(args):
             try:
                 player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
@@ -1033,7 +1033,7 @@ class BedwarsStats(commands.Cog):
                 )
                 await ctx.send(embed = nameerror_embed)
                 return
-        except IndexError: # If no arguments
+        else: # If no arguments
             try:
                 player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
@@ -1093,7 +1093,7 @@ class BedwarsStats(commands.Cog):
     @fkdr.command(name = "4v4")
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def four_v_four_fkdr(self, ctx, *args):
-        try:
+        if len(args):
             try:
                 player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
@@ -1113,7 +1113,7 @@ class BedwarsStats(commands.Cog):
                 )
                 await ctx.send(embed = nameerror_embed)
                 return
-        except IndexError: # If no arguments
+        else: # If no arguments
             try:
                 player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
@@ -1173,7 +1173,7 @@ class BedwarsStats(commands.Cog):
     @bedwars.group(name = "bblr", invoke_without_command = True)
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def bblr(self, ctx, *args):
-        try:
+        if len(args):
             try:
                 player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
@@ -1193,7 +1193,7 @@ class BedwarsStats(commands.Cog):
                 )
                 await ctx.send(embed = nameerror_embed)
                 return
-        except IndexError: # If no arguments
+        else: # If no arguments
             try:
                 player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
@@ -1253,7 +1253,7 @@ class BedwarsStats(commands.Cog):
     @bblr.command(name = "solo", aliases = ["1", "solos"])
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def solo_bblr(self, ctx, *args):
-        try:
+        if len(args):
             try:
                 player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
@@ -1273,7 +1273,7 @@ class BedwarsStats(commands.Cog):
                 )
                 await ctx.send(embed = nameerror_embed)
                 return
-        except IndexError: # If no arguments
+        else: # If no arguments
             try:
                 player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
@@ -1333,7 +1333,7 @@ class BedwarsStats(commands.Cog):
     @bblr.command(name = "doubles", aliases = ["2", "2s", "double", "twos"])
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def doubles_bblr(self, ctx, *args):
-        try:
+        if len(args):
             try:
                 player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
@@ -1353,7 +1353,7 @@ class BedwarsStats(commands.Cog):
                 )
                 await ctx.send(embed = nameerror_embed)
                 return
-        except IndexError: # If no arguments
+        else: # If no arguments
             try:
                 player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
@@ -1413,7 +1413,7 @@ class BedwarsStats(commands.Cog):
     @bblr.command(name = "threes", aliases = ["3", "3s", "triple", "three"])
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def threes_bblr(self, ctx, *args):
-        try:
+        if len(args):
             try:
                 player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
@@ -1433,7 +1433,7 @@ class BedwarsStats(commands.Cog):
                 )
                 await ctx.send(embed = nameerror_embed)
                 return
-        except IndexError: # If no arguments
+        else: # If no arguments
             try:
                 player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
@@ -1493,7 +1493,7 @@ class BedwarsStats(commands.Cog):
     @bblr.command(name = "fours", aliases = ["4", "4s", "four"])
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def fours_bblr(self, ctx, *args):
-        try:
+        if len(args):
             try:
                 player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
@@ -1513,7 +1513,7 @@ class BedwarsStats(commands.Cog):
                 )
                 await ctx.send(embed = nameerror_embed)
                 return
-        except IndexError: # If no arguments
+        else: # If no arguments
             try:
                 player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
@@ -1573,7 +1573,7 @@ class BedwarsStats(commands.Cog):
     @bblr.command(name = "4v4")
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def four_v_four_bblr(self, ctx, *args):
-        try:
+        if len(args):
             try:
                 player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
@@ -1593,7 +1593,7 @@ class BedwarsStats(commands.Cog):
                 )
                 await ctx.send(embed = nameerror_embed)
                 return
-        except IndexError: # If no arguments
+        else: # If no arguments
             try:
                 player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
@@ -1653,7 +1653,7 @@ class BedwarsStats(commands.Cog):
     @bedwars.group(name = "wlr", invoke_without_command = True)
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def wlr(self, ctx, *args):
-        try:
+        if len(args):
             try:
                 player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
@@ -1673,7 +1673,7 @@ class BedwarsStats(commands.Cog):
                 )
                 await ctx.send(embed = nameerror_embed)
                 return
-        except IndexError: # If no arguments
+        else: # If no arguments
             try:
                 player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
@@ -1733,7 +1733,7 @@ class BedwarsStats(commands.Cog):
     @wlr.command(name = "solo", aliases = ["1", "solos"])
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def solo_wlr(self, ctx, *args):
-        try:
+        if len(args):
             try:
                 player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
@@ -1753,7 +1753,7 @@ class BedwarsStats(commands.Cog):
                 )
                 await ctx.send(embed = nameerror_embed)
                 return
-        except IndexError: # If no arguments
+        else: # If no arguments
             try:
                 player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
@@ -1813,7 +1813,7 @@ class BedwarsStats(commands.Cog):
     @wlr.command(name = "doubles", aliases = ["2", "2s", "double", "twos"])
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def doubles_wlr(self, ctx, *args):
-        try:
+        if len(args):
             try:
                 player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
@@ -1833,7 +1833,7 @@ class BedwarsStats(commands.Cog):
                 )
                 await ctx.send(embed = nameerror_embed)
                 return
-        except IndexError: # If no arguments
+        else: # If no arguments
             try:
                 player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
@@ -1893,7 +1893,7 @@ class BedwarsStats(commands.Cog):
     @wlr.command(name = "threes", aliases = ["3", "3s", "triple", "three"])
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def threes_wlr(self, ctx, *args):
-        try:
+        if len(args):
             try:
                 player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
@@ -1913,7 +1913,7 @@ class BedwarsStats(commands.Cog):
                 )
                 await ctx.send(embed = nameerror_embed)
                 return
-        except IndexError: # If no arguments
+        else: # If no arguments
             try:
                 player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
@@ -1973,7 +1973,7 @@ class BedwarsStats(commands.Cog):
     @wlr.command(name = "fours", aliases = ["4", "4s", "four"])
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def fours_wlr(self, ctx, *args):
-        try:
+        if len(args):
             try:
                 player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
@@ -1993,7 +1993,7 @@ class BedwarsStats(commands.Cog):
                 )
                 await ctx.send(embed = nameerror_embed)
                 return
-        except IndexError: # If no arguments
+        else: # If no arguments
             try:
                 player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
@@ -2053,7 +2053,7 @@ class BedwarsStats(commands.Cog):
     @wlr.command(name = "4v4")
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def four_v_four_wlr(self, ctx, *args):
-        try:
+        if len(args):
             try:
                 player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
@@ -2073,7 +2073,7 @@ class BedwarsStats(commands.Cog):
                 )
                 await ctx.send(embed = nameerror_embed)
                 return
-        except IndexError: # If no arguments
+        else: # If no arguments
             try:
                 player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
