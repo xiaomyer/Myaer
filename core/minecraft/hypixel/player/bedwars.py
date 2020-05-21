@@ -73,7 +73,7 @@ class Bedwars():
 
     async def get_prestige_data(self):
         star = await self.get_star()
-        if star in range(1, 100):
+        if star in range(0, 100):
             prestige = 'Stone'
             prestige_color = prestige_colors['Stone']
         elif star in range(100, 200):

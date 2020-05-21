@@ -45,7 +45,7 @@ class BedwarsStats(commands.Cog):
     @commands.group(name = "bw", invoke_without_command = True)
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def bedwars(self, ctx, *args):
-        try:
+        if len(args):
             try:
                 player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
@@ -65,7 +65,7 @@ class BedwarsStats(commands.Cog):
                 )
                 await ctx.send(embed = nameerror_embed)
                 return
-        except IndexError: # If no arguments
+        else: # If no arguments
             try:
                 player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
