@@ -38,50 +38,58 @@ class SkywarsStats(commands.Cog):
         self.markdown = Markdown()
         self.mojang = MojangAPI()
         self.skywars = Skywars()
+        self.user_converter = commands.UserConverter()
         self.verification = Verification()
 
     @commands.group(name = "sw", invoke_without_command = True)
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def skywars(self, ctx, *args):
         try:
-            player = args[0]
-            player_formatted_name = (await self.mojang.get_profile(player))['name']
-            player_uuid = (await self.mojang.get_profile(player))['uuid']
+            try:
+                player_data = await self.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
         except IndexError: # If no arguments
             try:
-                db_data = await self.verification.find_uuid(ctx.author.id)
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            except IndexError:
+                player_data = await self.database_lookup(ctx.author.id)
+            except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
                     description = "You have to verify with `/mc verify <minecraft-ign>` first."
                 )
                 await ctx.send(embed = unverified_embed)
                 return
-        except NameError:
-            nameerror_embed = discord.Embed(
-                name = "Invalid input",
-                description = f"\"{player}\" is not a valid username or UUID."
-            )
-            await ctx.send(embed = nameerror_embed)
-            return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_formatted_name}\'s Skywars stats..."
+            description = f"Loading {player_data['player_formatted_name']}\'s Skywars stats..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_uuid) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
-                description = f"\"{player_formatted_name}\" does not seem to have Hypixel stats."
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
             )
             await ctx.send(embed = nameerror_embed)
             return
         player_stats_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_formatted_name)}\'s Skywars Stats")),
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s Skywars Stats")),
             color = int((await self.skywars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
         )
         player_stats_embed.set_thumbnail(
@@ -129,6 +137,41 @@ class SkywarsStats(commands.Cog):
             value = f"{(await self.skywars.get_ratio((await self.skywars.get_wins()), (await self.skywars.get_losses())))}"
         )
         await message.edit(embed = player_stats_embed)
+
+    async def parse_input(self, ctx, input):
+        try:
+            player_discord = await self.user_converter.convert(ctx, input)
+            try:
+                if player_discord.mentioned_in(ctx.message) or isinstance(int(input), int):
+                    db_data = (await self.verification.find_uuid(player_discord.id))
+                    player_data = {
+                        "player_formatted_name" : (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name'],
+                        "minecraft_uuid" : db_data[0]['minecraft_uuid']
+                    }
+                    return player_data
+            except IndexError:
+                raise AttributeError("Member mentioned not verified")
+                return
+        except discord.ext.commands.errors.BadArgument:
+            try:
+                player_data = {
+                    "player_formatted_name" : (await self.mojang.get_profile(input))['name'],
+                    "minecraft_uuid" : (await self.mojang.get_profile(input))['uuid']
+                }
+                return player_data
+            except NameError:
+                raise NameError
+
+    async def database_lookup(self, discord_id):
+        try:
+            db_data = await self.verification.find_uuid(discord_id)
+            player_data = {
+                "player_formatted_name" : (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name'],
+                "minecraft_uuid" : db_data[0]['minecraft_uuid']
+            }
+            return player_data
+        except IndexError:
+            raise AttributeError("Not found in database")
 
 def setup(bot):
     bot.add_cog(SkywarsStats(bot))
