@@ -47,56 +47,50 @@ class BedwarsStats(commands.Cog):
     async def bedwars(self, ctx, *args):
         try:
             try:
-                player_discord = await self.user_converter.convert(ctx, args[0])
-                if player_discord.mentioned_in(ctx.message):
-                    pass
-                else:
-                    player_discord = None
-            except discord.ext.commands.errors.BadArgument:
-                player_discord = None
-            if player_discord:
-                db_data = (await self.verification.find_uuid(player_discord.id))
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            else:
-                player = args[0]
-                player_formatted_name = (await self.mojang.get_profile(player))['name']
-                player_uuid = (await self.mojang.get_profile(player))['uuid']
+                player_data = await self.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
         except IndexError: # If no arguments
             try:
-                db_data = await self.verification.find_uuid(ctx.author.id)
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            except IndexError:
+                player_data = await self.database_lookup(ctx.author.id)
+            except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
                     description = "You have to verify with `/mc verify <minecraft-ign>` first."
                 )
                 await ctx.send(embed = unverified_embed)
                 return
-        except NameError:
-            nameerror_embed = discord.Embed(
-                name = "Invalid input",
-                description = f"\"{player}\" is not a valid username or UUID."
-            )
-            await ctx.send(embed = nameerror_embed)
-            return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_formatted_name}\'s Bedwars stats..."
+            description = f"Loading {player_data['player_formatted_name']}\'s Bedwars stats..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_uuid) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
-                description = f"\"{player_formatted_name}\" does not seem to have Hypixel stats."
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
             )
             await message.edit(embed = nameerror_embed)
             return
         player_stats_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_formatted_name)}\'s Bedwars Stats")),
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s Bedwars Stats")),
             color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
         )
         player_stats_embed.set_thumbnail(
@@ -149,56 +143,50 @@ class BedwarsStats(commands.Cog):
     async def bedwars_stats(self, ctx, *args):
         try:
             try:
-                player_discord = await self.user_converter.convert(ctx, args[0])
-                if player_discord.mentioned_in(ctx.message):
-                    pass
-                else:
-                    player_discord = None
-            except discord.ext.commands.errors.BadArgument:
-                player_discord = None
-            if player_discord:
-                db_data = (await self.verification.find_uuid(player_discord.id))
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            else:
-                player = args[0]
-                player_formatted_name = (await self.mojang.get_profile(player))['name']
-                player_uuid = (await self.mojang.get_profile(player))['uuid']
+                player_data = await self.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
         except IndexError: # If no arguments
             try:
-                db_data = await self.verification.find_uuid(ctx.author.id)
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            except IndexError:
+                player_data = await self.database_lookup(ctx.author.id)
+            except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
                     description = "You have to verify with `/mc verify <minecraft-ign>` first."
                 )
                 await ctx.send(embed = unverified_embed)
                 return
-        except NameError:
-            nameerror_embed = discord.Embed(
-                name = "Invalid input",
-                description = f"\"{player}\" is not a valid username or UUID."
-            )
-            await ctx.send(embed = nameerror_embed)
-            return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_formatted_name}\'s Bedwars stats..."
+            description = f"Loading {player_data['player_formatted_name']}\'s Bedwars stats..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_uuid) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
-                description = f"\"{player_formatted_name}\" does not seem to have Hypixel stats."
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
             )
             await message.edit(embed = nameerror_embed)
             return
         player_stats_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_formatted_name)}\'s Bedwars Stats")),
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s Bedwars Stats")),
             color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
         )
         player_stats_embed.set_thumbnail(
@@ -251,56 +239,50 @@ class BedwarsStats(commands.Cog):
     async def solo_bedwars(self, ctx, *args):
         try:
             try:
-                player_discord = await self.user_converter.convert(ctx, args[0])
-                if player_discord.mentioned_in(ctx.message):
-                    pass
-                else:
-                    player_discord = None
-            except discord.ext.commands.errors.BadArgument:
-                player_discord = None
-            if player_discord:
-                db_data = (await self.verification.find_uuid(player_discord.id))
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            else:
-                player = args[0]
-                player_formatted_name = (await self.mojang.get_profile(player))['name']
-                player_uuid = (await self.mojang.get_profile(player))['uuid']
+                player_data = await self.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
         except IndexError: # If no arguments
             try:
-                db_data = await self.verification.find_uuid(ctx.author.id)
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            except IndexError:
+                player_data = await self.database_lookup(ctx.author.id)
+            except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
                     description = "You have to verify with `/mc verify <minecraft-ign>` first."
                 )
                 await ctx.send(embed = unverified_embed)
                 return
-        except NameError:
-            nameerror_embed = discord.Embed(
-                name = "Invalid input",
-                description = f"\"{player}\" is not a valid username or UUID."
-            )
-            await ctx.send(embed = nameerror_embed)
-            return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_formatted_name}\'s Solo Bedwars stats..."
+            description = f"Loading {player_data['player_formatted_name']}\'s Solo Bedwars stats..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_uuid) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
-                description = f"\"{player_formatted_name}\" does not seem to have Hypixel stats."
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
             )
             await message.edit(embed = nameerror_embed)
             return
         player_solo_stats_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_formatted_name)}\'s Solo Bedwars Stats")),
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s Solo Bedwars Stats")),
             color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
         )
         player_solo_stats_embed.set_thumbnail(
@@ -348,56 +330,50 @@ class BedwarsStats(commands.Cog):
     async def doubles_bedwars(self, ctx, *args):
         try:
             try:
-                player_discord = await self.user_converter.convert(ctx, args[0])
-                if player_discord.mentioned_in(ctx.message):
-                    pass
-                else:
-                    player_discord = None
-            except discord.ext.commands.errors.BadArgument:
-                player_discord = None
-            if player_discord:
-                db_data = (await self.verification.find_uuid(player_discord.id))
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            else:
-                player = args[0]
-                player_formatted_name = (await self.mojang.get_profile(player))['name']
-                player_uuid = (await self.mojang.get_profile(player))['uuid']
+                player_data = await self.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
         except IndexError: # If no arguments
             try:
-                db_data = await self.verification.find_uuid(ctx.author.id)
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            except IndexError:
+                player_data = await self.database_lookup(ctx.author.id)
+            except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
                     description = "You have to verify with `/mc verify <minecraft-ign>` first."
                 )
                 await ctx.send(embed = unverified_embed)
                 return
-        except NameError:
-            nameerror_embed = discord.Embed(
-                name = "Invalid input",
-                description = f"\"{player}\" is not a valid username or UUID."
-            )
-            await ctx.send(embed = nameerror_embed)
-            return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_formatted_name}\'s Doubles Bedwars stats..."
+            description = f"Loading {player_data['player_formatted_name']}\'s Doubles Bedwars stats..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_uuid) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
-                description = f"\"{player_formatted_name}\" does not seem to have Hypixel stats."
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
             )
             await message.send(embed = nameerror_embed)
             return
         player_doubles_stats_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_formatted_name)}\'s Doubles Bedwars Stats")),
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s Doubles Bedwars Stats")),
             color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
         )
         player_doubles_stats_embed.set_thumbnail(
@@ -445,56 +421,50 @@ class BedwarsStats(commands.Cog):
     async def threes_bedwars(self, ctx, *args):
         try:
             try:
-                player_discord = await self.user_converter.convert(ctx, args[0])
-                if player_discord.mentioned_in(ctx.message):
-                    pass
-                else:
-                    player_discord = None
-            except discord.ext.commands.errors.BadArgument:
-                player_discord = None
-            if player_discord:
-                db_data = (await self.verification.find_uuid(player_discord.id))
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            else:
-                player = args[0]
-                player_formatted_name = (await self.mojang.get_profile(player))['name']
-                player_uuid = (await self.mojang.get_profile(player))['uuid']
+                player_data = await self.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
         except IndexError: # If no arguments
             try:
-                db_data = await self.verification.find_uuid(ctx.author.id)
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            except IndexError:
+                player_data = await self.database_lookup(ctx.author.id)
+            except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
                     description = "You have to verify with `/mc verify <minecraft-ign>` first."
                 )
                 await ctx.send(embed = unverified_embed)
                 return
-        except NameError:
-            nameerror_embed = discord.Embed(
-                name = "Invalid input",
-                description = f"\"{player}\" is not a valid username or UUID."
-            )
-            await ctx.send(embed = nameerror_embed)
-            return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_formatted_name}\'s Threes Bedwars stats..."
+            description = f"Loading {player_data['player_formatted_name']}\'s Threes Bedwars stats..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_uuid) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
-                description = f"\"{player_formatted_name}\" does not seem to have Hypixel stats."
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
             )
             await message.edit(embed = nameerror_embed)
             return
         player_threes_stats_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_formatted_name)}\'s Threes Bedwars Stats")),
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s Threes Bedwars Stats")),
             color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
         )
         player_threes_stats_embed.set_thumbnail(
@@ -542,56 +512,50 @@ class BedwarsStats(commands.Cog):
     async def fours_bedwars(self, ctx, *args):
         try:
             try:
-                player_discord = await self.user_converter.convert(ctx, args[0])
-                if player_discord.mentioned_in(ctx.message):
-                    pass
-                else:
-                    player_discord = None
-            except discord.ext.commands.errors.BadArgument:
-                player_discord = None
-            if player_discord:
-                db_data = (await self.verification.find_uuid(player_discord.id))
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            else:
-                player = args[0]
-                player_formatted_name = (await self.mojang.get_profile(player))['name']
-                player_uuid = (await self.mojang.get_profile(player))['uuid']
+                player_data = await self.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
         except IndexError: # If no arguments
             try:
-                db_data = await self.verification.find_uuid(ctx.author.id)
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            except IndexError:
+                player_data = await self.database_lookup(ctx.author.id)
+            except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
                     description = "You have to verify with `/mc verify <minecraft-ign>` first."
                 )
                 await ctx.send(embed = unverified_embed)
                 return
-        except NameError:
-            nameerror_embed = discord.Embed(
-                name = "Invalid input",
-                description = f"\"{player}\" is not a valid username or UUID."
-            )
-            await ctx.send(embed = nameerror_embed)
-            return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_formatted_name}\'s Fours Bedwars stats..."
+            description = f"Loading {player_data['player_formatted_name']}\'s Fours Bedwars stats..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_uuid) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
-                description = f"\"{player_formatted_name}\" does not seem to have Hypixel stats."
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
             )
             await message.edit(embed = nameerror_embed)
             return
         player_fours_stats_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_formatted_name)}\'s Fours Bedwars Stats")),
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s Fours Bedwars Stats")),
             color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
         )
         player_fours_stats_embed.set_thumbnail(
@@ -639,56 +603,50 @@ class BedwarsStats(commands.Cog):
     async def four_v_four_bedwars(self, ctx, *args):
         try:
             try:
-                player_discord = await self.user_converter.convert(ctx, args[0])
-                if player_discord.mentioned_in(ctx.message):
-                    pass
-                else:
-                    player_discord = None
-            except discord.ext.commands.errors.BadArgument:
-                player_discord = None
-            if player_discord:
-                db_data = (await self.verification.find_uuid(player_discord.id))
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            else:
-                player = args[0]
-                player_formatted_name = (await self.mojang.get_profile(player))['name']
-                player_uuid = (await self.mojang.get_profile(player))['uuid']
+                player_data = await self.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
         except IndexError: # If no arguments
             try:
-                db_data = await self.verification.find_uuid(ctx.author.id)
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            except IndexError:
+                player_data = await self.database_lookup(ctx.author.id)
+            except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
                     description = "You have to verify with `/mc verify <minecraft-ign>` first."
                 )
                 await ctx.send(embed = unverified_embed)
                 return
-        except NameError:
-            nameerror_embed = discord.Embed(
-                name = "Invalid input",
-                description = f"\"{player}\" is not a valid username or UUID."
-            )
-            await ctx.send(embed = nameerror_embed)
-            return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_formatted_name}\'s 4v4 Bedwars stats..."
+            description = f"Loading {player_data['player_formatted_name']}\'s 4v4 Bedwars stats..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_uuid) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
-                description = f"\"{player_formatted_name}\" does not seem to have Hypixel stats."
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
             )
             await message.edit(embed = nameerror_embed)
             return
         player_four_v_four_stats_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_formatted_name)}\'s 4v4 Bedwars Stats")),
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s 4v4 Bedwars Stats")),
             color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
         )
         player_four_v_four_stats_embed.set_thumbnail(
@@ -737,56 +695,50 @@ class BedwarsStats(commands.Cog):
     async def fkdr(self, ctx, *args):
         try:
             try:
-                player_discord = await self.user_converter.convert(ctx, args[0])
-                if player_discord.mentioned_in(ctx.message):
-                    pass
-                else:
-                    player_discord = None
-            except discord.ext.commands.errors.BadArgument:
-                player_discord = None
-            if player_discord:
-                db_data = (await self.verification.find_uuid(player_discord.id))
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            else:
-                player = args[0]
-                player_formatted_name = (await self.mojang.get_profile(player))['name']
-                player_uuid = (await self.mojang.get_profile(player))['uuid']
+                player_data = await self.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
         except IndexError: # If no arguments
             try:
-                db_data = await self.verification.find_uuid(ctx.author.id)
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            except IndexError:
+                player_data = await self.database_lookup(ctx.author.id)
+            except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
                     description = "You have to verify with `/mc verify <minecraft-ign>` first."
                 )
                 await ctx.send(embed = unverified_embed)
                 return
-        except NameError:
-            nameerror_embed = discord.Embed(
-                name = "Invalid input",
-                description = f"\"{player}\" is not a valid username or UUID."
-            )
-            await ctx.send(embed = nameerror_embed)
-            return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_formatted_name}\'s FKDR data..."
+            description = f"Loading {player_data['player_formatted_name']}\'s FKDR data..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_uuid) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
-                description = f"\"{player_formatted_name}\" does not seem to have Hypixel stats."
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
             )
             await message.edit(embed = nameerror_embed)
             return
         player_fkdr_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_formatted_name)}\'s FKDR")),
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s FKDR")),
             color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
         )
         player_fkdr_embed.set_thumbnail(
@@ -823,56 +775,50 @@ class BedwarsStats(commands.Cog):
     async def solo_fkdr(self, ctx, *args):
         try:
             try:
-                player_discord = await self.user_converter.convert(ctx, args[0])
-                if player_discord.mentioned_in(ctx.message):
-                    pass
-                else:
-                    player_discord = None
-            except discord.ext.commands.errors.BadArgument:
-                player_discord = None
-            if player_discord:
-                db_data = (await self.verification.find_uuid(player_discord.id))
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            else:
-                player = args[0]
-                player_formatted_name = (await self.mojang.get_profile(player))['name']
-                player_uuid = (await self.mojang.get_profile(player))['uuid']
+                player_data = await self.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
         except IndexError: # If no arguments
             try:
-                db_data = await self.verification.find_uuid(ctx.author.id)
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            except IndexError:
+                player_data = await self.database_lookup(ctx.author.id)
+            except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
                     description = "You have to verify with `/mc verify <minecraft-ign>` first."
                 )
                 await ctx.send(embed = unverified_embed)
                 return
-        except NameError:
-            nameerror_embed = discord.Embed(
-                name = "Invalid input",
-                description = f"\"{player}\" is not a valid username or UUID."
-            )
-            await ctx.send(embed = nameerror_embed)
-            return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_formatted_name}\'s solo FKDR data..."
+            description = f"Loading {player_data['player_formatted_name']}\'s solo FKDR data..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_uuid) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
-                description = f"\"{player_formatted_name}\" does not seem to have Hypixel stats."
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
             )
             await message.edit(embed = nameerror_embed)
             return
         player_solo_fkdr_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_formatted_name)}\'s Solo FKDR")),
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s Solo FKDR")),
             color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
         )
         player_solo_fkdr_embed.set_thumbnail(
@@ -909,56 +855,50 @@ class BedwarsStats(commands.Cog):
     async def doubles_fkdr(self, ctx, *args):
         try:
             try:
-                player_discord = await self.user_converter.convert(ctx, args[0])
-                if player_discord.mentioned_in(ctx.message):
-                    pass
-                else:
-                    player_discord = None
-            except discord.ext.commands.errors.BadArgument:
-                player_discord = None
-            if player_discord:
-                db_data = (await self.verification.find_uuid(player_discord.id))
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            else:
-                player = args[0]
-                player_formatted_name = (await self.mojang.get_profile(player))['name']
-                player_uuid = (await self.mojang.get_profile(player))['uuid']
+                player_data = await self.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
         except IndexError: # If no arguments
             try:
-                db_data = await self.verification.find_uuid(ctx.author.id)
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            except IndexError:
+                player_data = await self.database_lookup(ctx.author.id)
+            except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
                     description = "You have to verify with `/mc verify <minecraft-ign>` first."
                 )
                 await ctx.send(embed = unverified_embed)
                 return
-        except NameError:
-            nameerror_embed = discord.Embed(
-                name = "Invalid input",
-                description = f"\"{player}\" is not a valid username or UUID."
-            )
-            await ctx.send(embed = nameerror_embed)
-            return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_formatted_name}\'s doubles FKDR data..."
+            description = f"Loading {player_data['player_formatted_name']}\'s doubles FKDR data..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_uuid) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
-                description = f"\"{player_formatted_name}\" does not seem to have Hypixel stats."
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
             )
             await message.edit(embed = nameerror_embed)
             return
         player_doubles_fkdr_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_formatted_name)}\'s Doubles FKDR")),
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s Doubles FKDR")),
             color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
         )
         player_doubles_fkdr_embed.set_thumbnail(
@@ -995,56 +935,50 @@ class BedwarsStats(commands.Cog):
     async def threes_fkdr(self, ctx, *args):
         try:
             try:
-                player_discord = await self.user_converter.convert(ctx, args[0])
-                if player_discord.mentioned_in(ctx.message):
-                    pass
-                else:
-                    player_discord = None
-            except discord.ext.commands.errors.BadArgument:
-                player_discord = None
-            if player_discord:
-                db_data = (await self.verification.find_uuid(player_discord.id))
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            else:
-                player = args[0]
-                player_formatted_name = (await self.mojang.get_profile(player))['name']
-                player_uuid = (await self.mojang.get_profile(player))['uuid']
+                player_data = await self.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
         except IndexError: # If no arguments
             try:
-                db_data = await self.verification.find_uuid(ctx.author.id)
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            except IndexError:
+                player_data = await self.database_lookup(ctx.author.id)
+            except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
                     description = "You have to verify with `/mc verify <minecraft-ign>` first."
                 )
                 await ctx.send(embed = unverified_embed)
                 return
-        except NameError:
-            nameerror_embed = discord.Embed(
-                name = "Invalid input",
-                description = f"\"{player}\" is not a valid username or UUID."
-            )
-            await ctx.send(embed = nameerror_embed)
-            return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_formatted_name}\'s threes FKDR data..."
+            description = f"Loading {player_data['player_formatted_name']}\'s threes FKDR data..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_uuid) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
-                description = f"\"{player_formatted_name}\" does not seem to have Hypixel stats."
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
             )
             await message.edit(embed = nameerror_embed)
             return
         player_threes_fkdr_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_formatted_name)}\'s Threes FKDR")),
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s Threes FKDR")),
             color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
         )
         player_threes_fkdr_embed.set_thumbnail(
@@ -1081,56 +1015,50 @@ class BedwarsStats(commands.Cog):
     async def fours_fkdr(self, ctx, *args):
         try:
             try:
-                player_discord = await self.user_converter.convert(ctx, args[0])
-                if player_discord.mentioned_in(ctx.message):
-                    pass
-                else:
-                    player_discord = None
-            except discord.ext.commands.errors.BadArgument:
-                player_discord = None
-            if player_discord:
-                db_data = (await self.verification.find_uuid(player_discord.id))
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            else:
-                player = args[0]
-                player_formatted_name = (await self.mojang.get_profile(player))['name']
-                player_uuid = (await self.mojang.get_profile(player))['uuid']
+                player_data = await self.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
         except IndexError: # If no arguments
             try:
-                db_data = await self.verification.find_uuid(ctx.author.id)
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            except IndexError:
+                player_data = await self.database_lookup(ctx.author.id)
+            except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
                     description = "You have to verify with `/mc verify <minecraft-ign>` first."
                 )
                 await ctx.send(embed = unverified_embed)
                 return
-        except NameError:
-            nameerror_embed = discord.Embed(
-                name = "Invalid input",
-                description = f"\"{player}\" is not a valid username or UUID."
-            )
-            await ctx.send(embed = nameerror_embed)
-            return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_formatted_name}\'s fours FKDR data..."
+            description = f"Loading {player_data['player_formatted_name']}\'s fours FKDR data..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_uuid) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
-                description = f"\"{player_formatted_name}\" does not seem to have Hypixel stats."
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
             )
             await message.edit(embed = nameerror_embed)
             return
         player_fours_fkdr_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_formatted_name)}\'s Fours FKDR")),
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s Fours FKDR")),
             color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
         )
         player_fours_fkdr_embed.set_thumbnail(
@@ -1167,56 +1095,50 @@ class BedwarsStats(commands.Cog):
     async def four_v_four_fkdr(self, ctx, *args):
         try:
             try:
-                player_discord = await self.user_converter.convert(ctx, args[0])
-                if player_discord.mentioned_in(ctx.message):
-                    pass
-                else:
-                    player_discord = None
-            except discord.ext.commands.errors.BadArgument:
-                player_discord = None
-            if player_discord:
-                db_data = (await self.verification.find_uuid(player_discord.id))
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            else:
-                player = args[0]
-                player_formatted_name = (await self.mojang.get_profile(player))['name']
-                player_uuid = (await self.mojang.get_profile(player))['uuid']
+                player_data = await self.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
         except IndexError: # If no arguments
             try:
-                db_data = await self.verification.find_uuid(ctx.author.id)
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            except IndexError:
+                player_data = await self.database_lookup(ctx.author.id)
+            except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
                     description = "You have to verify with `/mc verify <minecraft-ign>` first."
                 )
                 await ctx.send(embed = unverified_embed)
                 return
-        except NameError:
-            nameerror_embed = discord.Embed(
-                name = "Invalid input",
-                description = f"\"{player}\" is not a valid username or UUID."
-            )
-            await ctx.send(embed = nameerror_embed)
-            return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_formatted_name}\'s 4v4 FKDR data..."
+            description = f"Loading {player_data['player_formatted_name']}\'s 4v4 FKDR data..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_uuid) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
-                description = f"\"{player_formatted_name}\" does not seem to have Hypixel stats."
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
             )
             await message.edit(embed = nameerror_embed)
             return
         player_four_v_four_fkdr_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_formatted_name)}\'s 4v4 FKDR")),
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s 4v4 FKDR")),
             color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
         )
         player_four_v_four_fkdr_embed.set_thumbnail(
@@ -1253,56 +1175,50 @@ class BedwarsStats(commands.Cog):
     async def bblr(self, ctx, *args):
         try:
             try:
-                player_discord = await self.user_converter.convert(ctx, args[0])
-                if player_discord.mentioned_in(ctx.message):
-                    pass
-                else:
-                    player_discord = None
-            except discord.ext.commands.errors.BadArgument:
-                player_discord = None
-            if player_discord:
-                db_data = (await self.verification.find_uuid(player_discord.id))
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            else:
-                player = args[0]
-                player_formatted_name = (await self.mojang.get_profile(player))['name']
-                player_uuid = (await self.mojang.get_profile(player))['uuid']
+                player_data = await self.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
         except IndexError: # If no arguments
             try:
-                db_data = await self.verification.find_uuid(ctx.author.id)
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            except IndexError:
+                player_data = await self.database_lookup(ctx.author.id)
+            except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
                     description = "You have to verify with `/mc verify <minecraft-ign>` first."
                 )
                 await ctx.send(embed = unverified_embed)
                 return
-        except NameError:
-            nameerror_embed = discord.Embed(
-                name = "Invalid input",
-                description = f"\"{player}\" is not a valid username or UUID."
-            )
-            await ctx.send(embed = nameerror_embed)
-            return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_formatted_name}\'s BBLR data..."
+            description = f"Loading {player_data['player_formatted_name']}\'s BBLR data..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_uuid) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
-                description = f"\"{player_formatted_name}\" does not seem to have Hypixel stats."
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
             )
             await message.edit(embed = nameerror_embed)
             return
         player_bblr_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_formatted_name)}\'s BBLR")),
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s BBLR")),
             color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
         )
         player_bblr_embed.set_thumbnail(
@@ -1339,56 +1255,50 @@ class BedwarsStats(commands.Cog):
     async def solo_bblr(self, ctx, *args):
         try:
             try:
-                player_discord = await self.user_converter.convert(ctx, args[0])
-                if player_discord.mentioned_in(ctx.message):
-                    pass
-                else:
-                    player_discord = None
-            except discord.ext.commands.errors.BadArgument:
-                player_discord = None
-            if player_discord:
-                db_data = (await self.verification.find_uuid(player_discord.id))
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            else:
-                player = args[0]
-                player_formatted_name = (await self.mojang.get_profile(player))['name']
-                player_uuid = (await self.mojang.get_profile(player))['uuid']
+                player_data = await self.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
         except IndexError: # If no arguments
             try:
-                db_data = await self.verification.find_uuid(ctx.author.id)
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            except IndexError:
+                player_data = await self.database_lookup(ctx.author.id)
+            except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
                     description = "You have to verify with `/mc verify <minecraft-ign>` first."
                 )
                 await ctx.send(embed = unverified_embed)
                 return
-        except NameError:
-            nameerror_embed = discord.Embed(
-                name = "Invalid input",
-                description = f"\"{player}\" is not a valid username or UUID."
-            )
-            await ctx.send(embed = nameerror_embed)
-            return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_formatted_name}\'s solo BBLR data..."
+            description = f"Loading {player_data['player_formatted_name']}\'s solo BBLR data..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_uuid) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
-                description = f"\"{player_formatted_name}\" does not seem to have Hypixel stats."
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
             )
             await message.edit(embed = nameerror_embed)
             return
         player_solo_bblr_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_formatted_name)}\'s Solo BBLR")),
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s Solo BBLR")),
             color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
         )
         player_solo_bblr_embed.set_thumbnail(
@@ -1425,56 +1335,50 @@ class BedwarsStats(commands.Cog):
     async def doubles_bblr(self, ctx, *args):
         try:
             try:
-                player_discord = await self.user_converter.convert(ctx, args[0])
-                if player_discord.mentioned_in(ctx.message):
-                    pass
-                else:
-                    player_discord = None
-            except discord.ext.commands.errors.BadArgument:
-                player_discord = None
-            if player_discord:
-                db_data = (await self.verification.find_uuid(player_discord.id))
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            else:
-                player = args[0]
-                player_formatted_name = (await self.mojang.get_profile(player))['name']
-                player_uuid = (await self.mojang.get_profile(player))['uuid']
+                player_data = await self.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
         except IndexError: # If no arguments
             try:
-                db_data = await self.verification.find_uuid(ctx.author.id)
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            except IndexError:
+                player_data = await self.database_lookup(ctx.author.id)
+            except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
                     description = "You have to verify with `/mc verify <minecraft-ign>` first."
                 )
                 await ctx.send(embed = unverified_embed)
                 return
-        except NameError:
-            nameerror_embed = discord.Embed(
-                name = "Invalid input",
-                description = f"\"{player}\" is not a valid username or UUID."
-            )
-            await ctx.send(embed = nameerror_embed)
-            return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_formatted_name}\'s doubles BBLR data..."
+            description = f"Loading {player_data['player_formatted_name']}\'s doubles BBLR data..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_uuid) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
-                description = f"\"{player_formatted_name}\" does not seem to have Hypixel stats."
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
             )
             await message.edit(embed = nameerror_embed)
             return
         player_doubles_bblr_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_formatted_name)}\'s Doubles BBLR")),
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s Doubles BBLR")),
             color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
         )
         player_doubles_bblr_embed.set_thumbnail(
@@ -1511,56 +1415,50 @@ class BedwarsStats(commands.Cog):
     async def threes_bblr(self, ctx, *args):
         try:
             try:
-                player_discord = await self.user_converter.convert(ctx, args[0])
-                if player_discord.mentioned_in(ctx.message):
-                    pass
-                else:
-                    player_discord = None
-            except discord.ext.commands.errors.BadArgument:
-                player_discord = None
-            if player_discord:
-                db_data = (await self.verification.find_uuid(player_discord.id))
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            else:
-                player = args[0]
-                player_formatted_name = (await self.mojang.get_profile(player))['name']
-                player_uuid = (await self.mojang.get_profile(player))['uuid']
+                player_data = await self.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
         except IndexError: # If no arguments
             try:
-                db_data = await self.verification.find_uuid(ctx.author.id)
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            except IndexError:
+                player_data = await self.database_lookup(ctx.author.id)
+            except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
                     description = "You have to verify with `/mc verify <minecraft-ign>` first."
                 )
                 await ctx.send(embed = unverified_embed)
                 return
-        except NameError:
-            nameerror_embed = discord.Embed(
-                name = "Invalid input",
-                description = f"\"{player}\" is not a valid username or UUID."
-            )
-            await ctx.send(embed = nameerror_embed)
-            return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_formatted_name}\'s threes BBLR data..."
+            description = f"Loading {player_data['player_formatted_name']}\'s threes BBLR data..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_uuid) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
-                description = f"\"{player_formatted_name}\" does not seem to have Hypixel stats."
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
             )
             await message.edit(embed = nameerror_embed)
             return
         player_threes_bblr_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_formatted_name)}\'s Threes BBLR")),
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s Threes BBLR")),
             color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
         )
         player_threes_bblr_embed.set_thumbnail(
@@ -1597,56 +1495,50 @@ class BedwarsStats(commands.Cog):
     async def fours_bblr(self, ctx, *args):
         try:
             try:
-                player_discord = await self.user_converter.convert(ctx, args[0])
-                if player_discord.mentioned_in(ctx.message):
-                    pass
-                else:
-                    player_discord = None
-            except discord.ext.commands.errors.BadArgument:
-                player_discord = None
-            if player_discord:
-                db_data = (await self.verification.find_uuid(player_discord.id))
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            else:
-                player = args[0]
-                player_formatted_name = (await self.mojang.get_profile(player))['name']
-                player_uuid = (await self.mojang.get_profile(player))['uuid']
+                player_data = await self.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
         except IndexError: # If no arguments
             try:
-                db_data = await self.verification.find_uuid(ctx.author.id)
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            except IndexError:
+                player_data = await self.database_lookup(ctx.author.id)
+            except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
                     description = "You have to verify with `/mc verify <minecraft-ign>` first."
                 )
                 await ctx.send(embed = unverified_embed)
                 return
-        except NameError:
-            nameerror_embed = discord.Embed(
-                name = "Invalid input",
-                description = f"\"{player}\" is not a valid username or UUID."
-            )
-            await ctx.send(embed = nameerror_embed)
-            return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_formatted_name}\'s fours BBLR data..."
+            description = f"Loading {player_data['player_formatted_name']}\'s fours BBLR data..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_uuid) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
-                description = f"\"{player_formatted_name}\" does not seem to have Hypixel stats."
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
             )
             await message.edit(embed = nameerror_embed)
             return
         player_fours_bblr_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_formatted_name)}\'s Fours BBLR")),
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s Fours BBLR")),
             color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
         )
         player_fours_bblr_embed.set_thumbnail(
@@ -1683,56 +1575,50 @@ class BedwarsStats(commands.Cog):
     async def four_v_four_bblr(self, ctx, *args):
         try:
             try:
-                player_discord = await self.user_converter.convert(ctx, args[0])
-                if player_discord.mentioned_in(ctx.message):
-                    pass
-                else:
-                    player_discord = None
-            except discord.ext.commands.errors.BadArgument:
-                player_discord = None
-            if player_discord:
-                db_data = (await self.verification.find_uuid(player_discord.id))
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            else:
-                player = args[0]
-                player_formatted_name = (await self.mojang.get_profile(player))['name']
-                player_uuid = (await self.mojang.get_profile(player))['uuid']
+                player_data = await self.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
         except IndexError: # If no arguments
             try:
-                db_data = await self.verification.find_uuid(ctx.author.id)
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            except IndexError:
+                player_data = await self.database_lookup(ctx.author.id)
+            except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
                     description = "You have to verify with `/mc verify <minecraft-ign>` first."
                 )
                 await ctx.send(embed = unverified_embed)
                 return
-        except NameError:
-            nameerror_embed = discord.Embed(
-                name = "Invalid input",
-                description = f"\"{player}\" is not a valid username or UUID."
-            )
-            await ctx.send(embed = nameerror_embed)
-            return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_formatted_name}\'s 4v4 BBLR data..."
+            description = f"Loading {player_data['player_formatted_name']}\'s 4v4 BBLR data..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_uuid) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
-                description = f"\"{player_formatted_name}\" does not seem to have Hypixel stats."
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
             )
             await message.edit(embed = nameerror_embed)
             return
         player_four_v_four_bblr_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_formatted_name)}\'s 4v4 BBLR")),
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s 4v4 BBLR")),
             color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
         )
         player_four_v_four_bblr_embed.set_thumbnail(
@@ -1769,56 +1655,50 @@ class BedwarsStats(commands.Cog):
     async def wlr(self, ctx, *args):
         try:
             try:
-                player_discord = await self.user_converter.convert(ctx, args[0])
-                if player_discord.mentioned_in(ctx.message):
-                    pass
-                else:
-                    player_discord = None
-            except discord.ext.commands.errors.BadArgument:
-                player_discord = None
-            if player_discord:
-                db_data = (await self.verification.find_uuid(player_discord.id))
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            else:
-                player = args[0]
-                player_formatted_name = (await self.mojang.get_profile(player))['name']
-                player_uuid = (await self.mojang.get_profile(player))['uuid']
+                player_data = await self.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
         except IndexError: # If no arguments
             try:
-                db_data = await self.verification.find_uuid(ctx.author.id)
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            except IndexError:
+                player_data = await self.database_lookup(ctx.author.id)
+            except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
                     description = "You have to verify with `/mc verify <minecraft-ign>` first."
                 )
                 await ctx.send(embed = unverified_embed)
                 return
-        except NameError:
-            nameerror_embed = discord.Embed(
-                name = "Invalid input",
-                description = f"\"{player}\" is not a valid username or UUID."
-            )
-            await ctx.send(embed = nameerror_embed)
-            return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_formatted_name}\'s WLR data..."
+            description = f"Loading {player_data['player_formatted_name']}\'s WLR data..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_uuid) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
-                description = f"\"{player_formatted_name}\" does not seem to have Hypixel stats."
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
             )
             await message.edit(embed = nameerror_embed)
             return
         player_wlr_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_formatted_name)}\'s WLR")),
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s WLR")),
             color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
         )
         player_wlr_embed.set_thumbnail(
@@ -1855,56 +1735,50 @@ class BedwarsStats(commands.Cog):
     async def solo_wlr(self, ctx, *args):
         try:
             try:
-                player_discord = await self.user_converter.convert(ctx, args[0])
-                if player_discord.mentioned_in(ctx.message):
-                    pass
-                else:
-                    player_discord = None
-            except discord.ext.commands.errors.BadArgument:
-                player_discord = None
-            if player_discord:
-                db_data = (await self.verification.find_uuid(player_discord.id))
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            else:
-                player = args[0]
-                player_formatted_name = (await self.mojang.get_profile(player))['name']
-                player_uuid = (await self.mojang.get_profile(player))['uuid']
+                player_data = await self.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
         except IndexError: # If no arguments
             try:
-                db_data = await self.verification.find_uuid(ctx.author.id)
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            except IndexError:
+                player_data = await self.database_lookup(ctx.author.id)
+            except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
                     description = "You have to verify with `/mc verify <minecraft-ign>` first."
                 )
                 await ctx.send(embed = unverified_embed)
                 return
-        except NameError:
-            nameerror_embed = discord.Embed(
-                name = "Invalid input",
-                description = f"\"{player}\" is not a valid username or UUID."
-            )
-            await ctx.send(embed = nameerror_embed)
-            return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_formatted_name}\'s solo WLR data..."
+            description = f"Loading {player_data['player_formatted_name']}\'s solo WLR data..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_uuid) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
-                description = f"\"{player_formatted_name}\" does not seem to have Hypixel stats."
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
             )
             await message.edit(embed = nameerror_embed)
             return
         player_solo_wlr_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_formatted_name)}\'s Solo WLR")),
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s Solo WLR")),
             color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
         )
         player_solo_wlr_embed.set_thumbnail(
@@ -1941,56 +1815,50 @@ class BedwarsStats(commands.Cog):
     async def doubles_wlr(self, ctx, *args):
         try:
             try:
-                player_discord = await self.user_converter.convert(ctx, args[0])
-                if player_discord.mentioned_in(ctx.message):
-                    pass
-                else:
-                    player_discord = None
-            except discord.ext.commands.errors.BadArgument:
-                player_discord = None
-            if player_discord:
-                db_data = (await self.verification.find_uuid(player_discord.id))
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            else:
-                player = args[0]
-                player_formatted_name = (await self.mojang.get_profile(player))['name']
-                player_uuid = (await self.mojang.get_profile(player))['uuid']
+                player_data = await self.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
         except IndexError: # If no arguments
             try:
-                db_data = await self.verification.find_uuid(ctx.author.id)
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            except IndexError:
+                player_data = await self.database_lookup(ctx.author.id)
+            except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
                     description = "You have to verify with `/mc verify <minecraft-ign>` first."
                 )
                 await ctx.send(embed = unverified_embed)
                 return
-        except NameError:
-            nameerror_embed = discord.Embed(
-                name = "Invalid input",
-                description = f"\"{player}\" is not a valid username or UUID."
-            )
-            await ctx.send(embed = nameerror_embed)
-            return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_formatted_name}\'s doubles WLR data..."
+            description = f"Loading {player_data['player_formatted_name']}\'s doubles WLR data..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_uuid) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
-                description = f"\"{player_formatted_name}\" does not seem to have Hypixel stats."
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
             )
             await message.edit(embed = nameerror_embed)
             return
         player_doubles_wlr_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_formatted_name)}\'s Doubles WLR")),
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s Doubles WLR")),
             color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
         )
         player_doubles_wlr_embed.set_thumbnail(
@@ -2027,56 +1895,50 @@ class BedwarsStats(commands.Cog):
     async def threes_wlr(self, ctx, *args):
         try:
             try:
-                player_discord = await self.user_converter.convert(ctx, args[0])
-                if player_discord.mentioned_in(ctx.message):
-                    pass
-                else:
-                    player_discord = None
-            except discord.ext.commands.errors.BadArgument:
-                player_discord = None
-            if player_discord:
-                db_data = (await self.verification.find_uuid(player_discord.id))
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            else:
-                player = args[0]
-                player_formatted_name = (await self.mojang.get_profile(player))['name']
-                player_uuid = (await self.mojang.get_profile(player))['uuid']
+                player_data = await self.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
         except IndexError: # If no arguments
             try:
-                db_data = await self.verification.find_uuid(ctx.author.id)
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            except IndexError:
+                player_data = await self.database_lookup(ctx.author.id)
+            except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
                     description = "You have to verify with `/mc verify <minecraft-ign>` first."
                 )
                 await ctx.send(embed = unverified_embed)
                 return
-        except NameError:
-            nameerror_embed = discord.Embed(
-                name = "Invalid input",
-                description = f"\"{player}\" is not a valid username or UUID."
-            )
-            await ctx.send(embed = nameerror_embed)
-            return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_formatted_name}\'s threes WLR data..."
+            description = f"Loading {player_data['player_formatted_name']}\'s threes WLR data..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_uuid) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
-                description = f"\"{player_formatted_name}\" does not seem to have Hypixel stats."
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
             )
             await message.edit(embed = nameerror_embed)
             return
         player_threes_wlr_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_formatted_name)}\'s Threes WLR")),
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s Threes WLR")),
             color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
         )
         player_threes_wlr_embed.set_thumbnail(
@@ -2113,56 +1975,50 @@ class BedwarsStats(commands.Cog):
     async def fours_wlr(self, ctx, *args):
         try:
             try:
-                player_discord = await self.user_converter.convert(ctx, args[0])
-                if player_discord.mentioned_in(ctx.message):
-                    pass
-                else:
-                    player_discord = None
-            except discord.ext.commands.errors.BadArgument:
-                player_discord = None
-            if player_discord:
-                db_data = (await self.verification.find_uuid(player_discord.id))
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            else:
-                player = args[0]
-                player_formatted_name = (await self.mojang.get_profile(player))['name']
-                player_uuid = (await self.mojang.get_profile(player))['uuid']
+                player_data = await self.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
         except IndexError: # If no arguments
             try:
-                db_data = await self.verification.find_uuid(ctx.author.id)
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            except IndexError:
+                player_data = await self.database_lookup(ctx.author.id)
+            except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
                     description = "You have to verify with `/mc verify <minecraft-ign>` first."
                 )
                 await ctx.send(embed = unverified_embed)
                 return
-        except NameError:
-            nameerror_embed = discord.Embed(
-                name = "Invalid input",
-                description = f"\"{player}\" is not a valid username or UUID."
-            )
-            await ctx.send(embed = nameerror_embed)
-            return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_formatted_name}\'s fours WLR data..."
+            description = f"Loading {player_data['player_formatted_name']}\'s fours WLR data..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_uuid) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
-                description = f"\"{player_formatted_name}\" does not seem to have Hypixel stats."
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
             )
             await message.edit(embed = nameerror_embed)
             return
         player_fours_wlr_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_formatted_name)}\'s Fours WLR")),
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s Fours WLR")),
             color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
         )
         player_fours_wlr_embed.set_thumbnail(
@@ -2199,56 +2055,50 @@ class BedwarsStats(commands.Cog):
     async def four_v_four_wlr(self, ctx, *args):
         try:
             try:
-                player_discord = await self.user_converter.convert(ctx, args[0])
-                if player_discord.mentioned_in(ctx.message):
-                    pass
-                else:
-                    player_discord = None
-            except discord.ext.commands.errors.BadArgument:
-                player_discord = None
-            if player_discord:
-                db_data = (await self.verification.find_uuid(player_discord.id))
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            else:
-                player = args[0]
-                player_formatted_name = (await self.mojang.get_profile(player))['name']
-                player_uuid = (await self.mojang.get_profile(player))['uuid']
+                player_data = await self.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
         except IndexError: # If no arguments
             try:
-                db_data = await self.verification.find_uuid(ctx.author.id)
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            except IndexError:
+                player_data = await self.database_lookup(ctx.author.id)
+            except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
                     description = "You have to verify with `/mc verify <minecraft-ign>` first."
                 )
                 await ctx.send(embed = unverified_embed)
                 return
-        except NameError:
-            nameerror_embed = discord.Embed(
-                name = "Invalid input",
-                description = f"\"{player}\" is not a valid username or UUID."
-            )
-            await ctx.send(embed = nameerror_embed)
-            return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_formatted_name}\'s 4v4 WLR data..."
+            description = f"Loading {player_data['player_formatted_name']}\'s 4v4 WLR data..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_uuid) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
-                description = f"\"{player_formatted_name}\" does not seem to have Hypixel stats."
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
             )
             await message.edit(embed = nameerror_embed)
             return
         player_four_v_four_wlr_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_formatted_name)}\'s 4v4 WLR")),
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s 4v4 WLR")),
             color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
         )
         player_four_v_four_wlr_embed.set_thumbnail(
@@ -2279,6 +2129,41 @@ class BedwarsStats(commands.Cog):
             text = core.static.stats_needed_disclaimer
         )
         await message.edit(embed = player_four_v_four_wlr_embed)
+
+    async def parse_input(self, ctx, input):
+        try:
+            player_discord = await self.user_converter.convert(ctx, input)
+            try:
+                if player_discord.mentioned_in(ctx.message) or isinstance(int(input), int):
+                    db_data = (await self.verification.find_uuid(player_discord.id))
+                    player_data = {
+                        "player_formatted_name" : (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name'],
+                        "minecraft_uuid" : db_data[0]['minecraft_uuid']
+                    }
+                    return player_data
+            except IndexError:
+                raise AttributeError("Member mentioned not verified")
+                return
+        except discord.ext.commands.errors.BadArgument:
+            try:
+                player_data = {
+                    "player_formatted_name" : (await self.mojang.get_profile(input))['name'],
+                    "minecraft_uuid" : (await self.mojang.get_profile(input))['uuid']
+                }
+                return player_data
+            except NameError:
+                raise NameError
+
+    async def database_lookup(self, discord_id):
+        try:
+            db_data = await self.verification.find_uuid(discord_id)
+            player_data = {
+                "player_formatted_name" : (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name'],
+                "minecraft_uuid" : db_data[0]['minecraft_uuid']
+            }
+            return player_data
+        except IndexError:
+            raise AttributeError("Not found in database")
 
 def setup(bot):
     bot.add_cog(BedwarsStats(bot))

@@ -54,9 +54,15 @@ class Bedwars():
         # positive_stat is a "good" stat like final_kills
         # negative_stat is a "bad" stat like final_deaths
         # increase is the amount the positive_stat to negative_stat ratio needs to increase
-        stat = positive_stat / negative_stat
-        needed = (stat + increase) * negative_stat - positive_stat
-        return round(needed)
+        try:
+            stat = positive_stat / negative_stat
+            needed = (stat + increase) * negative_stat - positive_stat
+            return round(needed)
+        except ZeroDivisionError:
+            if positive_stat > 0:
+                return float("inf")
+            else:
+                return 0
 
     async def get_star(self):
         try:
@@ -67,34 +73,34 @@ class Bedwars():
 
     async def get_prestige_data(self):
         star = await self.get_star()
-        if star in range(0, 100):
+        if star in range(1, 100):
             prestige = 'Stone'
             prestige_color = prestige_colors['Stone']
-        elif star in range(100, 199):
+        elif star in range(100, 200):
             prestige = 'Iron'
             prestige_color = prestige_colors['Iron']
-        elif star in range(200, 299):
+        elif star in range(200, 300):
             prestige = 'Gold'
             prestige_color = prestige_colors['Gold']
-        elif star in range(300, 399):
+        elif star in range(300, 400):
             prestige = 'Diamond'
             prestige_color = prestige_colors['Diamond']
-        elif star in range(400, 499):
+        elif star in range(400, 500):
             prestige = 'Emerald'
             prestige_color = prestige_colors['Emerald']
-        elif star in range(500, 599):
+        elif star in range(500, 600):
             prestige = 'Sapphire'
             prestige_color = prestige_colors['Sapphire']
-        elif star in range(600, 699):
+        elif star in range(600, 700):
             prestige = 'Ruby'
             prestige_color = prestige_colors['Ruby']
-        elif star in range(700, 799):
+        elif star in range(700, 800):
             prestige = 'Crystal'
             prestige_color = prestige_colors['Crystal']
-        elif star in range(800, 899):
+        elif star in range(800, 900):
             prestige = 'Opal'
             prestige_color = prestige_colors['Opal']
-        elif star in range(900, 999):
+        elif star in range(900, 1000):
             prestige = 'Amethyst'
             prestige_color = prestige_colors['Amethyst']
         else:
