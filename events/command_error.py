@@ -38,9 +38,6 @@ class CommandError(commands.Cog):
         if hasattr(ctx.command, "on_error"):
             return
 
-        if hasattr(ctx.command, "on_cog_error"):
-            return
-
         if isinstance(error, commands.CommandNotFound):
             return
 
@@ -52,6 +49,9 @@ class CommandError(commands.Cog):
             return
 
         if (str(ctx.command)).startswith("leaderboards"):
+            return
+
+        if "verify" in (str(ctx.command)):
             return
 
         if isinstance(error, commands.MaxConcurrencyReached):
