@@ -22,6 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+from string import ascii_letters, punctuation, whitespace
 from core.minecraft.hypixel.player.bedwars import Bedwars
 from discord.ext import commands
 import discord
@@ -38,15 +39,29 @@ class BedwarsStats(commands.Cog):
         self.hypixel = core.minecraft.hypixel.request.HypixelAPI()
         self.mojang = MojangAPI()
         self.markdown = Markdown()
+        self.user_converter = commands.UserConverter()
         self.verification = Verification()
 
     @commands.group(name = "bw", invoke_without_command = True)
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def bedwars(self, ctx, *args):
         try:
-            player = args[0]
-            player_formatted_name = (await self.mojang.get_profile(player))['name']
-            player_uuid = (await self.mojang.get_profile(player))['uuid']
+            try:
+                player_discord = await self.user_converter.convert(ctx, args[0])
+                if player_discord.mentioned_in(ctx.message):
+                    pass
+                else:
+                    player_discord = None
+            except discord.ext.commands.errors.BadArgument:
+                player_discord = None
+            if player_discord:
+                db_data = (await self.verification.find_uuid(player_discord.id))
+                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
+                player_uuid = db_data[0]['minecraft_uuid']
+            else:
+                player = args[0]
+                player_formatted_name = (await self.mojang.get_profile(player))['name']
+                player_uuid = (await self.mojang.get_profile(player))['uuid']
         except IndexError: # If no arguments
             try:
                 db_data = await self.verification.find_uuid(ctx.author.id)
@@ -133,9 +148,22 @@ class BedwarsStats(commands.Cog):
     @bedwars.command(name = "stats") # Safety net in case the player's name is "solo" or "doubles"
     async def bedwars_stats(self, ctx, *args):
         try:
-            player = args[0]
-            player_formatted_name = (await self.mojang.get_profile(player))['name']
-            player_uuid = (await self.mojang.get_profile(player))['uuid']
+            try:
+                player_discord = await self.user_converter.convert(ctx, args[0])
+                if player_discord.mentioned_in(ctx.message):
+                    pass
+                else:
+                    player_discord = None
+            except discord.ext.commands.errors.BadArgument:
+                player_discord = None
+            if player_discord:
+                db_data = (await self.verification.find_uuid(player_discord.id))
+                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
+                player_uuid = db_data[0]['minecraft_uuid']
+            else:
+                player = args[0]
+                player_formatted_name = (await self.mojang.get_profile(player))['name']
+                player_uuid = (await self.mojang.get_profile(player))['uuid']
         except IndexError: # If no arguments
             try:
                 db_data = await self.verification.find_uuid(ctx.author.id)
@@ -222,9 +250,22 @@ class BedwarsStats(commands.Cog):
     @bedwars.command(name = "solo", aliases = ["1", "solos"])
     async def solo_bedwars(self, ctx, *args):
         try:
-            player = args[0]
-            player_formatted_name = (await self.mojang.get_profile(player))['name']
-            player_uuid = (await self.mojang.get_profile(player))['uuid']
+            try:
+                player_discord = await self.user_converter.convert(ctx, args[0])
+                if player_discord.mentioned_in(ctx.message):
+                    pass
+                else:
+                    player_discord = None
+            except discord.ext.commands.errors.BadArgument:
+                player_discord = None
+            if player_discord:
+                db_data = (await self.verification.find_uuid(player_discord.id))
+                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
+                player_uuid = db_data[0]['minecraft_uuid']
+            else:
+                player = args[0]
+                player_formatted_name = (await self.mojang.get_profile(player))['name']
+                player_uuid = (await self.mojang.get_profile(player))['uuid']
         except IndexError: # If no arguments
             try:
                 db_data = await self.verification.find_uuid(ctx.author.id)
@@ -306,9 +347,22 @@ class BedwarsStats(commands.Cog):
     @bedwars.command(name = "doubles", aliases = ["2", "2s", "double", "twos"])
     async def doubles_bedwars(self, ctx, *args):
         try:
-            player = args[0]
-            player_formatted_name = (await self.mojang.get_profile(player))['name']
-            player_uuid = (await self.mojang.get_profile(player))['uuid']
+            try:
+                player_discord = await self.user_converter.convert(ctx, args[0])
+                if player_discord.mentioned_in(ctx.message):
+                    pass
+                else:
+                    player_discord = None
+            except discord.ext.commands.errors.BadArgument:
+                player_discord = None
+            if player_discord:
+                db_data = (await self.verification.find_uuid(player_discord.id))
+                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
+                player_uuid = db_data[0]['minecraft_uuid']
+            else:
+                player = args[0]
+                player_formatted_name = (await self.mojang.get_profile(player))['name']
+                player_uuid = (await self.mojang.get_profile(player))['uuid']
         except IndexError: # If no arguments
             try:
                 db_data = await self.verification.find_uuid(ctx.author.id)
@@ -390,9 +444,22 @@ class BedwarsStats(commands.Cog):
     @bedwars.command(name = "threes", aliases = ["3", "3s", "triple", "three"])
     async def threes_bedwars(self, ctx, *args):
         try:
-            player = args[0]
-            player_formatted_name = (await self.mojang.get_profile(player))['name']
-            player_uuid = (await self.mojang.get_profile(player))['uuid']
+            try:
+                player_discord = await self.user_converter.convert(ctx, args[0])
+                if player_discord.mentioned_in(ctx.message):
+                    pass
+                else:
+                    player_discord = None
+            except discord.ext.commands.errors.BadArgument:
+                player_discord = None
+            if player_discord:
+                db_data = (await self.verification.find_uuid(player_discord.id))
+                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
+                player_uuid = db_data[0]['minecraft_uuid']
+            else:
+                player = args[0]
+                player_formatted_name = (await self.mojang.get_profile(player))['name']
+                player_uuid = (await self.mojang.get_profile(player))['uuid']
         except IndexError: # If no arguments
             try:
                 db_data = await self.verification.find_uuid(ctx.author.id)
@@ -474,9 +541,22 @@ class BedwarsStats(commands.Cog):
     @bedwars.command(name = "fours", aliases = ["4", "4s", "four"])
     async def fours_bedwars(self, ctx, *args):
         try:
-            player = args[0]
-            player_formatted_name = (await self.mojang.get_profile(player))['name']
-            player_uuid = (await self.mojang.get_profile(player))['uuid']
+            try:
+                player_discord = await self.user_converter.convert(ctx, args[0])
+                if player_discord.mentioned_in(ctx.message):
+                    pass
+                else:
+                    player_discord = None
+            except discord.ext.commands.errors.BadArgument:
+                player_discord = None
+            if player_discord:
+                db_data = (await self.verification.find_uuid(player_discord.id))
+                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
+                player_uuid = db_data[0]['minecraft_uuid']
+            else:
+                player = args[0]
+                player_formatted_name = (await self.mojang.get_profile(player))['name']
+                player_uuid = (await self.mojang.get_profile(player))['uuid']
         except IndexError: # If no arguments
             try:
                 db_data = await self.verification.find_uuid(ctx.author.id)
@@ -558,9 +638,22 @@ class BedwarsStats(commands.Cog):
     @bedwars.command(name = "4v4")
     async def four_v_four_bedwars(self, ctx, *args):
         try:
-            player = args[0]
-            player_formatted_name = (await self.mojang.get_profile(player))['name']
-            player_uuid = (await self.mojang.get_profile(player))['uuid']
+            try:
+                player_discord = await self.user_converter.convert(ctx, args[0])
+                if player_discord.mentioned_in(ctx.message):
+                    pass
+                else:
+                    player_discord = None
+            except discord.ext.commands.errors.BadArgument:
+                player_discord = None
+            if player_discord:
+                db_data = (await self.verification.find_uuid(player_discord.id))
+                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
+                player_uuid = db_data[0]['minecraft_uuid']
+            else:
+                player = args[0]
+                player_formatted_name = (await self.mojang.get_profile(player))['name']
+                player_uuid = (await self.mojang.get_profile(player))['uuid']
         except IndexError: # If no arguments
             try:
                 db_data = await self.verification.find_uuid(ctx.author.id)
@@ -643,9 +736,22 @@ class BedwarsStats(commands.Cog):
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def fkdr(self, ctx, *args):
         try:
-            player = args[0]
-            player_formatted_name = (await self.mojang.get_profile(player))['name']
-            player_uuid = (await self.mojang.get_profile(player))['uuid']
+            try:
+                player_discord = await self.user_converter.convert(ctx, args[0])
+                if player_discord.mentioned_in(ctx.message):
+                    pass
+                else:
+                    player_discord = None
+            except discord.ext.commands.errors.BadArgument:
+                player_discord = None
+            if player_discord:
+                db_data = (await self.verification.find_uuid(player_discord.id))
+                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
+                player_uuid = db_data[0]['minecraft_uuid']
+            else:
+                player = args[0]
+                player_formatted_name = (await self.mojang.get_profile(player))['name']
+                player_uuid = (await self.mojang.get_profile(player))['uuid']
         except IndexError: # If no arguments
             try:
                 db_data = await self.verification.find_uuid(ctx.author.id)
@@ -716,9 +822,22 @@ class BedwarsStats(commands.Cog):
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def solo_fkdr(self, ctx, *args):
         try:
-            player = args[0]
-            player_formatted_name = (await self.mojang.get_profile(player))['name']
-            player_uuid = (await self.mojang.get_profile(player))['uuid']
+            try:
+                player_discord = await self.user_converter.convert(ctx, args[0])
+                if player_discord.mentioned_in(ctx.message):
+                    pass
+                else:
+                    player_discord = None
+            except discord.ext.commands.errors.BadArgument:
+                player_discord = None
+            if player_discord:
+                db_data = (await self.verification.find_uuid(player_discord.id))
+                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
+                player_uuid = db_data[0]['minecraft_uuid']
+            else:
+                player = args[0]
+                player_formatted_name = (await self.mojang.get_profile(player))['name']
+                player_uuid = (await self.mojang.get_profile(player))['uuid']
         except IndexError: # If no arguments
             try:
                 db_data = await self.verification.find_uuid(ctx.author.id)
@@ -789,9 +908,22 @@ class BedwarsStats(commands.Cog):
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def doubles_fkdr(self, ctx, *args):
         try:
-            player = args[0]
-            player_formatted_name = (await self.mojang.get_profile(player))['name']
-            player_uuid = (await self.mojang.get_profile(player))['uuid']
+            try:
+                player_discord = await self.user_converter.convert(ctx, args[0])
+                if player_discord.mentioned_in(ctx.message):
+                    pass
+                else:
+                    player_discord = None
+            except discord.ext.commands.errors.BadArgument:
+                player_discord = None
+            if player_discord:
+                db_data = (await self.verification.find_uuid(player_discord.id))
+                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
+                player_uuid = db_data[0]['minecraft_uuid']
+            else:
+                player = args[0]
+                player_formatted_name = (await self.mojang.get_profile(player))['name']
+                player_uuid = (await self.mojang.get_profile(player))['uuid']
         except IndexError: # If no arguments
             try:
                 db_data = await self.verification.find_uuid(ctx.author.id)
@@ -862,9 +994,22 @@ class BedwarsStats(commands.Cog):
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def threes_fkdr(self, ctx, *args):
         try:
-            player = args[0]
-            player_formatted_name = (await self.mojang.get_profile(player))['name']
-            player_uuid = (await self.mojang.get_profile(player))['uuid']
+            try:
+                player_discord = await self.user_converter.convert(ctx, args[0])
+                if player_discord.mentioned_in(ctx.message):
+                    pass
+                else:
+                    player_discord = None
+            except discord.ext.commands.errors.BadArgument:
+                player_discord = None
+            if player_discord:
+                db_data = (await self.verification.find_uuid(player_discord.id))
+                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
+                player_uuid = db_data[0]['minecraft_uuid']
+            else:
+                player = args[0]
+                player_formatted_name = (await self.mojang.get_profile(player))['name']
+                player_uuid = (await self.mojang.get_profile(player))['uuid']
         except IndexError: # If no arguments
             try:
                 db_data = await self.verification.find_uuid(ctx.author.id)
@@ -935,9 +1080,22 @@ class BedwarsStats(commands.Cog):
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def fours_fkdr(self, ctx, *args):
         try:
-            player = args[0]
-            player_formatted_name = (await self.mojang.get_profile(player))['name']
-            player_uuid = (await self.mojang.get_profile(player))['uuid']
+            try:
+                player_discord = await self.user_converter.convert(ctx, args[0])
+                if player_discord.mentioned_in(ctx.message):
+                    pass
+                else:
+                    player_discord = None
+            except discord.ext.commands.errors.BadArgument:
+                player_discord = None
+            if player_discord:
+                db_data = (await self.verification.find_uuid(player_discord.id))
+                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
+                player_uuid = db_data[0]['minecraft_uuid']
+            else:
+                player = args[0]
+                player_formatted_name = (await self.mojang.get_profile(player))['name']
+                player_uuid = (await self.mojang.get_profile(player))['uuid']
         except IndexError: # If no arguments
             try:
                 db_data = await self.verification.find_uuid(ctx.author.id)
@@ -1008,9 +1166,22 @@ class BedwarsStats(commands.Cog):
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def four_v_four_fkdr(self, ctx, *args):
         try:
-            player = args[0]
-            player_formatted_name = (await self.mojang.get_profile(player))['name']
-            player_uuid = (await self.mojang.get_profile(player))['uuid']
+            try:
+                player_discord = await self.user_converter.convert(ctx, args[0])
+                if player_discord.mentioned_in(ctx.message):
+                    pass
+                else:
+                    player_discord = None
+            except discord.ext.commands.errors.BadArgument:
+                player_discord = None
+            if player_discord:
+                db_data = (await self.verification.find_uuid(player_discord.id))
+                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
+                player_uuid = db_data[0]['minecraft_uuid']
+            else:
+                player = args[0]
+                player_formatted_name = (await self.mojang.get_profile(player))['name']
+                player_uuid = (await self.mojang.get_profile(player))['uuid']
         except IndexError: # If no arguments
             try:
                 db_data = await self.verification.find_uuid(ctx.author.id)
@@ -1081,9 +1252,22 @@ class BedwarsStats(commands.Cog):
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def bblr(self, ctx, *args):
         try:
-            player = args[0]
-            player_formatted_name = (await self.mojang.get_profile(player))['name']
-            player_uuid = (await self.mojang.get_profile(player))['uuid']
+            try:
+                player_discord = await self.user_converter.convert(ctx, args[0])
+                if player_discord.mentioned_in(ctx.message):
+                    pass
+                else:
+                    player_discord = None
+            except discord.ext.commands.errors.BadArgument:
+                player_discord = None
+            if player_discord:
+                db_data = (await self.verification.find_uuid(player_discord.id))
+                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
+                player_uuid = db_data[0]['minecraft_uuid']
+            else:
+                player = args[0]
+                player_formatted_name = (await self.mojang.get_profile(player))['name']
+                player_uuid = (await self.mojang.get_profile(player))['uuid']
         except IndexError: # If no arguments
             try:
                 db_data = await self.verification.find_uuid(ctx.author.id)
@@ -1154,9 +1338,22 @@ class BedwarsStats(commands.Cog):
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def solo_bblr(self, ctx, *args):
         try:
-            player = args[0]
-            player_formatted_name = (await self.mojang.get_profile(player))['name']
-            player_uuid = (await self.mojang.get_profile(player))['uuid']
+            try:
+                player_discord = await self.user_converter.convert(ctx, args[0])
+                if player_discord.mentioned_in(ctx.message):
+                    pass
+                else:
+                    player_discord = None
+            except discord.ext.commands.errors.BadArgument:
+                player_discord = None
+            if player_discord:
+                db_data = (await self.verification.find_uuid(player_discord.id))
+                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
+                player_uuid = db_data[0]['minecraft_uuid']
+            else:
+                player = args[0]
+                player_formatted_name = (await self.mojang.get_profile(player))['name']
+                player_uuid = (await self.mojang.get_profile(player))['uuid']
         except IndexError: # If no arguments
             try:
                 db_data = await self.verification.find_uuid(ctx.author.id)
@@ -1227,9 +1424,22 @@ class BedwarsStats(commands.Cog):
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def doubles_bblr(self, ctx, *args):
         try:
-            player = args[0]
-            player_formatted_name = (await self.mojang.get_profile(player))['name']
-            player_uuid = (await self.mojang.get_profile(player))['uuid']
+            try:
+                player_discord = await self.user_converter.convert(ctx, args[0])
+                if player_discord.mentioned_in(ctx.message):
+                    pass
+                else:
+                    player_discord = None
+            except discord.ext.commands.errors.BadArgument:
+                player_discord = None
+            if player_discord:
+                db_data = (await self.verification.find_uuid(player_discord.id))
+                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
+                player_uuid = db_data[0]['minecraft_uuid']
+            else:
+                player = args[0]
+                player_formatted_name = (await self.mojang.get_profile(player))['name']
+                player_uuid = (await self.mojang.get_profile(player))['uuid']
         except IndexError: # If no arguments
             try:
                 db_data = await self.verification.find_uuid(ctx.author.id)
@@ -1300,9 +1510,22 @@ class BedwarsStats(commands.Cog):
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def threes_bblr(self, ctx, *args):
         try:
-            player = args[0]
-            player_formatted_name = (await self.mojang.get_profile(player))['name']
-            player_uuid = (await self.mojang.get_profile(player))['uuid']
+            try:
+                player_discord = await self.user_converter.convert(ctx, args[0])
+                if player_discord.mentioned_in(ctx.message):
+                    pass
+                else:
+                    player_discord = None
+            except discord.ext.commands.errors.BadArgument:
+                player_discord = None
+            if player_discord:
+                db_data = (await self.verification.find_uuid(player_discord.id))
+                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
+                player_uuid = db_data[0]['minecraft_uuid']
+            else:
+                player = args[0]
+                player_formatted_name = (await self.mojang.get_profile(player))['name']
+                player_uuid = (await self.mojang.get_profile(player))['uuid']
         except IndexError: # If no arguments
             try:
                 db_data = await self.verification.find_uuid(ctx.author.id)
@@ -1373,9 +1596,22 @@ class BedwarsStats(commands.Cog):
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def fours_bblr(self, ctx, *args):
         try:
-            player = args[0]
-            player_formatted_name = (await self.mojang.get_profile(player))['name']
-            player_uuid = (await self.mojang.get_profile(player))['uuid']
+            try:
+                player_discord = await self.user_converter.convert(ctx, args[0])
+                if player_discord.mentioned_in(ctx.message):
+                    pass
+                else:
+                    player_discord = None
+            except discord.ext.commands.errors.BadArgument:
+                player_discord = None
+            if player_discord:
+                db_data = (await self.verification.find_uuid(player_discord.id))
+                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
+                player_uuid = db_data[0]['minecraft_uuid']
+            else:
+                player = args[0]
+                player_formatted_name = (await self.mojang.get_profile(player))['name']
+                player_uuid = (await self.mojang.get_profile(player))['uuid']
         except IndexError: # If no arguments
             try:
                 db_data = await self.verification.find_uuid(ctx.author.id)
@@ -1446,9 +1682,22 @@ class BedwarsStats(commands.Cog):
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def four_v_four_bblr(self, ctx, *args):
         try:
-            player = args[0]
-            player_formatted_name = (await self.mojang.get_profile(player))['name']
-            player_uuid = (await self.mojang.get_profile(player))['uuid']
+            try:
+                player_discord = await self.user_converter.convert(ctx, args[0])
+                if player_discord.mentioned_in(ctx.message):
+                    pass
+                else:
+                    player_discord = None
+            except discord.ext.commands.errors.BadArgument:
+                player_discord = None
+            if player_discord:
+                db_data = (await self.verification.find_uuid(player_discord.id))
+                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
+                player_uuid = db_data[0]['minecraft_uuid']
+            else:
+                player = args[0]
+                player_formatted_name = (await self.mojang.get_profile(player))['name']
+                player_uuid = (await self.mojang.get_profile(player))['uuid']
         except IndexError: # If no arguments
             try:
                 db_data = await self.verification.find_uuid(ctx.author.id)
@@ -1519,9 +1768,22 @@ class BedwarsStats(commands.Cog):
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def wlr(self, ctx, *args):
         try:
-            player = args[0]
-            player_formatted_name = (await self.mojang.get_profile(player))['name']
-            player_uuid = (await self.mojang.get_profile(player))['uuid']
+            try:
+                player_discord = await self.user_converter.convert(ctx, args[0])
+                if player_discord.mentioned_in(ctx.message):
+                    pass
+                else:
+                    player_discord = None
+            except discord.ext.commands.errors.BadArgument:
+                player_discord = None
+            if player_discord:
+                db_data = (await self.verification.find_uuid(player_discord.id))
+                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
+                player_uuid = db_data[0]['minecraft_uuid']
+            else:
+                player = args[0]
+                player_formatted_name = (await self.mojang.get_profile(player))['name']
+                player_uuid = (await self.mojang.get_profile(player))['uuid']
         except IndexError: # If no arguments
             try:
                 db_data = await self.verification.find_uuid(ctx.author.id)
@@ -1592,9 +1854,22 @@ class BedwarsStats(commands.Cog):
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def solo_wlr(self, ctx, *args):
         try:
-            player = args[0]
-            player_formatted_name = (await self.mojang.get_profile(player))['name']
-            player_uuid = (await self.mojang.get_profile(player))['uuid']
+            try:
+                player_discord = await self.user_converter.convert(ctx, args[0])
+                if player_discord.mentioned_in(ctx.message):
+                    pass
+                else:
+                    player_discord = None
+            except discord.ext.commands.errors.BadArgument:
+                player_discord = None
+            if player_discord:
+                db_data = (await self.verification.find_uuid(player_discord.id))
+                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
+                player_uuid = db_data[0]['minecraft_uuid']
+            else:
+                player = args[0]
+                player_formatted_name = (await self.mojang.get_profile(player))['name']
+                player_uuid = (await self.mojang.get_profile(player))['uuid']
         except IndexError: # If no arguments
             try:
                 db_data = await self.verification.find_uuid(ctx.author.id)
@@ -1665,9 +1940,22 @@ class BedwarsStats(commands.Cog):
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def doubles_wlr(self, ctx, *args):
         try:
-            player = args[0]
-            player_formatted_name = (await self.mojang.get_profile(player))['name']
-            player_uuid = (await self.mojang.get_profile(player))['uuid']
+            try:
+                player_discord = await self.user_converter.convert(ctx, args[0])
+                if player_discord.mentioned_in(ctx.message):
+                    pass
+                else:
+                    player_discord = None
+            except discord.ext.commands.errors.BadArgument:
+                player_discord = None
+            if player_discord:
+                db_data = (await self.verification.find_uuid(player_discord.id))
+                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
+                player_uuid = db_data[0]['minecraft_uuid']
+            else:
+                player = args[0]
+                player_formatted_name = (await self.mojang.get_profile(player))['name']
+                player_uuid = (await self.mojang.get_profile(player))['uuid']
         except IndexError: # If no arguments
             try:
                 db_data = await self.verification.find_uuid(ctx.author.id)
@@ -1738,9 +2026,22 @@ class BedwarsStats(commands.Cog):
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def threes_wlr(self, ctx, *args):
         try:
-            player = args[0]
-            player_formatted_name = (await self.mojang.get_profile(player))['name']
-            player_uuid = (await self.mojang.get_profile(player))['uuid']
+            try:
+                player_discord = await self.user_converter.convert(ctx, args[0])
+                if player_discord.mentioned_in(ctx.message):
+                    pass
+                else:
+                    player_discord = None
+            except discord.ext.commands.errors.BadArgument:
+                player_discord = None
+            if player_discord:
+                db_data = (await self.verification.find_uuid(player_discord.id))
+                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
+                player_uuid = db_data[0]['minecraft_uuid']
+            else:
+                player = args[0]
+                player_formatted_name = (await self.mojang.get_profile(player))['name']
+                player_uuid = (await self.mojang.get_profile(player))['uuid']
         except IndexError: # If no arguments
             try:
                 db_data = await self.verification.find_uuid(ctx.author.id)
@@ -1811,9 +2112,22 @@ class BedwarsStats(commands.Cog):
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def fours_wlr(self, ctx, *args):
         try:
-            player = args[0]
-            player_formatted_name = (await self.mojang.get_profile(player))['name']
-            player_uuid = (await self.mojang.get_profile(player))['uuid']
+            try:
+                player_discord = await self.user_converter.convert(ctx, args[0])
+                if player_discord.mentioned_in(ctx.message):
+                    pass
+                else:
+                    player_discord = None
+            except discord.ext.commands.errors.BadArgument:
+                player_discord = None
+            if player_discord:
+                db_data = (await self.verification.find_uuid(player_discord.id))
+                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
+                player_uuid = db_data[0]['minecraft_uuid']
+            else:
+                player = args[0]
+                player_formatted_name = (await self.mojang.get_profile(player))['name']
+                player_uuid = (await self.mojang.get_profile(player))['uuid']
         except IndexError: # If no arguments
             try:
                 db_data = await self.verification.find_uuid(ctx.author.id)
@@ -1884,9 +2198,22 @@ class BedwarsStats(commands.Cog):
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def four_v_four_wlr(self, ctx, *args):
         try:
-            player = args[0]
-            player_formatted_name = (await self.mojang.get_profile(player))['name']
-            player_uuid = (await self.mojang.get_profile(player))['uuid']
+            try:
+                player_discord = await self.user_converter.convert(ctx, args[0])
+                if player_discord.mentioned_in(ctx.message):
+                    pass
+                else:
+                    player_discord = None
+            except discord.ext.commands.errors.BadArgument:
+                player_discord = None
+            if player_discord:
+                db_data = (await self.verification.find_uuid(player_discord.id))
+                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
+                player_uuid = db_data[0]['minecraft_uuid']
+            else:
+                player = args[0]
+                player_formatted_name = (await self.mojang.get_profile(player))['name']
+                player_uuid = (await self.mojang.get_profile(player))['uuid']
         except IndexError: # If no arguments
             try:
                 db_data = await self.verification.find_uuid(ctx.author.id)
