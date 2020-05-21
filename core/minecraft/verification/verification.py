@@ -22,6 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+from discord.ext import commands
+import discord
 from core.minecraft.request import MojangAPI
 import core.minecraft.hypixel.request
 from tinydb import TinyDB, Query, where
@@ -29,6 +31,8 @@ from tinydb import TinyDB, Query, where
 class Verification():
     def __init__(self):
         self.hypixel = core.minecraft.hypixel.request.HypixelAPI()
+        self.mojang = MojangAPI()
+        self.user_converter = commands.UserConverter()
 
     async def verify(self, discord_id, discord_name, minecraft_uuid):
         db = TinyDB("/home/myerfire/Myaer/core/minecraft/verification/verified.json")
@@ -83,3 +87,38 @@ class Verification():
             return db.search(where("discord_id") == discord_id)
         except:
             return None
+
+    async def parse_input(self, ctx, input):
+        try:
+            player_discord = await self.user_converter.convert(ctx, input)
+            try:
+                if player_discord.mentioned_in(ctx.message) or isinstance(int(input), int):
+                    db_data = (await self.find_uuid(player_discord.id))
+                    player_data = {
+                        "player_formatted_name" : (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name'],
+                        "minecraft_uuid" : db_data[0]['minecraft_uuid']
+                    }
+                    return player_data
+            except IndexError:
+                raise AttributeError("Member mentioned not verified")
+                return
+        except discord.ext.commands.errors.BadArgument:
+            try:
+                player_data = {
+                    "player_formatted_name" : (await self.mojang.get_profile(input))['name'],
+                    "minecraft_uuid" : (await self.mojang.get_profile(input))['uuid']
+                }
+                return player_data
+            except NameError:
+                raise NameError
+
+    async def database_lookup(self, discord_id):
+        try:
+            db_data = await self.find_uuid(discord_id)
+            player_data = {
+                "player_formatted_name" : (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name'],
+                "minecraft_uuid" : db_data[0]['minecraft_uuid']
+            }
+            return player_data
+        except IndexError:
+            raise AttributeError("Not found in database")

@@ -47,7 +47,7 @@ class BedwarsStats(commands.Cog):
     async def bedwars(self, ctx, *args):
         try:
             try:
-                player_data = await self.parse_input(ctx, args[0])
+                player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -67,7 +67,7 @@ class BedwarsStats(commands.Cog):
                 return
         except IndexError: # If no arguments
             try:
-                player_data = await self.database_lookup(ctx.author.id)
+                player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -143,7 +143,7 @@ class BedwarsStats(commands.Cog):
     async def bedwars_stats(self, ctx, *args):
         try:
             try:
-                player_data = await self.parse_input(ctx, args[0])
+                player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -163,7 +163,7 @@ class BedwarsStats(commands.Cog):
                 return
         except IndexError: # If no arguments
             try:
-                player_data = await self.database_lookup(ctx.author.id)
+                player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -239,7 +239,7 @@ class BedwarsStats(commands.Cog):
     async def solo_bedwars(self, ctx, *args):
         try:
             try:
-                player_data = await self.parse_input(ctx, args[0])
+                player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -259,7 +259,7 @@ class BedwarsStats(commands.Cog):
                 return
         except IndexError: # If no arguments
             try:
-                player_data = await self.database_lookup(ctx.author.id)
+                player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -330,7 +330,7 @@ class BedwarsStats(commands.Cog):
     async def doubles_bedwars(self, ctx, *args):
         try:
             try:
-                player_data = await self.parse_input(ctx, args[0])
+                player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -350,7 +350,7 @@ class BedwarsStats(commands.Cog):
                 return
         except IndexError: # If no arguments
             try:
-                player_data = await self.database_lookup(ctx.author.id)
+                player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -421,7 +421,7 @@ class BedwarsStats(commands.Cog):
     async def threes_bedwars(self, ctx, *args):
         try:
             try:
-                player_data = await self.parse_input(ctx, args[0])
+                player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -441,7 +441,7 @@ class BedwarsStats(commands.Cog):
                 return
         except IndexError: # If no arguments
             try:
-                player_data = await self.database_lookup(ctx.author.id)
+                player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -512,7 +512,7 @@ class BedwarsStats(commands.Cog):
     async def fours_bedwars(self, ctx, *args):
         try:
             try:
-                player_data = await self.parse_input(ctx, args[0])
+                player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -532,7 +532,7 @@ class BedwarsStats(commands.Cog):
                 return
         except IndexError: # If no arguments
             try:
-                player_data = await self.database_lookup(ctx.author.id)
+                player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -603,7 +603,7 @@ class BedwarsStats(commands.Cog):
     async def four_v_four_bedwars(self, ctx, *args):
         try:
             try:
-                player_data = await self.parse_input(ctx, args[0])
+                player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -623,7 +623,7 @@ class BedwarsStats(commands.Cog):
                 return
         except IndexError: # If no arguments
             try:
-                player_data = await self.database_lookup(ctx.author.id)
+                player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -695,7 +695,7 @@ class BedwarsStats(commands.Cog):
     async def fkdr(self, ctx, *args):
         try:
             try:
-                player_data = await self.parse_input(ctx, args[0])
+                player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -715,7 +715,7 @@ class BedwarsStats(commands.Cog):
                 return
         except IndexError: # If no arguments
             try:
-                player_data = await self.database_lookup(ctx.author.id)
+                player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -775,7 +775,7 @@ class BedwarsStats(commands.Cog):
     async def solo_fkdr(self, ctx, *args):
         try:
             try:
-                player_data = await self.parse_input(ctx, args[0])
+                player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -795,7 +795,7 @@ class BedwarsStats(commands.Cog):
                 return
         except IndexError: # If no arguments
             try:
-                player_data = await self.database_lookup(ctx.author.id)
+                player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -855,7 +855,7 @@ class BedwarsStats(commands.Cog):
     async def doubles_fkdr(self, ctx, *args):
         try:
             try:
-                player_data = await self.parse_input(ctx, args[0])
+                player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -875,7 +875,7 @@ class BedwarsStats(commands.Cog):
                 return
         except IndexError: # If no arguments
             try:
-                player_data = await self.database_lookup(ctx.author.id)
+                player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -935,7 +935,7 @@ class BedwarsStats(commands.Cog):
     async def threes_fkdr(self, ctx, *args):
         try:
             try:
-                player_data = await self.parse_input(ctx, args[0])
+                player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -955,7 +955,7 @@ class BedwarsStats(commands.Cog):
                 return
         except IndexError: # If no arguments
             try:
-                player_data = await self.database_lookup(ctx.author.id)
+                player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -1015,7 +1015,7 @@ class BedwarsStats(commands.Cog):
     async def fours_fkdr(self, ctx, *args):
         try:
             try:
-                player_data = await self.parse_input(ctx, args[0])
+                player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -1035,7 +1035,7 @@ class BedwarsStats(commands.Cog):
                 return
         except IndexError: # If no arguments
             try:
-                player_data = await self.database_lookup(ctx.author.id)
+                player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -1095,7 +1095,7 @@ class BedwarsStats(commands.Cog):
     async def four_v_four_fkdr(self, ctx, *args):
         try:
             try:
-                player_data = await self.parse_input(ctx, args[0])
+                player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -1115,7 +1115,7 @@ class BedwarsStats(commands.Cog):
                 return
         except IndexError: # If no arguments
             try:
-                player_data = await self.database_lookup(ctx.author.id)
+                player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -1175,7 +1175,7 @@ class BedwarsStats(commands.Cog):
     async def bblr(self, ctx, *args):
         try:
             try:
-                player_data = await self.parse_input(ctx, args[0])
+                player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -1195,7 +1195,7 @@ class BedwarsStats(commands.Cog):
                 return
         except IndexError: # If no arguments
             try:
-                player_data = await self.database_lookup(ctx.author.id)
+                player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -1255,7 +1255,7 @@ class BedwarsStats(commands.Cog):
     async def solo_bblr(self, ctx, *args):
         try:
             try:
-                player_data = await self.parse_input(ctx, args[0])
+                player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -1275,7 +1275,7 @@ class BedwarsStats(commands.Cog):
                 return
         except IndexError: # If no arguments
             try:
-                player_data = await self.database_lookup(ctx.author.id)
+                player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -1335,7 +1335,7 @@ class BedwarsStats(commands.Cog):
     async def doubles_bblr(self, ctx, *args):
         try:
             try:
-                player_data = await self.parse_input(ctx, args[0])
+                player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -1355,7 +1355,7 @@ class BedwarsStats(commands.Cog):
                 return
         except IndexError: # If no arguments
             try:
-                player_data = await self.database_lookup(ctx.author.id)
+                player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -1415,7 +1415,7 @@ class BedwarsStats(commands.Cog):
     async def threes_bblr(self, ctx, *args):
         try:
             try:
-                player_data = await self.parse_input(ctx, args[0])
+                player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -1435,7 +1435,7 @@ class BedwarsStats(commands.Cog):
                 return
         except IndexError: # If no arguments
             try:
-                player_data = await self.database_lookup(ctx.author.id)
+                player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -1495,7 +1495,7 @@ class BedwarsStats(commands.Cog):
     async def fours_bblr(self, ctx, *args):
         try:
             try:
-                player_data = await self.parse_input(ctx, args[0])
+                player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -1515,7 +1515,7 @@ class BedwarsStats(commands.Cog):
                 return
         except IndexError: # If no arguments
             try:
-                player_data = await self.database_lookup(ctx.author.id)
+                player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -1575,7 +1575,7 @@ class BedwarsStats(commands.Cog):
     async def four_v_four_bblr(self, ctx, *args):
         try:
             try:
-                player_data = await self.parse_input(ctx, args[0])
+                player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -1595,7 +1595,7 @@ class BedwarsStats(commands.Cog):
                 return
         except IndexError: # If no arguments
             try:
-                player_data = await self.database_lookup(ctx.author.id)
+                player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -1655,7 +1655,7 @@ class BedwarsStats(commands.Cog):
     async def wlr(self, ctx, *args):
         try:
             try:
-                player_data = await self.parse_input(ctx, args[0])
+                player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -1675,7 +1675,7 @@ class BedwarsStats(commands.Cog):
                 return
         except IndexError: # If no arguments
             try:
-                player_data = await self.database_lookup(ctx.author.id)
+                player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -1735,7 +1735,7 @@ class BedwarsStats(commands.Cog):
     async def solo_wlr(self, ctx, *args):
         try:
             try:
-                player_data = await self.parse_input(ctx, args[0])
+                player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -1755,7 +1755,7 @@ class BedwarsStats(commands.Cog):
                 return
         except IndexError: # If no arguments
             try:
-                player_data = await self.database_lookup(ctx.author.id)
+                player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -1815,7 +1815,7 @@ class BedwarsStats(commands.Cog):
     async def doubles_wlr(self, ctx, *args):
         try:
             try:
-                player_data = await self.parse_input(ctx, args[0])
+                player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -1835,7 +1835,7 @@ class BedwarsStats(commands.Cog):
                 return
         except IndexError: # If no arguments
             try:
-                player_data = await self.database_lookup(ctx.author.id)
+                player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -1895,7 +1895,7 @@ class BedwarsStats(commands.Cog):
     async def threes_wlr(self, ctx, *args):
         try:
             try:
-                player_data = await self.parse_input(ctx, args[0])
+                player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -1915,7 +1915,7 @@ class BedwarsStats(commands.Cog):
                 return
         except IndexError: # If no arguments
             try:
-                player_data = await self.database_lookup(ctx.author.id)
+                player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -1975,7 +1975,7 @@ class BedwarsStats(commands.Cog):
     async def fours_wlr(self, ctx, *args):
         try:
             try:
-                player_data = await self.parse_input(ctx, args[0])
+                player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -1995,7 +1995,7 @@ class BedwarsStats(commands.Cog):
                 return
         except IndexError: # If no arguments
             try:
-                player_data = await self.database_lookup(ctx.author.id)
+                player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -2055,7 +2055,7 @@ class BedwarsStats(commands.Cog):
     async def four_v_four_wlr(self, ctx, *args):
         try:
             try:
-                player_data = await self.parse_input(ctx, args[0])
+                player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -2075,7 +2075,7 @@ class BedwarsStats(commands.Cog):
                 return
         except IndexError: # If no arguments
             try:
-                player_data = await self.database_lookup(ctx.author.id)
+                player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -2129,41 +2129,6 @@ class BedwarsStats(commands.Cog):
             text = core.static.stats_needed_disclaimer
         )
         await message.edit(embed = player_four_v_four_wlr_embed)
-
-    async def parse_input(self, ctx, input):
-        try:
-            player_discord = await self.user_converter.convert(ctx, input)
-            try:
-                if player_discord.mentioned_in(ctx.message) or isinstance(int(input), int):
-                    db_data = (await self.verification.find_uuid(player_discord.id))
-                    player_data = {
-                        "player_formatted_name" : (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name'],
-                        "minecraft_uuid" : db_data[0]['minecraft_uuid']
-                    }
-                    return player_data
-            except IndexError:
-                raise AttributeError("Member mentioned not verified")
-                return
-        except discord.ext.commands.errors.BadArgument:
-            try:
-                player_data = {
-                    "player_formatted_name" : (await self.mojang.get_profile(input))['name'],
-                    "minecraft_uuid" : (await self.mojang.get_profile(input))['uuid']
-                }
-                return player_data
-            except NameError:
-                raise NameError
-
-    async def database_lookup(self, discord_id):
-        try:
-            db_data = await self.verification.find_uuid(discord_id)
-            player_data = {
-                "player_formatted_name" : (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name'],
-                "minecraft_uuid" : db_data[0]['minecraft_uuid']
-            }
-            return player_data
-        except IndexError:
-            raise AttributeError("Not found in database")
 
 def setup(bot):
     bot.add_cog(BedwarsStats(bot))

@@ -37,6 +37,7 @@ class Minecraft(commands.Cog):
         self.bot = bot
         self.markdown = Markdown()
         self.mojang = MojangAPI()
+        self.user_converter = commands.UserConverter()
         self.verification = Verification()
 
     @commands.group(name = "minecraft", aliases = ["mc"], invoke_without_command = True)
@@ -47,35 +48,42 @@ class Minecraft(commands.Cog):
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def name_history(self, ctx, *args):
         try:
-            player = args[0]
-            player_formatted_name = (await self.mojang.get_profile(player))['name']
-            player_uuid = (await self.mojang.get_profile(player))['uuid']
+            try:
+                player_data = await self.verification.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
         except IndexError: # If no arguments
             try:
-                db_data = await self.verification.find_uuid(ctx.author.id)
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            except IndexError:
+                player_data = await self.verification.database_lookup(ctx.author.id)
+            except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
                     description = "You have to verify with `/mc verify <minecraft-ign>` first."
                 )
                 await ctx.send(embed = unverified_embed)
                 return
-        except NameError:
-            nameerror_embed = discord.Embed(
-                name = "Invalid input",
-                description = f"\"{player}\" is not a valid username or UUID."
-            )
-            await ctx.send(embed = nameerror_embed)
-            return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_formatted_name}\'s name history..."
+            description = f"Loading {player_data['player_formatted_name']}\'s name history..."
         )
         message = await ctx.send(embed = loading_embed)
         index = 0
-        name_history = await self.mojang.get_name_history_uuid(player_uuid)
+        name_history = await self.mojang.get_name_history_uuid(player_data['minecraft_uuid'])
         name_history_embed = discord.Embed(
             name = "Name history"
         )
@@ -99,36 +107,43 @@ class Minecraft(commands.Cog):
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def uuid(self, ctx, *args):
         try:
-            player = args[0]
-            player_formatted_name = (await self.mojang.get_profile(player))['name']
-            player_uuid = (await self.mojang.get_profile(player))['uuid']
+            try:
+                player_data = await self.verification.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
         except IndexError: # If no arguments
             try:
-                db_data = await self.verification.find_uuid(ctx.author.id)
-                player_formatted_name = (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name']
-                player_uuid = db_data[0]['minecraft_uuid']
-            except IndexError:
+                player_data = await self.verification.database_lookup(ctx.author.id)
+            except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
                     description = "You have to verify with `/mc verify <minecraft-ign>` first."
                 )
                 await ctx.send(embed = unverified_embed)
                 return
-        except NameError:
-            nameerror_embed = discord.Embed(
-                name = "Invalid input",
-                description = f"\"{player}\" is not a valid username or UUID."
-            )
-            await ctx.send(embed = nameerror_embed)
-            return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_formatted_name}\'s WLR data..."
+            description = f"Loading {player_data['player_formatted_name']}\'s UUID..."
         )
         message = await ctx.send(embed = loading_embed)
         player_uuid_embed = discord.Embed(
             name = "Player UUID",
-            description = f"{player_formatted_name}\'s UUID is {player_uuid}."
+            description = f"{player_data['player_formatted_name']}\'s UUID is {player_data['minecraft_uuid']}."
         )
         await message.edit(embed = player_uuid_embed)
 
