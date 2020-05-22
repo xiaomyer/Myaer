@@ -75,37 +75,37 @@ class Bedwars():
         star = await self.get_star()
         if star in range(0, 100):
             prestige = 'Stone'
-            prestige_color = prestige_colors['Stone']
+            prestige_color = prestige_colors[prestige]
         elif star in range(100, 200):
             prestige = 'Iron'
-            prestige_color = prestige_colors['Iron']
+            prestige_color = prestige_colors[prestige]
         elif star in range(200, 300):
             prestige = 'Gold'
-            prestige_color = prestige_colors['Gold']
+            prestige_color = prestige_colors[prestige]
         elif star in range(300, 400):
             prestige = 'Diamond'
-            prestige_color = prestige_colors['Diamond']
+            prestige_color = prestige_colors[prestige]
         elif star in range(400, 500):
             prestige = 'Emerald'
-            prestige_color = prestige_colors['Emerald']
+            prestige_color = prestige_colors[prestige]
         elif star in range(500, 600):
             prestige = 'Sapphire'
-            prestige_color = prestige_colors['Sapphire']
+            prestige_color = prestige_colors[prestige]
         elif star in range(600, 700):
             prestige = 'Ruby'
-            prestige_color = prestige_colors['Ruby']
+            prestige_color = prestige_colors[prestige]
         elif star in range(700, 800):
             prestige = 'Crystal'
-            prestige_color = prestige_colors['Crystal']
+            prestige_color = prestige_colors[prestige]
         elif star in range(800, 900):
             prestige = 'Opal'
-            prestige_color = prestige_colors['Opal']
+            prestige_color = prestige_colors[prestige]
         elif star in range(900, 1000):
             prestige = 'Amethyst'
-            prestige_color = prestige_colors['Amethyst']
+            prestige_color = prestige_colors[prestige]
         else:
             prestige = 'Rainbow'
-            prestige_color = prestige_colors['Rainbow']
+            prestige_color = prestige_colors[prestige]
 
         prestige_data = {
             "prestige" : prestige,
