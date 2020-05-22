@@ -72,46 +72,10 @@ class Bedwars():
             return 0
 
     async def get_prestige_data(self):
-        star = await self.get_star()
-        if star in range(0, 100):
-            prestige = 'Stone'
-            prestige_color = prestige_colors[prestige]
-        elif star in range(100, 200):
-            prestige = 'Iron'
-            prestige_color = prestige_colors[prestige]
-        elif star in range(200, 300):
-            prestige = 'Gold'
-            prestige_color = prestige_colors[prestige]
-        elif star in range(300, 400):
-            prestige = 'Diamond'
-            prestige_color = prestige_colors[prestige]
-        elif star in range(400, 500):
-            prestige = 'Emerald'
-            prestige_color = prestige_colors[prestige]
-        elif star in range(500, 600):
-            prestige = 'Sapphire'
-            prestige_color = prestige_colors[prestige]
-        elif star in range(600, 700):
-            prestige = 'Ruby'
-            prestige_color = prestige_colors[prestige]
-        elif star in range(700, 800):
-            prestige = 'Crystal'
-            prestige_color = prestige_colors[prestige]
-        elif star in range(800, 900):
-            prestige = 'Opal'
-            prestige_color = prestige_colors[prestige]
-        elif star in range(900, 1000):
-            prestige = 'Amethyst'
-            prestige_color = prestige_colors[prestige]
-        else:
-            prestige = 'Rainbow'
-            prestige_color = prestige_colors[prestige]
-
-        prestige_data = {
-            "prestige" : prestige,
-            "prestige_color" : prestige_color
-        }
-        return prestige_data
+        star_rounded = await self.get_star() // 100 # // = floor division, basically math.floor(await self.get_star() / 100)
+        star_rounded = star_rounded if star_rounded < 10 else 10 # if greater than 10, set to ten
+        prestiges = ['Stone', 'Iron', 'Gold', 'Diamond', 'Emerald', 'Sapphire', 'Ruby', 'Opal', 'Amethyst', 'Rainbow']
+        return {"prestige": prestiges[star_rounded], "prestige_color": prestige_colors[prestiges[star_rounded]]} # sometimes my genius, it's...it's almost frightnening
 
     async def get_coins(self):
         try:
