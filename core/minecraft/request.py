@@ -44,8 +44,8 @@ class MojangAPI():
                 profile = await session.get(f"{mojang_api}users/profiles/minecraft/{player}")
                 profile_json = await profile.json()
                 profile_data = {
-                "name" : profile_json['name'], # Case sensitive display name
-                "uuid" : profile_json['id']
+                "name" : profile_json["name"], # Case sensitive display name
+                "uuid" : profile_json["id"]
                 }
         except Exception: # Mojang API returns wrong mimetype if player does not exist
             raise NameError(f"Player \"{player}\" does not exist")
@@ -58,8 +58,8 @@ class MojangAPI():
                 profile = await session.get(f"{mojang_session_server}session/minecraft/profile/{player.replace('-','')}") # Mojang session server does not accept UUIDs with "-"
                 profile_json = await profile.json()
                 profile_data = {
-                "name" : profile_json['name'],
-                "uuid" : profile_json['id']
+                "name" : profile_json["name"],
+                "uuid" : profile_json["id"]
                 }
         except Exception:
             raise NameError(f"Invalid UUID \"{player}\"")
@@ -74,9 +74,9 @@ class MojangAPI():
                 name_history_json = await name_history_raw.json()
                 for name in name_history_json:
                     try:
-                        name_history.append([name['name'], name['changedToAt']])
+                        name_history.append([name["name"], name["changedToAt"]])
                     except KeyError:
-                        name_history.append([name['name'], None])
+                        name_history.append([name["name"], None]) # First name has no changedToAt key
         except Exception:
             raise NameError(f"Invalid UUID \"{player}\"")
 

@@ -42,7 +42,7 @@ class Verification():
         except NameError:
             raise NameError("No Hypixel stats for input UUID.")
         try:
-            hypixel_discord_name = core.minecraft.hypixel.request.player_json['player']['socialMedia']['links']['DISCORD']
+            hypixel_discord_name = core.minecraft.hypixel.request.player_json["player"]["socialMedia"]["links"]["DISCORD"]
         except KeyError:
             hypixel_discord_name = None
         if (discord_name != hypixel_discord_name) and (hypixel_discord_name != None):
@@ -95,8 +95,8 @@ class Verification():
                 if player_discord.mentioned_in(ctx.message) or isinstance(int(input), int):
                     db_data = (await self.find_uuid(player_discord.id))
                     player_data = {
-                        "player_formatted_name" : (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name'],
-                        "minecraft_uuid" : db_data[0]['minecraft_uuid']
+                        "player_formatted_name" : (await self.mojang.get_profile((db_data[0]["minecraft_uuid"])))["name"],
+                        "minecraft_uuid" : db_data[0]["minecraft_uuid"]
                     }
                     return player_data
             except IndexError:
@@ -105,8 +105,8 @@ class Verification():
         except discord.ext.commands.errors.BadArgument:
             try:
                 player_data = {
-                    "player_formatted_name" : (await self.mojang.get_profile(input))['name'],
-                    "minecraft_uuid" : (await self.mojang.get_profile(input))['uuid']
+                    "player_formatted_name" : (await self.mojang.get_profile(input))["name"],
+                    "minecraft_uuid" : (await self.mojang.get_profile(input))["uuid"]
                 }
                 return player_data
             except NameError:
@@ -116,8 +116,8 @@ class Verification():
         try:
             db_data = await self.find_uuid(discord_id)
             player_data = {
-                "player_formatted_name" : (await self.mojang.get_profile((db_data[0]['minecraft_uuid'])))['name'],
-                "minecraft_uuid" : db_data[0]['minecraft_uuid']
+                "player_formatted_name" : (await self.mojang.get_profile((db_data[0]["minecraft_uuid"])))["name"],
+                "minecraft_uuid" : db_data[0]["minecraft_uuid"]
             }
             return player_data
         except IndexError:

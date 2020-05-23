@@ -81,7 +81,7 @@ class WristSpasm(commands.Cog):
     @wristspasm.command(name = "verify")
     async def prestige_role(self, ctx, player):
         try:
-            name = (await self.mojang.get_profile(player))['name']
+            name = (await self.mojang.get_profile(player))["name"]
             loading_embed = discord.Embed(
                 name = "Loading",
                 description = f"Verifying you as {name}..."
@@ -98,7 +98,7 @@ class WristSpasm(commands.Cog):
             )
             await ctx.send(embed = nameerror_embed)
             return
-        prestige = (await self.bedwars.get_prestige_data())['prestige']
+        prestige = (await self.bedwars.get_prestige_data())["prestige"]
         prestige_role = self.roles[prestige]
         prestige_role_object = ctx.guild.get_role(prestige_role)
         if ctx.author.nick != name:
@@ -157,7 +157,7 @@ class WristSpasm(commands.Cog):
     @commands.check(override_check)
     async def verify_override(self, ctx, target: discord.Member, ign):
         try:
-            name = (await self.mojang.get_profile(ign))['name']
+            name = (await self.mojang.get_profile(ign))["name"]
             loading_embed = discord.Embed(
                 name = "Loading",
                 description = f"Verifying {target} as {name}..."
@@ -174,14 +174,14 @@ class WristSpasm(commands.Cog):
             )
             await ctx.send(embed = nameerror_embed)
             return
-        prestige = (await self.bedwars.get_prestige_data())['prestige']
+        prestige = (await self.bedwars.get_prestige_data())["prestige"]
         prestige_role = self.roles[prestige]
         prestige_role_object = ctx.guild.get_role(prestige_role)
         if target.nick != name:
             await target.edit(nick = name)
             nickname_changed_embed = discord.Embed(
                 name = "Nickname changed",
-                description = f"Changed {target}\'s nickname to {name}."
+                description = f"Changed {target}'s nickname to {name}."
                 )
             nickname_changed_embed.set_footer(
                 text = core.static.wrist_spasm_disclaimer
@@ -190,7 +190,7 @@ class WristSpasm(commands.Cog):
         else:
             nickname_already_set_embed = discord.Embed(
                 name = "Already have nickname",
-                description = f"{target}\'s nickname is already {name}."
+                description = f"{target}'s nickname is already {name}."
             )
             nickname_already_set_embed.set_footer(
                 text = core.static.wrist_spasm_disclaimer

@@ -67,7 +67,7 @@ class LeaderboardCommands(commands.Cog):
         )
         for player in await self.bedwarsleaderboards.get_levels():
             await self.hypixel.send_player_request_uuid(player)
-            leaderboard.append([await self.bedwars.get_star(), core.minecraft.hypixel.request.player_json['player']['displayname'], await self.bedwars.get_ratio(await self.bedwars.get_final_kills(), await self.bedwars.get_final_deaths())])
+            leaderboard.append([await self.bedwars.get_star(), core.minecraft.hypixel.request.player_json["player"]["displayname"], await self.bedwars.get_ratio(await self.bedwars.get_final_kills(), await self.bedwars.get_final_deaths())])
             bedwars_level_leaderboard_embed.add_field(
                 name = f"#{index + 1}",
                 value = f"{await self.markdown.bold(discord.utils.escape_markdown(f'[{leaderboard[index][0]}{core.static.bedwars_star}] {leaderboard[index][1]}'))} - {leaderboard[index][2]} FKDR",
@@ -92,7 +92,7 @@ class LeaderboardCommands(commands.Cog):
         )
         for player in await self.bedwarsleaderboards.get_wins():
             await self.hypixel.send_player_request_uuid(player)
-            leaderboard.append([await self.bedwars.get_star(), core.minecraft.hypixel.request.player_json['player']['displayname'], await self.bedwars.get_wins()])
+            leaderboard.append([await self.bedwars.get_star(), core.minecraft.hypixel.request.player_json["player"]["displayname"], await self.bedwars.get_wins()])
             bedwars_overall_wins_leaderboard_embed.add_field(
                 name = f"#{index + 1}",
                 value = f"{await self.markdown.bold(discord.utils.escape_markdown(f'[{leaderboard[index][0]}{core.static.bedwars_star}] {leaderboard[index][1]}'))} - {leaderboard[index][2]} wins",
@@ -117,7 +117,7 @@ class LeaderboardCommands(commands.Cog):
         )
         for player in await self.bedwarsleaderboards.get_weekly_wins():
             await self.hypixel.send_player_request_uuid(player)
-            leaderboard.append([await self.bedwars.get_star(), core.minecraft.hypixel.request.player_json['player']['displayname']])
+            leaderboard.append([await self.bedwars.get_star(), core.minecraft.hypixel.request.player_json["player"]["displayname"]])
             bedwars_weekly_wins_leaderboard_embed.add_field(
                 name = f"#{index + 1}",
                 value = f"{await self.markdown.bold(discord.utils.escape_markdown(f'[{leaderboard[index][0]}{core.static.bedwars_star}] {leaderboard[index][1]}'))}",
@@ -142,7 +142,7 @@ class LeaderboardCommands(commands.Cog):
         )
         for player in await self.bedwarsleaderboards.get_finals():
             await self.hypixel.send_player_request_uuid(player)
-            leaderboard.append([await self.bedwars.get_star(), core.minecraft.hypixel.request.player_json['player']['displayname'], await self.bedwars.get_final_kills()])
+            leaderboard.append([await self.bedwars.get_star(), core.minecraft.hypixel.request.player_json["player"]["displayname"], await self.bedwars.get_final_kills()])
             bedwars_overall_finals_leaderboard_embed.add_field(
                 name = f"#{index + 1}",
                 value = f"{await self.markdown.bold(discord.utils.escape_markdown(f'[{leaderboard[index][0]}{core.static.bedwars_star}] {leaderboard[index][1]}'))} - {leaderboard[index][2]} finals",
@@ -167,7 +167,7 @@ class LeaderboardCommands(commands.Cog):
         )
         for player in await self.bedwarsleaderboards.get_weekly_finals():
             await self.hypixel.send_player_request_uuid(player)
-            leaderboard.append([await self.bedwars.get_star(), core.minecraft.hypixel.request.player_json['player']['displayname']])
+            leaderboard.append([await self.bedwars.get_star(), core.minecraft.hypixel.request.player_json["player"]["displayname"]])
             bedwars_weekly_finals_leaderboard_embed.add_field(
                 name = f"#{index + 1}",
                 value = f"{await self.markdown.bold(discord.utils.escape_markdown(f'[{leaderboard[index][0]}{core.static.bedwars_star}] {leaderboard[index][1]}'))}",
@@ -186,7 +186,7 @@ class LeaderboardCommands(commands.Cog):
             )
             await ctx.send(embed = cooldown_embed)
 
-        print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
+        print("Ignoring exception in command {}:".format(ctx.command), file=sys.stderr)
         traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
 
 def setup(bot):

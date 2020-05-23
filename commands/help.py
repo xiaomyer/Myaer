@@ -45,7 +45,7 @@ class Help(commands.Cog):
         )
         help_embed.set_author(
             name = "Help",
-            icon_url = str(ctx.me.avatar_url_as(static_format='png', size=2048))
+            icon_url = str(ctx.me.avatar_url_as(static_format="png", size=2048))
         )
         help_embed.set_footer(
             text = "Made by MyerFire"

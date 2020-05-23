@@ -41,7 +41,7 @@ prestige_colors = {
 }
 
 class Skywars():
-    async def get_star_experience(self, experience): # Formula that I don't understand, thanks to @GamingGeeek and littlemissantivirus
+    async def get_star_experience(self, experience): # Formula that I don"t understand, thanks to @GamingGeeek and littlemissantivirus
         total_xp = [20, 70, 150, 250, 500, 1000, 2000, 3500, 6000, 10000, 15000]
         star = 0
         if experience >= 15000:
@@ -58,7 +58,7 @@ class Skywars():
 
     async def get_star(self):
         try:
-            skywars_experience = core.minecraft.hypixel.request.player_json['player']['stats']['SkyWars']['skywars_experience']
+            skywars_experience = core.minecraft.hypixel.request.player_json["player"]["stats"]["SkyWars"]["skywars_experience"]
             star = await self.get_star_experience(skywars_experience)
             return math.trunc(star)
         except KeyError:
@@ -68,40 +68,40 @@ class Skywars():
         star = await self.get_star()
         if star in range(0, 5):
             prestige = "Stone"
-            prestige_color = prestige_colors['Stone']
+            prestige_color = prestige_colors["Stone"]
         elif star in range(5, 10):
             prestige = "Iron"
-            prestige_color = prestige_colors['Iron']
+            prestige_color = prestige_colors["Iron"]
         elif star in range(10, 15):
             prestige = "Gold"
-            prestige_color = prestige_colors['Gold']
+            prestige_color = prestige_colors["Gold"]
         elif star in range(15, 20):
             prestige = "Diamond"
-            prestige_color = prestige_colors['Diamond']
+            prestige_color = prestige_colors["Diamond"]
         elif star in range(20, 25):
             prestige = "Emerald"
-            prestige_color = prestige_colors['Emerald']
+            prestige_color = prestige_colors["Emerald"]
         elif star in range(25, 30):
             prestige = "Sapphire"
-            prestige_color = prestige_colors['Sapphire']
+            prestige_color = prestige_colors["Sapphire"]
         elif star in range(30, 35):
             prestige = "Ruby"
-            prestige_color = prestige_colors['Ruby']
+            prestige_color = prestige_colors["Ruby"]
         elif star in range(35, 40):
             prestige = "Crystal"
-            prestige_color = prestige_colors['Crystal']
+            prestige_color = prestige_colors["Crystal"]
         elif star in range(40, 45):
             prestige = "Opal"
-            prestige_color = prestige_colors['Opal']
+            prestige_color = prestige_colors["Opal"]
         elif star in range(45, 50):
             prestige = "Amethyst"
-            prestige_color = prestige_colors['Amethyst']
+            prestige_color = prestige_colors["Amethyst"]
         elif star in range(50, 60):
             prestige = "Rainbow"
-            prestige_color = prestige_colors['Rainbow']
+            prestige_color = prestige_colors["Rainbow"]
         else:
             prestige = "Mystic"
-            prestige_color = prestige_colors['Rainbow']
+            prestige_color = prestige_colors["Rainbow"]
 
         prestige_data = {
             "prestige" : prestige,
@@ -111,28 +111,28 @@ class Skywars():
 
     async def get_games_played(self):
         try:
-            games_played = core.minecraft.hypixel.request.player_json['player']['stats']['SkyWars']['games_played_skywars']
+            games_played = core.minecraft.hypixel.request.player_json["player"]["stats"]["SkyWars"]["games_played_skywars"]
             return games_played
         except KeyError:
             return 0
 
     async def get_coins(self):
         try:
-            coins = core.minecraft.hypixel.request.player_json['player']['stats']['SkyWars']['coins']
+            coins = core.minecraft.hypixel.request.player_json["player"]["stats"]["SkyWars"]["coins"]
             return coins
         except KeyError:
             return 0
 
     async def get_tokens(self):
         try:
-            tokens = core.minecraft.hypixel.request.player_json['player']['stats']['SkyWars']['cosmetic_tokens']
+            tokens = core.minecraft.hypixel.request.player_json["player"]["stats"]["SkyWars"]["cosmetic_tokens"]
             return tokens
         except KeyError:
             return 0
 
     async def get_souls(self):
         try:
-            souls = core.minecraft.hypixel.request.player_json['player']['stats']['SkyWars']['souls']
+            souls = core.minecraft.hypixel.request.player_json["player"]["stats"]["SkyWars"]["souls"]
             return souls
         except KeyError:
             return 0
@@ -149,28 +149,28 @@ class Skywars():
 
     async def get_kills(self):
         try:
-            kills = core.minecraft.hypixel.request.player_json['player']['stats']['SkyWars']['kills']
+            kills = core.minecraft.hypixel.request.player_json["player"]["stats"]["SkyWars"]["kills"]
             return kills
         except KeyError:
             return 0
 
     async def get_deaths(self):
         try:
-            deaths = core.minecraft.hypixel.request.player_json['player']['stats']['SkyWars']['deaths']
+            deaths = core.minecraft.hypixel.request.player_json["player"]["stats"]["SkyWars"]["deaths"]
             return deaths
         except KeyError:
             return 0
 
     async def get_wins(self):
         try:
-            wins = core.minecraft.hypixel.request.player_json['player']['stats']['SkyWars']['wins']
+            wins = core.minecraft.hypixel.request.player_json["player"]["stats"]["SkyWars"]["wins"]
             return wins
         except KeyError:
             return 0
 
     async def get_losses(self):
         try:
-            losses = core.minecraft.hypixel.request.player_json['player']['stats']['SkyWars']['losses']
+            losses = core.minecraft.hypixel.request.player_json["player"]["stats"]["SkyWars"]["losses"]
             return losses
         except KeyError:
             return 0

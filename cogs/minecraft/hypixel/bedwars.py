@@ -77,11 +77,11 @@ class BedwarsStats(commands.Cog):
                 return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_data['player_formatted_name']}\'s Bedwars stats..."
+            description = f"Loading {player_data['player_formatted_name']}'s Bedwars stats..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data["minecraft_uuid"]) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -90,11 +90,11 @@ class BedwarsStats(commands.Cog):
             await message.edit(embed = nameerror_embed)
             return
         player_stats_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s Bedwars Stats")),
-            color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Bedwars Stats")),
+            color = int((await self.bedwars.get_prestige_data())["prestige_color"], 16) # 16 - Hex value.
         )
         player_stats_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons['Bedwars']
+            url = core.static.hypixel_game_icons["Bedwars"]
         )
         player_stats_embed.add_field(
             name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Level"))),
@@ -139,7 +139,7 @@ class BedwarsStats(commands.Cog):
         )
         await message.edit(embed = player_stats_embed)
 
-    @bedwars.command(name = "stats") # Safety net in case the player's name is "solo" or "doubles"
+    @bedwars.command(name = "stats") # Safety net in case the player"s name is "solo" or "doubles"
     async def bedwars_stats(self, ctx, *args):
         if len(args):
             try:
@@ -173,11 +173,11 @@ class BedwarsStats(commands.Cog):
                 return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_data['player_formatted_name']}\'s Bedwars stats..."
+            description = f"Loading {player_data['player_formatted_name']}'s Bedwars stats..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data["minecraft_uuid"]) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -186,11 +186,11 @@ class BedwarsStats(commands.Cog):
             await message.edit(embed = nameerror_embed)
             return
         player_stats_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s Bedwars Stats")),
-            color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Bedwars Stats")),
+            color = int((await self.bedwars.get_prestige_data())["prestige_color"], 16) # 16 - Hex value.
         )
         player_stats_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons['Bedwars']
+            url = core.static.hypixel_game_icons["Bedwars"]
         )
         player_stats_embed.add_field(
             name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Level"))),
@@ -269,11 +269,11 @@ class BedwarsStats(commands.Cog):
                 return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_data['player_formatted_name']}\'s Solo Bedwars stats..."
+            description = f"Loading {player_data['player_formatted_name']}'s Solo Bedwars stats..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data["minecraft_uuid"]) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -282,11 +282,11 @@ class BedwarsStats(commands.Cog):
             await message.edit(embed = nameerror_embed)
             return
         player_solo_stats_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s Solo Bedwars Stats")),
-            color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Solo Bedwars Stats")),
+            color = int((await self.bedwars.get_prestige_data())["prestige_color"], 16) # 16 - Hex value.
         )
         player_solo_stats_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons['Bedwars']
+            url = core.static.hypixel_game_icons["Bedwars"]
         )
         player_solo_stats_embed.add_field(
             name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Final Kills"))),
@@ -360,11 +360,11 @@ class BedwarsStats(commands.Cog):
                 return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_data['player_formatted_name']}\'s Doubles Bedwars stats..."
+            description = f"Loading {player_data['player_formatted_name']}'s Doubles Bedwars stats..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data["minecraft_uuid"]) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -373,11 +373,11 @@ class BedwarsStats(commands.Cog):
             await message.send(embed = nameerror_embed)
             return
         player_doubles_stats_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s Doubles Bedwars Stats")),
-            color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Doubles Bedwars Stats")),
+            color = int((await self.bedwars.get_prestige_data())["prestige_color"], 16) # 16 - Hex value.
         )
         player_doubles_stats_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons['Bedwars']
+            url = core.static.hypixel_game_icons["Bedwars"]
         )
         player_doubles_stats_embed.add_field(
             name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Final Kills"))),
@@ -451,11 +451,11 @@ class BedwarsStats(commands.Cog):
                 return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_data['player_formatted_name']}\'s Threes Bedwars stats..."
+            description = f"Loading {player_data['player_formatted_name']}'s Threes Bedwars stats..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data["minecraft_uuid"]) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -464,11 +464,11 @@ class BedwarsStats(commands.Cog):
             await message.edit(embed = nameerror_embed)
             return
         player_threes_stats_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s Threes Bedwars Stats")),
-            color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Threes Bedwars Stats")),
+            color = int((await self.bedwars.get_prestige_data())["prestige_color"], 16) # 16 - Hex value.
         )
         player_threes_stats_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons['Bedwars']
+            url = core.static.hypixel_game_icons["Bedwars"]
         )
         player_threes_stats_embed.add_field(
             name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Final Kills"))),
@@ -542,11 +542,11 @@ class BedwarsStats(commands.Cog):
                 return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_data['player_formatted_name']}\'s Fours Bedwars stats..."
+            description = f"Loading {player_data['player_formatted_name']}'s Fours Bedwars stats..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data["minecraft_uuid"]) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -555,11 +555,11 @@ class BedwarsStats(commands.Cog):
             await message.edit(embed = nameerror_embed)
             return
         player_fours_stats_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s Fours Bedwars Stats")),
-            color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Fours Bedwars Stats")),
+            color = int((await self.bedwars.get_prestige_data())["prestige_color"], 16) # 16 - Hex value.
         )
         player_fours_stats_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons['Bedwars']
+            url = core.static.hypixel_game_icons["Bedwars"]
         )
         player_fours_stats_embed.add_field(
             name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Final Kills"))),
@@ -633,11 +633,11 @@ class BedwarsStats(commands.Cog):
                 return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_data['player_formatted_name']}\'s 4v4 Bedwars stats..."
+            description = f"Loading {player_data['player_formatted_name']}'s 4v4 Bedwars stats..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data["minecraft_uuid"]) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -646,11 +646,11 @@ class BedwarsStats(commands.Cog):
             await message.edit(embed = nameerror_embed)
             return
         player_four_v_four_stats_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s 4v4 Bedwars Stats")),
-            color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s 4v4 Bedwars Stats")),
+            color = int((await self.bedwars.get_prestige_data())["prestige_color"], 16) # 16 - Hex value.
         )
         player_four_v_four_stats_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons['Bedwars']
+            url = core.static.hypixel_game_icons["Bedwars"]
         )
         player_four_v_four_stats_embed.add_field(
             name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} Final Kills"))),
@@ -725,11 +725,11 @@ class BedwarsStats(commands.Cog):
                 return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_data['player_formatted_name']}\'s FKDR data..."
+            description = f"Loading {player_data['player_formatted_name']}'s FKDR data..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data["minecraft_uuid"]) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -738,11 +738,11 @@ class BedwarsStats(commands.Cog):
             await message.edit(embed = nameerror_embed)
             return
         player_fkdr_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s FKDR")),
-            color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s FKDR")),
+            color = int((await self.bedwars.get_prestige_data())["prestige_color"], 16) # 16 - Hex value.
         )
         player_fkdr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons['Bedwars']
+            url = core.static.hypixel_game_icons["Bedwars"]
         )
         player_fkdr_embed.add_field(
             name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} FKDR"))),
@@ -805,11 +805,11 @@ class BedwarsStats(commands.Cog):
                 return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_data['player_formatted_name']}\'s solo FKDR data..."
+            description = f"Loading {player_data['player_formatted_name']}'s solo FKDR data..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data["minecraft_uuid"]) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -818,11 +818,11 @@ class BedwarsStats(commands.Cog):
             await message.edit(embed = nameerror_embed)
             return
         player_solo_fkdr_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s Solo FKDR")),
-            color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Solo FKDR")),
+            color = int((await self.bedwars.get_prestige_data())["prestige_color"], 16) # 16 - Hex value.
         )
         player_solo_fkdr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons['Bedwars']
+            url = core.static.hypixel_game_icons["Bedwars"]
         )
         player_solo_fkdr_embed.add_field(
             name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} FKDR"))),
@@ -885,11 +885,11 @@ class BedwarsStats(commands.Cog):
                 return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_data['player_formatted_name']}\'s doubles FKDR data..."
+            description = f"Loading {player_data['player_formatted_name']}'s doubles FKDR data..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data["minecraft_uuid"]) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -898,11 +898,11 @@ class BedwarsStats(commands.Cog):
             await message.edit(embed = nameerror_embed)
             return
         player_doubles_fkdr_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s Doubles FKDR")),
-            color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Doubles FKDR")),
+            color = int((await self.bedwars.get_prestige_data())["prestige_color"], 16) # 16 - Hex value.
         )
         player_doubles_fkdr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons['Bedwars']
+            url = core.static.hypixel_game_icons["Bedwars"]
         )
         player_doubles_fkdr_embed.add_field(
             name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} FKDR"))),
@@ -965,11 +965,11 @@ class BedwarsStats(commands.Cog):
                 return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_data['player_formatted_name']}\'s threes FKDR data..."
+            description = f"Loading {player_data['player_formatted_name']}'s threes FKDR data..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data["minecraft_uuid"]) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -978,11 +978,11 @@ class BedwarsStats(commands.Cog):
             await message.edit(embed = nameerror_embed)
             return
         player_threes_fkdr_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s Threes FKDR")),
-            color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Threes FKDR")),
+            color = int((await self.bedwars.get_prestige_data())["prestige_color"], 16) # 16 - Hex value.
         )
         player_threes_fkdr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons['Bedwars']
+            url = core.static.hypixel_game_icons["Bedwars"]
         )
         player_threes_fkdr_embed.add_field(
             name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} FKDR"))),
@@ -1045,11 +1045,11 @@ class BedwarsStats(commands.Cog):
                 return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_data['player_formatted_name']}\'s fours FKDR data..."
+            description = f"Loading {player_data['player_formatted_name']}'s fours FKDR data..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data["minecraft_uuid"]) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -1058,11 +1058,11 @@ class BedwarsStats(commands.Cog):
             await message.edit(embed = nameerror_embed)
             return
         player_fours_fkdr_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s Fours FKDR")),
-            color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Fours FKDR")),
+            color = int((await self.bedwars.get_prestige_data())["prestige_color"], 16) # 16 - Hex value.
         )
         player_fours_fkdr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons['Bedwars']
+            url = core.static.hypixel_game_icons["Bedwars"]
         )
         player_fours_fkdr_embed.add_field(
             name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} FKDR"))),
@@ -1125,11 +1125,11 @@ class BedwarsStats(commands.Cog):
                 return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_data['player_formatted_name']}\'s 4v4 FKDR data..."
+            description = f"Loading {player_data['player_formatted_name']}'s 4v4 FKDR data..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data["minecraft_uuid"]) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -1138,11 +1138,11 @@ class BedwarsStats(commands.Cog):
             await message.edit(embed = nameerror_embed)
             return
         player_four_v_four_fkdr_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s 4v4 FKDR")),
-            color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s 4v4 FKDR")),
+            color = int((await self.bedwars.get_prestige_data())["prestige_color"], 16) # 16 - Hex value.
         )
         player_four_v_four_fkdr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons['Bedwars']
+            url = core.static.hypixel_game_icons["Bedwars"]
         )
         player_four_v_four_fkdr_embed.add_field(
             name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} FKDR"))),
@@ -1205,11 +1205,11 @@ class BedwarsStats(commands.Cog):
                 return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_data['player_formatted_name']}\'s BBLR data..."
+            description = f"Loading {player_data['player_formatted_name']}'s BBLR data..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data["minecraft_uuid"]) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -1218,11 +1218,11 @@ class BedwarsStats(commands.Cog):
             await message.edit(embed = nameerror_embed)
             return
         player_bblr_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s BBLR")),
-            color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s BBLR")),
+            color = int((await self.bedwars.get_prestige_data())["prestige_color"], 16) # 16 - Hex value.
         )
         player_bblr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons['Bedwars']
+            url = core.static.hypixel_game_icons["Bedwars"]
         )
         player_bblr_embed.add_field(
             name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} BBLR"))),
@@ -1285,11 +1285,11 @@ class BedwarsStats(commands.Cog):
                 return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_data['player_formatted_name']}\'s solo BBLR data..."
+            description = f"Loading {player_data['player_formatted_name']}'s solo BBLR data..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data["minecraft_uuid"]) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -1298,11 +1298,11 @@ class BedwarsStats(commands.Cog):
             await message.edit(embed = nameerror_embed)
             return
         player_solo_bblr_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s Solo BBLR")),
-            color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Solo BBLR")),
+            color = int((await self.bedwars.get_prestige_data())["prestige_color"], 16) # 16 - Hex value.
         )
         player_solo_bblr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons['Bedwars']
+            url = core.static.hypixel_game_icons["Bedwars"]
         )
         player_solo_bblr_embed.add_field(
             name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} BBLR"))),
@@ -1365,11 +1365,11 @@ class BedwarsStats(commands.Cog):
                 return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_data['player_formatted_name']}\'s doubles BBLR data..."
+            description = f"Loading {player_data['player_formatted_name']}'s doubles BBLR data..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data["minecraft_uuid"]) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -1378,11 +1378,11 @@ class BedwarsStats(commands.Cog):
             await message.edit(embed = nameerror_embed)
             return
         player_doubles_bblr_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s Doubles BBLR")),
-            color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Doubles BBLR")),
+            color = int((await self.bedwars.get_prestige_data())["prestige_color"], 16) # 16 - Hex value.
         )
         player_doubles_bblr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons['Bedwars']
+            url = core.static.hypixel_game_icons["Bedwars"]
         )
         player_doubles_bblr_embed.add_field(
             name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} BBLR"))),
@@ -1445,11 +1445,11 @@ class BedwarsStats(commands.Cog):
                 return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_data['player_formatted_name']}\'s threes BBLR data..."
+            description = f"Loading {player_data['player_formatted_name']}'s threes BBLR data..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data["minecraft_uuid"]) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -1458,11 +1458,11 @@ class BedwarsStats(commands.Cog):
             await message.edit(embed = nameerror_embed)
             return
         player_threes_bblr_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s Threes BBLR")),
-            color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Threes BBLR")),
+            color = int((await self.bedwars.get_prestige_data())["prestige_color"], 16) # 16 - Hex value.
         )
         player_threes_bblr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons['Bedwars']
+            url = core.static.hypixel_game_icons["Bedwars"]
         )
         player_threes_bblr_embed.add_field(
             name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} BBLR"))),
@@ -1525,11 +1525,11 @@ class BedwarsStats(commands.Cog):
                 return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_data['player_formatted_name']}\'s fours BBLR data..."
+            description = f"Loading {player_data['player_formatted_name']}'s fours BBLR data..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data["minecraft_uuid"]) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -1538,11 +1538,11 @@ class BedwarsStats(commands.Cog):
             await message.edit(embed = nameerror_embed)
             return
         player_fours_bblr_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s Fours BBLR")),
-            color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Fours BBLR")),
+            color = int((await self.bedwars.get_prestige_data())["prestige_color"], 16) # 16 - Hex value.
         )
         player_fours_bblr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons['Bedwars']
+            url = core.static.hypixel_game_icons["Bedwars"]
         )
         player_fours_bblr_embed.add_field(
             name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} BBLR"))),
@@ -1605,11 +1605,11 @@ class BedwarsStats(commands.Cog):
                 return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_data['player_formatted_name']}\'s 4v4 BBLR data..."
+            description = f"Loading {player_data['player_formatted_name']}'s 4v4 BBLR data..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data["minecraft_uuid"]) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -1618,11 +1618,11 @@ class BedwarsStats(commands.Cog):
             await message.edit(embed = nameerror_embed)
             return
         player_four_v_four_bblr_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s 4v4 BBLR")),
-            color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s 4v4 BBLR")),
+            color = int((await self.bedwars.get_prestige_data())["prestige_color"], 16) # 16 - Hex value.
         )
         player_four_v_four_bblr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons['Bedwars']
+            url = core.static.hypixel_game_icons["Bedwars"]
         )
         player_four_v_four_bblr_embed.add_field(
             name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} BBLR"))),
@@ -1685,11 +1685,11 @@ class BedwarsStats(commands.Cog):
                 return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_data['player_formatted_name']}\'s WLR data..."
+            description = f"Loading {player_data['player_formatted_name']}'s WLR data..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data["minecraft_uuid"]) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -1698,11 +1698,11 @@ class BedwarsStats(commands.Cog):
             await message.edit(embed = nameerror_embed)
             return
         player_wlr_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s WLR")),
-            color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s WLR")),
+            color = int((await self.bedwars.get_prestige_data())["prestige_color"], 16) # 16 - Hex value.
         )
         player_wlr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons['Bedwars']
+            url = core.static.hypixel_game_icons["Bedwars"]
         )
         player_wlr_embed.add_field(
             name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} WLR"))),
@@ -1765,11 +1765,11 @@ class BedwarsStats(commands.Cog):
                 return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_data['player_formatted_name']}\'s solo WLR data..."
+            description = f"Loading {player_data['player_formatted_name']}'s solo WLR data..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data["minecraft_uuid"]) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -1778,11 +1778,11 @@ class BedwarsStats(commands.Cog):
             await message.edit(embed = nameerror_embed)
             return
         player_solo_wlr_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s Solo WLR")),
-            color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Solo WLR")),
+            color = int((await self.bedwars.get_prestige_data())["prestige_color"], 16) # 16 - Hex value.
         )
         player_solo_wlr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons['Bedwars']
+            url = core.static.hypixel_game_icons["Bedwars"]
         )
         player_solo_wlr_embed.add_field(
             name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} WLR"))),
@@ -1845,11 +1845,11 @@ class BedwarsStats(commands.Cog):
                 return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_data['player_formatted_name']}\'s doubles WLR data..."
+            description = f"Loading {player_data['player_formatted_name']}'s doubles WLR data..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data["minecraft_uuid"]) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -1858,11 +1858,11 @@ class BedwarsStats(commands.Cog):
             await message.edit(embed = nameerror_embed)
             return
         player_doubles_wlr_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s Doubles WLR")),
-            color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Doubles WLR")),
+            color = int((await self.bedwars.get_prestige_data())["prestige_color"], 16) # 16 - Hex value.
         )
         player_doubles_wlr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons['Bedwars']
+            url = core.static.hypixel_game_icons["Bedwars"]
         )
         player_doubles_wlr_embed.add_field(
             name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} WLR"))),
@@ -1925,11 +1925,11 @@ class BedwarsStats(commands.Cog):
                 return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_data['player_formatted_name']}\'s threes WLR data..."
+            description = f"Loading {player_data['player_formatted_name']}'s threes WLR data..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data["minecraft_uuid"]) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -1938,11 +1938,11 @@ class BedwarsStats(commands.Cog):
             await message.edit(embed = nameerror_embed)
             return
         player_threes_wlr_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s Threes WLR")),
-            color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Threes WLR")),
+            color = int((await self.bedwars.get_prestige_data())["prestige_color"], 16) # 16 - Hex value.
         )
         player_threes_wlr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons['Bedwars']
+            url = core.static.hypixel_game_icons["Bedwars"]
         )
         player_threes_wlr_embed.add_field(
             name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} WLR"))),
@@ -2005,11 +2005,11 @@ class BedwarsStats(commands.Cog):
                 return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_data['player_formatted_name']}\'s fours WLR data..."
+            description = f"Loading {player_data['player_formatted_name']}'s fours WLR data..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data["minecraft_uuid"]) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -2018,11 +2018,11 @@ class BedwarsStats(commands.Cog):
             await message.edit(embed = nameerror_embed)
             return
         player_fours_wlr_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s Fours WLR")),
-            color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Fours WLR")),
+            color = int((await self.bedwars.get_prestige_data())["prestige_color"], 16) # 16 - Hex value.
         )
         player_fours_wlr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons['Bedwars']
+            url = core.static.hypixel_game_icons["Bedwars"]
         )
         player_fours_wlr_embed.add_field(
             name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} WLR"))),
@@ -2085,11 +2085,11 @@ class BedwarsStats(commands.Cog):
                 return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_data['player_formatted_name']}\'s 4v4 WLR data..."
+            description = f"Loading {player_data['player_formatted_name']}'s 4v4 WLR data..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            await self.hypixel.send_player_request_uuid(player_data["minecraft_uuid"]) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -2098,11 +2098,11 @@ class BedwarsStats(commands.Cog):
             await message.edit(embed = nameerror_embed)
             return
         player_four_v_four_wlr_embed = discord.Embed(
-            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s 4v4 WLR")),
-            color = int((await self.bedwars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
+            title = (await self.markdown.bold(f"{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s 4v4 WLR")),
+            color = int((await self.bedwars.get_prestige_data())["prestige_color"], 16) # 16 - Hex value.
         )
         player_four_v_four_wlr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons['Bedwars']
+            url = core.static.hypixel_game_icons["Bedwars"]
         )
         player_four_v_four_wlr_embed.add_field(
             name = await self.markdown.underline((await self.markdown.bold(f"{core.static.arrow_bullet_point} WLR"))),
