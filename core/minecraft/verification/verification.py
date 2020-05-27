@@ -91,26 +91,29 @@ class Verification():
     async def parse_input(self, ctx, input):
         try:
             player_discord = await self.user_converter.convert(ctx, input)
-            try:
-                if player_discord.mentioned_in(ctx.message) or isinstance(int(input), int):
-                    db_data = (await self.find_uuid(player_discord.id))
-                    player_data = {
-                        "player_formatted_name" : (await self.mojang.get_profile((db_data[0]["minecraft_uuid"])))["name"],
-                        "minecraft_uuid" : db_data[0]["minecraft_uuid"]
-                    }
-                    return player_data
-            except IndexError:
-                raise AttributeError("Member mentioned not verified")
-                return
         except discord.ext.commands.errors.BadArgument:
-            try:
+            player_discord = None
+        try:
+            if player_discord and (player_discord.mentioned_in(ctx.message) or input.isdigit()):
+                print("database")
+                db_data = (await self.find_uuid(player_discord.id))
                 player_data = {
-                    "player_formatted_name" : (await self.mojang.get_profile(input))["name"],
-                    "minecraft_uuid" : (await self.mojang.get_profile(input))["uuid"]
+                    "player_formatted_name" : (await self.mojang.get_profile((db_data[0]["minecraft_uuid"])))["name"],
+                    "minecraft_uuid" : db_data[0]["minecraft_uuid"]
                 }
                 return player_data
-            except NameError:
-                raise NameError
+            else:
+                try:
+                    player_data = {
+                        "player_formatted_name" : (await self.mojang.get_profile(input))["name"],
+                        "minecraft_uuid" : (await self.mojang.get_profile(input))["uuid"]
+                    }
+                    return player_data
+                except NameError:
+                    raise NameError
+        except IndexError:
+            raise AttributeError("Member not verified")
+            return
 
     async def database_lookup(self, discord_id):
         try:

@@ -30,7 +30,6 @@ import datetime
 from discord.ext import commands
 import discord
 import humanfriendly
-import core.discord.markdown
 import core.minecraft.hypixel.request
 import sys
 import time
@@ -41,7 +40,6 @@ class LeaderboardCommands(commands.Cog):
         self.bot = bot
         self.bedwars = Bedwars()
         self.bedwarsleaderboards  = core.minecraft.hypixel.leaderboards.bedwars.BedwarsLeaderboards()
-        self.markdown = core.discord.markdown.Markdown()
         self.hypixel = core.minecraft.hypixel.request.HypixelAPI()
 
     @commands.group(name = "leaderboards", aliases = ["lb", "leaderboard"], invoke_without_command = True)
@@ -70,7 +68,7 @@ class LeaderboardCommands(commands.Cog):
             leaderboard.append([await self.bedwars.get_star(), core.minecraft.hypixel.request.player_json["player"]["displayname"], await self.bedwars.get_ratio(await self.bedwars.get_final_kills(), await self.bedwars.get_final_deaths())])
             bedwars_level_leaderboard_embed.add_field(
                 name = f"#{index + 1}",
-                value = f"{await self.markdown.bold(discord.utils.escape_markdown(f'[{leaderboard[index][0]}{core.static.bedwars_star}] {leaderboard[index][1]}'))} - {leaderboard[index][2]} FKDR",
+                value = f"**{discord.utils.escape_markdown(f'[{leaderboard[index][0]}{core.static.bedwars_star}] {leaderboard[index][1]}')} - {leaderboard[index][2]} FKDR**",
                 inline = False
             )
             index += 1
@@ -95,7 +93,7 @@ class LeaderboardCommands(commands.Cog):
             leaderboard.append([await self.bedwars.get_star(), core.minecraft.hypixel.request.player_json["player"]["displayname"], await self.bedwars.get_wins()])
             bedwars_overall_wins_leaderboard_embed.add_field(
                 name = f"#{index + 1}",
-                value = f"{await self.markdown.bold(discord.utils.escape_markdown(f'[{leaderboard[index][0]}{core.static.bedwars_star}] {leaderboard[index][1]}'))} - {leaderboard[index][2]} wins",
+                value = f"**{discord.utils.escape_markdown(f'[{leaderboard[index][0]}{core.static.bedwars_star}] {leaderboard[index][1]}')} - {leaderboard[index][2]} wins**",
                 inline = False
             )
             index += 1
@@ -120,7 +118,7 @@ class LeaderboardCommands(commands.Cog):
             leaderboard.append([await self.bedwars.get_star(), core.minecraft.hypixel.request.player_json["player"]["displayname"]])
             bedwars_weekly_wins_leaderboard_embed.add_field(
                 name = f"#{index + 1}",
-                value = f"{await self.markdown.bold(discord.utils.escape_markdown(f'[{leaderboard[index][0]}{core.static.bedwars_star}] {leaderboard[index][1]}'))}",
+                value = f"**{discord.utils.escape_markdown(f'[{leaderboard[index][0]}{core.static.bedwars_star}] {leaderboard[index][1]}')}**",
                 inline = False
             )
             index += 1
@@ -145,7 +143,7 @@ class LeaderboardCommands(commands.Cog):
             leaderboard.append([await self.bedwars.get_star(), core.minecraft.hypixel.request.player_json["player"]["displayname"], await self.bedwars.get_final_kills()])
             bedwars_overall_finals_leaderboard_embed.add_field(
                 name = f"#{index + 1}",
-                value = f"{await self.markdown.bold(discord.utils.escape_markdown(f'[{leaderboard[index][0]}{core.static.bedwars_star}] {leaderboard[index][1]}'))} - {leaderboard[index][2]} finals",
+                value = f"**{discord.utils.escape_markdown(f'[{leaderboard[index][0]}{core.static.bedwars_star}] {leaderboard[index][1]}')} - {leaderboard[index][2]} finals**",
                 inline = False
             )
             index += 1
@@ -170,7 +168,7 @@ class LeaderboardCommands(commands.Cog):
             leaderboard.append([await self.bedwars.get_star(), core.minecraft.hypixel.request.player_json["player"]["displayname"]])
             bedwars_weekly_finals_leaderboard_embed.add_field(
                 name = f"#{index + 1}",
-                value = f"{await self.markdown.bold(discord.utils.escape_markdown(f'[{leaderboard[index][0]}{core.static.bedwars_star}] {leaderboard[index][1]}'))}",
+                value = f"**{discord.utils.escape_markdown(f'[{leaderboard[index][0]}{core.static.bedwars_star}] {leaderboard[index][1]}')}**",
                 inline = False
             )
             index += 1

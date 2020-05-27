@@ -24,12 +24,10 @@ SOFTWARE.
 
 from discord.ext import commands
 import discord
-from core.discord.markdown import Markdown
 
 class Help(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.markdown = Markdown()
 
     @commands.command(name = "help")
     @commands.max_concurrency(1, per = commands.BucketType.user)

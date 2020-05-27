@@ -26,7 +26,6 @@ from discord.ext import commands
 import datetime
 import discord
 import humanfriendly
-from core.discord.markdown import Markdown
 from core.minecraft.request import MojangAPI
 import sys
 import traceback
@@ -35,7 +34,6 @@ from core.minecraft.verification.verification import Verification
 class Minecraft(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.markdown = Markdown()
         self.mojang = MojangAPI()
         self.user_converter = commands.UserConverter()
         self.verification = Verification()
@@ -47,7 +45,7 @@ class Minecraft(commands.Cog):
     @minecraft.command(name = "name")
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def name_history(self, ctx, *args):
-        try:
+        if len(args):
             try:
                 player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
@@ -67,7 +65,7 @@ class Minecraft(commands.Cog):
                 )
                 await ctx.send(embed = nameerror_embed)
                 return
-        except IndexError: # If no arguments
+        else: # If no arguments
             try:
                 player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
@@ -97,7 +95,7 @@ class Minecraft(commands.Cog):
             else:
                 name_history_embed.add_field(
                     name = f"Name #{index + 1}",
-                    value = f"{name_history[index][0]} - {await self.markdown.italic(f'on {datetime.date.fromtimestamp((name_history[index][1]) / 1000)}')}",
+                    value = f"{name_history[index][0]} - f'*on {datetime.date.fromtimestamp((name_history[index][1]) / 1000)}*'",
                     inline = False
                 )
             index += 1
@@ -106,7 +104,7 @@ class Minecraft(commands.Cog):
     @minecraft.command(name = "uuid")
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def uuid(self, ctx, *args):
-        try:
+        if len(args):
             try:
                 player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
@@ -126,7 +124,7 @@ class Minecraft(commands.Cog):
                 )
                 await ctx.send(embed = nameerror_embed)
                 return
-        except IndexError: # If no arguments
+        else: # If no arguments
             try:
                 player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
