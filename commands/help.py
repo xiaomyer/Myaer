@@ -39,7 +39,9 @@ class Help(commands.Cog):
             [Commands](https://github.com/MyerFire/Myaer#command-list)\n\
             [GitHub](https://github.com/MyerFire/Myaer)\n\
             [Support/Info (My Discord Server)](https://inv.wtf/myerfire)\n\
-            [Invite Me](https://discord.com/api/oauth2/authorize?client_id=700133917264445480&permissions=8&scope=bot)"
+            [Vote](https://discord.boats/bot/700133917264445480)\n\
+            [Invite Me](https://discord.com/api/oauth2/authorize?client_id=700133917264445480&permissions=8&scope=bot)",
+            color = ctx.author.color
         )
         help_embed.set_author(
             name = "Help",

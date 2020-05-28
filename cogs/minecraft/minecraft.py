@@ -95,7 +95,7 @@ class Minecraft(commands.Cog):
             else:
                 name_history_embed.add_field(
                     name = f"Name #{index + 1}",
-                    value = f"{name_history[index][0]} - f'*on {datetime.date.fromtimestamp((name_history[index][1]) / 1000)}*'",
+                    value = f"{name_history[index][0]} - *on {datetime.date.fromtimestamp((name_history[index][1]) / 1000)}*",
                     inline = False
                 )
             index += 1

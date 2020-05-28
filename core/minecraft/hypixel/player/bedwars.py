@@ -36,7 +36,7 @@ prestige_colors = {
     "Crystal" : "FF69DC",
     "Opal" : "2562E9",
     "Amethyst" : "AA00AA",
-    "Rainbow" : "FF69DC"
+    "Rainbow" : "1ABC9C"
 }
 
 class Bedwars():
