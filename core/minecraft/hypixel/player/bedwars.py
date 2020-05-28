@@ -39,6 +39,20 @@ prestige_colors = {
     "Rainbow" : "1ABC9C"
 }
 
+prestiges = [
+    "Stone",
+    "Iron",
+    "Gold",
+    "Diamond",
+    "Emerald",
+    "Sapphire",
+    "Ruby",
+    "Crystal",
+    "Opal",
+    "Amethyst",
+    "Rainbow"
+]
+
 class Bedwars():
     async def get_ratio(self, positive_stat, negative_stat):
         try:
@@ -74,7 +88,6 @@ class Bedwars():
     async def get_prestige_data(self):
         star_rounded = await self.get_star() // 100 # // is floor division, basically math.floor(await self.get_star() / 100)
         star_rounded = star_rounded if star_rounded < 10 else 10 # if greater than 10, set to ten
-        prestiges = ["Stone", "Iron", "Gold", "Diamond", "Emerald", "Sapphire", "Ruby", "Crystal", "Opal", "Amethyst", "Rainbow"]
         return {"prestige": prestiges[star_rounded], "prestige_color": prestige_colors[prestiges[star_rounded]]} # sometimes my genius, it"s...it"s almost frightnening
 
     async def get_coins(self):
