@@ -35,7 +35,7 @@ class Verification():
         self.user_converter = commands.UserConverter()
 
     async def verify(self, discord_id, discord_name, minecraft_uuid):
-        db = TinyDB("/home/myerfire/Myaer/core/minecraft/verification/verified.json")
+        db = TinyDB("/home/myerfire/Myaer/Myaer/core/minecraft/verification/verified.json")
         Users = Query()
         try:
             await self.hypixel.send_player_request_uuid(minecraft_uuid)
@@ -59,7 +59,7 @@ class Verification():
             raise AttributeError("Does not have Discord name set on Hypixel.")
 
     async def force_verify(self, discord_id, minecraft_uuid):
-        db = TinyDB("/home/myerfire/Myaer/core/minecraft/verification/verified.json")
+        db = TinyDB("/home/myerfire/Myaer/Myaer/core/minecraft/verification/verified.json")
         Users = Query()
         if db.search(where("discord_id") == discord_id):
             db.update({"minecraft_uuid" : minecraft_uuid}, Users.discord_id == discord_id)
@@ -70,7 +70,7 @@ class Verification():
             db.insert({"discord_id" : discord_id, "minecraft_uuid" : minecraft_uuid})
 
     async def unverify(self, discord_id):
-        db = TinyDB("/home/myerfire/Myaer/core/minecraft/verification/verified.json")
+        db = TinyDB("/home/myerfire/Myaer/Myaer/core/minecraft/verification/verified.json")
         Users = Query()
         if db.search(where("discord_id") == discord_id):
             saved_data = db.search(where("discord_id") == discord_id)
@@ -81,7 +81,7 @@ class Verification():
             raise NameError("User is not verified.")
 
     async def find_uuid(self, discord_id):
-        db = TinyDB("/home/myerfire/Myaer/core/minecraft/verification/verified.json")
+        db = TinyDB("/home/myerfire/Myaer/Myaer/core/minecraft/verification/verified.json")
         Users = Query()
         try:
             return db.search(where("discord_id") == discord_id)
