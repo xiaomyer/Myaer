@@ -26,23 +26,25 @@ import core.static
 from discord.ext import commands
 import discord
 import core.minecraft.hypixel.request
-from core.minecraft.hypixel.player.skywars import Skywars
 from core.minecraft.request import MojangAPI
+from core.minecraft.hypixel.player import Player
+from core.minecraft.hypixel.static import HypixelStatic
 from core.minecraft.verification.verification import Verification
 
 class SkywarsStats(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.hypixel = core.minecraft.hypixel.request.HypixelAPI()
+        self.hypixel_static = HypixelStatic()
         self.mojang = MojangAPI()
-        self.skywars = Skywars()
+        self.player = Player()
         self.user_converter = commands.UserConverter()
         self.verification = Verification()
 
     @commands.group(name = "sw", invoke_without_command = True)
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def skywars(self, ctx, *args):
-        try:
+        if len(args):
             try:
                 player_data = await self.verification.parse_input(ctx, args[0])
             except AttributeError:
@@ -62,7 +64,7 @@ class SkywarsStats(commands.Cog):
                 )
                 await ctx.send(embed = nameerror_embed)
                 return
-        except IndexError: # If no arguments
+        else: # If no arguments
             try:
                 player_data = await self.verification.database_lookup(ctx.author.id)
             except AttributeError:
@@ -74,65 +76,65 @@ class SkywarsStats(commands.Cog):
                 return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_data['player_formatted_name']}\'s Skywars stats..."
+            description = f"Loading {player_data['player_formatted_name']}'s Bedwars stats..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            await self.hypixel.send_player_request_uuid(player_data['minecraft_uuid']) # Triggers request and sets global variable "player_json" in core.minecraft.hypixel.request
+            player_json = await self.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
                 description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
             )
-            await ctx.send(embed = nameerror_embed)
+            await message.edit(embed = nameerror_embed)
             return
         player_stats_embed = discord.Embed(
             title = f"**{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s Skywars Stats**",
-            color = int((await self.skywars.get_prestige_data())['prestige_color'], 16) # 16 - Hex value.
+            color = int((await self.hypixel_static.get_skywars_prestige_data(player_json["skywars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_stats_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons['Skywars']
+            url = core.static.hypixel_game_icons["Skywars"]
         )
         player_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Level**__",
-            value = f"{await self.skywars.get_star()} {core.static.bedwars_star} ({(await self.skywars.get_prestige_data())['prestige']} Prestige)",
+            value = f"{player_json['skywars']['star']} {core.static.bedwars_star} ({(await self.hypixel_static.get_skywars_prestige_data(player_json['skywars']['star']))['prestige']} Prestige)",
             inline = False
         )
         player_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Coins**__",
-            value = f"{await self.skywars.get_coins()}"
+            value = f"{player_json['skywars']['coins']}"
         )
         player_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Tokens**__",
-            value = f"{await self.skywars.get_tokens()}"
+            value = f"{player_json['skywars']['tokens']}"
         )
         player_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Souls**__",
-            value = f"{await self.skywars.get_souls()}"
+            value = f"{player_json['skywars']['souls']}"
         )
         player_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Kills**__",
-            value = f"{await self.skywars.get_kills()}"
+            value = f"{player_json['skywars']['kills']}"
         )
         player_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Deaths**__",
-            value = f"{await self.skywars.get_deaths()}"
+            value = f"{player_json['skywars']['deaths']}"
         )
         player_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} KDR**__",
-            value = f"{(await self.skywars.get_ratio((await self.skywars.get_kills()), (await self.skywars.get_deaths())))}"
+            value = f"{(await self.hypixel_static.get_ratio((player_json['skywars']['kills']), (player_json['skywars']['deaths'])))}"
         )
         player_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Wins**__",
-            value = f"{await self.skywars.get_wins()}"
+            value = f"{player_json['skywars']['wins']}"
         )
         player_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Losses**__",
-            value = f"{await self.skywars.get_losses()}"
+            value = f"{player_json['skywars']['losses']}"
         )
         player_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} WLR**__",
-            value = f"{(await self.skywars.get_ratio((await self.skywars.get_wins()), (await self.skywars.get_losses())))}"
+            value = f"{(await self.hypixel_static.get_ratio((player_json['skywars']['wins']), (player_json['skywars']['losses'])))}"
         )
         await message.edit(embed = player_stats_embed)
 

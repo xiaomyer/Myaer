@@ -22,10 +22,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from core.minecraft.hypixel.player.bedwars import Bedwars
 from discord.ext import commands
 import discord
 from core.minecraft.request import MojangAPI
+from core.minecraft.hypixel.player import Player
 import core.minecraft.hypixel.request
 import core.static
 
@@ -50,10 +50,10 @@ async def override_check(ctx):
 class WristSpasm(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.bedwars = Bedwars()
         self.guild = 600311056627269642
         self.hypixel = core.minecraft.hypixel.request.HypixelAPI()
         self.mojang = MojangAPI()
+        self.player = Player()
         self.roles = {
             "Stone" : 600314048617119757,
             "Iron" : 600313179452735498,

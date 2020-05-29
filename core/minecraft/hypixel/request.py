@@ -39,7 +39,6 @@ class HypixelAPI():
         uuid = (await self.mojang.get_profile(player))["uuid"] # &name= is deprecated for the Hypixel API, so convert name to UUID with Mojang API
         async with aiohttp.ClientSession() as session:
             raw = await session.get(f"{hypixel_api}player?key={self.hypixel_api_key}&uuid={uuid}")
-            global player_json # So requests aren't sent per stat
             player_json = await raw.json() # but rather per player
         if player_json["success"] and player_json["player"]:
             return player_json
@@ -49,7 +48,6 @@ class HypixelAPI():
     async def send_player_request_uuid(self, uuid):
         async with aiohttp.ClientSession() as session:
             raw = await session.get(f"{hypixel_api}player?key={self.hypixel_api_key}&uuid={uuid.replace('-','')}")
-            global player_json
             player_json = await raw.json()
             if player_json["success"] and player_json["player"]:
                 return player_json
@@ -59,7 +57,6 @@ class HypixelAPI():
     async def send_leaderboard_request(self):
         async with aiohttp.ClientSession() as session:
             raw = await session.get(f"{hypixel_api}leaderboards?key={self.hypixel_api_key}")
-            global leaderboards_json
             leaderboards_json = await raw.json()
         if leaderboards_json["success"]:
             return leaderboards_json
