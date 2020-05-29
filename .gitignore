@@ -12,3 +12,6 @@ discord.log
 
 # Backups
 backup/
+
+# pm2
+node_modules/

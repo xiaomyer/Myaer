@@ -41,7 +41,7 @@ prestige_colors = {
 }
 
 class Skywars():
-    async def get_star_experience(self, experience): # Formula that I don"t understand, thanks to @GamingGeeek and littlemissantivirus
+    async def get_star_experience(self, experience): # Formula that I don't understand, thanks to @GamingGeeek and @littlemissantivirus
         total_xp = [20, 70, 150, 250, 500, 1000, 2000, 3500, 6000, 10000, 15000]
         star = 0
         if experience >= 15000:

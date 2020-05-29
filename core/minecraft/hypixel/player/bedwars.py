@@ -142,6 +142,9 @@ class Bedwars():
                 "wins" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("two_four_wins_bedwars", 0),
                 "losses" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("two_four_losses_bedwars", 0),
             },
+#            "dreams" : {
+#                ""
+#            }
         }
         return player_stats
 

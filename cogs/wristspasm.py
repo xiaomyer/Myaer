@@ -81,16 +81,16 @@ class WristSpasm(commands.Cog):
     @wristspasm.command(name = "verify")
     async def prestige_role(self, ctx, player):
         try:
-            name = (await self.mojang.get_profile(player))["name"]
+            player_data = await self.mojang.get_profile(player)
             loading_embed = discord.Embed(
                 name = "Loading",
-                description = f"Verifying you as {name}..."
+                description = f"Verifying you as {player_data['name']}..."
             )
             loading_embed.set_footer(
                 text = core.static.wrist_spasm_disclaimer
             )
             message = await ctx.send(embed = loading_embed)
-            await self.hypixel.send_player_request(player)
+            await self.hypixel.send_player_request_uuid("uuid")
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -98,23 +98,42 @@ class WristSpasm(commands.Cog):
             )
             await ctx.send(embed = nameerror_embed)
             return
-        prestige = (await self.bedwars.get_prestige_data())["prestige"]
+        try:
+            player_stats = await self.bedwars.get_stats(player_data["uuid"])
+        except NameError:
+            nameerror_embed = discord.Embed(
+                name = "Invalid input",
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+            )
+            await message.edit(embed = nameerror_embed)
+            return
+        prestige = (await self.bedwars.get_prestige_data(player_stats["star"]))["prestige"]
         prestige_role = self.roles[prestige]
         prestige_role_object = ctx.guild.get_role(prestige_role)
-        if ctx.author.nick != name:
-            await ctx.author.edit(nick = name)
-            nickname_changed_embed = discord.Embed(
-                name = "Nickname changed",
-                description = f"Changed your nickname to {name}."
-            )
-            nickname_changed_embed.set_footer(
-                text = core.static.wrist_spasm_disclaimer
-            )
-            await ctx.send(embed = nickname_changed_embed)
+        if ctx.author.nick != player_data["name"]:
+            try:
+                await ctx.author.edit(nick = player_data["name"])
+                nickname_changed_embed = discord.Embed(
+                    name = "Nickname changed",
+                    description = f"Changed your nickname to {player_data['name']}."
+                )
+                nickname_changed_embed.set_footer(
+                    text = core.static.wrist_spasm_disclaimer
+                )
+                await ctx.send(embed = nickname_changed_embed)
+            except discord.errors.Forbidden:
+                forbidden_embed = discord.Embed(
+                    name = "No permissions",
+                    description = f"Cannot change {target}'s nickname."
+                )
+                forbidden_embed.set_footer(
+                    text = "Insufficient permissions"
+                )
+                await ctx.send(embed = forbidden_embed)
         else:
             nickname_already_set_embed = discord.Embed(
                 name = "Already have nickname",
-                description = f"Your nickname is already {name}."
+                description = f"Your nickname is already {player_data['name']}."
             )
             nickname_already_set_embed.set_footer(
                 text = core.static.wrist_spasm_disclaimer
@@ -157,10 +176,10 @@ class WristSpasm(commands.Cog):
     @commands.check(override_check)
     async def verify_override(self, ctx, target: discord.Member, ign):
         try:
-            name = (await self.mojang.get_profile(ign))["name"]
+            player_data = await self.mojang.get_profile(ign)
             loading_embed = discord.Embed(
                 name = "Loading",
-                description = f"Verifying {target} as {name}..."
+                description = f"Verifying {target} as {player_data['name']}..."
             )
             loading_embed.set_footer(
                 text = core.static.wrist_spasm_disclaimer
@@ -174,23 +193,42 @@ class WristSpasm(commands.Cog):
             )
             await ctx.send(embed = nameerror_embed)
             return
-        prestige = (await self.bedwars.get_prestige_data())["prestige"]
+        try:
+            player_stats = await self.bedwars.get_stats(player_data["uuid"])
+        except NameError:
+            nameerror_embed = discord.Embed(
+                name = "Invalid input",
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+            )
+            await message.edit(embed = nameerror_embed)
+            return
+        prestige = (await self.bedwars.get_prestige_data(player_stats["star"]))["prestige"]
         prestige_role = self.roles[prestige]
         prestige_role_object = ctx.guild.get_role(prestige_role)
-        if target.nick != name:
-            await target.edit(nick = name)
-            nickname_changed_embed = discord.Embed(
-                name = "Nickname changed",
-                description = f"Changed {target}'s nickname to {name}."
+        if target.nick != player_data["name"]:
+            try:
+                await target.edit(nick = player_data["name"])
+                nickname_changed_embed = discord.Embed(
+                    name = "Nickname changed",
+                    description = f"Changed {target}'s nickname to {player_data['name']}."
+                    )
+                nickname_changed_embed.set_footer(
+                    text = core.static.wrist_spasm_disclaimer
                 )
-            nickname_changed_embed.set_footer(
-                text = core.static.wrist_spasm_disclaimer
-            )
-            await ctx.send(embed = nickname_changed_embed)
+                await ctx.send(embed = nickname_changed_embed)
+            except discord.errors.Forbidden:
+                forbidden_embed = discord.Embed(
+                    name = "No permissions",
+                    description = f"Cannot change {target}'s nickname."
+                )
+                forbidden_embed.set_footer(
+                    text = "Insufficient permissions"
+                )
+                await ctx.send(embed = forbidden_embed)
         else:
             nickname_already_set_embed = discord.Embed(
                 name = "Already have nickname",
-                description = f"{target}'s nickname is already {name}."
+                description = f"{target}'s nickname is already {player_data['name']}."
             )
             nickname_already_set_embed.set_footer(
                 text = core.static.wrist_spasm_disclaimer
