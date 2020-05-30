@@ -21,15 +21,21 @@ Myaer is a Discord bot written with discord.py in Python 3.8.2. It is focused ar
 ###### Player Stats
 **If you are verified, you can omit the \<player\> part and it will default to you**
 - **/bw \<player\>** - Shows general Bedwars stats
-  - **/bw \<solos/doubles/threes/fours/4v4\> \<player\>** - Shows per game mode stats
-  - **/bw \<armed/castles/luckyblocks/rush/ultimate/voidless> \<player\>** - Shows per dream game mode stats
+  - **/bw \<solo/doubles/threes/fours/4v4\> \<player\>** - Shows per game mode stats
+  - **/bw \<armed/castles/luckyblocks/rush/ultimate/voidless\> \<solo/doubles/fours\> \<player\>** - Shows per dream game mode stats
+    - Some dreams modes used to have a solo mode (Rush and Ultimate), so the solo command doesn't work for the other dream modes
 - **/bw bblr \<player\>** - Shows bed break/loss ratio and other calculations
   - **/bw bblr \<solos/doubles/threes/fours/4v4\> \<player\>** - Shows per game mode bed break/loss ratio and other calculations
+  - **/bw bblr \<armed/castles/luckyblocks/rush/ultimate/voidless\> \<solo/doubles/fours\>** - Shows per dream game mode bed break/loss ratio and other calculations
+    - Some dreams modes used to have a solo mode (Rush and Ultimate), so the solo command doesn't work for the other dream modes
 - **/bw fkdr \<player\>** - Shows final kill/death ratio and other calculations
   - **/bw fkdr \<solos/doubles/threes/fours/4v4\> \<player\>** - Shows per game mode final kill/death ratio and other calculations
+  - **/bw fkdr \<armed/castles/luckyblocks/rush/ultimate/voidless\> \<solo/doubles/fours\>** - Shows per dream game mode final kill/death ratio and other calculations
+    - Some dreams modes used to have a solo mode (Rush and Ultimate), so the solo command doesn't work for the other dream modes
 - **/bw wlr \<player\>** - Shows win/loss ratio and other calculations
   - **/bw wlr \<solos/doubles/threes/fours/4v4\> \<player\>** - Shows per game mode win/loss ratio and other calculations
-
+  - **/bw wlr \<armed/castles/luckyblocks/rush/ultimate/voidless\> \<solo/doubles/fours\>** - Shows per dream game mode final kill/death ratio and other calculations
+    - Some dreams modes used to have a solo mode (Rush and Ultimate), so the solo command doesn't work for the other dream modes
 ###### Leaderboards
 - **/lb bw \<levels/level/star\>** - Shows Bedwars level leaderboard
   - Default Bedwars leaderboard is level leaderboard, therefore **/lb bw** works
