@@ -23,7 +23,6 @@ SOFTWARE.
 """
 
 import aiohttp
-import json
 
 mojang_api = "https://api.mojang.com/"
 mojang_session_server = "https://sessionserver.mojang.com/"

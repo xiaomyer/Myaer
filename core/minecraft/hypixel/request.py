@@ -24,7 +24,6 @@ SOFTWARE.
 
 import aiohttp
 from core.config import Config
-import json
 from core.minecraft.request import MojangAPI
 
 hypixel_api = "https://api.hypixel.net/"

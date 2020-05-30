@@ -22,6 +22,7 @@ Myaer is a Discord bot written with discord.py in Python 3.8.2. It is focused ar
 **If you are verified, you can omit the \<player\> part and it will default to you**
 - **/bw \<player\>** - Shows general Bedwars stats
   - **/bw \<solos/doubles/threes/fours/4v4\> \<player\>** - Shows per game mode stats
+  - **/bw \<armed/castles/luckyblocks/rush/ultimate/voidless> \<player\>** - Shows per dream game mode stats
 - **/bw bblr \<player\>** - Shows bed break/loss ratio and other calculations
   - **/bw bblr \<solos/doubles/threes/fours/4v4\> \<player\>** - Shows per game mode bed break/loss ratio and other calculations
 - **/bw fkdr \<player\>** - Shows final kill/death ratio and other calculations

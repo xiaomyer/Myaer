@@ -125,16 +125,16 @@ class HypixelStatic():
         return prestige_data
 
     async def get_skywars_star_from_experience(self, experience): # Formula that I don't understand, thanks to @GamingGeeek and @littlemissantivirus
-            total_xp = [20, 70, 150, 250, 500, 1000, 2000, 3500, 6000, 10000, 15000]
-            star = 0
-            if experience >= 15000:
-                return (experience - 15000) / 10000 + 12
-            else:
-                c = 0
-                while experience >= 0 and c < len(total_xp):
-                    if experience - total_xp[c] >= 0:
-                        c += 1
-                    else:
-                        star = c + 1 + (experience - total_xp[c - 1]) / (total_xp[c] - total_xp[c - 1])
-                        break
-            return star
+        total_xp = [20, 70, 150, 250, 500, 1000, 2000, 3500, 6000, 10000, 15000]
+        star = 0
+        if experience >= 15000:
+            return (experience - 15000) / 10000 + 12
+        else:
+            c = 0
+            while experience >= 0 and c < len(total_xp):
+                if experience - total_xp[c] >= 0:
+                    c += 1
+                else:
+                    star = c + 1 + (experience - total_xp[c - 1]) / (total_xp[c] - total_xp[c - 1])
+                    break
+        return star
