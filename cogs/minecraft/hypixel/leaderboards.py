@@ -138,7 +138,7 @@ class LeaderboardCommands(commands.Cog):
         bedwars_overall_finals_leaderboard_embed = discord.Embed(
             name = "Bedwars overall finals leaderboard"
         )
-        for player in await (leaderboards_json["bedwars"]["finals"]["overall"]):
+        for player in (leaderboards_json["bedwars"]["finals"]["overall"]):
             player_json = await self.player.get_player(player)
             leaderboard.append([player_json["bedwars"]["star"], player_json["name"], player_json["bedwars"]["final_kills"]])
             bedwars_overall_finals_leaderboard_embed.add_field(
@@ -163,7 +163,7 @@ class LeaderboardCommands(commands.Cog):
         bedwars_weekly_finals_leaderboard_embed = discord.Embed(
             name = "Bedwars weekly finals leaderboard"
         )
-        for player in await self.bedwarsleaderboards.get_weekly_finals():
+        for player in (leaderboards_json["bedwars"]["wins"]["overall"]):
             player_json = await self.player.get_player(player)
             leaderboard.append([player_json["bedwars"]["star"], player_json["name"]])
             bedwars_weekly_finals_leaderboard_embed.add_field(
