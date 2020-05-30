@@ -37,7 +37,7 @@ class Player():
         except:
             raise NameError("No Hypixel stats")
             return
-        player = {
+        player = { # This thing is pretty torture
             "name" : player_json.get("player", {}).get("displayname", ""),
             "bedwars" : {
                 "star" : player_json.get("player", {}).get("achievements", {}).get("bedwars_level", 0),

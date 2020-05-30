@@ -39,7 +39,7 @@ class BedwarsStats(commands.Cog):
         self.user_converter = commands.UserConverter()
         self.verification = Verification()
 
-    @commands.group(name = "bw", invoke_without_command = True)
+    @commands.group(name = "bw", invoke_without_command = True) # OH MY GOD THIS FILE IS 6000 LINES LONG KILL ME
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def bedwars(self, ctx, *args):
         if len(args):
