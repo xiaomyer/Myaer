@@ -26,7 +26,7 @@ from discord.ext import commands
 import discord
 from core.minecraft.request import MojangAPI
 from core.minecraft.hypixel.player import Player
-import core.minecraft.hypixel.request
+from core.minecraft.hypixel.static import HypixelStatic
 import core.static
 
 
@@ -51,9 +51,9 @@ class WristSpasm(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.guild = 600311056627269642
-        self.hypixel = core.minecraft.hypixel.request.HypixelAPI()
         self.mojang = MojangAPI()
         self.player = Player()
+        self.hypixel_static = HypixelStatic()
         self.roles = {
             "Stone" : 600314048617119757,
             "Iron" : 600313179452735498,
@@ -90,7 +90,6 @@ class WristSpasm(commands.Cog):
                 text = core.static.wrist_spasm_disclaimer
             )
             message = await ctx.send(embed = loading_embed)
-            await self.hypixel.send_player_request_uuid("uuid")
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -99,7 +98,7 @@ class WristSpasm(commands.Cog):
             await ctx.send(embed = nameerror_embed)
             return
         try:
-            player_stats = await self.bedwars.get_stats(player_data["uuid"])
+            player_stats = await self.player.get_player(player_data["uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -107,7 +106,7 @@ class WristSpasm(commands.Cog):
             )
             await message.edit(embed = nameerror_embed)
             return
-        prestige = (await self.bedwars.get_prestige_data(player_stats["star"]))["prestige"]
+        prestige = (await self.hypixel_static.get_bedwars_prestige_data(player_stats["bedwars"]["star"]))["prestige"]
         prestige_role = self.roles[prestige]
         prestige_role_object = ctx.guild.get_role(prestige_role)
         if ctx.author.nick != player_data["name"]:
@@ -185,7 +184,6 @@ class WristSpasm(commands.Cog):
                 text = core.static.wrist_spasm_disclaimer
             )
             message = await ctx.send(embed = loading_embed)
-            await self.hypixel.send_player_request(ign)
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -194,7 +192,7 @@ class WristSpasm(commands.Cog):
             await ctx.send(embed = nameerror_embed)
             return
         try:
-            player_stats = await self.bedwars.get_stats(player_data["uuid"])
+            player_stats = await self.player.get_player(player_data["uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -202,7 +200,7 @@ class WristSpasm(commands.Cog):
             )
             await message.edit(embed = nameerror_embed)
             return
-        prestige = (await self.bedwars.get_prestige_data(player_stats["star"]))["prestige"]
+        prestige = (await self.hypixel_static.get_bedwars_prestige_data(player_stats["bedwars"]["star"]))["prestige"]
         prestige_role = self.roles[prestige]
         prestige_role_object = ctx.guild.get_role(prestige_role)
         if target.nick != player_data["name"]:
