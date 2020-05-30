@@ -3846,6 +3846,988 @@ class BedwarsStats(commands.Cog):
         )
         await message.edit(embed = player_four_v_four_bblr_embed)
 
+    @bblr.group(name = "armed", invoke_without_command = True)
+    async def armed_bblr(self, ctx):
+        return
+
+    @armed_bblr.command(name = "doubles", aliases = ["2", "2s", "double"])
+    async def armed_doubles_bblr(self, ctx, *args):
+        if len(args):
+            try:
+                player_data = await self.verification.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
+        else: # If no arguments
+            try:
+                player_data = await self.verification.database_lookup(ctx.author.id)
+            except AttributeError:
+                unverified_embed = discord.Embed(
+                    name = "Not verified",
+                    description = "You have to verify with `/mc verify <minecraft-ign>` first."
+                )
+                await ctx.send(embed = unverified_embed)
+                return
+        loading_embed = discord.Embed(
+            name = "Loading",
+            description = f"Loading {player_data['player_formatted_name']}'s armed doubles BBLR data..."
+        )
+        message = await ctx.send(embed = loading_embed)
+        try:
+            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+        except NameError:
+            nameerror_embed = discord.Embed(
+                name = "Invalid input",
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+            )
+            await message.edit(embed = nameerror_embed)
+            return
+        player_armed_doubles_bblr_embed = discord.Embed(
+            title = f"**{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Armed Doubles BBLR**",
+            color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
+        )
+        player_armed_doubles_bblr_embed.set_thumbnail(
+            url = core.static.hypixel_game_icons["Bedwars"]
+        )
+        player_armed_doubles_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value = f"{await self.hypixel_static.get_ratio((player_json['bedwars']['dreams']['armed']['doubles']['beds_broken']), ((player_json['bedwars']['dreams']['armed']['doubles']['beds_lost'])))}"
+        )
+        player_armed_doubles_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
+            value = f"{player_json['bedwars']['dreams']['armed']['doubles']['beds_broken']}"
+        )
+        player_armed_doubles_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
+            value = f"{player_json['bedwars']['dreams']['armed']['doubles']['beds_lost']}"
+        )
+        player_armed_doubles_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +1 BBLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['armed']['doubles']['beds_broken']), (player_json['bedwars']['dreams']['armed']['doubles']['beds_lost']), 1)} needed",
+            inline = False
+        )
+        player_armed_doubles_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +2 BBLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['armed']['doubles']['beds_broken']), (player_json['bedwars']['dreams']['armed']['doubles']['beds_lost']), 2)} needed"
+        )
+        player_armed_doubles_bblr_embed.set_footer(
+            text = core.static.stats_needed_disclaimer
+        )
+        await message.edit(embed = player_armed_doubles_bblr_embed)
+
+    @armed_bblr.command(name = "fours", aliases = ["4", "4s", "four"])
+    async def armed_fours_bblr(self, ctx, *args):
+        if len(args):
+            try:
+                player_data = await self.verification.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
+        else: # If no arguments
+            try:
+                player_data = await self.verification.database_lookup(ctx.author.id)
+            except AttributeError:
+                unverified_embed = discord.Embed(
+                    name = "Not verified",
+                    description = "You have to verify with `/mc verify <minecraft-ign>` first."
+                )
+                await ctx.send(embed = unverified_embed)
+                return
+        loading_embed = discord.Embed(
+            name = "Loading",
+            description = f"Loading {player_data['player_formatted_name']}'s armed fours BBLR data..."
+        )
+        message = await ctx.send(embed = loading_embed)
+        try:
+            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+        except NameError:
+            nameerror_embed = discord.Embed(
+                name = "Invalid input",
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+            )
+            await message.edit(embed = nameerror_embed)
+            return
+        player_armed_fours_bblr_embed = discord.Embed(
+            title = f"**{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Armed Fours BBLR**",
+            color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
+        )
+        player_armed_fours_bblr_embed.set_thumbnail(
+            url = core.static.hypixel_game_icons["Bedwars"]
+        )
+        player_armed_fours_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value = f"{await self.hypixel_static.get_ratio((player_json['bedwars']['dreams']['armed']['fours']['beds_broken']), ((player_json['bedwars']['dreams']['armed']['fours']['beds_lost'])))}"
+        )
+        player_armed_fours_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
+            value = f"{player_json['bedwars']['dreams']['armed']['fours']['beds_broken']}"
+        )
+        player_armed_fours_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
+            value = f"{player_json['bedwars']['dreams']['armed']['fours']['beds_lost']}"
+        )
+        player_armed_fours_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +1 BBLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['armed']['fours']['beds_broken']), (player_json['bedwars']['dreams']['armed']['fours']['beds_lost']), 1)} needed",
+            inline = False
+        )
+        player_armed_fours_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +2 BBLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['armed']['fours']['beds_broken']), (player_json['bedwars']['dreams']['armed']['fours']['beds_lost']), 2)} needed"
+        )
+        player_armed_fours_bblr_embed.set_footer(
+            text = core.static.stats_needed_disclaimer
+        )
+        await message.edit(embed = player_armed_fours_bblr_embed)
+
+    @bblr.command(name = "castle")
+    @commands.max_concurrency(1, per = commands.BucketType.user)
+    async def castle_bblr(self, ctx, *args):
+        if len(args):
+            try:
+                player_data = await self.verification.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
+        else: # If no arguments
+            try:
+                player_data = await self.verification.database_lookup(ctx.author.id)
+            except AttributeError:
+                unverified_embed = discord.Embed(
+                    name = "Not verified",
+                    description = "You have to verify with `/mc verify <minecraft-ign>` first."
+                )
+                await ctx.send(embed = unverified_embed)
+                return
+        loading_embed = discord.Embed(
+            name = "Loading",
+            description = f"Loading {player_data['player_formatted_name']}'s castle BBLR data..."
+        )
+        message = await ctx.send(embed = loading_embed)
+        try:
+            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+        except NameError:
+            nameerror_embed = discord.Embed(
+                name = "Invalid input",
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+            )
+            await message.edit(embed = nameerror_embed)
+            return
+        player_castle_bblr_embed = discord.Embed(
+            title = f"**{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Castle BBLR**",
+            color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
+        )
+        player_castle_bblr_embed.set_thumbnail(
+            url = core.static.hypixel_game_icons["Bedwars"]
+        )
+        player_castle_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value = f"{await self.hypixel_static.get_ratio((player_json['bedwars']['dreams']['castle']['beds_broken']), ((player_json['bedwars']['dreams']['castle']['beds_lost'])))}"
+        )
+        player_castle_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
+            value = f"{player_json['bedwars']['dreams']['castle']['beds_broken']}"
+        )
+        player_castle_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
+            value = f"{player_json['bedwars']['dreams']['castle']['beds_lost']}"
+        )
+        player_castle_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +1 BBLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['castle']['beds_broken']), (player_json['bedwars']['dreams']['castle']['beds_lost']), 1)} needed",
+            inline = False
+        )
+        player_castle_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +2 BBLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['castle']['beds_broken']), (player_json['bedwars']['dreams']['castle']['beds_lost']), 2)} needed"
+        )
+        player_castle_bblr_embed.set_footer(
+            text = core.static.stats_needed_disclaimer
+        )
+        await message.edit(embed = player_castle_bblr_embed)
+
+    @bblr.group(name = "luckyblocks", aliases = ["luckyblock", "lucky"], invoke_without_command = True)
+    @commands.max_concurrency(1, per = commands.BucketType.user)
+    async def luckyblocks_bblr(self, ctx):
+        return
+
+    @luckyblocks_bblr.command(name = "doubles", aliases = ["2", "2s", "double"])
+    @commands.max_concurrency(1, per = commands.BucketType.user)
+    async def luckyblocks_doubles_bblr(self, ctx, *args):
+        if len(args):
+            try:
+                player_data = await self.verification.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
+        else: # If no arguments
+            try:
+                player_data = await self.verification.database_lookup(ctx.author.id)
+            except AttributeError:
+                unverified_embed = discord.Embed(
+                    name = "Not verified",
+                    description = "You have to verify with `/mc verify <minecraft-ign>` first."
+                )
+                await ctx.send(embed = unverified_embed)
+                return
+        loading_embed = discord.Embed(
+            name = "Loading",
+            description = f"Loading {player_data['player_formatted_name']}'s luckyblocks doubles BBLR data..."
+        )
+        message = await ctx.send(embed = loading_embed)
+        try:
+            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+        except NameError:
+            nameerror_embed = discord.Embed(
+                name = "Invalid input",
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+            )
+            await message.edit(embed = nameerror_embed)
+            return
+        player_luckyblocks_doubles_bblr_embed = discord.Embed(
+            title = f"**{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Luckyblocks Doubles BBLR**",
+            color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
+        )
+        player_luckyblocks_doubles_bblr_embed.set_thumbnail(
+            url = core.static.hypixel_game_icons["Bedwars"]
+        )
+        player_luckyblocks_doubles_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value = f"{await self.hypixel_static.get_ratio((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_broken']), ((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_lost'])))}"
+        )
+        player_luckyblocks_doubles_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
+            value = f"{player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_broken']}"
+        )
+        player_luckyblocks_doubles_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
+            value = f"{player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_lost']}"
+        )
+        player_luckyblocks_doubles_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +1 BBLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_broken']), (player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_lost']), 1)} needed",
+            inline = False
+        )
+        player_luckyblocks_doubles_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +2 BBLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_broken']), (player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_lost']), 2)} needed"
+        )
+        player_luckyblocks_doubles_bblr_embed.set_footer(
+            text = core.static.stats_needed_disclaimer
+        )
+        await message.edit(embed = player_luckyblocks_doubles_bblr_embed)
+
+    @bblr.group(name = "rush", invoke_without_command = True)
+    @commands.max_concurrency(1, per = commands.BucketType.user)
+    async def rush_bblr(self, ctx):
+        return
+
+    @rush_bblr.command(name = "solo", aliases = ["1"])
+    @commands.max_concurrency(1, per = commands.BucketType.user)
+    async def solo_rush_bblr(self, ctx, *args):
+        if len(args):
+            try:
+                player_data = await self.verification.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
+        else: # If no arguments
+            try:
+                player_data = await self.verification.database_lookup(ctx.author.id)
+            except AttributeError:
+                unverified_embed = discord.Embed(
+                    name = "Not verified",
+                    description = "You have to verify with `/mc verify <minecraft-ign>` first."
+                )
+                await ctx.send(embed = unverified_embed)
+                return
+        loading_embed = discord.Embed(
+            name = "Loading",
+            description = f"Loading {player_data['player_formatted_name']}'s rush solo BBLR data..."
+        )
+        message = await ctx.send(embed = loading_embed)
+        try:
+            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+        except NameError:
+            nameerror_embed = discord.Embed(
+                name = "Invalid input",
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+            )
+            await message.edit(embed = nameerror_embed)
+            return
+        player_rush_solo_bblr_embed = discord.Embed(
+            title = f"**{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Rush Solo BBLR**",
+            color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
+        )
+        player_rush_solo_bblr_embed.set_thumbnail(
+            url = core.static.hypixel_game_icons["Bedwars"]
+        )
+        player_rush_solo_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value = f"{await self.hypixel_static.get_ratio((player_json['bedwars']['dreams']['rush']['solo']['beds_broken']), ((player_json['bedwars']['dreams']['rush']['solo']['beds_lost'])))}"
+        )
+        player_rush_solo_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
+            value = f"{player_json['bedwars']['dreams']['rush']['solo']['beds_broken']}"
+        )
+        player_rush_solo_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
+            value = f"{player_json['bedwars']['dreams']['rush']['solo']['beds_lost']}"
+        )
+        player_rush_solo_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +1 BBLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['rush']['solo']['beds_broken']), (player_json['bedwars']['dreams']['rush']['solo']['beds_lost']), 1)} needed",
+            inline = False
+        )
+        player_rush_solo_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +2 BBLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['rush']['solo']['beds_broken']), (player_json['bedwars']['dreams']['rush']['solo']['beds_lost']), 2)} needed"
+        )
+        player_rush_solo_bblr_embed.set_footer(
+            text = core.static.stats_needed_disclaimer
+        )
+        await message.edit(embed = player_rush_solo_bblr_embed)
+
+    @rush_bblr.command(name = "doubles", aliases = ["2", "2s", "double"])
+    @commands.max_concurrency(1, per = commands.BucketType.user)
+    async def doubles_rush_bblr(self, ctx, *args):
+        if len(args):
+            try:
+                player_data = await self.verification.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
+        else: # If no arguments
+            try:
+                player_data = await self.verification.database_lookup(ctx.author.id)
+            except AttributeError:
+                unverified_embed = discord.Embed(
+                    name = "Not verified",
+                    description = "You have to verify with `/mc verify <minecraft-ign>` first."
+                )
+                await ctx.send(embed = unverified_embed)
+                return
+        loading_embed = discord.Embed(
+            name = "Loading",
+            description = f"Loading {player_data['player_formatted_name']}'s rush doubles BBLR data..."
+        )
+        message = await ctx.send(embed = loading_embed)
+        try:
+            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+        except NameError:
+            nameerror_embed = discord.Embed(
+                name = "Invalid input",
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+            )
+            await message.edit(embed = nameerror_embed)
+            return
+        player_rush_doubles_bblr_embed = discord.Embed(
+            title = f"**{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Rush doubles BBLR**",
+            color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
+        )
+        player_rush_doubles_bblr_embed.set_thumbnail(
+            url = core.static.hypixel_game_icons["Bedwars"]
+        )
+        player_rush_doubles_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value = f"{await self.hypixel_static.get_ratio((player_json['bedwars']['dreams']['rush']['doubles']['beds_broken']), ((player_json['bedwars']['dreams']['rush']['doubles']['beds_lost'])))}"
+        )
+        player_rush_doubles_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
+            value = f"{player_json['bedwars']['dreams']['rush']['doubles']['beds_broken']}"
+        )
+        player_rush_doubles_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
+            value = f"{player_json['bedwars']['dreams']['rush']['doubles']['beds_lost']}"
+        )
+        player_rush_doubles_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +1 BBLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['rush']['doubles']['beds_broken']), (player_json['bedwars']['dreams']['rush']['doubles']['beds_lost']), 1)} needed",
+            inline = False
+        )
+        player_rush_doubles_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +2 BBLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['rush']['doubles']['beds_broken']), (player_json['bedwars']['dreams']['rush']['doubles']['beds_lost']), 2)} needed"
+        )
+        player_rush_doubles_bblr_embed.set_footer(
+            text = core.static.stats_needed_disclaimer
+        )
+        await message.edit(embed = player_rush_doubles_bblr_embed)
+
+    @rush_bblr.command(name = "fours", aliases = ["4", "4s"])
+    @commands.max_concurrency(1, per = commands.BucketType.user)
+    async def fours_rush_bblr(self, ctx, *args):
+        if len(args):
+            try:
+                player_data = await self.verification.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
+        else: # If no arguments
+            try:
+                player_data = await self.verification.database_lookup(ctx.author.id)
+            except AttributeError:
+                unverified_embed = discord.Embed(
+                    name = "Not verified",
+                    description = "You have to verify with `/mc verify <minecraft-ign>` first."
+                )
+                await ctx.send(embed = unverified_embed)
+                return
+        loading_embed = discord.Embed(
+            name = "Loading",
+            description = f"Loading {player_data['player_formatted_name']}'s rush fours BBLR data..."
+        )
+        message = await ctx.send(embed = loading_embed)
+        try:
+            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+        except NameError:
+            nameerror_embed = discord.Embed(
+                name = "Invalid input",
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+            )
+            await message.edit(embed = nameerror_embed)
+            return
+        player_rush_fours_bblr_embed = discord.Embed(
+            title = f"**{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Rush Fours BBLR**",
+            color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
+        )
+        player_rush_fours_bblr_embed.set_thumbnail(
+            url = core.static.hypixel_game_icons["Bedwars"]
+        )
+        player_rush_fours_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value = f"{await self.hypixel_static.get_ratio((player_json['bedwars']['dreams']['rush']['fours']['beds_broken']), ((player_json['bedwars']['dreams']['rush']['fours']['beds_lost'])))}"
+        )
+        player_rush_fours_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
+            value = f"{player_json['bedwars']['dreams']['rush']['fours']['beds_broken']}"
+        )
+        player_rush_fours_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
+            value = f"{player_json['bedwars']['dreams']['rush']['fours']['beds_lost']}"
+        )
+        player_rush_fours_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +1 BBLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['rush']['fours']['beds_broken']), (player_json['bedwars']['dreams']['rush']['fours']['beds_lost']), 1)} needed",
+            inline = False
+        )
+        player_rush_fours_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +2 BBLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['rush']['fours']['beds_broken']), (player_json['bedwars']['dreams']['rush']['fours']['beds_lost']), 2)} needed"
+        )
+        player_rush_fours_bblr_embed.set_footer(
+            text = core.static.stats_needed_disclaimer
+        )
+        await message.edit(embed = player_rush_fours_bblr_embed)
+
+    @bblr.group(name = "ultimate", aliases = ["ultimates"], invoke_without_command = True)
+    @commands.max_concurrency(1, per = commands.BucketType.user)
+    async def ultimate_bblr(self, ctx):
+        return
+
+    @ultimate_bblr.command(name = "solo", aliases = ["1"])
+    @commands.max_concurrency(1, per = commands.BucketType.user)
+    async def ultimate_solo_bblr(self, ctx, *args):
+        if len(args):
+            try:
+                player_data = await self.verification.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
+        else: # If no arguments
+            try:
+                player_data = await self.verification.database_lookup(ctx.author.id)
+            except AttributeError:
+                unverified_embed = discord.Embed(
+                    name = "Not verified",
+                    description = "You have to verify with `/mc verify <minecraft-ign>` first."
+                )
+                await ctx.send(embed = unverified_embed)
+                return
+        loading_embed = discord.Embed(
+            name = "Loading",
+            description = f"Loading {player_data['player_formatted_name']}'s ultimate solo BBLR data..."
+        )
+        message = await ctx.send(embed = loading_embed)
+        try:
+            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+        except NameError:
+            nameerror_embed = discord.Embed(
+                name = "Invalid input",
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+            )
+            await message.edit(embed = nameerror_embed)
+            return
+        player_ultimate_solo_bblr_embed = discord.Embed(
+            title = f"**{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Ultimate Solo BBLR**",
+            color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
+        )
+        player_ultimate_solo_bblr_embed.set_thumbnail(
+            url = core.static.hypixel_game_icons["Bedwars"]
+        )
+        player_ultimate_solo_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value = f"{await self.hypixel_static.get_ratio((player_json['bedwars']['dreams']['ultimate']['solo']['beds_broken']), ((player_json['bedwars']['dreams']['ultimate']['solo']['beds_lost'])))}"
+        )
+        player_ultimate_solo_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
+            value = f"{player_json['bedwars']['dreams']['ultimate']['solo']['beds_broken']}"
+        )
+        player_ultimate_solo_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
+            value = f"{player_json['bedwars']['dreams']['ultimate']['solo']['beds_lost']}"
+        )
+        player_ultimate_solo_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +1 BBLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['solo']['beds_broken']), (player_json['bedwars']['dreams']['ultimate']['solo']['beds_lost']), 1)} needed",
+            inline = False
+        )
+        player_ultimate_solo_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +2 BBLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['solo']['beds_broken']), (player_json['bedwars']['dreams']['ultimate']['solo']['beds_lost']), 2)} needed"
+        )
+        player_ultimate_solo_bblr_embed.set_footer(
+            text = core.static.stats_needed_disclaimer
+        )
+        await message.edit(embed = player_ultimate_solo_bblr_embed)
+
+    @ultimate_bblr.command(name = "doubles", aliases = ["2", "2s", "double"])
+    @commands.max_concurrency(1, per = commands.BucketType.user)
+    async def ultimate_doubles_bblr(self, ctx, *args):
+        if len(args):
+            try:
+                player_data = await self.verification.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
+        else: # If no arguments
+            try:
+                player_data = await self.verification.database_lookup(ctx.author.id)
+            except AttributeError:
+                unverified_embed = discord.Embed(
+                    name = "Not verified",
+                    description = "You have to verify with `/mc verify <minecraft-ign>` first."
+                )
+                await ctx.send(embed = unverified_embed)
+                return
+        loading_embed = discord.Embed(
+            name = "Loading",
+            description = f"Loading {player_data['player_formatted_name']}'s ultimate doubles BBLR data..."
+        )
+        message = await ctx.send(embed = loading_embed)
+        try:
+            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+        except NameError:
+            nameerror_embed = discord.Embed(
+                name = "Invalid input",
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+            )
+            await message.edit(embed = nameerror_embed)
+            return
+        player_ultimate_doubles_bblr_embed = discord.Embed(
+            title = f"**{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Ultimate Doubles BBLR**",
+            color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
+        )
+        player_ultimate_doubles_bblr_embed.set_thumbnail(
+            url = core.static.hypixel_game_icons["Bedwars"]
+        )
+        player_ultimate_doubles_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value = f"{await self.hypixel_static.get_ratio((player_json['bedwars']['dreams']['ultimate']['doubles']['beds_broken']), ((player_json['bedwars']['dreams']['ultimate']['doubles']['beds_lost'])))}"
+        )
+        player_ultimate_doubles_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
+            value = f"{player_json['bedwars']['dreams']['ultimate']['doubles']['beds_broken']}"
+        )
+        player_ultimate_doubles_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
+            value = f"{player_json['bedwars']['dreams']['ultimate']['doubles']['beds_lost']}"
+        )
+        player_ultimate_doubles_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +1 BBLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['doubles']['beds_broken']), (player_json['bedwars']['dreams']['ultimate']['doubles']['beds_lost']), 1)} needed",
+            inline = False
+        )
+        player_ultimate_doubles_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +2 BBLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['doubles']['beds_broken']), (player_json['bedwars']['dreams']['ultimate']['doubles']['beds_lost']), 2)} needed"
+        )
+        player_ultimate_doubles_bblr_embed.set_footer(
+            text = core.static.stats_needed_disclaimer
+        )
+        await message.edit(embed = player_ultimate_doubles_bblr_embed)
+
+    @ultimate_bblr.command(name = "fours", aliases = ["4", "4s", "four"])
+    @commands.max_concurrency(1, per = commands.BucketType.user)
+    async def ultimate_fours_bblr(self, ctx, *args):
+        if len(args):
+            try:
+                player_data = await self.verification.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
+        else: # If no arguments
+            try:
+                player_data = await self.verification.database_lookup(ctx.author.id)
+            except AttributeError:
+                unverified_embed = discord.Embed(
+                    name = "Not verified",
+                    description = "You have to verify with `/mc verify <minecraft-ign>` first."
+                )
+                await ctx.send(embed = unverified_embed)
+                return
+        loading_embed = discord.Embed(
+            name = "Loading",
+            description = f"Loading {player_data['player_formatted_name']}'s ultimate fours BBLR data..."
+        )
+        message = await ctx.send(embed = loading_embed)
+        try:
+            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+        except NameError:
+            nameerror_embed = discord.Embed(
+                name = "Invalid input",
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+            )
+            await message.edit(embed = nameerror_embed)
+            return
+        player_ultimate_fours_bblr_embed = discord.Embed(
+            title = f"**{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Ultimate Fours BBLR**",
+            color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
+        )
+        player_ultimate_fours_bblr_embed.set_thumbnail(
+            url = core.static.hypixel_game_icons["Bedwars"]
+        )
+        player_ultimate_fours_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value = f"{await self.hypixel_static.get_ratio((player_json['bedwars']['dreams']['ultimate']['fours']['beds_broken']), ((player_json['bedwars']['dreams']['ultimate']['fours']['beds_lost'])))}"
+        )
+        player_ultimate_fours_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
+            value = f"{player_json['bedwars']['dreams']['ultimate']['fours']['beds_broken']}"
+        )
+        player_ultimate_fours_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
+            value = f"{player_json['bedwars']['dreams']['ultimate']['fours']['beds_lost']}"
+        )
+        player_ultimate_fours_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +1 BBLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['fours']['beds_broken']), (player_json['bedwars']['dreams']['ultimate']['fours']['beds_lost']), 1)} needed",
+            inline = False
+        )
+        player_ultimate_fours_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +2 BBLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['fours']['beds_broken']), (player_json['bedwars']['dreams']['ultimate']['fours']['beds_lost']), 2)} needed"
+        )
+        player_ultimate_fours_bblr_embed.set_footer(
+            text = core.static.stats_needed_disclaimer
+        )
+        await message.edit(embed = player_ultimate_fours_bblr_embed)
+
+    @bblr.group(name = "voidless")
+    @commands.max_concurrency(1, per = commands.BucketType.user)
+    async def voidless_bblr(self, ctx):
+        return
+
+    @voidless_bblr.command(name = "doubles", aliases = ["2", "2s", "double"])
+    @commands.max_concurrency(1, per = commands.BucketType.user)
+    async def voidless_doubles_bblr(self, ctx, *args):
+        if len(args):
+            try:
+                player_data = await self.verification.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
+        else: # If no arguments
+            try:
+                player_data = await self.verification.database_lookup(ctx.author.id)
+            except AttributeError:
+                unverified_embed = discord.Embed(
+                    name = "Not verified",
+                    description = "You have to verify with `/mc verify <minecraft-ign>` first."
+                )
+                await ctx.send(embed = unverified_embed)
+                return
+        loading_embed = discord.Embed(
+            name = "Loading",
+            description = f"Loading {player_data['player_formatted_name']}'s voidless doubles BBLR data..."
+        )
+        message = await ctx.send(embed = loading_embed)
+        try:
+            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+        except NameError:
+            nameerror_embed = discord.Embed(
+                name = "Invalid input",
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+            )
+            await message.edit(embed = nameerror_embed)
+            return
+        player_voidless_doubles_bblr_embed = discord.Embed(
+            title = f"**{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Voidless Doubles BBLR**",
+            color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
+        )
+        player_voidless_doubles_bblr_embed.set_thumbnail(
+            url = core.static.hypixel_game_icons["Bedwars"]
+        )
+        player_voidless_doubles_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value = f"{await self.hypixel_static.get_ratio((player_json['bedwars']['dreams']['voidless']['doubles']['beds_broken']), ((player_json['bedwars']['dreams']['voidless']['doubles']['beds_lost'])))}"
+        )
+        player_voidless_doubles_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
+            value = f"{player_json['bedwars']['dreams']['voidless']['doubles']['beds_broken']}"
+        )
+        player_voidless_doubles_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
+            value = f"{player_json['bedwars']['dreams']['voidless']['doubles']['beds_lost']}"
+        )
+        player_voidless_doubles_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +1 BBLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['doubles']['beds_broken']), (player_json['bedwars']['dreams']['voidless']['doubles']['beds_lost']), 1)} needed",
+            inline = False
+        )
+        player_voidless_doubles_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +2 BBLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['doubles']['beds_broken']), (player_json['bedwars']['dreams']['voidless']['doubles']['beds_lost']), 2)} needed"
+        )
+        player_voidless_doubles_bblr_embed.set_footer(
+            text = core.static.stats_needed_disclaimer
+        )
+        await message.edit(embed = player_voidless_doubles_bblr_embed)
+
+    @voidless_bblr.command(name = "fours", aliases = ["4", "4s", "four"])
+    @commands.max_concurrency(1, per = commands.BucketType.user)
+    async def voidless_fours_bblr(self, ctx, *args):
+        if len(args):
+            try:
+                player_data = await self.verification.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
+        else: # If no arguments
+            try:
+                player_data = await self.verification.database_lookup(ctx.author.id)
+            except AttributeError:
+                unverified_embed = discord.Embed(
+                    name = "Not verified",
+                    description = "You have to verify with `/mc verify <minecraft-ign>` first."
+                )
+                await ctx.send(embed = unverified_embed)
+                return
+        loading_embed = discord.Embed(
+            name = "Loading",
+            description = f"Loading {player_data['player_formatted_name']}'s voidless fours BBLR data..."
+        )
+        message = await ctx.send(embed = loading_embed)
+        try:
+            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+        except NameError:
+            nameerror_embed = discord.Embed(
+                name = "Invalid input",
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+            )
+            await message.edit(embed = nameerror_embed)
+            return
+        player_voidless_fours_bblr_embed = discord.Embed(
+            title = f"**{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Voidless Fours BBLR**",
+            color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
+        )
+        player_voidless_fours_bblr_embed.set_thumbnail(
+            url = core.static.hypixel_game_icons["Bedwars"]
+        )
+        player_voidless_fours_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value = f"{await self.hypixel_static.get_ratio((player_json['bedwars']['dreams']['voidless']['fours']['beds_broken']), ((player_json['bedwars']['dreams']['voidless']['fours']['beds_lost'])))}"
+        )
+        player_voidless_fours_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
+            value = f"{player_json['bedwars']['dreams']['voidless']['fours']['beds_broken']}"
+        )
+        player_voidless_fours_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
+            value = f"{player_json['bedwars']['dreams']['voidless']['fours']['beds_lost']}"
+        )
+        player_voidless_fours_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +1 BBLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['fours']['beds_broken']), (player_json['bedwars']['dreams']['voidless']['fours']['beds_lost']), 1)} needed",
+            inline = False
+        )
+        player_voidless_fours_bblr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +2 BBLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['fours']['beds_broken']), (player_json['bedwars']['dreams']['voidless']['fours']['beds_lost']), 2)} needed"
+        )
+        player_voidless_fours_bblr_embed.set_footer(
+            text = core.static.stats_needed_disclaimer
+        )
+        await message.edit(embed = player_voidless_fours_bblr_embed)
+
     @bedwars.group(name = "wlr", invoke_without_command = True)
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def wlr(self, ctx, *args):
@@ -4325,6 +5307,988 @@ class BedwarsStats(commands.Cog):
             text = core.static.stats_needed_disclaimer
         )
         await message.edit(embed = player_four_v_four_wlr_embed)
+
+    @wlr.group(name = "armed", invoke_without_command = True)
+    async def armed_wlr(self, ctx):
+        return
+
+    @armed_wlr.command(name = "doubles", aliases = ["2", "2s", "double"])
+    async def armed_doubles_wlr(self, ctx, *args):
+        if len(args):
+            try:
+                player_data = await self.verification.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
+        else: # If no arguments
+            try:
+                player_data = await self.verification.database_lookup(ctx.author.id)
+            except AttributeError:
+                unverified_embed = discord.Embed(
+                    name = "Not verified",
+                    description = "You have to verify with `/mc verify <minecraft-ign>` first."
+                )
+                await ctx.send(embed = unverified_embed)
+                return
+        loading_embed = discord.Embed(
+            name = "Loading",
+            description = f"Loading {player_data['player_formatted_name']}'s armed doubles WLR data..."
+        )
+        message = await ctx.send(embed = loading_embed)
+        try:
+            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+        except NameError:
+            nameerror_embed = discord.Embed(
+                name = "Invalid input",
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+            )
+            await message.edit(embed = nameerror_embed)
+            return
+        player_armed_doubles_wlr_embed = discord.Embed(
+            title = f"**{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Armed Doubles WLR**",
+            color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
+        )
+        player_armed_doubles_wlr_embed.set_thumbnail(
+            url = core.static.hypixel_game_icons["Bedwars"]
+        )
+        player_armed_doubles_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} WLR**__",
+            value = f"{await self.hypixel_static.get_ratio((player_json['bedwars']['dreams']['armed']['doubles']['wins']), ((player_json['bedwars']['dreams']['armed']['doubles']['losses'])))}"
+        )
+        player_armed_doubles_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Wins**__",
+            value = f"{player_json['bedwars']['dreams']['armed']['doubles']['wins']}"
+        )
+        player_armed_doubles_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Losses**__",
+            value = f"{player_json['bedwars']['dreams']['armed']['doubles']['losses']}"
+        )
+        player_armed_doubles_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +1 WLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['armed']['doubles']['wins']), (player_json['bedwars']['dreams']['armed']['doubles']['losses']), 1)} needed",
+            inline = False
+        )
+        player_armed_doubles_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +2 WLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['armed']['doubles']['wins']), (player_json['bedwars']['dreams']['armed']['doubles']['losses']), 2)} needed"
+        )
+        player_armed_doubles_wlr_embed.set_footer(
+            text = core.static.stats_needed_disclaimer
+        )
+        await message.edit(embed = player_armed_doubles_wlr_embed)
+
+    @armed_wlr.command(name = "fours", aliases = ["4", "4s", "four"])
+    async def armed_fours_wlr(self, ctx, *args):
+        if len(args):
+            try:
+                player_data = await self.verification.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
+        else: # If no arguments
+            try:
+                player_data = await self.verification.database_lookup(ctx.author.id)
+            except AttributeError:
+                unverified_embed = discord.Embed(
+                    name = "Not verified",
+                    description = "You have to verify with `/mc verify <minecraft-ign>` first."
+                )
+                await ctx.send(embed = unverified_embed)
+                return
+        loading_embed = discord.Embed(
+            name = "Loading",
+            description = f"Loading {player_data['player_formatted_name']}'s armed fours WLR data..."
+        )
+        message = await ctx.send(embed = loading_embed)
+        try:
+            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+        except NameError:
+            nameerror_embed = discord.Embed(
+                name = "Invalid input",
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+            )
+            await message.edit(embed = nameerror_embed)
+            return
+        player_armed_fours_wlr_embed = discord.Embed(
+            title = f"**{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Armed Fours WLR**",
+            color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
+        )
+        player_armed_fours_wlr_embed.set_thumbnail(
+            url = core.static.hypixel_game_icons["Bedwars"]
+        )
+        player_armed_fours_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} WLR**__",
+            value = f"{await self.hypixel_static.get_ratio((player_json['bedwars']['dreams']['armed']['fours']['wins']), ((player_json['bedwars']['dreams']['armed']['fours']['losses'])))}"
+        )
+        player_armed_fours_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Wins**__",
+            value = f"{player_json['bedwars']['dreams']['armed']['fours']['wins']}"
+        )
+        player_armed_fours_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Losses**__",
+            value = f"{player_json['bedwars']['dreams']['armed']['fours']['losses']}"
+        )
+        player_armed_fours_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +1 WLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['armed']['fours']['wins']), (player_json['bedwars']['dreams']['armed']['fours']['losses']), 1)} needed",
+            inline = False
+        )
+        player_armed_fours_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +2 WLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['armed']['fours']['wins']), (player_json['bedwars']['dreams']['armed']['fours']['losses']), 2)} needed"
+        )
+        player_armed_fours_wlr_embed.set_footer(
+            text = core.static.stats_needed_disclaimer
+        )
+        await message.edit(embed = player_armed_fours_wlr_embed)
+
+    @wlr.command(name = "castle")
+    @commands.max_concurrency(1, per = commands.BucketType.user)
+    async def castle_wlr(self, ctx, *args):
+        if len(args):
+            try:
+                player_data = await self.verification.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
+        else: # If no arguments
+            try:
+                player_data = await self.verification.database_lookup(ctx.author.id)
+            except AttributeError:
+                unverified_embed = discord.Embed(
+                    name = "Not verified",
+                    description = "You have to verify with `/mc verify <minecraft-ign>` first."
+                )
+                await ctx.send(embed = unverified_embed)
+                return
+        loading_embed = discord.Embed(
+            name = "Loading",
+            description = f"Loading {player_data['player_formatted_name']}'s castle WLR data..."
+        )
+        message = await ctx.send(embed = loading_embed)
+        try:
+            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+        except NameError:
+            nameerror_embed = discord.Embed(
+                name = "Invalid input",
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+            )
+            await message.edit(embed = nameerror_embed)
+            return
+        player_castle_wlr_embed = discord.Embed(
+            title = f"**{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Castle WLR**",
+            color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
+        )
+        player_castle_wlr_embed.set_thumbnail(
+            url = core.static.hypixel_game_icons["Bedwars"]
+        )
+        player_castle_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} WLR**__",
+            value = f"{await self.hypixel_static.get_ratio((player_json['bedwars']['dreams']['castle']['wins']), ((player_json['bedwars']['dreams']['castle']['losses'])))}"
+        )
+        player_castle_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Wins**__",
+            value = f"{player_json['bedwars']['dreams']['castle']['wins']}"
+        )
+        player_castle_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Losses**__",
+            value = f"{player_json['bedwars']['dreams']['castle']['losses']}"
+        )
+        player_castle_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +1 WLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['castle']['wins']), (player_json['bedwars']['dreams']['castle']['losses']), 1)} needed",
+            inline = False
+        )
+        player_castle_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +2 WLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['castle']['wins']), (player_json['bedwars']['dreams']['castle']['losses']), 2)} needed"
+        )
+        player_castle_wlr_embed.set_footer(
+            text = core.static.stats_needed_disclaimer
+        )
+        await message.edit(embed = player_castle_wlr_embed)
+
+    @wlr.group(name = "luckyblocks", aliases = ["luckyblock", "lucky"], invoke_without_command = True)
+    @commands.max_concurrency(1, per = commands.BucketType.user)
+    async def luckyblocks_wlr(self, ctx):
+        return
+
+    @luckyblocks_wlr.command(name = "doubles", aliases = ["2", "2s", "double"])
+    @commands.max_concurrency(1, per = commands.BucketType.user)
+    async def luckyblocks_doubles_wlr(self, ctx, *args):
+        if len(args):
+            try:
+                player_data = await self.verification.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
+        else: # If no arguments
+            try:
+                player_data = await self.verification.database_lookup(ctx.author.id)
+            except AttributeError:
+                unverified_embed = discord.Embed(
+                    name = "Not verified",
+                    description = "You have to verify with `/mc verify <minecraft-ign>` first."
+                )
+                await ctx.send(embed = unverified_embed)
+                return
+        loading_embed = discord.Embed(
+            name = "Loading",
+            description = f"Loading {player_data['player_formatted_name']}'s luckyblocks doubles WLR data..."
+        )
+        message = await ctx.send(embed = loading_embed)
+        try:
+            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+        except NameError:
+            nameerror_embed = discord.Embed(
+                name = "Invalid input",
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+            )
+            await message.edit(embed = nameerror_embed)
+            return
+        player_luckyblocks_doubles_wlr_embed = discord.Embed(
+            title = f"**{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Luckyblocks Doubles WLR**",
+            color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
+        )
+        player_luckyblocks_doubles_wlr_embed.set_thumbnail(
+            url = core.static.hypixel_game_icons["Bedwars"]
+        )
+        player_luckyblocks_doubles_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} WLR**__",
+            value = f"{await self.hypixel_static.get_ratio((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['wins']), ((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['losses'])))}"
+        )
+        player_luckyblocks_doubles_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Wins**__",
+            value = f"{player_json['bedwars']['dreams']['lucky_blocks']['doubles']['wins']}"
+        )
+        player_luckyblocks_doubles_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Losses**__",
+            value = f"{player_json['bedwars']['dreams']['lucky_blocks']['doubles']['losses']}"
+        )
+        player_luckyblocks_doubles_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +1 WLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['wins']), (player_json['bedwars']['dreams']['lucky_blocks']['doubles']['losses']), 1)} needed",
+            inline = False
+        )
+        player_luckyblocks_doubles_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +2 WLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['wins']), (player_json['bedwars']['dreams']['lucky_blocks']['doubles']['losses']), 2)} needed"
+        )
+        player_luckyblocks_doubles_wlr_embed.set_footer(
+            text = core.static.stats_needed_disclaimer
+        )
+        await message.edit(embed = player_luckyblocks_doubles_wlr_embed)
+
+    @wlr.group(name = "rush", invoke_without_command = True)
+    @commands.max_concurrency(1, per = commands.BucketType.user)
+    async def rush_wlr(self, ctx):
+        return
+
+    @rush_wlr.command(name = "solo", aliases = ["1"])
+    @commands.max_concurrency(1, per = commands.BucketType.user)
+    async def solo_rush_wlr(self, ctx, *args):
+        if len(args):
+            try:
+                player_data = await self.verification.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
+        else: # If no arguments
+            try:
+                player_data = await self.verification.database_lookup(ctx.author.id)
+            except AttributeError:
+                unverified_embed = discord.Embed(
+                    name = "Not verified",
+                    description = "You have to verify with `/mc verify <minecraft-ign>` first."
+                )
+                await ctx.send(embed = unverified_embed)
+                return
+        loading_embed = discord.Embed(
+            name = "Loading",
+            description = f"Loading {player_data['player_formatted_name']}'s rush solo WLR data..."
+        )
+        message = await ctx.send(embed = loading_embed)
+        try:
+            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+        except NameError:
+            nameerror_embed = discord.Embed(
+                name = "Invalid input",
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+            )
+            await message.edit(embed = nameerror_embed)
+            return
+        player_rush_solo_wlr_embed = discord.Embed(
+            title = f"**{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Rush Solo WLR**",
+            color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
+        )
+        player_rush_solo_wlr_embed.set_thumbnail(
+            url = core.static.hypixel_game_icons["Bedwars"]
+        )
+        player_rush_solo_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} WLR**__",
+            value = f"{await self.hypixel_static.get_ratio((player_json['bedwars']['dreams']['rush']['solo']['wins']), ((player_json['bedwars']['dreams']['rush']['solo']['losses'])))}"
+        )
+        player_rush_solo_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Wins**__",
+            value = f"{player_json['bedwars']['dreams']['rush']['solo']['wins']}"
+        )
+        player_rush_solo_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Losses**__",
+            value = f"{player_json['bedwars']['dreams']['rush']['solo']['losses']}"
+        )
+        player_rush_solo_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +1 WLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['rush']['solo']['wins']), (player_json['bedwars']['dreams']['rush']['solo']['losses']), 1)} needed",
+            inline = False
+        )
+        player_rush_solo_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +2 WLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['rush']['solo']['wins']), (player_json['bedwars']['dreams']['rush']['solo']['losses']), 2)} needed"
+        )
+        player_rush_solo_wlr_embed.set_footer(
+            text = core.static.stats_needed_disclaimer
+        )
+        await message.edit(embed = player_rush_solo_wlr_embed)
+
+    @rush_wlr.command(name = "doubles", aliases = ["2", "2s", "double"])
+    @commands.max_concurrency(1, per = commands.BucketType.user)
+    async def doubles_rush_wlr(self, ctx, *args):
+        if len(args):
+            try:
+                player_data = await self.verification.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
+        else: # If no arguments
+            try:
+                player_data = await self.verification.database_lookup(ctx.author.id)
+            except AttributeError:
+                unverified_embed = discord.Embed(
+                    name = "Not verified",
+                    description = "You have to verify with `/mc verify <minecraft-ign>` first."
+                )
+                await ctx.send(embed = unverified_embed)
+                return
+        loading_embed = discord.Embed(
+            name = "Loading",
+            description = f"Loading {player_data['player_formatted_name']}'s rush doubles WLR data..."
+        )
+        message = await ctx.send(embed = loading_embed)
+        try:
+            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+        except NameError:
+            nameerror_embed = discord.Embed(
+                name = "Invalid input",
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+            )
+            await message.edit(embed = nameerror_embed)
+            return
+        player_rush_doubles_wlr_embed = discord.Embed(
+            title = f"**{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Rush doubles WLR**",
+            color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
+        )
+        player_rush_doubles_wlr_embed.set_thumbnail(
+            url = core.static.hypixel_game_icons["Bedwars"]
+        )
+        player_rush_doubles_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} WLR**__",
+            value = f"{await self.hypixel_static.get_ratio((player_json['bedwars']['dreams']['rush']['doubles']['wins']), ((player_json['bedwars']['dreams']['rush']['doubles']['losses'])))}"
+        )
+        player_rush_doubles_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Wins**__",
+            value = f"{player_json['bedwars']['dreams']['rush']['doubles']['wins']}"
+        )
+        player_rush_doubles_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Losses**__",
+            value = f"{player_json['bedwars']['dreams']['rush']['doubles']['losses']}"
+        )
+        player_rush_doubles_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +1 WLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['rush']['doubles']['wins']), (player_json['bedwars']['dreams']['rush']['doubles']['losses']), 1)} needed",
+            inline = False
+        )
+        player_rush_doubles_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +2 WLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['rush']['doubles']['wins']), (player_json['bedwars']['dreams']['rush']['doubles']['losses']), 2)} needed"
+        )
+        player_rush_doubles_wlr_embed.set_footer(
+            text = core.static.stats_needed_disclaimer
+        )
+        await message.edit(embed = player_rush_doubles_wlr_embed)
+
+    @rush_wlr.command(name = "fours", aliases = ["4", "4s"])
+    @commands.max_concurrency(1, per = commands.BucketType.user)
+    async def fours_rush_wlr(self, ctx, *args):
+        if len(args):
+            try:
+                player_data = await self.verification.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
+        else: # If no arguments
+            try:
+                player_data = await self.verification.database_lookup(ctx.author.id)
+            except AttributeError:
+                unverified_embed = discord.Embed(
+                    name = "Not verified",
+                    description = "You have to verify with `/mc verify <minecraft-ign>` first."
+                )
+                await ctx.send(embed = unverified_embed)
+                return
+        loading_embed = discord.Embed(
+            name = "Loading",
+            description = f"Loading {player_data['player_formatted_name']}'s rush fours WLR data..."
+        )
+        message = await ctx.send(embed = loading_embed)
+        try:
+            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+        except NameError:
+            nameerror_embed = discord.Embed(
+                name = "Invalid input",
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+            )
+            await message.edit(embed = nameerror_embed)
+            return
+        player_rush_fours_wlr_embed = discord.Embed(
+            title = f"**{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Rush Fours WLR**",
+            color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
+        )
+        player_rush_fours_wlr_embed.set_thumbnail(
+            url = core.static.hypixel_game_icons["Bedwars"]
+        )
+        player_rush_fours_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} WLR**__",
+            value = f"{await self.hypixel_static.get_ratio((player_json['bedwars']['dreams']['rush']['fours']['wins']), ((player_json['bedwars']['dreams']['rush']['fours']['losses'])))}"
+        )
+        player_rush_fours_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Wins**__",
+            value = f"{player_json['bedwars']['dreams']['rush']['fours']['wins']}"
+        )
+        player_rush_fours_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Losses**__",
+            value = f"{player_json['bedwars']['dreams']['rush']['fours']['losses']}"
+        )
+        player_rush_fours_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +1 WLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['rush']['fours']['wins']), (player_json['bedwars']['dreams']['rush']['fours']['losses']), 1)} needed",
+            inline = False
+        )
+        player_rush_fours_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +2 WLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['rush']['fours']['wins']), (player_json['bedwars']['dreams']['rush']['fours']['losses']), 2)} needed"
+        )
+        player_rush_fours_wlr_embed.set_footer(
+            text = core.static.stats_needed_disclaimer
+        )
+        await message.edit(embed = player_rush_fours_wlr_embed)
+
+    @wlr.group(name = "ultimate", aliases = ["ultimates"], invoke_without_command = True)
+    @commands.max_concurrency(1, per = commands.BucketType.user)
+    async def ultimate_wlr(self, ctx):
+        return
+
+    @ultimate_wlr.command(name = "solo", aliases = ["1"])
+    @commands.max_concurrency(1, per = commands.BucketType.user)
+    async def ultimate_solo_wlr(self, ctx, *args):
+        if len(args):
+            try:
+                player_data = await self.verification.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
+        else: # If no arguments
+            try:
+                player_data = await self.verification.database_lookup(ctx.author.id)
+            except AttributeError:
+                unverified_embed = discord.Embed(
+                    name = "Not verified",
+                    description = "You have to verify with `/mc verify <minecraft-ign>` first."
+                )
+                await ctx.send(embed = unverified_embed)
+                return
+        loading_embed = discord.Embed(
+            name = "Loading",
+            description = f"Loading {player_data['player_formatted_name']}'s ultimate solo WLR data..."
+        )
+        message = await ctx.send(embed = loading_embed)
+        try:
+            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+        except NameError:
+            nameerror_embed = discord.Embed(
+                name = "Invalid input",
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+            )
+            await message.edit(embed = nameerror_embed)
+            return
+        player_ultimate_solo_wlr_embed = discord.Embed(
+            title = f"**{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Ultimate Solo WLR**",
+            color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
+        )
+        player_ultimate_solo_wlr_embed.set_thumbnail(
+            url = core.static.hypixel_game_icons["Bedwars"]
+        )
+        player_ultimate_solo_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} WLR**__",
+            value = f"{await self.hypixel_static.get_ratio((player_json['bedwars']['dreams']['ultimate']['solo']['wins']), ((player_json['bedwars']['dreams']['ultimate']['solo']['losses'])))}"
+        )
+        player_ultimate_solo_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Wins**__",
+            value = f"{player_json['bedwars']['dreams']['ultimate']['solo']['wins']}"
+        )
+        player_ultimate_solo_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Losses**__",
+            value = f"{player_json['bedwars']['dreams']['ultimate']['solo']['losses']}"
+        )
+        player_ultimate_solo_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +1 WLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['solo']['wins']), (player_json['bedwars']['dreams']['ultimate']['solo']['losses']), 1)} needed",
+            inline = False
+        )
+        player_ultimate_solo_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +2 WLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['solo']['wins']), (player_json['bedwars']['dreams']['ultimate']['solo']['losses']), 2)} needed"
+        )
+        player_ultimate_solo_wlr_embed.set_footer(
+            text = core.static.stats_needed_disclaimer
+        )
+        await message.edit(embed = player_ultimate_solo_wlr_embed)
+
+    @ultimate_wlr.command(name = "doubles", aliases = ["2", "2s", "double"])
+    @commands.max_concurrency(1, per = commands.BucketType.user)
+    async def ultimate_doubles_wlr(self, ctx, *args):
+        if len(args):
+            try:
+                player_data = await self.verification.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
+        else: # If no arguments
+            try:
+                player_data = await self.verification.database_lookup(ctx.author.id)
+            except AttributeError:
+                unverified_embed = discord.Embed(
+                    name = "Not verified",
+                    description = "You have to verify with `/mc verify <minecraft-ign>` first."
+                )
+                await ctx.send(embed = unverified_embed)
+                return
+        loading_embed = discord.Embed(
+            name = "Loading",
+            description = f"Loading {player_data['player_formatted_name']}'s ultimate doubles WLR data..."
+        )
+        message = await ctx.send(embed = loading_embed)
+        try:
+            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+        except NameError:
+            nameerror_embed = discord.Embed(
+                name = "Invalid input",
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+            )
+            await message.edit(embed = nameerror_embed)
+            return
+        player_ultimate_doubles_wlr_embed = discord.Embed(
+            title = f"**{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Ultimate Doubles WLR**",
+            color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
+        )
+        player_ultimate_doubles_wlr_embed.set_thumbnail(
+            url = core.static.hypixel_game_icons["Bedwars"]
+        )
+        player_ultimate_doubles_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} WLR**__",
+            value = f"{await self.hypixel_static.get_ratio((player_json['bedwars']['dreams']['ultimate']['doubles']['wins']), ((player_json['bedwars']['dreams']['ultimate']['doubles']['losses'])))}"
+        )
+        player_ultimate_doubles_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Wins**__",
+            value = f"{player_json['bedwars']['dreams']['ultimate']['doubles']['wins']}"
+        )
+        player_ultimate_doubles_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Losses**__",
+            value = f"{player_json['bedwars']['dreams']['ultimate']['doubles']['losses']}"
+        )
+        player_ultimate_doubles_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +1 WLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['doubles']['wins']), (player_json['bedwars']['dreams']['ultimate']['doubles']['losses']), 1)} needed",
+            inline = False
+        )
+        player_ultimate_doubles_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +2 WLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['doubles']['wins']), (player_json['bedwars']['dreams']['ultimate']['doubles']['losses']), 2)} needed"
+        )
+        player_ultimate_doubles_wlr_embed.set_footer(
+            text = core.static.stats_needed_disclaimer
+        )
+        await message.edit(embed = player_ultimate_doubles_wlr_embed)
+
+    @ultimate_wlr.command(name = "fours", aliases = ["4", "4s", "four"])
+    @commands.max_concurrency(1, per = commands.BucketType.user)
+    async def ultimate_fours_wlr(self, ctx, *args):
+        if len(args):
+            try:
+                player_data = await self.verification.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
+        else: # If no arguments
+            try:
+                player_data = await self.verification.database_lookup(ctx.author.id)
+            except AttributeError:
+                unverified_embed = discord.Embed(
+                    name = "Not verified",
+                    description = "You have to verify with `/mc verify <minecraft-ign>` first."
+                )
+                await ctx.send(embed = unverified_embed)
+                return
+        loading_embed = discord.Embed(
+            name = "Loading",
+            description = f"Loading {player_data['player_formatted_name']}'s ultimate fours WLR data..."
+        )
+        message = await ctx.send(embed = loading_embed)
+        try:
+            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+        except NameError:
+            nameerror_embed = discord.Embed(
+                name = "Invalid input",
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+            )
+            await message.edit(embed = nameerror_embed)
+            return
+        player_ultimate_fours_wlr_embed = discord.Embed(
+            title = f"**{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Ultimate Fours WLR**",
+            color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
+        )
+        player_ultimate_fours_wlr_embed.set_thumbnail(
+            url = core.static.hypixel_game_icons["Bedwars"]
+        )
+        player_ultimate_fours_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} WLR**__",
+            value = f"{await self.hypixel_static.get_ratio((player_json['bedwars']['dreams']['ultimate']['fours']['wins']), ((player_json['bedwars']['dreams']['ultimate']['fours']['losses'])))}"
+        )
+        player_ultimate_fours_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Wins**__",
+            value = f"{player_json['bedwars']['dreams']['ultimate']['fours']['wins']}"
+        )
+        player_ultimate_fours_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Losses**__",
+            value = f"{player_json['bedwars']['dreams']['ultimate']['fours']['losses']}"
+        )
+        player_ultimate_fours_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +1 WLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['fours']['wins']), (player_json['bedwars']['dreams']['ultimate']['fours']['losses']), 1)} needed",
+            inline = False
+        )
+        player_ultimate_fours_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +2 WLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['fours']['wins']), (player_json['bedwars']['dreams']['ultimate']['fours']['losses']), 2)} needed"
+        )
+        player_ultimate_fours_wlr_embed.set_footer(
+            text = core.static.stats_needed_disclaimer
+        )
+        await message.edit(embed = player_ultimate_fours_wlr_embed)
+
+    @wlr.group(name = "voidless")
+    @commands.max_concurrency(1, per = commands.BucketType.user)
+    async def voidless_wlr(self, ctx):
+        return
+
+    @voidless_wlr.command(name = "doubles", aliases = ["2", "2s", "double"])
+    @commands.max_concurrency(1, per = commands.BucketType.user)
+    async def voidless_doubles_wlr(self, ctx, *args):
+        if len(args):
+            try:
+                player_data = await self.verification.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
+        else: # If no arguments
+            try:
+                player_data = await self.verification.database_lookup(ctx.author.id)
+            except AttributeError:
+                unverified_embed = discord.Embed(
+                    name = "Not verified",
+                    description = "You have to verify with `/mc verify <minecraft-ign>` first."
+                )
+                await ctx.send(embed = unverified_embed)
+                return
+        loading_embed = discord.Embed(
+            name = "Loading",
+            description = f"Loading {player_data['player_formatted_name']}'s voidless doubles WLR data..."
+        )
+        message = await ctx.send(embed = loading_embed)
+        try:
+            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+        except NameError:
+            nameerror_embed = discord.Embed(
+                name = "Invalid input",
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+            )
+            await message.edit(embed = nameerror_embed)
+            return
+        player_voidless_doubles_wlr_embed = discord.Embed(
+            title = f"**{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Voidless Doubles WLR**",
+            color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
+        )
+        player_voidless_doubles_wlr_embed.set_thumbnail(
+            url = core.static.hypixel_game_icons["Bedwars"]
+        )
+        player_voidless_doubles_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} WLR**__",
+            value = f"{await self.hypixel_static.get_ratio((player_json['bedwars']['dreams']['voidless']['doubles']['wins']), ((player_json['bedwars']['dreams']['voidless']['doubles']['losses'])))}"
+        )
+        player_voidless_doubles_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Wins**__",
+            value = f"{player_json['bedwars']['dreams']['voidless']['doubles']['wins']}"
+        )
+        player_voidless_doubles_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Losses**__",
+            value = f"{player_json['bedwars']['dreams']['voidless']['doubles']['losses']}"
+        )
+        player_voidless_doubles_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +1 WLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['doubles']['wins']), (player_json['bedwars']['dreams']['voidless']['doubles']['losses']), 1)} needed",
+            inline = False
+        )
+        player_voidless_doubles_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +2 WLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['doubles']['wins']), (player_json['bedwars']['dreams']['voidless']['doubles']['losses']), 2)} needed"
+        )
+        player_voidless_doubles_wlr_embed.set_footer(
+            text = core.static.stats_needed_disclaimer
+        )
+        await message.edit(embed = player_voidless_doubles_wlr_embed)
+
+    @voidless_wlr.command(name = "fours", aliases = ["4", "4s", "four"])
+    @commands.max_concurrency(1, per = commands.BucketType.user)
+    async def voidless_fours_wlr(self, ctx, *args):
+        if len(args):
+            try:
+                player_data = await self.verification.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
+        else: # If no arguments
+            try:
+                player_data = await self.verification.database_lookup(ctx.author.id)
+            except AttributeError:
+                unverified_embed = discord.Embed(
+                    name = "Not verified",
+                    description = "You have to verify with `/mc verify <minecraft-ign>` first."
+                )
+                await ctx.send(embed = unverified_embed)
+                return
+        loading_embed = discord.Embed(
+            name = "Loading",
+            description = f"Loading {player_data['player_formatted_name']}'s voidless fours WLR data..."
+        )
+        message = await ctx.send(embed = loading_embed)
+        try:
+            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+        except NameError:
+            nameerror_embed = discord.Embed(
+                name = "Invalid input",
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+            )
+            await message.edit(embed = nameerror_embed)
+            return
+        player_voidless_fours_wlr_embed = discord.Embed(
+            title = f"**{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Voidless Fours WLR**",
+            color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
+        )
+        player_voidless_fours_wlr_embed.set_thumbnail(
+            url = core.static.hypixel_game_icons["Bedwars"]
+        )
+        player_voidless_fours_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} WLR**__",
+            value = f"{await self.hypixel_static.get_ratio((player_json['bedwars']['dreams']['voidless']['fours']['wins']), ((player_json['bedwars']['dreams']['voidless']['fours']['losses'])))}"
+        )
+        player_voidless_fours_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Wins**__",
+            value = f"{player_json['bedwars']['dreams']['voidless']['fours']['wins']}"
+        )
+        player_voidless_fours_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Losses**__",
+            value = f"{player_json['bedwars']['dreams']['voidless']['fours']['losses']}"
+        )
+        player_voidless_fours_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +1 WLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['fours']['wins']), (player_json['bedwars']['dreams']['voidless']['fours']['losses']), 1)} needed",
+            inline = False
+        )
+        player_voidless_fours_wlr_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} +2 WLR**__",
+            value = f"{await self.hypixel_static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['fours']['wins']), (player_json['bedwars']['dreams']['voidless']['fours']['losses']), 2)} needed"
+        )
+        player_voidless_fours_wlr_embed.set_footer(
+            text = core.static.stats_needed_disclaimer
+        )
+        await message.edit(embed = player_voidless_fours_wlr_embed)
 def setup(bot):
     bot.add_cog(BedwarsStats(bot))
     print("Reloaded cogs.minecraft.hypixel.bedwars")
