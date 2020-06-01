@@ -99,6 +99,11 @@ class BedwarsStats(commands.Cog):
             inline = False
         )
         player_stats_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
+            value = f"{player_json['bedwars']['winstreak']}",
+            inline = False
+        )
+        player_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value = f"{player_json['bedwars']['final_kills']}"
         )
@@ -195,6 +200,11 @@ class BedwarsStats(commands.Cog):
             inline = False
         )
         player_stats_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
+            value = f"{player_json['bedwars']['winstreak']}",
+            inline = False
+        )
+        player_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value = f"{player_json['bedwars']['final_kills']}"
         )
@@ -284,6 +294,11 @@ class BedwarsStats(commands.Cog):
         )
         player_solo_stats_embed.set_thumbnail(
             url = core.static.hypixel_game_icons["Bedwars"]
+        )
+        player_solo_stats_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
+            value = f"{player_json['bedwars']['solo']['winstreak']}",
+            inline = False
         )
         player_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
@@ -377,6 +392,11 @@ class BedwarsStats(commands.Cog):
             url = core.static.hypixel_game_icons["Bedwars"]
         )
         player_doubles_stats_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
+            value = f"{player_json['bedwars']['doubles']['winstreak']}",
+            inline = False
+        )
+        player_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value = f"{player_json['bedwars']['doubles']['final_kills']}"
         )
@@ -466,6 +486,11 @@ class BedwarsStats(commands.Cog):
         )
         player_threes_stats_embed.set_thumbnail(
             url = core.static.hypixel_game_icons["Bedwars"]
+        )
+        player_threes_stats_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
+            value = f"{player_json['bedwars']['threes']['winstreak']}",
+            inline = False
         )
         player_threes_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
@@ -559,6 +584,11 @@ class BedwarsStats(commands.Cog):
             url = core.static.hypixel_game_icons["Bedwars"]
         )
         player_fours_stats_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
+            value = f"{player_json['bedwars']['fours']['winstreak']}",
+            inline = False
+        )
+        player_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value = f"{player_json['bedwars']['fours']['final_kills']}"
         )
@@ -648,6 +678,11 @@ class BedwarsStats(commands.Cog):
         )
         player_four_v_four_stats_embed.set_thumbnail(
             url = core.static.hypixel_game_icons["Bedwars"]
+        )
+        player_four_v_four_stats_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
+            value = f"{player_json['bedwars']['four_v_four']['winstreak']}",
+            inline = False
         )
         player_four_v_four_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
@@ -747,6 +782,11 @@ class BedwarsStats(commands.Cog):
             url = core.static.hypixel_game_icons["Bedwars"]
         )
         player_armed_doubles_stats_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
+            value = f"{player_json['bedwars']['dreams']['armed']['doubles']['winstreak']}",
+            inline = False
+        )
+        player_armed_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value = f"{player_json['bedwars']['dreams']['armed']['doubles']['final_kills']}"
         )
@@ -836,6 +876,11 @@ class BedwarsStats(commands.Cog):
         )
         player_armed_fours_stats_embed.set_thumbnail(
             url = core.static.hypixel_game_icons["Bedwars"]
+        )
+        player_armed_fours_stats_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
+            value = f"{player_json['bedwars']['dreams']['armed']['fours']['winstreak']}",
+            inline = False
         )
         player_armed_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
@@ -928,6 +973,11 @@ class BedwarsStats(commands.Cog):
         )
         player_castle_stats_embed.set_thumbnail(
             url = core.static.hypixel_game_icons["Bedwars"]
+        )
+        player_castle_stats_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
+            value = f"{player_json['bedwars']['dreams']['castle']['winstreak']}",
+            inline = False
         )
         player_castle_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
@@ -1027,6 +1077,11 @@ class BedwarsStats(commands.Cog):
             url = core.static.hypixel_game_icons["Bedwars"]
         )
         player_luckyblocks_doubles_stats_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
+            value = f"{player_json['bedwars']['dreams']['lucky_blocks']['doubles']['winstreak']}",
+            inline = False
+        )
+        player_luckyblocks_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value = f"{player_json['bedwars']['dreams']['lucky_blocks']['doubles']['final_kills']}"
         )
@@ -1119,6 +1174,11 @@ class BedwarsStats(commands.Cog):
             url = core.static.hypixel_game_icons["Bedwars"]
         )
         player_luckyblocks_fours_stats_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
+            value = f"{player_json['bedwars']['dreams']['lucky_blocks']['fours']['winstreak']}",
+            inline = False
+        )
+        player_luckyblocks_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value = f"{player_json['bedwars']['dreams']['lucky_blocks']['fours']['final_kills']}"
         )
@@ -1161,7 +1221,7 @@ class BedwarsStats(commands.Cog):
     async def rush(self, ctx):
         return
 
-    @rush.command(name = "solo", aliases = ["1"])
+    @rush.command(name = "solo", aliases = ["1", "solos"])
     async def rush_solo(self, ctx, *args):
         if len(args):
             try:
@@ -1215,40 +1275,45 @@ class BedwarsStats(commands.Cog):
             url = core.static.hypixel_game_icons["Bedwars"]
         )
         player_rush_solo_stats_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
+            value = f"{player_json['bedwars']['dreams']['rush']['solo']['winstreak']}",
+            inline = False
+        )
+        player_rush_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['doubles']['final_kills']}"
+            value = f"{player_json['bedwars']['dreams']['rush']['solo']['final_kills']}"
         )
         player_rush_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['doubles']['final_deaths']}"
+            value = f"{player_json['bedwars']['dreams']['rush']['solo']['final_deaths']}"
         )
         player_rush_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} FKDR**__",
-            value = f"{await self.hypixel_static.get_ratio((player_json['bedwars']['dreams']['rush']['doubles']['final_kills']), ((player_json['bedwars']['dreams']['rush']['doubles']['final_deaths'])))}"
+            value = f"{await self.hypixel_static.get_ratio((player_json['bedwars']['dreams']['rush']['solo']['final_kills']), ((player_json['bedwars']['dreams']['rush']['solo']['final_deaths'])))}"
         )
         player_rush_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['doubles']['beds_broken']}"
+            value = f"{player_json['bedwars']['dreams']['rush']['solo']['beds_broken']}"
         )
         player_rush_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['doubles']['beds_lost']}"
+            value = f"{player_json['bedwars']['dreams']['rush']['solo']['beds_lost']}"
         )
         player_rush_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} BBLR**__",
-            value = f"{await self.hypixel_static.get_ratio((player_json['bedwars']['dreams']['rush']['doubles']['beds_broken']), ((player_json['bedwars']['dreams']['rush']['doubles']['beds_lost'])))}"
+            value = f"{await self.hypixel_static.get_ratio((player_json['bedwars']['dreams']['rush']['solo']['beds_broken']), ((player_json['bedwars']['dreams']['rush']['solo']['beds_lost'])))}"
         )
         player_rush_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Wins**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['doubles']['wins']}"
+            value = f"{player_json['bedwars']['dreams']['rush']['solo']['wins']}"
         )
         player_rush_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Losses**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['doubles']['losses']}"
+            value = f"{player_json['bedwars']['dreams']['rush']['solo']['losses']}"
         )
         player_rush_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} WLR**__",
-            value = f"{await self.hypixel_static.get_ratio((player_json['bedwars']['dreams']['rush']['doubles']['wins']), ((player_json['bedwars']['dreams']['rush']['doubles']['losses'])))}"
+            value = f"{await self.hypixel_static.get_ratio((player_json['bedwars']['dreams']['rush']['solo']['wins']), ((player_json['bedwars']['dreams']['rush']['solo']['losses'])))}"
         )
         await message.edit(embed = player_rush_solo_stats_embed)
 
@@ -1304,6 +1369,11 @@ class BedwarsStats(commands.Cog):
         )
         player_rush_doubles_stats_embed.set_thumbnail(
             url = core.static.hypixel_game_icons["Bedwars"]
+        )
+        player_rush_doubles_stats_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
+            value = f"{player_json['bedwars']['dreams']['rush']['doubles']['winstreak']}",
+            inline = False
         )
         player_rush_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
@@ -1397,6 +1467,11 @@ class BedwarsStats(commands.Cog):
             url = core.static.hypixel_game_icons["Bedwars"]
         )
         player_rush_fours_stats_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
+            value = f"{player_json['bedwars']['dreams']['rush']['fours']['winstreak']}",
+            inline = False
+        )
+        player_rush_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value = f"{player_json['bedwars']['dreams']['rush']['fours']['final_kills']}"
         )
@@ -1439,7 +1514,7 @@ class BedwarsStats(commands.Cog):
     async def ultimate(self, ctx, *args):
         return
 
-    @ultimate.command(name = "solo", aliases = ["1"])
+    @ultimate.command(name = "solo", aliases = ["1", "solos"])
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def ultimate_solo(self, ctx, *args):
         if len(args):
@@ -1492,6 +1567,11 @@ class BedwarsStats(commands.Cog):
         )
         player_ultimate_solo_stats_embed.set_thumbnail(
             url = core.static.hypixel_game_icons["Bedwars"]
+        )
+        player_ultimate_solo_stats_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
+            value = f"{player_json['bedwars']['dreams']['ultimate']['solo']['winstreak']}",
+            inline = False
         )
         player_ultimate_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
@@ -1586,6 +1666,11 @@ class BedwarsStats(commands.Cog):
             url = core.static.hypixel_game_icons["Bedwars"]
         )
         player_ultimate_doubles_stats_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
+            value = f"{player_json['bedwars']['dreams']['ultimate']['doubles']['winstreak']}",
+            inline = False
+        )
+        player_ultimate_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value = f"{player_json['bedwars']['dreams']['ultimate']['doubles']['final_kills']}"
         )
@@ -1676,6 +1761,11 @@ class BedwarsStats(commands.Cog):
         )
         player_ultimate_fours_stats_embed.set_thumbnail(
             url = core.static.hypixel_game_icons["Bedwars"]
+        )
+        player_ultimate_fours_stats_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
+            value = f"{player_json['bedwars']['dreams']['ultimate']['fours']['winstreak']}",
+            inline = False
         )
         player_ultimate_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
@@ -1775,6 +1865,11 @@ class BedwarsStats(commands.Cog):
             url = core.static.hypixel_game_icons["Bedwars"]
         )
         player_voidless_doubles_stats_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
+            value = f"{player_json['bedwars']['dreams']['voidless']['doubles']['winstreak']}",
+            inline = False
+        )
+        player_voidless_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value = f"{player_json['bedwars']['dreams']['voidless']['doubles']['final_kills']}"
         )
@@ -1865,6 +1960,11 @@ class BedwarsStats(commands.Cog):
         )
         player_voidless_fours_stats_embed.set_thumbnail(
             url = core.static.hypixel_game_icons["Bedwars"]
+        )
+        player_voidless_fours_stats_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
+            value = f"{player_json['bedwars']['dreams']['voidless']['fours']['winstreak']}",
+            inline = False
         )
         player_voidless_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
@@ -2716,7 +2816,7 @@ class BedwarsStats(commands.Cog):
     async def rush_fkdr(self, ctx):
         return
 
-    @rush_fkdr.command(name = "solo", aliases = ["1"])
+    @rush_fkdr.command(name = "solo", aliases = ["1", "solos"])
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def solo_rush_fkdr(self, ctx, *args):
         if len(args):
@@ -2961,7 +3061,7 @@ class BedwarsStats(commands.Cog):
     async def ultimate_fkdr(self, ctx):
         return
 
-    @ultimate_fkdr.command(name = "solo", aliases = ["1"])
+    @ultimate_fkdr.command(name = "solo", aliases = ["1", "solos"])
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def ultimate_solo_fkdr(self, ctx, *args):
         if len(args):
@@ -4178,7 +4278,7 @@ class BedwarsStats(commands.Cog):
     async def rush_bblr(self, ctx):
         return
 
-    @rush_bblr.command(name = "solo", aliases = ["1"])
+    @rush_bblr.command(name = "solo", aliases = ["1", "solos"])
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def solo_rush_bblr(self, ctx, *args):
         if len(args):
@@ -4423,7 +4523,7 @@ class BedwarsStats(commands.Cog):
     async def ultimate_bblr(self, ctx):
         return
 
-    @ultimate_bblr.command(name = "solo", aliases = ["1"])
+    @ultimate_bblr.command(name = "solo", aliases = ["1", "solos"])
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def ultimate_solo_bblr(self, ctx, *args):
         if len(args):
@@ -5640,7 +5740,7 @@ class BedwarsStats(commands.Cog):
     async def rush_wlr(self, ctx):
         return
 
-    @rush_wlr.command(name = "solo", aliases = ["1"])
+    @rush_wlr.command(name = "solo", aliases = ["1", "solos"])
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def solo_rush_wlr(self, ctx, *args):
         if len(args):
@@ -5885,7 +5985,7 @@ class BedwarsStats(commands.Cog):
     async def ultimate_wlr(self, ctx):
         return
 
-    @ultimate_wlr.command(name = "solo", aliases = ["1"])
+    @ultimate_wlr.command(name = "solo", aliases = ["1", "solos"])
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def ultimate_solo_wlr(self, ctx, *args):
         if len(args):
@@ -6289,6 +6389,82 @@ class BedwarsStats(commands.Cog):
             text = core.static.stats_needed_disclaimer
         )
         await message.edit(embed = player_voidless_fours_wlr_embed)
+
+    @bedwars.command(name = "winstreaks", aliases = ["winstreak", "ws"])
+    @commands.max_concurrency(1, per = commands.BucketType.user)
+    async def winstreaks(self, ctx, *args):
+        if len(args):
+            try:
+                player_data = await self.verification.parse_input(ctx, args[0])
+            except AttributeError:
+                member_not_verified = discord.Embed(
+                    name = "Member not verified",
+                    description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+                )
+                member_not_verified.set_footer(
+                    text = "... with Myaer."
+                )
+                await ctx.send(embed = member_not_verified)
+                return
+            except NameError:
+                nameerror_embed = discord.Embed(
+                    name = "Invalid input",
+                    description = f"\"{args[0]}\" is not a valid username or UUID."
+                )
+                await ctx.send(embed = nameerror_embed)
+                return
+        else: # If no arguments
+            try:
+                player_data = await self.verification.database_lookup(ctx.author.id)
+            except AttributeError:
+                unverified_embed = discord.Embed(
+                    name = "Not verified",
+                    description = "You have to verify with `/mc verify <minecraft-ign>` first."
+                )
+                await ctx.send(embed = unverified_embed)
+                return
+        loading_embed = discord.Embed(
+            name = "Loading",
+            description = f"Loading {player_data['player_formatted_name']}'s current winstreaks..."
+        )
+        message = await ctx.send(embed = loading_embed)
+        try:
+            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+        except NameError:
+            nameerror_embed = discord.Embed(
+                name = "Invalid input",
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+            )
+            await message.edit(embed = nameerror_embed)
+            return
+        winstreak_embed = discord.Embed(
+            title = f"**{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Current Winstreaks**",
+            color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16), # 16 - Hex value.
+            description =
+f"""__**{core.static.arrow_bullet_point} Overall**__: {player_json['bedwars']['winstreak']}
+__**{core.static.arrow_bullet_point} Solo**__: {player_json['bedwars']['solo']['winstreak']}
+__**{core.static.arrow_bullet_point} Doubles**__: {player_json['bedwars']['doubles']['winstreak']}
+__**{core.static.arrow_bullet_point} Threes**__: {player_json['bedwars']['threes']['winstreak']}
+__**{core.static.arrow_bullet_point} Fours**__: {player_json['bedwars']['fours']['winstreak']}
+__**{core.static.arrow_bullet_point} 4v4**__: {player_json['bedwars']['four_v_four']['winstreak']}
+__**{core.static.arrow_bullet_point} Armed Doubles**__: {player_json['bedwars']['dreams']['armed']['doubles']['winstreak']}
+__**{core.static.arrow_bullet_point} Armed Fours**__: {player_json['bedwars']['dreams']['armed']['fours']['winstreak']}
+__**{core.static.arrow_bullet_point} Castle**__: {player_json['bedwars']['dreams']['castle']['winstreak']}
+__**{core.static.arrow_bullet_point} Lucky Blocks Doubles**__: {player_json['bedwars']['dreams']['lucky_blocks']['doubles']['winstreak']}
+__**{core.static.arrow_bullet_point} Lucky Blocks Fours**__: {player_json['bedwars']['dreams']['lucky_blocks']['fours']['winstreak']}
+__**{core.static.arrow_bullet_point} Rush Solo**__: {player_json['bedwars']['dreams']['rush']['solo']['winstreak']}
+__**{core.static.arrow_bullet_point} Rush Doubles**__: {player_json['bedwars']['dreams']['rush']['doubles']['winstreak']}
+__**{core.static.arrow_bullet_point} Rush Fours**__: {player_json['bedwars']['dreams']['rush']['fours']['winstreak']}
+__**{core.static.arrow_bullet_point} Ultimate Solo**__: {player_json['bedwars']['dreams']['ultimate']['solo']['winstreak']}
+__**{core.static.arrow_bullet_point} Ultimate Doubles**__: {player_json['bedwars']['dreams']['ultimate']['doubles']['winstreak']}
+__**{core.static.arrow_bullet_point} Ultimate Fours**__: {player_json['bedwars']['dreams']['ultimate']['fours']['winstreak']}
+__**{core.static.arrow_bullet_point} Voidless Doubles**__: {player_json['bedwars']['dreams']['voidless']['doubles']['winstreak']}
+__**{core.static.arrow_bullet_point} Voidless Fours**__: {player_json['bedwars']['dreams']['voidless']['fours']['winstreak']}"""
+        )
+        winstreak_embed.set_thumbnail(
+            url = core.static.hypixel_game_icons["Bedwars"]
+        )
+        await message.edit(embed = winstreak_embed)
 def setup(bot):
     bot.add_cog(BedwarsStats(bot))
     print("Reloaded cogs.minecraft.hypixel.bedwars")

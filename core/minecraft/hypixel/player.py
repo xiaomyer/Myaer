@@ -36,7 +36,6 @@ class Player():
             player_json = await self.hypixel.send_player_request_uuid(player)
         except:
             raise NameError("No Hypixel stats")
-            return
         player = { # This thing is pretty torture
             "name" : player_json.get("player", {}).get("displayname", ""),
             "bedwars" : {
@@ -51,6 +50,7 @@ class Player():
                 "final_deaths" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("final_deaths_bedwars", 0),
                 "wins" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("wins_bedwars", 0),
                 "losses" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("losses_bedwars", 0),
+                "winstreak" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("winstreak", 0),
                 "solo" : {
                     "games_played" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_one_games_played_bedwars", 0),
                     "beds_broken" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_one_beds_broken_bedwars", 0),
@@ -61,6 +61,7 @@ class Player():
                     "final_deaths" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_one_final_deaths_bedwars", 0),
                     "wins" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_one_wins_bedwars", 0),
                     "losses" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_one_losses_bedwars", 0),
+                    "winstreak" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_one_winstreak", 0),
                 },
                 "doubles" : {
                     "games_played" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_two_games_played_bedwars", 0),
@@ -72,6 +73,7 @@ class Player():
                     "final_deaths" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_two_final_deaths_bedwars", 0),
                     "wins" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_two_wins_bedwars", 0),
                     "losses" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_two_losses_bedwars", 0),
+                    "winstreak" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_two_winstreak", 0),
                 },
                 "threes" : {
                     "games_played" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_three_games_played_bedwars", 0),
@@ -83,6 +85,7 @@ class Player():
                     "final_deaths" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_three_final_deaths_bedwars", 0),
                     "wins" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_three_wins_bedwars", 0),
                     "losses" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_three_losses_bedwars", 0),
+                    "winstreak" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_three_winstreak", 0),
                 },
                 "fours" : {
                     "games_played" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_four_games_played_bedwars", 0),
@@ -94,6 +97,7 @@ class Player():
                     "final_deaths" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_four_final_deaths_bedwars", 0),
                     "wins" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_four_wins_bedwars", 0),
                     "losses" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_four_losses_bedwars", 0),
+                    "winstreak" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_four_winstreak", 0),
                 },
                 "four_v_four" : {
                     "games_played" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("two_four_games_played_bedwars", 0),
@@ -105,6 +109,7 @@ class Player():
                     "final_deaths" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("two_four_final_deaths_bedwars", 0),
                     "wins" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("two_four_wins_bedwars", 0),
                     "losses" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("two_four_losses_bedwars", 0),
+                    "winstreak" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("two_four_winstreak", 0),
                 },
                 "dreams" : {
                     "armed" : {
@@ -120,7 +125,7 @@ class Player():
                             "final_deaths" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_two_armed_final_deaths_bedwars", 0),
                             "wins" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_two_armed_wins_bedwars", 0),
                             "losses" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_two_armed_losses_bedwars", 0),
-                            "winstreak" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_two_armed_winstreak_bedwars", 0),
+                            "winstreak" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_two_armed_winstreak", 0),
                             "items_purchased" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_two_armed__items_purchased_bedwars", 0),
                             "resources_collected" : {
                                 "all" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_two_armed_resources_collected_bedwars", 0),
@@ -142,7 +147,7 @@ class Player():
                             "final_deaths" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_four_armed_final_deaths_bedwars", 0),
                             "wins" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_four_armed_wins_bedwars", 0),
                             "losses" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_four_armed_losses_bedwars", 0),
-                            "winstreak" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_four_armed_winstreak_bedwars", 0),
+                            "winstreak" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_four_armed_winstreak", 0),
                             "items_purchased" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_four_armed__items_purchased_bedwars", 0),
                             "resources_collected" : {
                                 "all" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_four_armed_resources_collected_bedwars", 0),
@@ -165,7 +170,7 @@ class Player():
                         "final_deaths" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("castle_final_deaths_bedwars", 0),
                         "wins" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("castle_wins_bedwars", 0),
                         "losses" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("castle_losses_bedwars", 0),
-                        "winstreak" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("castle_winstreak_bedwars", 0),
+                        "winstreak" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("castle_winstreak", 0),
                         "items_purchased" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("castle__items_purchased_bedwars", 0),
                         "resources_collected" : {
                             "all" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("castle_resources_collected_bedwars", 0),
@@ -188,7 +193,7 @@ class Player():
                             "final_deaths" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_two_lucky_final_deaths_bedwars", 0),
                             "wins" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_two_lucky_wins_bedwars", 0),
                             "losses" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_two_lucky_losses_bedwars", 0),
-                            "winstreak" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_two_lucky_winstreak_bedwars", 0),
+                            "winstreak" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_two_lucky_winstreak", 0),
                             "items_purchased" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_two_lucky__items_purchased_bedwars", 0),
                             "resources_collected" : {
                                 "all" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_two_lucky_resources_collected_bedwars", 0),
@@ -210,7 +215,7 @@ class Player():
                             "final_deaths" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_four_lucky_final_deaths_bedwars", 0),
                             "wins" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_four_lucky_wins_bedwars", 0),
                             "losses" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_four_lucky_losses_bedwars", 0),
-                            "winstreak" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_four_lucky_winstreak_bedwars", 0),
+                            "winstreak" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_four_lucky_winstreak", 0),
                             "items_purchased" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_four_lucky__items_purchased_bedwars", 0),
                             "resources_collected" : {
                                 "all" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_four_lucky_resources_collected_bedwars", 0),
@@ -234,7 +239,7 @@ class Player():
                             "void_deaths" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_one_rush_void_deaths", 0),
                             "wins" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_one_rush_wins_bedwars", 0),
                             "losses" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_one_rush_losses_bedwars", 0),
-                            "winstreak" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_one_rush_winstreak_bedwars", 0),
+                            "winstreak" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_one_rush_winstreak", 0),
                             "items_purchased" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_one_rush__items_purchased_bedwars", 0),
                             "resources_collected" : {
                                 "all" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_one_rush_resources_collected_bedwars", 0),
@@ -256,7 +261,7 @@ class Player():
                             "final_deaths" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_two_rush_final_deaths_bedwars", 0),
                             "wins" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_two_rush_wins_bedwars", 0),
                             "losses" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_two_rush_losses_bedwars", 0),
-                            "winstreak" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_two_rush_winstreak_bedwars", 0),
+                            "winstreak" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_two_rush_winstreak", 0),
                             "items_purchased" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_two_rush__items_purchased_bedwars", 0),
                             "resources_collected" : {
                                 "all" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_two_rush_resources_collected_bedwars", 0),
@@ -278,7 +283,7 @@ class Player():
                             "final_deaths" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_four_rush_final_deaths_bedwars", 0),
                             "wins" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_four_rush_wins_bedwars", 0),
                             "losses" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_four_rush_losses_bedwars", 0),
-                            "winstreak" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_four_rush_winstreak_bedwars", 0),
+                            "winstreak" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_four_rush_winstreak", 0),
                             "items_purchased" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_four_rush__items_purchased_bedwars", 0),
                             "resources_collected" : {
                                 "all" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_four_rush_resources_collected_bedwars", 0),
@@ -302,7 +307,7 @@ class Player():
                             "final_deaths" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_one_ultimate_final_deaths_bedwars", 0),
                             "wins" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_one_ultimate_wins_bedwars", 0),
                             "losses" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_one_ultimate_losses_bedwars", 0),
-                            "winstreak" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_one_ultimate_winstreak_bedwars", 0),
+                            "winstreak" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_one_ultimate_winstreak", 0),
                             "items_purchased" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_one_ultimate__items_purchased_bedwars", 0),
                             "resources_collected" : {
                                 "all" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_one_ultimate_resources_collected_bedwars", 0),
@@ -324,7 +329,7 @@ class Player():
                             "final_deaths" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_two_ultimate_final_deaths_bedwars", 0),
                             "wins" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_two_ultimate_wins_bedwars", 0),
                             "losses" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_two_ultimate_losses_bedwars", 0),
-                            "winstreak" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_two_ultimate_winstreak_bedwars", 0),
+                            "winstreak" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_two_ultimate_winstreak", 0),
                             "items_purchased" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_two_ultimate__items_purchased_bedwars", 0),
                             "resources_collected" : {
                                 "all" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_two_ultimate_resources_collected_bedwars", 0),
@@ -346,7 +351,7 @@ class Player():
                             "final_deaths" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_four_ultimate_final_deaths_bedwars", 0),
                             "wins" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_four_ultimate_wins_bedwars", 0),
                             "losses" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_four_ultimate_losses_bedwars", 0),
-                            "winstreak" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_four_ultimate_winstreak_bedwars", 0),
+                            "winstreak" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_four_ultimate_winstreak", 0),
                             "items_purchased" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_four_ultimate__items_purchased_bedwars", 0),
                             "resources_collected" : {
                                 "all" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_four_ultimate_resources_collected_bedwars", 0),
@@ -370,7 +375,7 @@ class Player():
                             "final_deaths" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_two_voidless_final_deaths_bedwars", 0),
                             "wins" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_two_voidless_wins_bedwars", 0),
                             "losses" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_two_voidless_losses_bedwars", 0),
-                            "winstreak" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_two_voidless_winstreak_bedwars", 0),
+                            "winstreak" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_two_voidless_winstreak", 0),
                             "items_purchased" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_two_voidless__items_purchased_bedwars", 0),
                             "resources_collected" : {
                                 "all" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("eight_two_voidless_resources_collected_bedwars", 0),
@@ -392,7 +397,7 @@ class Player():
                             "final_deaths" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_four_voidless_final_deaths_bedwars", 0),
                             "wins" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_four_voidless_wins_bedwars", 0),
                             "losses" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_four_voidless_losses_bedwars", 0),
-                            "winstreak" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_four_voidless_winstreak_bedwars", 0),
+                            "winstreak" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_four_voidless_winstreak", 0),
                             "items_purchased" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_four_voidless__items_purchased_bedwars", 0),
                             "resources_collected" : {
                                 "all" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("four_four_voidless_resources_collected_bedwars", 0),
