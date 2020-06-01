@@ -140,7 +140,7 @@ class BedwarsStats(commands.Cog):
         )
         await message.edit(embed = player_stats_embed)
 
-    @bedwars.command(name = "stats") # Safety net in case the player"s name is "solo" or "doubles"
+    @bedwars.command(name = "stats") # Safety net in case the player"s name is one of the subcommand names
     async def bedwars_stats(self, ctx, *args):
         if len(args):
             try:

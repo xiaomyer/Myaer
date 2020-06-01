@@ -50,9 +50,68 @@ prestiges = [
     "Rainbow"
 ]
 
+rank_colors = {
+    "VIP" : "55FF55",
+    "VIP+" : "55FF55",
+    "MVP" : "55FFFF",
+    "MVP+" : "55FFFF",
+    "MVP++" : "FFAA00",
+    "YOUTUBE" : "FF5555",
+    "HELPER" : "5555FF",
+    "MOD" : "00AA00",
+    "ADMIN" : "AA0000",
+    None : "607D8B"
+}
+
 class HypixelStatic():
     async def get_network_level(self, experience):
-        return (sqrt(experience + 15312.5) - 88.38834764831843) / 35.35533905932738 # formula that i don't understand, thank you @littlemissantivirus
+        return (sqrt(experience + 15312.5) - 88.38834764831843) / 35.35533905932738 # formula that i don't understand, something to do with square roots - thank you @littlemissantivirus
+
+    async def get_rank_data(self, rank, monthly_package_rank, new_package_rank, package_rank): # complicated because returning the formatted rank name
+        formatted_rank = None
+        if rank:
+            if rank == "YOUTUBER":
+                formatted_rank = "YOUTUBE"
+            elif rank == "HELPER":
+                formatted_rank = "HELPER"
+            elif rank == "MODERATOR":
+                formatted_rank = "MOD"
+            elif rank == "ADMIN":
+                formatted_rank = "ADMIN"
+
+        elif monthly_package_rank and not formatted_rank:
+            if monthly_package_rank == "SUPERSTAR": # hypixel i am questioning you greatly
+                formatted_rank = "MVP++"
+
+        if new_package_rank and not formatted_rank:
+            if new_package_rank == "NONE":
+                formatted_rank = None
+            elif new_package_rank == "VIP":
+                formatted_rank = "VIP"
+            elif new_package_rank == "VIP_PLUS":
+                formatted_rank = "VIP+"
+            elif new_package_rank == "MVP":
+                formatted_rank = "MVP"
+            elif new_package_rank == "MVP_PLUS":
+                formatted_rank = "MVP+"
+
+        elif package_rank and not formatted_rank:
+            if package_rank == "NONE":
+                formatted_rank = None
+            elif package_rank == "VIP":
+                formatted_rank = "VIP"
+            elif package_rank == "VIP_PLUS":
+                formatted_rank = "VIP+"
+            elif package_rank == "MVP":
+                formatted_rank = "MVP"
+            elif package_rank == "MVP_PLUS":
+                formatted_rank = "MVP+"
+
+        rank_data = {
+            "rank" : formatted_rank,
+            "color" : rank_colors[formatted_rank]
+        }
+        return rank_data
 
     async def get_ratio(self, positive_stat, negative_stat):
         try:
@@ -81,7 +140,7 @@ class HypixelStatic():
     async def get_bedwars_prestige_data(self, star):
         star_rounded = star // 100 # // is floor division, basically math.floor(await self.get_star() / 100)
         star_rounded = star_rounded if star_rounded < 10 else 10 # if greater than 10, set to ten
-        return {"prestige": prestiges[star_rounded], "prestige_color": prestige_colors[prestiges[star_rounded]]} # sometimes my genius, it"s...it"s almost frightnening
+        return {"prestige": prestiges[star_rounded], "prestige_color": prestige_colors[prestiges[star_rounded]]} # based on order of prestiges and prestige colors
 
     async def get_skywars_prestige_data(self, star):
         if star in range(0, 5):

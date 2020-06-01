@@ -25,29 +25,25 @@ SOFTWARE.
 from discord.ext import commands
 import discord
 from core.minecraft.request import MojangAPI
-import core.minecraft.hypixel.request
+from core.minecraft.hypixel.player import Player
 from tinydb import TinyDB, Query, where
 
 class Verification():
     def __init__(self):
-        self.hypixel = core.minecraft.hypixel.request.HypixelAPI()
         self.mojang = MojangAPI()
+        self.player = Player()
         self.user_converter = commands.UserConverter()
 
     async def verify(self, discord_id, discord_name, minecraft_uuid):
         db = TinyDB("/home/myerfire/Myaer/Myaer/core/minecraft/verification/verified.json")
         Users = Query()
         try:
-            await self.hypixel.send_player_request_uuid(minecraft_uuid)
+            player_json = await self.player.get_player(minecraft_uuid)
         except NameError:
-            raise NameError("No Hypixel stats for input UUID.")
-        try:
-            hypixel_discord_name = core.minecraft.hypixel.request.player_json["player"]["socialMedia"]["links"]["DISCORD"]
-        except KeyError:
-            hypixel_discord_name = None
-        if (discord_name != hypixel_discord_name) and (hypixel_discord_name != None):
+            raise NameError("No Hypixel stats for input.")
+        if (discord_name != player_json["socal_media"]["discord"]) and (player_json["socal_media"]["discord"] is not None):
             raise ValueError("Minecraft account already has verified Discord name on Hypixel.")
-        elif discord_name == hypixel_discord_name:
+        elif discord_name == player_json["socal_media"]["discord"]:
             if db.search(where("discord_id") == discord_id):
                 db.update({"minecraft_uuid" : minecraft_uuid}, Users.discord_id == discord_id)
             elif db.search(where("minecraft_uuid") == minecraft_uuid):

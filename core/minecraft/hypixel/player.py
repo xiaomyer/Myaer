@@ -38,6 +38,15 @@ class Player():
             raise NameError("No Hypixel stats")
         player = { # This thing is pretty torture
             "name" : player_json.get("player", {}).get("displayname", ""),
+            "rank_data" : (await self.hypixel_static.get_rank_data((player_json.get("player", {}).get("rank", None)), (player_json.get("player", {}).get("monthlyPackageRank", None)), (player_json.get("player", {}).get("newPackageRank", None)), (player_json.get("packageRank", None)))),
+            "socal_media" : {
+                "twitter" : player_json.get("player", {}).get("socialMedia", {}).get("links", {}).get("TWITTER", None),
+                "youtube" : player_json.get("player", {}).get("socialMedia", {}).get("links", {}).get("YOUTUBE", None),
+                "instagram" : player_json.get("player", {}).get("socialMedia", {}).get("links", {}).get("INSTAGRAM", None),
+                "twitch" : player_json.get("player", {}).get("socialMedia", {}).get("links", {}).get("TWITCH", None),
+                "discord" : player_json.get("player", {}).get("socialMedia", {}).get("links", {}).get("DISCORD", None),
+                "hypixel_forums" : player_json.get("player", {}).get("socialMedia", {}).get("links", {}).get("HYPIXEL", None),
+            },
             "bedwars" : {
                 "star" : player_json.get("player", {}).get("achievements", {}).get("bedwars_level", 0),
                 "coins" : player_json.get("player", {}).get("stats", {}).get("Bedwars", {}).get("coins_bedwars", 0),

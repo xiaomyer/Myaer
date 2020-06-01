@@ -78,16 +78,29 @@ class Hypixel(commands.Cog):
             description = f"Loading {player_data['player_formatted_name']}'s Hypixel stats..."
         )
         message = await ctx.send(embed = loading_embed)
-        try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
-        except NameError:
-            nameerror_embed = discord.Embed(
-                name = "Invalid input",
-                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+#        try:
+        player_json = await self.player.get_player(player_data["minecraft_uuid"])
+#        except NameError:
+#            nameerror_embed = discord.Embed(
+#                name = "Invalid input",
+#                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+#            )
+#            await message.edit(embed = nameerror_embed)
+#            return
+        if (player_json["rank_data"]["rank"]):
+            player_info_embed = discord.Embed(
+                name = "Player info",
+                title = f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}",
+                color = int((player_json["rank_data"])["color"], 16) # 16 - hex value
             )
-            await message.edit(embed = nameerror_embed)
-            return
-        await message.edit(content = "haha jebaited - this command is coming soon!", embed = None)
+        else:
+            player_info_embed = discord.Embed(
+                name = "Player info",
+                title = f"{player_data['player_formatted_name']}",
+                color = int((player_json["rank_data"])["color"], 16) # 16 - hex value
+            )
+        await message.edit(embed = player_info_embed)
+        await ctx.send(f"debug: {player_json['rank_data']}")
 
 def setup(bot):
     bot.add_cog(Hypixel(bot))
