@@ -51,6 +51,7 @@ extensions = [
     "cogs.minecraft.hypixel.bedwars",
     "events.command_error",
     "commands.help",
+    "cogs.minecraft.hypixel.hypixel",
     "cogs.minecraft.hypixel.leaderboards",
     "cogs.minecraft.minecraft",
     "commands.ping",

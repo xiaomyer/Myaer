@@ -51,6 +51,9 @@ prestiges = [
 ]
 
 class HypixelStatic():
+    async def get_network_level(self, experience):
+        return (sqrt(experience + 15312.5) - 88.38834764831843) / 35.35533905932738 # formula that i don't understand, thank you @littlemissantivirus
+
     async def get_ratio(self, positive_stat, negative_stat):
         try:
             ratio = positive_stat / negative_stat
@@ -124,7 +127,7 @@ class HypixelStatic():
         }
         return prestige_data
 
-    async def get_skywars_star_from_experience(self, experience): # Formula that I don't understand, thanks to @GamingGeeek and @littlemissantivirus
+    async def get_skywars_star_from_experience(self, experience): # another formula that I don't understand, thanks to @GamingGeeek and @littlemissantivirus
         total_xp = [20, 70, 150, 250, 500, 1000, 2000, 3500, 6000, 10000, 15000]
         star = 0
         if experience >= 15000:

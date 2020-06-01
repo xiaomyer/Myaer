@@ -36,7 +36,6 @@ class BedwarsStats(commands.Cog):
         self.hypixel_static = HypixelStatic()
         self.mojang = MojangAPI()
         self.player = Player()
-        self.user_converter = commands.UserConverter()
         self.verification = Verification()
 
     @commands.group(name = "bw", invoke_without_command = True) # OH MY GOD THIS FILE IS 6000 LINES LONG KILL ME
