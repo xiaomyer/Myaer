@@ -85,10 +85,11 @@ class BedwarsStats(commands.Cog):
             )
             await message.edit(embed = nameerror_embed)
             return
-        player_stats_embed = discord.Embed(
-            title = f"**{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Bedwars Stats**",
-            color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
-        )
+        if (player_json["rank_data"]["rank"]):
+            player_stats_embed = discord.Embed(
+                title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}")}'s Bedwars Stats**""",
+                color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
+            )
         player_stats_embed.set_thumbnail(
             url = core.static.hypixel_game_icons["Bedwars"]
         )

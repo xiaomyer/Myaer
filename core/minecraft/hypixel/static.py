@@ -22,6 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+import math
+
 prestige_colors = {
     "Stone" : "607D8B",
     "Iron" : "95A5A6",
@@ -64,8 +66,13 @@ rank_colors = {
 }
 
 class HypixelStatic():
-    async def get_network_level(self, experience):
-        return (sqrt(experience + 15312.5) - 88.38834764831843) / 35.35533905932738 # formula that i don't understand, something to do with square roots - thank you @littlemissantivirus
+    async def get_network_level_data(self, experience):
+        level = (math.sqrt(experience + 15312.5) - 88.38834764831843) / 35.35533905932738 # formula that i don't understand, something to do with square roots - thank you @littlemissantivirus
+        level_data = {
+            "level" : round(level),
+            "percentage" : round((level - math.trunc(level)) * 100, 2)
+        }
+        return level_data
 
     async def get_rank_data(self, rank, monthly_package_rank, new_package_rank, package_rank): # complicated because returning the formatted rank name
         formatted_rank = None

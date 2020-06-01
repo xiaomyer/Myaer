@@ -25,7 +25,7 @@ SOFTWARE.
 import core.static
 from discord.ext import commands
 import discord
-import core.minecraft.hypixel.request
+import math
 from core.minecraft.request import MojangAPI
 from core.minecraft.hypixel.player import Player
 from core.minecraft.hypixel.static import HypixelStatic
@@ -34,7 +34,6 @@ from core.minecraft.verification.verification import Verification
 class Hypixel(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.hypixel = core.minecraft.hypixel.request.HypixelAPI()
         self.hypixel_static = HypixelStatic()
         self.mojang = MojangAPI()
         self.player = Player()
@@ -78,15 +77,15 @@ class Hypixel(commands.Cog):
             description = f"Loading {player_data['player_formatted_name']}'s Hypixel stats..."
         )
         message = await ctx.send(embed = loading_embed)
-#        try:
-        player_json = await self.player.get_player(player_data["minecraft_uuid"])
-#        except NameError:
-#            nameerror_embed = discord.Embed(
-#                name = "Invalid input",
-#                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
-#            )
-#            await message.edit(embed = nameerror_embed)
-#            return
+        try:
+            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+        except NameError:
+            nameerror_embed = discord.Embed(
+                name = "Invalid input",
+                description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+            )
+            await message.edit(embed = nameerror_embed)
+            return
         if (player_json["rank_data"]["rank"]):
             player_info_embed = discord.Embed(
                 name = "Player info",
@@ -99,8 +98,11 @@ class Hypixel(commands.Cog):
                 title = f"{player_data['player_formatted_name']}",
                 color = int((player_json["rank_data"])["color"], 16) # 16 - hex value
             )
+        player_info_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Level**__",
+            value = f"{player_json['level_data']['level']} ({player_json['level_data']['percentage']}% to {math.trunc((player_json['level_data']['level']) + 1)})"
+        )
         await message.edit(embed = player_info_embed)
-        await ctx.send(f"debug: {player_json['rank_data']}")
 
 def setup(bot):
     bot.add_cog(Hypixel(bot))
