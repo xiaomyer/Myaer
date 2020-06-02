@@ -50,8 +50,8 @@ class HypixelAPI():
             player_json = await raw.json()
             if player_json["success"] and player_json["player"]:
                 return player_json
-            elif player_json["success"] and player_json["player"] == None: # Hypixel API still returns "success" even if the player does not exist, hence the more complicated check
-                raise NameError(f"Player \"{player}\" does not exist!")
+            elif player_json["success"] and player_json["player"] is None: # Hypixel API still returns "success" even if the player does not exist, hence the more complicated check
+                raise NameError(f"Player \"{uuid}\" does not exist!")
 
     async def send_leaderboard_request(self):
         async with aiohttp.ClientSession() as session:
@@ -59,5 +59,5 @@ class HypixelAPI():
             leaderboards_json = await raw.json()
         if leaderboards_json["success"]:
             return leaderboards_json
-        elif not player_json["success"]:
+        elif not leaderboards_json["success"]:
             return NameError("Something went wrong.") # The only reason there could be an error in retreiving leaderboard data is if the API key is invalid, but that should not be possible. TL;DR: If anything gets here, something went horribly wrong.

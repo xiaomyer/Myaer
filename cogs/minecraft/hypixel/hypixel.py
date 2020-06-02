@@ -109,12 +109,13 @@ class Hypixel(commands.Cog):
         )
         player_info_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} First Login**__",
-            value = f"{datetime.date.fromtimestamp((player_json['login_times']['first']) / 1000)}",
-            inline = False
+            value = f"{datetime.date.fromtimestamp((player_json['login_times']['first']) / 1000)}"
         )
         player_info_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Last Login**__",
-            value = f"{datetime.date.fromtimestamp((player_json['login_times']['last']) / 1000)} ({(humanfriendly.format_timespan(((datetime.datetime.now()) - (datetime.datetime.fromtimestamp((player_json['login_times']['last']) / 1000))), max_units = 2))} ago)"
+            value =
+f"""{datetime.date.fromtimestamp((player_json['login_times']['last']) / 1000)}
+({(humanfriendly.format_timespan(((datetime.datetime.now()) - (datetime.datetime.fromtimestamp((player_json['login_times']['last']) / 1000))), max_units = 2))} ago)"""
         )
         await message.edit(embed = player_info_embed)
 
