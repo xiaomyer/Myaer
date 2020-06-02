@@ -26,13 +26,13 @@ from discord.ext import commands
 import discord
 import core.static
 from core.minecraft.hypixel.player import Player
-from core.minecraft.hypixel.static import HypixelStatic
+import core.minecraft.hypixel.static
 from core.minecraft.verification.verification import Verification
 
 class BedwarsStats(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.hypixel_static = HypixelStatic()
+        self.hypixel_static = core.minecraft.hypixel.static.HypixelStatic()
         self.player = Player()
         self.verification = Verification()
 
@@ -88,11 +88,11 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_stats_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Level**__",
-            value = f"{player_json['bedwars']['star']} {core.static.bedwars_star} ({(await self.hypixel_static.get_bedwars_prestige_data(player_json['bedwars']['star']))['prestige']} Prestige)",
+            value = f"{player_json['bedwars']['star']} {core.static.star} ({(await self.hypixel_static.get_bedwars_prestige_data(player_json['bedwars']['star']))['prestige']} Prestige)",
             inline = False
         )
         player_stats_embed.add_field(
@@ -102,7 +102,7 @@ class BedwarsStats(commands.Cog):
         )
         player_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
-            value = f"{player_json['bedwars']['final_kills']}"
+            value = f"{(player_json['bedwars']['final_kills']):,d}"
         )
         player_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
@@ -189,11 +189,11 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_stats_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Level**__",
-            value = f"{player_json['bedwars']['star']} {core.static.bedwars_star} ({(await self.hypixel_static.get_bedwars_prestige_data(player_json['bedwars']['star']))['prestige']} Prestige)",
+            value = f"{player_json['bedwars']['star']} {core.static.star} ({(await self.hypixel_static.get_bedwars_prestige_data(player_json['bedwars']['star']))['prestige']} Prestige)",
             inline = False
         )
         player_stats_embed.add_field(
@@ -203,7 +203,7 @@ class BedwarsStats(commands.Cog):
         )
         player_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
-            value = f"{player_json['bedwars']['final_kills']}"
+            value = f"{(player_json['bedwars']['final_kills']):,d}"
         )
         player_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
@@ -290,7 +290,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_solo_stats_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
@@ -386,7 +386,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_doubles_stats_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
@@ -482,7 +482,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_threes_stats_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_threes_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
@@ -578,7 +578,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_fours_stats_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
@@ -674,7 +674,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_four_v_four_stats_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_four_v_four_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
@@ -776,7 +776,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_armed_doubles_stats_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_armed_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
@@ -872,7 +872,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_armed_fours_stats_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_armed_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
@@ -969,7 +969,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_castle_stats_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_castle_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
@@ -1071,7 +1071,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_luckyblocks_doubles_stats_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_luckyblocks_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
@@ -1168,7 +1168,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_luckyblocks_fours_stats_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_luckyblocks_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
@@ -1269,7 +1269,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_rush_solo_stats_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_rush_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
@@ -1365,7 +1365,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_rush_doubles_stats_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_rush_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
@@ -1461,7 +1461,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_rush_fours_stats_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_rush_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
@@ -1563,7 +1563,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_ultimate_solo_stats_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_ultimate_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
@@ -1660,7 +1660,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_ultimate_doubles_stats_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_ultimate_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
@@ -1757,7 +1757,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_ultimate_fours_stats_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_ultimate_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
@@ -1859,7 +1859,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_voidless_doubles_stats_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_voidless_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
@@ -1956,7 +1956,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_voidless_fours_stats_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_voidless_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
@@ -2053,7 +2053,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_fkdr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} FKDR**__",
@@ -2061,7 +2061,7 @@ class BedwarsStats(commands.Cog):
         )
         player_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
-            value = f"{player_json['bedwars']['final_kills']}"
+            value = f"{(player_json['bedwars']['final_kills']):,d}"
         )
         player_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
@@ -2133,7 +2133,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_solo_fkdr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_solo_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} FKDR**__",
@@ -2213,7 +2213,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_doubles_fkdr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_doubles_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} FKDR**__",
@@ -2293,7 +2293,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_threes_fkdr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_threes_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} FKDR**__",
@@ -2373,7 +2373,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_fours_fkdr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_fours_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} FKDR**__",
@@ -2453,7 +2453,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_four_v_four_fkdr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_four_v_four_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} FKDR**__",
@@ -2536,7 +2536,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_armed_doubles_fkdr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_armed_doubles_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} FKDR**__",
@@ -2615,7 +2615,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_armed_fours_fkdr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_armed_fours_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} FKDR**__",
@@ -2695,7 +2695,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_castle_fkdr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_castle_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} FKDR**__",
@@ -2780,7 +2780,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_luckyblocks_doubles_fkdr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_luckyblocks_doubles_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} FKDR**__",
@@ -2865,7 +2865,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_rush_solo_fkdr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_rush_solo_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} FKDR**__",
@@ -2945,7 +2945,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_rush_doubles_fkdr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_rush_doubles_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} FKDR**__",
@@ -3025,7 +3025,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_rush_fours_fkdr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_rush_fours_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} FKDR**__",
@@ -3110,7 +3110,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_ultimate_solo_fkdr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_ultimate_solo_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} FKDR**__",
@@ -3190,7 +3190,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_ultimate_doubles_fkdr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_ultimate_doubles_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} FKDR**__",
@@ -3270,7 +3270,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_ultimate_fours_fkdr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_ultimate_fours_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} FKDR**__",
@@ -3355,7 +3355,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_voidless_doubles_fkdr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_voidless_doubles_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} FKDR**__",
@@ -3435,7 +3435,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_voidless_fours_fkdr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_voidless_fours_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} FKDR**__",
@@ -3521,7 +3521,7 @@ class BedwarsStats(commands.Cog):
                 color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
             )
         player_bblr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} BBLR**__",
@@ -3601,7 +3601,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_solo_bblr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_solo_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} BBLR**__",
@@ -3681,7 +3681,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_doubles_bblr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_doubles_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} BBLR**__",
@@ -3761,7 +3761,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_threes_bblr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_threes_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} BBLR**__",
@@ -3841,7 +3841,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_fours_bblr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_fours_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} BBLR**__",
@@ -3921,7 +3921,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_four_v_four_bblr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_four_v_four_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} BBLR**__",
@@ -4004,7 +4004,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_armed_doubles_bblr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_armed_doubles_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} BBLR**__",
@@ -4083,7 +4083,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_armed_fours_bblr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_armed_fours_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} BBLR**__",
@@ -4163,7 +4163,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_castle_bblr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_castle_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} BBLR**__",
@@ -4248,7 +4248,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_luckyblocks_doubles_bblr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_luckyblocks_doubles_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} BBLR**__",
@@ -4333,7 +4333,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_rush_solo_bblr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_rush_solo_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} BBLR**__",
@@ -4413,7 +4413,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_rush_doubles_bblr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_rush_doubles_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} BBLR**__",
@@ -4493,7 +4493,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_rush_fours_bblr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_rush_fours_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} BBLR**__",
@@ -4578,7 +4578,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_ultimate_solo_bblr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_ultimate_solo_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} BBLR**__",
@@ -4658,7 +4658,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_ultimate_doubles_bblr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_ultimate_doubles_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} BBLR**__",
@@ -4738,7 +4738,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_ultimate_fours_bblr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_ultimate_fours_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} BBLR**__",
@@ -4823,7 +4823,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_voidless_doubles_bblr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_voidless_doubles_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} BBLR**__",
@@ -4903,7 +4903,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_voidless_fours_bblr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_voidless_fours_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} BBLR**__",
@@ -4989,7 +4989,7 @@ class BedwarsStats(commands.Cog):
                 color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
             )
         player_wlr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} WLR**__",
@@ -5069,7 +5069,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_solo_wlr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_solo_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} WLR**__",
@@ -5149,7 +5149,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_doubles_wlr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_doubles_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} WLR**__",
@@ -5229,7 +5229,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_threes_wlr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_threes_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} WLR**__",
@@ -5309,7 +5309,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_fours_wlr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_fours_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} WLR**__",
@@ -5389,7 +5389,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_four_v_four_wlr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_four_v_four_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} WLR**__",
@@ -5472,7 +5472,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_armed_doubles_wlr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_armed_doubles_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} WLR**__",
@@ -5551,7 +5551,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_armed_fours_wlr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_armed_fours_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} WLR**__",
@@ -5631,7 +5631,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_castle_wlr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_castle_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} WLR**__",
@@ -5716,7 +5716,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_luckyblocks_doubles_wlr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_luckyblocks_doubles_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} WLR**__",
@@ -5801,7 +5801,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_rush_solo_wlr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_rush_solo_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} WLR**__",
@@ -5881,7 +5881,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_rush_doubles_wlr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_rush_doubles_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} WLR**__",
@@ -5961,7 +5961,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_rush_fours_wlr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_rush_fours_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} WLR**__",
@@ -6046,7 +6046,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_ultimate_solo_wlr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_ultimate_solo_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} WLR**__",
@@ -6126,7 +6126,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_ultimate_doubles_wlr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_ultimate_doubles_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} WLR**__",
@@ -6206,7 +6206,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_ultimate_fours_wlr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_ultimate_fours_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} WLR**__",
@@ -6291,7 +6291,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_voidless_doubles_wlr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_voidless_doubles_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} WLR**__",
@@ -6371,7 +6371,7 @@ class BedwarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_voidless_fours_wlr_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         player_voidless_fours_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} WLR**__",
@@ -6471,7 +6471,7 @@ __**{core.static.arrow_bullet_point} Voidless Doubles**__: {player_json['bedwars
 __**{core.static.arrow_bullet_point} Voidless Fours**__: {player_json['bedwars']['dreams']['voidless']['fours']['winstreak']}"""
         )
         winstreak_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Bedwars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         await message.edit(embed = winstreak_embed)
 def setup(bot):

@@ -23,18 +23,20 @@ SOFTWARE.
 """
 
 from discord.ext import commands
+import datetime
 import discord
+import humanfriendly
 import math
 from core.minecraft.request import MojangAPI
 from core.minecraft.hypixel.player import Player
-from core.minecraft.hypixel.static import HypixelStatic
+import core.minecraft.hypixel.static
 import core.static
 from core.minecraft.verification.verification import Verification
 
 class Hypixel(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.hypixel_static = HypixelStatic()
+        self.hypixel_static = core.minecraft.hypixel.static.HypixelStatic()
         self.mojang = MojangAPI()
         self.player = Player()
         self.verification = Verification()
@@ -86,21 +88,33 @@ class Hypixel(commands.Cog):
             )
             await message.edit(embed = nameerror_embed)
             return
-        if (player_json["rank_data"]["rank"]):
-            player_info_embed = discord.Embed(
-                name = "Player info",
-                title = f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}",
-                color = int((player_json["rank_data"])["color"], 16) # 16 - hex value
-            )
-        else:
-            player_info_embed = discord.Embed(
-                name = "Player info",
-                title = f"{player_data['player_formatted_name']}",
-                color = int((player_json["rank_data"])["color"], 16) # 16 - hex value
-            )
+        player_info_embed = discord.Embed(
+            title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}**""",
+            color = int((player_json["rank_data"])["color"], 16) # 16 - hex value
+        )
+        player_info_embed.set_thumbnail(
+            url = core.minecraft.hypixel.static.hypixel_icons["Main"]
+        )
         player_info_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Level**__",
             value = f"{player_json['level_data']['level']} ({player_json['level_data']['percentage']}% to {math.trunc((player_json['level_data']['level']) + 1)})"
+        )
+        player_info_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Karma**__",
+            value = f"{(player_json['karma']):,d}"
+        )
+        player_info_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Achievement Points**__",
+            value = f"{(player_json['achievement_points']):,d}"
+        )
+        player_info_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} First Login**__",
+            value = f"{datetime.date.fromtimestamp((player_json['login_times']['first']) / 1000)}",
+            inline = False
+        )
+        player_info_embed.add_field(
+            name = f"__**{core.static.arrow_bullet_point} Last Login**__",
+            value = f"{datetime.date.fromtimestamp((player_json['login_times']['last']) / 1000)} ({(humanfriendly.format_timespan(((datetime.datetime.now()) - (datetime.datetime.fromtimestamp((player_json['login_times']['last']) / 1000))), max_units = 2))} ago)"
         )
         await message.edit(embed = player_info_embed)
 

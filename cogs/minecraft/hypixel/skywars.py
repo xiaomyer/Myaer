@@ -26,7 +26,6 @@ import core.static
 from discord.ext import commands
 import discord
 import core.minecraft.hypixel.request
-from core.minecraft.request import MojangAPI
 from core.minecraft.hypixel.player import Player
 from core.minecraft.hypixel.static import HypixelStatic
 from core.minecraft.verification.verification import Verification
@@ -36,7 +35,6 @@ class SkywarsStats(commands.Cog):
         self.bot = bot
         self.hypixel = core.minecraft.hypixel.request.HypixelAPI()
         self.hypixel_static = HypixelStatic()
-        self.mojang = MojangAPI()
         self.player = Player()
         self.user_converter = commands.UserConverter()
         self.verification = Verification()
@@ -76,7 +74,7 @@ class SkywarsStats(commands.Cog):
                 return
         loading_embed = discord.Embed(
             name = "Loading",
-            description = f"Loading {player_data['player_formatted_name']}'s Bedwars stats..."
+            description = f"Loading {player_data['player_formatted_name']}'s Skywars stats..."
         )
         message = await ctx.send(embed = loading_embed)
         try:
@@ -93,11 +91,11 @@ class SkywarsStats(commands.Cog):
             color = int((await self.hypixel_static.get_skywars_prestige_data(player_json["skywars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_stats_embed.set_thumbnail(
-            url = core.static.hypixel_game_icons["Skywars"]
+            url = core.minecraft.hypixel.static.hypixel_icons["Skywars"]
         )
         player_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Level**__",
-            value = f"{player_json['skywars']['star']} {core.static.bedwars_star} ({(await self.hypixel_static.get_skywars_prestige_data(player_json['skywars']['star']))['prestige']} Prestige)",
+            value = f"{player_json['skywars']['star']} {core.static.star} ({(await self.hypixel_static.get_skywars_prestige_data(player_json['skywars']['star']))['prestige']} Prestige)",
             inline = False
         )
         player_stats_embed.add_field(

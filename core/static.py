@@ -23,28 +23,6 @@ SOFTWARE.
 """
 
 arrow_bullet_point = "➤"
-bedwars_star = "✫"
-hypixel_game_icons = { # Hypixel game icons
-    "Main" : "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/main.png",
-    "Arcade" : "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/arcade.png",
-    "Bedwars" : "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/bedwars.png",
-    "BlitzSurvivalGames" : "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/blitz_survival_games.png",
-    "BuildBattle" : "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/build_battle.png",
-    "Classic" : "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/classic.png",
-    "CrazyWalls" : "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/crazy_walls.png",
-    "CVC" : "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/cvc.png",
-    "Duels" : "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/duels.png",
-    "Housing" : "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/housing.png",
-    "MegaWalls" : "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/mega_walls.png",
-    "MurderMystery" : "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/murder_mystery.png",
-    "Pit" : "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/pit.png",
-    "Prototype" : "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/prototype.png",
-    "Skyblock" : "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/skyblock.png",
-    "Skywars" : "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/skywars.png",
-    "SmashHeroes" : "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/",
-    "TNT" : "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/tnt.png",
-    "UHC" : "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/uhc_champions", # UHC Champions is the only thing resembling UHC on Hypixel
-    "Warlords" : "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/warlords.png"
-}
+star = "✫"
 stats_needed_disclaimer = "Note - The amount needed for stat increase assumes that no negative stats are taken (no final deaths, no losses, etc)"
 wrist_spasm_disclaimer = "Specific to Wrist Spasm"
