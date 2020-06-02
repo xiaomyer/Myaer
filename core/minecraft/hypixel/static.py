@@ -23,6 +23,7 @@ SOFTWARE.
 """
 
 import math
+import re
 
 prestige_colors = {
     "Stone" : "607D8B",
@@ -52,6 +53,23 @@ prestiges = [
     "Rainbow"
 ]
 
+ranks = {
+    "NONE" : None,
+    "VIP" : "VIP",
+    "VIP_PLUS" : "VIP+",
+    "MVP" : "MVP",
+    "MVP_PLUS" : "MVP+",
+    "SUPERSTAR" : "MVP++",
+    "YOUTUBER" : "YOUTUBE",
+    "PIG+++" : "PIG+++",
+    "BUILD TEAM" : "BUILD TEAM",
+    "HELPER" : "HELPER",
+    "MODERATOR" : "MOD",
+    "ADMIN" : "ADMIN",
+    "SLOTH" : "SLOTH",
+    "OWNER" : "OWNER"
+}
+
 rank_colors = {
     "VIP" : "55FF55",
     "VIP+" : "55FF55",
@@ -59,9 +77,14 @@ rank_colors = {
     "MVP+" : "55FFFF",
     "MVP++" : "FFAA00",
     "YOUTUBE" : "FF5555",
+    "PIG+++" : "FF69DC",
+    "BUILD TEAM" : "00AAAA",
+    "EVENTS" : "FFAA00",
     "HELPER" : "5555FF",
     "MOD" : "00AA00",
     "ADMIN" : "AA0000",
+    "SLOTH" : "AA0000",
+    "OWNER" : "AA0000",
     None : "607D8B"
 }
 
@@ -74,45 +97,28 @@ class HypixelStatic():
         }
         return level_data
 
-    async def get_rank_data(self, rank, monthly_package_rank, new_package_rank, package_rank): # complicated because returning the formatted rank name
+    async def get_rank_data(self, rank, prefix_raw, monthly_package_rank, new_package_rank, package_rank): # complicated because returning the formatted rank name
         formatted_rank = None
-        if rank:
-            if rank == "YOUTUBER":
-                formatted_rank = "YOUTUBE"
-            elif rank == "HELPER":
-                formatted_rank = "HELPER"
-            elif rank == "MODERATOR":
-                formatted_rank = "MOD"
-            elif rank == "ADMIN":
-                formatted_rank = "ADMIN"
+        if prefix_raw:
+            prefix = re.sub(r"§.", "", prefix_raw)[1:-1] # prefixes all start and end with brackets, and have minecraft color codes, this is to remove color codes and brackets
+            formatted_rank = ranks.get(prefix, prefix)
+            print("prefix_raw")
 
-        elif monthly_package_rank and not formatted_rank:
-            if monthly_package_rank == "SUPERSTAR": # hypixel i am questioning you greatly
-                formatted_rank = "MVP++"
+        elif rank and not formatted_rank:
+            formatted_rank = ranks.get(rank, rank)
+            print("elif rank and not formatted_rank")
 
-        if new_package_rank and not formatted_rank:
-            if new_package_rank == "NONE":
-                formatted_rank = None
-            elif new_package_rank == "VIP":
-                formatted_rank = "VIP"
-            elif new_package_rank == "VIP_PLUS":
-                formatted_rank = "VIP+"
-            elif new_package_rank == "MVP":
-                formatted_rank = "MVP"
-            elif new_package_rank == "MVP_PLUS":
-                formatted_rank = "MVP+"
+        elif (monthly_package_rank and monthly_package_rank != "NONE") and not formatted_rank:
+            formatted_rank = ranks.get(monthly_package_rank, monthly_package_rank)
+            print("elif monthly and not formatted")
+
+        elif new_package_rank and not formatted_rank:
+            formatted_rank = ranks.get(new_package_rank, new_package_rank)
+            print("elif new_package_rank")
 
         elif package_rank and not formatted_rank:
-            if package_rank == "NONE":
-                formatted_rank = None
-            elif package_rank == "VIP":
-                formatted_rank = "VIP"
-            elif package_rank == "VIP_PLUS":
-                formatted_rank = "VIP+"
-            elif package_rank == "MVP":
-                formatted_rank = "MVP"
-            elif package_rank == "MVP_PLUS":
-                formatted_rank = "MVP+"
+            formatted_rank = ranks.get(package_rank, package_rank)
+            print("elif package_rank")
 
         rank_data = {
             "rank" : formatted_rank,

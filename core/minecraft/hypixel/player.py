@@ -39,7 +39,7 @@ class Player():
         player = { # This thing is pretty torture
             "name" : player_json.get("player", {}).get("displayname", ""),
             "level_data" : (await self.hypixel_static.get_network_level_data(player_json.get("player", {}).get("networkExp", 0))),
-            "rank_data" : (await self.hypixel_static.get_rank_data((player_json.get("player", {}).get("rank", None)), (player_json.get("player", {}).get("monthlyPackageRank", None)), (player_json.get("player", {}).get("newPackageRank", None)), (player_json.get("packageRank", None)))),
+            "rank_data" : (await self.hypixel_static.get_rank_data((player_json.get("player", {}).get("rank", None)), (player_json.get("player", {}).get("prefix", None)), (player_json.get("player", {}).get("monthlyPackageRank", None)), (player_json.get("player", {}).get("newPackageRank", None)), (player_json.get("packageRank", None)))),
             "socal_media" : {
                 "twitter" : player_json.get("player", {}).get("socialMedia", {}).get("links", {}).get("TWITTER", None),
                 "youtube" : player_json.get("player", {}).get("socialMedia", {}).get("links", {}).get("YOUTUBE", None),
