@@ -96,7 +96,7 @@ class Minecraft(commands.Cog):
                 name_history_embed.add_field(
                     name = f"Name #{index + 1}",
                     value = f"{name_history[index][0]} - *on {datetime.date.fromtimestamp((name_history[index][1]) / 1000)}*",
-                    inline = False
+                    inline = True
                 )
             index += 1
         await message.edit(embed = name_history_embed)

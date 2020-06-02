@@ -69,7 +69,7 @@ class HypixelStatic():
     async def get_network_level_data(self, experience):
         level = (math.sqrt(experience + 15312.5) - 88.38834764831843) / 35.35533905932738 # formula that i don't understand, something to do with square roots - thank you @littlemissantivirus
         level_data = {
-            "level" : round(level),
+            "level" : math.trunc(level),
             "percentage" : round((level - math.trunc(level)) * 100, 2)
         }
         return level_data

@@ -22,13 +22,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import core.static
 from discord.ext import commands
 import discord
 import math
 from core.minecraft.request import MojangAPI
 from core.minecraft.hypixel.player import Player
 from core.minecraft.hypixel.static import HypixelStatic
+import core.static
 from core.minecraft.verification.verification import Verification
 
 class Hypixel(commands.Cog):

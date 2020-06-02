@@ -6881,7 +6881,7 @@ class BedwarsStats(commands.Cog):
             await message.edit(embed = nameerror_embed)
             return
         winstreak_embed = discord.Embed(
-            title = f"**{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Current Winstreaks**",
+            title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}")}'s Winstreaks**""" if (player_json["rank_data"]["rank"]) else f"**{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Winstreaks**",
             color = int((await self.hypixel_static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16), # 16 - Hex value.
             description =
 f"""__**{core.static.arrow_bullet_point} Overall**__: {player_json['bedwars']['winstreak']}
