@@ -125,10 +125,7 @@ class HypixelStatic():
             ratio = positive_stat / negative_stat
             return round(ratio, 2)
         except ZeroDivisionError:
-            if positive_stat > 0:
-                return float("inf")
-            else:
-                return 0
+            return float("inf") if positive_stat > 0 else 0
 
     async def get_increase_stat(self, positive_stat, negative_stat, increase):
         # positive_stat is a "good" stat like final_kills
@@ -139,15 +136,15 @@ class HypixelStatic():
             needed = (stat + increase) * negative_stat - positive_stat
             return round(needed)
         except ZeroDivisionError:
-            if positive_stat > 0:
-                return float("inf")
-            else:
-                return 0
+            return float("inf") if positive_stat > 0 else 0
 
     async def get_bedwars_prestige_data(self, star):
         star_rounded = star // 100 # // is floor division, basically math.floor(await self.get_star() / 100)
         star_rounded = star_rounded if star_rounded < 10 else 10 # if greater than 10, set to ten
-        return {"prestige": prestiges[star_rounded], "prestige_color": prestige_colors[prestiges[star_rounded]]} # based on order of prestiges and prestige colors
+        return {
+                    "prestige": prestiges[star_rounded], 
+                    "prestige_color": prestige_colors[prestiges[star_rounded]]
+        } # based on order of prestiges and prestige colors
 
     async def get_skywars_prestige_data(self, star):
         if star in range(0, 5):
