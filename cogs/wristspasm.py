@@ -26,7 +26,7 @@ from discord.ext import commands
 import discord
 from core.minecraft.request import MojangAPI
 from core.minecraft.hypixel.player import Player
-from core.minecraft.hypixel.static import HypixelStatic
+import core.minecraft.hypixel.static
 import core.static
 
 
@@ -53,7 +53,7 @@ class WristSpasm(commands.Cog):
         self.guild = 600311056627269642
         self.mojang = MojangAPI()
         self.player = Player()
-        self.hypixel_static = HypixelStatic()
+        self.hypixel_static = core.minecraft.hypixel.static
         self.roles = {
             "Stone" : 600314048617119757,
             "Iron" : 600313179452735498,

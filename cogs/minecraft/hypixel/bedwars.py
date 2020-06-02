@@ -33,7 +33,7 @@ from core.minecraft.verification.verification import Verification
 class BedwarsStats(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.hypixel_static = core.minecraft.hypixel.static.HypixelStatic()
+        self.hypixel_static = core.minecraft.hypixel.static
         self.player = Player()
         self.verification = Verification()
 

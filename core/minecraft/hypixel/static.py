@@ -111,120 +111,127 @@ hypixel_icons = { # Hypixel icons
     "Warlords" : "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/warlords.png"
 }
 
-class HypixelStatic():
-    async def get_network_level_data(self, experience):
-        level = (math.sqrt(experience + 15312.5) - 88.38834764831843) / 35.35533905932738 # formula that i don't understand, something to do with square roots - thank you @littlemissantivirus
-        level_data = {
-            "level" : math.trunc(level),
-            "percentage" : round((level - math.trunc(level)) * 100, 2)
-        }
-        return level_data
 
-    async def get_rank_data(self, rank, prefix_raw, monthly_package_rank, new_package_rank, package_rank): # complicated because returning the formatted rank name
-        formatted_rank = None
-        if prefix_raw:
-            prefix = re.sub(r"§.", "", prefix_raw)[1:-1] # prefixes all start and end with brackets, and have minecraft color codes, this is to remove color codes and brackets
-            formatted_rank = ranks.get(prefix, prefix)
+async def get_network_level_data(experience):
+    level = (math.sqrt(experience + 15312.5) - 88.38834764831843) / 35.35533905932738 # formula that i don't understand, something to do with square roots - thank you @littlemissantivirus
+    level_data = {
+        "level" : math.trunc(level),
+        "percentage" : round((level - math.trunc(level)) * 100, 2)
+    }
+    return level_data
 
-        elif rank and not formatted_rank:
-            formatted_rank = ranks.get(rank, rank)
 
-        elif (monthly_package_rank and monthly_package_rank != "NONE") and not formatted_rank: # WHY DOES IT EXIST IF IT'S NONE HYPIXEL WHY
-            formatted_rank = ranks.get(monthly_package_rank, monthly_package_rank)
+async def get_rank_data(self, rank, prefix_raw, monthly_package_rank, new_package_rank, package_rank): # complicated because returning the formatted rank name
+    rank_data = {
+        "prefix": None,
+        "top_rank": None,
+        "rank": None
+    }
+    if prefix_raw:
+        prefix = re.sub(r"§.", "", prefix_raw)[1:-1] # prefixes all start and end with brackets, and have minecraft color codes, this is to remove color codes and brackets
+        rank_data["prefix"] = ranks.get(prefix, prefix)
+        rank_data["color"] = rank_colors[rank_data["prefix"]]
 
-        elif new_package_rank and not formatted_rank:
-            formatted_rank = ranks.get(new_package_rank, new_package_rank)
+    if rank:
+        rank_data["top_rank"] = ranks.get(rank, rank)
+        rank_data["color"] = rank_colors[rank_data["top_rank"]]
 
-        elif package_rank and not formatted_rank:
-            formatted_rank = ranks.get(package_rank, package_rank)
-
-        rank_data = {
-            "rank" : formatted_rank,
-            "color" : rank_colors[formatted_rank]
-        }
-        return rank_data
-
-    async def get_ratio(self, positive_stat, negative_stat):
-        try:
-            ratio = positive_stat / negative_stat
-            return round(ratio, 2)
-        except ZeroDivisionError:
-            return float("inf") if positive_stat > 0 else 0
-
-    async def get_increase_stat(self, positive_stat, negative_stat, increase):
-        # positive_stat is a "good" stat like final_kills
-        # negative_stat is a "bad" stat like final_deaths
-        # increase is the amount the positive_stat to negative_stat ratio needs to increase
-        try:
-            stat = positive_stat / negative_stat
-            needed = (stat + increase) * negative_stat - positive_stat
-            return round(needed)
-        except ZeroDivisionError:
-            return float("inf") if positive_stat > 0 else 0
-
-    async def get_bedwars_prestige_data(self, star):
-        star_rounded = star // 100 # // is floor division, basically math.floor(await self.get_star() / 100)
-        star_rounded = star_rounded if star_rounded < 10 else 10 # if greater than 10, set to ten
-        return {
-                    "prestige": prestiges[star_rounded],
-                    "prestige_color": prestige_colors[prestiges[star_rounded]]
-        } # based on order of prestiges and prestige colors
-
-    async def get_skywars_prestige_data(self, star):
-        if star in range(0, 5):
-            prestige = "Stone"
-            prestige_color = prestige_colors[prestige]
-        elif star in range(5, 10):
-            prestige = "Iron"
-            prestige_color = prestige_colors[prestige]
-        elif star in range(10, 15):
-            prestige = "Gold"
-            prestige_color = prestige_colors[prestige]
-        elif star in range(15, 20):
-            prestige = "Diamond"
-            prestige_color = prestige_colors[prestige]
-        elif star in range(20, 25):
-            prestige = "Emerald"
-            prestige_color = prestige_colors[prestige]
-        elif star in range(25, 30):
-            prestige = "Sapphire"
-            prestige_color = prestige_colors[prestige]
-        elif star in range(30, 35):
-            prestige = "Ruby"
-            prestige_color = prestige_colors[prestige]
-        elif star in range(35, 40):
-            prestige = "Crystal"
-            prestige_color = prestige_colors[prestige]
-        elif star in range(40, 45):
-            prestige = "Opal"
-            prestige_color = prestige_colors[prestige]
-        elif star in range(45, 50):
-            prestige = "Amethyst"
-            prestige_color = prestige_colors[prestige]
-        elif star in range(50, 60):
-            prestige = "Rainbow"
-            prestige_color = prestige_colors[prestige]
+    if monthly_package_rank:
+        rank_data["rank"] = ranks.get(monthly_package_rank, monthly_package_rank)
+        rank_data["color"] = rank_colors[rank_data["rank"]]
+    else:
+        if new_package_rank:
+            rank_data["rank"] = ranks.get(new_package_rank, new_package_rank)
         else:
-            prestige = "Mystic"
-            prestige_color = prestige_colors["Rainbow"] # Mystic and Rainbow use the same color
+            rank_data["rank"] = ranks.get(package_rank, package_rank)
+        rank_data["color"] = rank_colors[rank_data["rank"]] # there is probably a better way to do this, but it's probably longer or unnecessarily complicated
+    return rank_data
 
-        prestige_data = {
-            "prestige" : prestige,
-            "prestige_color" : prestige_color
-        }
-        return prestige_data
+async def get_ratio(positive_stat, negative_stat):
+    try:
+        ratio = positive_stat / negative_stat
+        return round(ratio, 2)
+    except ZeroDivisionError:
+        return float("inf") if positive_stat > 0 else 0
 
-    async def get_skywars_star_from_experience(self, experience): # another formula that I don't understand, thanks to @GamingGeeek and @littlemissantivirus
-        total_xp = [20, 70, 150, 250, 500, 1000, 2000, 3500, 6000, 10000, 15000]
-        star = 0
-        if experience >= 15000:
-            return (experience - 15000) / 10000 + 12
-        else:
-            c = 0
-            while experience >= 0 and c < len(total_xp):
-                if experience - total_xp[c] >= 0:
-                    c += 1
-                else:
-                    star = c + 1 + (experience - total_xp[c - 1]) / (total_xp[c] - total_xp[c - 1])
-                    break
-        return star
+
+async def get_increase_stat(positive_stat, negative_stat, increase):
+    # positive_stat is a "good" stat like final_kills
+    # negative_stat is a "bad" stat like final_deaths
+    # increase is the amount the positive_stat to negative_stat ratio needs to increase
+    try:
+        stat = positive_stat / negative_stat
+        needed = (stat + increase) * negative_stat - positive_stat
+        return round(needed)
+    except ZeroDivisionError:
+        return float("inf") if positive_stat > 0 else 0
+
+
+async def get_bedwars_prestige_data(star):
+    star_rounded = star // 100 # // is floor division, basically math.floor(await self.get_star() / 100)
+    star_rounded = star_rounded if star_rounded < 10 else 10 # if greater than 10, set to ten
+    return {
+                "prestige": prestiges[star_rounded],
+                "prestige_color": prestige_colors[prestiges[star_rounded]]
+    } # based on order of prestiges and prestige colors
+
+
+async def get_skywars_prestige_data(star):
+    if star in range(0, 5):
+        prestige = "Stone"
+        prestige_color = prestige_colors[prestige]
+    elif star in range(5, 10):
+        prestige = "Iron"
+        prestige_color = prestige_colors[prestige]
+    elif star in range(10, 15):
+        prestige = "Gold"
+        prestige_color = prestige_colors[prestige]
+    elif star in range(15, 20):
+        prestige = "Diamond"
+        prestige_color = prestige_colors[prestige]
+    elif star in range(20, 25):
+        prestige = "Emerald"
+        prestige_color = prestige_colors[prestige]
+    elif star in range(25, 30):
+        prestige = "Sapphire"
+        prestige_color = prestige_colors[prestige]
+    elif star in range(30, 35):
+        prestige = "Ruby"
+        prestige_color = prestige_colors[prestige]
+    elif star in range(35, 40):
+        prestige = "Crystal"
+        prestige_color = prestige_colors[prestige]
+    elif star in range(40, 45):
+        prestige = "Opal"
+        prestige_color = prestige_colors[prestige]
+    elif star in range(45, 50):
+        prestige = "Amethyst"
+        prestige_color = prestige_colors[prestige]
+    elif star in range(50, 60):
+        prestige = "Rainbow"
+        prestige_color = prestige_colors[prestige]
+    else:
+        prestige = "Mystic"
+        prestige_color = prestige_colors["Rainbow"] # Mystic and Rainbow use the same color
+
+    prestige_data = {
+        "prestige" : prestige,
+        "prestige_color" : prestige_color
+    }
+    return prestige_data
+
+
+async def get_skywars_star_from_experience(experience): # another formula that I don't understand, thanks to @GamingGeeek and @littlemissantivirus
+    total_xp = [20, 70, 150, 250, 500, 1000, 2000, 3500, 6000, 10000, 15000]
+    star = 0
+    if experience >= 15000:
+        return (experience - 15000) / 10000 + 12
+    else:
+        c = 0
+        while experience >= 0 and c < len(total_xp):
+            if experience - total_xp[c] >= 0:
+                c += 1
+            else:
+                star = c + 1 + (experience - total_xp[c - 1]) / (total_xp[c] - total_xp[c - 1])
+                break
+    return star
