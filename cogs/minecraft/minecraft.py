@@ -204,7 +204,7 @@ class Minecraft(commands.Cog):
 
     @minecraft.command(name = "forceverify", aliases = ["forcelink"])
     @commands.is_owner()
-    async def force_verify(self, ctx, target: discord.Member, ign):
+    async def force_verify(self, ctx, target: discord.User, ign):
         try:
             player_data = await self.mojang.get_profile(ign)
         except NameError:
