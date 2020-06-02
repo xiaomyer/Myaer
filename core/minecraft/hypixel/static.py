@@ -102,23 +102,18 @@ class HypixelStatic():
         if prefix_raw:
             prefix = re.sub(r"§.", "", prefix_raw)[1:-1] # prefixes all start and end with brackets, and have minecraft color codes, this is to remove color codes and brackets
             formatted_rank = ranks.get(prefix, prefix)
-            print("prefix_raw")
 
         elif rank and not formatted_rank:
             formatted_rank = ranks.get(rank, rank)
-            print("elif rank and not formatted_rank")
 
         elif (monthly_package_rank and monthly_package_rank != "NONE") and not formatted_rank:
             formatted_rank = ranks.get(monthly_package_rank, monthly_package_rank)
-            print("elif monthly and not formatted")
 
         elif new_package_rank and not formatted_rank:
             formatted_rank = ranks.get(new_package_rank, new_package_rank)
-            print("elif new_package_rank")
 
         elif package_rank and not formatted_rank:
             formatted_rank = ranks.get(package_rank, package_rank)
-            print("elif package_rank")
 
         rank_data = {
             "rank" : formatted_rank,

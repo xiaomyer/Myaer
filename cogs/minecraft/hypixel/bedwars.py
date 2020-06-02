@@ -25,7 +25,6 @@ SOFTWARE.
 from discord.ext import commands
 import discord
 import core.static
-from core.minecraft.request import MojangAPI
 from core.minecraft.hypixel.player import Player
 from core.minecraft.hypixel.static import HypixelStatic
 from core.minecraft.verification.verification import Verification
@@ -34,7 +33,6 @@ class BedwarsStats(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.hypixel_static = HypixelStatic()
-        self.mojang = MojangAPI()
         self.player = Player()
         self.verification = Verification()
 
