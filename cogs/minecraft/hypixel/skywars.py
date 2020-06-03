@@ -25,7 +25,6 @@ SOFTWARE.
 import core.static
 from discord.ext import commands
 import discord
-import core.minecraft.hypixel.request
 from core.minecraft.hypixel.player import Player
 import core.minecraft.hypixel.static
 from core.minecraft.verification.verification import Verification
@@ -33,7 +32,6 @@ from core.minecraft.verification.verification import Verification
 class SkywarsStats(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.hypixel = core.minecraft.hypixel.request.HypixelAPI()
         self.player = Player()
         self.user_converter = commands.UserConverter()
         self.verification = Verification()
