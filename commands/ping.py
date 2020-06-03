@@ -35,7 +35,8 @@ class Ping(commands.Cog):
 		ping = self.bot.latency * 1000
 		ping_embed = discord.Embed(
 			name = "Ping",
-			description = f"Pong! **{round(ping,2)}** ms."
+			description = f"Pong! **{round(ping,2)}** ms.",
+			color = ctx.author.color
 		)
 		await ctx.send(embed = ping_embed)
 
