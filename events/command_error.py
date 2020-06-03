@@ -30,58 +30,58 @@ import sys
 import traceback
 
 class CommandError(commands.Cog):
-    def __init(self, bot):
-        self.bot = bot
+	def __init(self, bot):
+		self.bot = bot
 
-    @commands.Cog.listener()
-    async def on_command_error(self, ctx, error):
-        if hasattr(ctx.command, "on_error"):
-            return
+	@commands.Cog.listener()
+	async def on_command_error(self, ctx, error):
+		if hasattr(ctx.command, "on_error"):
+			return
 
-        if isinstance(error, commands.CommandNotFound):
-            return
+		if isinstance(error, commands.CommandNotFound):
+			return
 
-        ignored = (commands.CommandNotFound)
+		ignored = (commands.CommandNotFound)
 
-        error = getattr(error, 'original', error)
+		error = getattr(error, 'original', error)
 
-        if isinstance(error, ignored):
-            return
+		if isinstance(error, ignored):
+			return
 
-        if (str(ctx.command)).startswith("leaderboards"):
-            return
+		if (str(ctx.command)).startswith("leaderboards"):
+			return
 
-        if "verify" in (str(ctx.command)):
-            return
+		if "verify" in (str(ctx.command)):
+			return
 
-        if isinstance(error, commands.MaxConcurrencyReached):
-            concurrency_embed = discord.Embed(
-                name = "Cooldown",
-                color = ctx.author.color,
-                description = f"{ctx.author.name}, this command is being ratelimited. Try again in a bit."
-            )
-            await ctx.send(embed = concurrency_embed)
+		if isinstance(error, commands.MaxConcurrencyReached):
+			concurrency_embed = discord.Embed(
+				name = "Cooldown",
+				color = ctx.author.color,
+				description = f"{ctx.author.name}, this command is being ratelimited. Try again in a bit."
+			)
+			await ctx.send(embed = concurrency_embed)
 
-        if isinstance(error, commands.CommandOnCooldown):
-            cooldown = datetime.timedelta(seconds = error.retry_after)
-            cooldown_embed = discord.Embed(
-                name = "Cooldown",
-                color = ctx.author.color,
-                description = f"{ctx.author.name}, you are sending commands too fast. Try again in {humanfriendly.format_timespan(cooldown)}"
-            )
-            await ctx.send(embed = cooldown_embed)
+		if isinstance(error, commands.CommandOnCooldown):
+			cooldown = datetime.timedelta(seconds = error.retry_after)
+			cooldown_embed = discord.Embed(
+				name = "Cooldown",
+				color = ctx.author.color,
+				description = f"{ctx.author.name}, you are sending commands too fast. Try again in {humanfriendly.format_timespan(cooldown)}"
+			)
+			await ctx.send(embed = cooldown_embed)
 
-        if isinstance(error, commands.MissingRequiredArgument):
-            argument_embed = discord.Embed(
-                name = "Error",
-                color = ctx.author.color,
-                description = f"{ctx.author.name}, you forgot to provide an input of some sort."
-            )
-            await ctx.send(embed = argument_embed)
+		if isinstance(error, commands.MissingRequiredArgument):
+			argument_embed = discord.Embed(
+				name = "Error",
+				color = ctx.author.color,
+				description = f"{ctx.author.name}, you forgot to provide an input of some sort."
+			)
+			await ctx.send(embed = argument_embed)
 
-        print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
-        traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
+		print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
+		traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
 
 def setup(bot):
-    bot.add_cog(CommandError(bot))
-    print("Reloaded events.command_error")
+	bot.add_cog(CommandError(bot))
+	print("Reloaded events.command_error")

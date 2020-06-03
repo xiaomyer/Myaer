@@ -39,42 +39,42 @@ handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(me
 logger.addHandler(handler)
 
 async def get_prefix(bot, message):
-    return commands.when_mentioned_or("/", "myaer ", "Myaer ")(bot, message)
+	return commands.when_mentioned_or("/", "myaer ", "Myaer ")(bot, message)
 
 bot = commands.Bot(
-    command_prefix = get_prefix,
-    owner_id = 368780147563823114
+	command_prefix = get_prefix,
+	owner_id = 368780147563823114
 )
 
 extensions = [
-    "jishaku",
-    "cogs.minecraft.hypixel.bedwars",
-    "events.command_error",
-    "commands.help",
-    "cogs.minecraft.hypixel.hypixel",
-    "cogs.minecraft.hypixel.leaderboards",
-    "cogs.minecraft.minecraft",
-    "commands.ping",
-    "cogs.minecraft.hypixel.skywars",
-    "cogs.wristspasm"
+	"jishaku",
+	"cogs.minecraft.hypixel.bedwars",
+	"events.command_error",
+	"commands.help",
+	"cogs.minecraft.hypixel.hypixel",
+	"cogs.minecraft.hypixel.leaderboards",
+	"cogs.minecraft.minecraft",
+	"commands.ping",
+	"cogs.minecraft.hypixel.skywars",
+	"cogs.wristspasm"
 ]
 
 config = Config()
 
 @bot.event
 async def on_ready():
-    time = datetime.datetime.now().strftime("%A, %b %d, %Y - %m/%d/%Y - %I:%M:%S %p")
-    status_log_channel = bot.get_channel(config.status_log_channel)
-    print(f"Connection with Discord established at {time}")
-    await bot.change_presence(activity = discord.Game(name = "remember kids, Myer will set you on fire"))
-    await status_log_channel.send(f"Logged in at {time}.")
+	time = datetime.datetime.now().strftime("%A, %b %d, %Y - %m/%d/%Y - %I:%M:%S %p")
+	status_log_channel = bot.get_channel(config.status_log_channel)
+	print(f"Connection with Discord established at {time}")
+	await bot.change_presence(activity = discord.Game(name = "remember kids, Myer will set you on fire"))
+	await status_log_channel.send(f"Logged in at {time}.")
 
 if __name__ == "__main__":
-    for extension in extensions:
-        try:
-            bot.load_extension(extension)
-        except Exception as e:
-            exception = '{}: {}'.format(type(e).__name__, e)
-            print("Failed to load extension {}\n{}".format(extension, exception))
+	for extension in extensions:
+		try:
+			bot.load_extension(extension)
+		except Exception as e:
+			exception = '{}: {}'.format(type(e).__name__, e)
+			print("Failed to load extension {}\n{}".format(extension, exception))
 
 bot.run(config.token)

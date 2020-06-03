@@ -29,35 +29,35 @@ from core.minecraft.request import MojangAPI
 hypixel_api = "https://api.hypixel.net/"
 
 class HypixelAPI():
-    def __init__(self):
-        self.config = Config()
-        self.mojang = MojangAPI()
-        self.hypixel_api_key = self.config.hypixel_api_key
+	def __init__(self):
+		self.config = Config()
+		self.mojang = MojangAPI()
+		self.hypixel_api_key = self.config.hypixel_api_key
 
-    async def send_player_request(self, player):
-        uuid = (await self.mojang.get_profile(player))["uuid"] # &name= is deprecated for the Hypixel API, so convert name to UUID with Mojang API
-        async with aiohttp.ClientSession() as session:
-            raw = await session.get(f"{hypixel_api}player?key={self.hypixel_api_key}&uuid={uuid}")
-            player_json = await raw.json() # but rather per player
-        if player_json["success"] and player_json["player"]:
-            return player_json
-        elif player_json["success"] and player_json["player"] == None: # Hypixel API still returns "success" even if the player does not exist, hence the more complicated check
-            raise NameError(f"Player \"{player}\" does not exist!")
+	async def send_player_request(self, player):
+		uuid = (await self.mojang.get_profile(player))["uuid"] # &name= is deprecated for the Hypixel API, so convert name to UUID with Mojang API
+		async with aiohttp.ClientSession() as session:
+			raw = await session.get(f"{hypixel_api}player?key={self.hypixel_api_key}&uuid={uuid}")
+			player_json = await raw.json() # but rather per player
+		if player_json["success"] and player_json["player"]:
+			return player_json
+		elif player_json["success"] and player_json["player"] == None: # Hypixel API still returns "success" even if the player does not exist, hence the more complicated check
+			raise NameError(f"Player \"{player}\" does not exist!")
 
-    async def send_player_request_uuid(self, uuid):
-        async with aiohttp.ClientSession() as session:
-            raw = await session.get(f"{hypixel_api}player?key={self.hypixel_api_key}&uuid={uuid.replace('-','')}")
-            player_json = await raw.json()
-            if player_json["success"] and player_json["player"]:
-                return player_json
-            elif player_json["success"] and player_json["player"] is None: # Hypixel API still returns "success" even if the player does not exist, hence the more complicated check
-                raise NameError(f"Player \"{uuid}\" does not exist!")
+	async def send_player_request_uuid(self, uuid):
+		async with aiohttp.ClientSession() as session:
+			raw = await session.get(f"{hypixel_api}player?key={self.hypixel_api_key}&uuid={uuid.replace('-','')}")
+			player_json = await raw.json()
+			if player_json["success"] and player_json["player"]:
+				return player_json
+			elif player_json["success"] and player_json["player"] is None: # Hypixel API still returns "success" even if the player does not exist, hence the more complicated check
+				raise NameError(f"Player \"{uuid}\" does not exist!")
 
-    async def send_leaderboard_request(self):
-        async with aiohttp.ClientSession() as session:
-            raw = await session.get(f"{hypixel_api}leaderboards?key={self.hypixel_api_key}")
-            leaderboards_json = await raw.json()
-        if leaderboards_json["success"]:
-            return leaderboards_json
-        elif not leaderboards_json["success"]:
-            return NameError("Something went wrong.") # The only reason there could be an error in retreiving leaderboard data is if the API key is invalid, but that should not be possible. TL;DR: If anything gets here, something went horribly wrong.
+	async def send_leaderboard_request(self):
+		async with aiohttp.ClientSession() as session:
+			raw = await session.get(f"{hypixel_api}leaderboards?key={self.hypixel_api_key}")
+			leaderboards_json = await raw.json()
+		if leaderboards_json["success"]:
+			return leaderboards_json
+		elif not leaderboards_json["success"]:
+			return NameError("Something went wrong.") # The only reason there could be an error in retreiving leaderboard data is if the API key is invalid, but that should not be possible. TL;DR: If anything gets here, something went horribly wrong.

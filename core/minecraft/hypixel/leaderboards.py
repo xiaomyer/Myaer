@@ -25,22 +25,22 @@ SOFTWARE.
 from core.minecraft.hypixel.request import HypixelAPI
 
 class Leaderboards:
-    def __init__(self):
-        self.hypixel = HypixelAPI()
+	def __init__(self):
+		self.hypixel = HypixelAPI()
 
-    async def get_leaderboards(self):
-        leaderboards_json = await self.hypixel.send_leaderboard_request()
-        leaderboards = {
-            "bedwars" : {
-                "level" : leaderboards_json["leaderboards"]["BEDWARS"][0]["leaders"],
-                "wins" : {
-                    "overall" : leaderboards_json["leaderboards"]["BEDWARS"][1]["leaders"],
-                    "weekly" : leaderboards_json["leaderboards"]["BEDWARS"][2]["leaders"]
-                },
-                "finals" : {
-                    "overall" : leaderboards_json["leaderboards"]["BEDWARS"][3]["leaders"],
-                    "weekly" : leaderboards_json["leaderboards"]["BEDWARS"][4]["leaders"]
-                }
-            }
-        }
-        return leaderboards
+	async def get_leaderboards(self):
+		leaderboards_json = await self.hypixel.send_leaderboard_request()
+		leaderboards = {
+			"bedwars" : {
+				"level" : leaderboards_json["leaderboards"]["BEDWARS"][0]["leaders"],
+				"wins" : {
+					"overall" : leaderboards_json["leaderboards"]["BEDWARS"][1]["leaders"],
+					"weekly" : leaderboards_json["leaderboards"]["BEDWARS"][2]["leaders"]
+				},
+				"finals" : {
+					"overall" : leaderboards_json["leaderboards"]["BEDWARS"][3]["leaders"],
+					"weekly" : leaderboards_json["leaderboards"]["BEDWARS"][4]["leaders"]
+				}
+			}
+		}
+		return leaderboards
