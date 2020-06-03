@@ -42,26 +42,24 @@ async def get_profile_name(player): # When input is name
             profile = await session.get(f"{mojang_api}users/profiles/minecraft/{player}")
             profile_json = await profile.json()
             profile_data = {
-            "name" : profile_json["name"], # Case sensitive display name
-            "uuid" : profile_json["id"]
+	            "name" : profile_json["name"], # Case sensitive display name
+	            "uuid" : profile_json["id"]
             }
     except Exception: # Mojang API returns wrong mimetype if player does not exist
         raise NameError(f"Player \"{player}\" does not exist")
-
     return profile_data
 
-async def get_profile_uuid(player): # When input is only UUID
+async def get_profile_uuid(uuid): # When input is only UUID
     try:
         async with aiohttp.ClientSession() as session:
-            profile = await session.get(f"{mojang_session_server}session/minecraft/profile/{player.replace('-','')}") # Mojang session server does not accept UUIDs with "-"
+            profile = await session.get(f"{mojang_session_server}session/minecraft/profile/{uuid.replace('-','')}") # Mojang session server does not accept UUIDs with "-"
             profile_json = await profile.json()
             profile_data = {
-            "name" : profile_json["name"],
-            "uuid" : profile_json["id"]
+	        	"name" : profile_json["name"],
+	        	"uuid" : profile_json["id"]
             }
     except Exception:
-        raise NameError(f"Invalid UUID \"{player}\"")
-
+        raise NameError(f"Invalid UUID \"{uuid}\"")
     return profile_data
 
 async def get_name_history_uuid(player):
@@ -77,5 +75,4 @@ async def get_name_history_uuid(player):
                     name_history.append([name["name"], None]) # First name has no changedToAt key
     except Exception:
         raise NameError(f"Invalid UUID \"{player}\"")
-
     return name_history
