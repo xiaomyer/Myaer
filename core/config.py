@@ -25,7 +25,7 @@ SOFTWARE.
 import json
 
 with open("/home/myerfire/Myaer/Myaer/config.json") as config_raw:
-    config_json = json.load(config_raw)
+	config_json = json.load(config_raw)
 
 token = config_json["keys"]["token"]
 hypixel_api_key = config_json["keys"]["hypixel"]
