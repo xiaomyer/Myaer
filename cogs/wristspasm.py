@@ -37,6 +37,21 @@ moderator_role = 700177102925987850
 
 trial_moderator_role = 700177445957140521
 
+guild = 600311056627269642
+roles = {
+	"Stone" : 600314048617119757,
+	"Iron" : 600313179452735498,
+	"Gold" : 600313143398236191,
+	"Diamond" : 600313179452735498,
+	"Emerald" : 600311885971062784,
+	"Sapphire" : 601086287285583872,
+	"Ruby" : 610930173675831336,
+	"Crystal" : 610930335135432879,
+	"Opal" : 610929429635661846,
+	"Amethyst" : 610929550674886686,
+	"Rainbow" : 614848336649912342
+}
+
 async def override_check(ctx):
 	admin_role_object = ctx.guild.get_role(admin_role)
 	moderator_role_object = ctx.guild.get_role(moderator_role)
@@ -49,23 +64,9 @@ async def override_check(ctx):
 class WristSpasm(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
-		self.guild = 600311056627269642
-		self.roles = {
-			"Stone" : 600314048617119757,
-			"Iron" : 600313179452735498,
-			"Gold" : 600313143398236191,
-			"Diamond" : 600313179452735498,
-			"Emerald" : 600311885971062784,
-			"Sapphire" : 601086287285583872,
-			"Ruby" : 610930173675831336,
-			"Crystal" : 610930335135432879,
-			"Opal" : 610929429635661846,
-			"Amethyst" : 610929550674886686,
-			"Rainbow" : 614848336649912342
-		}
 
 	async def cog_check(self, ctx):
-		if ctx.guild.id == self.guild:
+		if ctx.guild.id == guild:
 			return True
 		else:
 			return False
@@ -103,7 +104,7 @@ class WristSpasm(commands.Cog):
 			await message.edit(embed = nameerror_embed)
 			return
 		prestige = (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_stats["bedwars"]["star"]))["prestige"]
-		prestige_role = self.roles[prestige]
+		prestige_role = roles[prestige]
 		prestige_role_object = ctx.guild.get_role(prestige_role)
 		if ctx.author.nick != player_data["name"]:
 			try:
@@ -153,13 +154,13 @@ class WristSpasm(commands.Cog):
 				text = core.static.wrist_spasm_disclaimer
 			)
 			await ctx.send(embed = added_role_embed)
-		for role in self.roles:
-			role_object = ctx.guild.get_role(self.roles[role])
+		for role in roles:
+			role_object = ctx.guild.get_role(roles[role])
 			if (role_object in ctx.author.roles) and role_object is not prestige_role_object:
 				await ctx.author.remove_roles(role_object)
 				role_remove_embed = discord.Embed(
 					name = "Role removed",
-					description = f"Removed role <@{self.roles[role]}> from you."
+					description = f"Removed role <@{roles[role]}> from you."
 				)
 				role_remove_embed.set_footer(
 					text = f"{core.static.wrist_spasm_disclaimer}\n\
@@ -197,7 +198,7 @@ class WristSpasm(commands.Cog):
 			await message.edit(embed = nameerror_embed)
 			return
 		prestige = (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_stats["bedwars"]["star"]))["prestige"]
-		prestige_role = self.roles[prestige]
+		prestige_role = roles[prestige]
 		prestige_role_object = ctx.guild.get_role(prestige_role)
 		if target.nick != player_data["name"]:
 			try:
@@ -247,13 +248,13 @@ class WristSpasm(commands.Cog):
 				text = core.static.wrist_spasm_disclaimer
 			)
 			await ctx.send(embed = added_role_embed)
-		for role in self.roles:
-			role_object = ctx.guild.get_role(self.roles[role])
+		for role in roles:
+			role_object = ctx.guild.get_role(roles[role])
 			if (role_object in target.roles) and role_object is not prestige_role_object:
 				await target.remove_roles(role_object)
 				role_remove_embed = discord.Embed(
 					name = "Role removed",
-					description = f"Removed role <@{self.roles[role]}> from {target}."
+					description = f"Removed role <@{roles[role]}> from {target}."
 				)
 				role_remove_embed.set_footer(
 					text = f"{core.static.wrist_spasm_disclaimer}\n\

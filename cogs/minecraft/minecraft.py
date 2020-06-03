@@ -84,7 +84,7 @@ class Minecraft(commands.Cog):
 		name_history = await core.minecraft.request.get_name_history_uuid(player_data['minecraft_uuid'])
 		index = len(name_history) - 1
 		name_history_string = []
-		for name in name_history:
+		for name in name_history: # the index is only needed because something else has to be done for the first one
 			if index == 0: # First name does not have changedToAt attribute
 				name_history_string.append(f"{name_history[index][0]}")
 			else:
