@@ -57,10 +57,9 @@ class SkywarsStats(commands.Cog):
 				)
 				await ctx.send(embed = nameerror_embed)
 				return
-		else: # If no arguments
-			try:
-				player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
-			except AttributeError:
+		else:
+			player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
+			if player_data is None:
 				unverified_embed = discord.Embed(
 					name = "Not verified",
 					description = "You have to verify with `/mc verify <minecraft-ign>` first."

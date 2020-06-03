@@ -86,7 +86,7 @@ async def parse_input(ctx, input):
 	except discord.ext.commands.errors.BadArgument:
 		player_discord = None
 	try:
-		if player_discord and (player_discord.mentioned_in(ctx.message) or input.isdigit()):
+		if player_discord and (player_discord.mentioned_in(ctx.message) or input.isdigit()): # if input is a discord id
 			print("database")
 			db_data = (await find_uuid(player_discord.id))
 			player_data = {
@@ -116,4 +116,4 @@ async def database_lookup(discord_id):
 		}
 		return player_data
 	except IndexError:
-		raise AttributeError("Not found in database")
+		return None # not found in database
