@@ -39,7 +39,7 @@ prestige_colors = {
 	"Rainbow" : "1ABC9C"
 }
 
-prestiges = [
+bedwars_prestiges = [
 	"Stone",
 	"Iron",
 	"Gold",
@@ -55,19 +55,11 @@ prestiges = [
 
 ranks = {
 	"NONE" : None,
-	"VIP" : "VIP",
 	"VIP_PLUS" : "VIP+",
-	"MVP" : "MVP",
 	"MVP_PLUS" : "MVP+",
 	"SUPERSTAR" : "MVP++",
 	"YOUTUBER" : "YOUTUBE",
-	"PIG+++" : "PIG+++",
-	"BUILD TEAM" : "BUILD TEAM",
-	"HELPER" : "HELPER",
 	"MODERATOR" : "MOD",
-	"ADMIN" : "ADMIN",
-	"SLOTH" : "SLOTH",
-	"OWNER" : "OWNER"
 }
 
 rank_colors = {
@@ -171,8 +163,8 @@ async def get_bedwars_prestige_data(star):
 	star_rounded = star // 100 # // is floor division, basically math.floor(await self.get_star() / 100)
 	star_rounded = star_rounded if star_rounded < 10 else 10 # if greater than 10, set to ten
 	return {
-		"prestige": prestiges[star_rounded],
-		"prestige_color": prestige_colors[prestiges[star_rounded]]
+		"prestige": bedwars_prestiges[star_rounded],
+		"prestige_color": prestige_colors[bedwars_prestiges[star_rounded]]
 	} # based on order of prestiges and prestige colors
 
 
