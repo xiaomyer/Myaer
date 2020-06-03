@@ -86,7 +86,7 @@ class SkywarsStats(commands.Cog):
             await message.edit(embed = nameerror_embed)
             return
         player_stats_embed = discord.Embed(
-            title = f"**{discord.utils.escape_markdown(player_data['player_formatted_name'])}\'s Skywars Stats**",
+            title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Skywars Stats**""",
             color = int((await core.minecraft.hypixel.static.get_skywars_prestige_data(player_json["skywars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
         )
         player_stats_embed.set_thumbnail(

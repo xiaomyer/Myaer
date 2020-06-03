@@ -29,7 +29,6 @@ from core.minecraft.hypixel.player import Player
 import core.minecraft.hypixel.static
 import core.static
 
-
 master = 394984668656566274
 
 admin_role = 633073051784708099
