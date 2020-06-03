@@ -51,7 +51,8 @@ class LeaderboardCommands(commands.Cog):
 	async def bedwars(self, ctx):
 		loading_embed = discord.Embed(
 			name = "Loading",
-			description = "Loading Bedwars level leaderboard..."
+			description = "Loading Bedwars level leaderboard...",
+			color = ctx.author.color
 		)
 		message = await ctx.send(embed = loading_embed)
 		leaderboards_json = await core.minecraft.hypixel.leaderboards.get_leaderboards()
@@ -75,7 +76,8 @@ class LeaderboardCommands(commands.Cog):
 	async def bedwars_wins(self, ctx):
 		loading_embed = discord.Embed(
 			name = "Loading",
-			description = "Loading Bedwars overall wins leaderboard..."
+			description = "Loading Bedwars overall wins leaderboard...",
+			color = ctx.author.color
 		)
 		message = await ctx.send(embed = loading_embed)
 		leaderboards_json = await core.minecraft.hypixel.leaderboards.get_leaderboards()
@@ -99,7 +101,8 @@ class LeaderboardCommands(commands.Cog):
 	async def bedwars_weekly_wins(self, ctx):
 		loading_embed = discord.Embed(
 			name = "Loading",
-			description = "Loading Bedwars weekly wins leaderboard..."
+			description = "Loading Bedwars weekly wins leaderboard...",
+			color = ctx.author.color
 		)
 		message = await ctx.send(embed = loading_embed)
 		leaderboards_json = await core.minecraft.hypixel.leaderboards.get_leaderboards()
@@ -123,7 +126,8 @@ class LeaderboardCommands(commands.Cog):
 	async def bedwars_finals(self, ctx):
 		loading_embed = discord.Embed(
 			name = "Loading",
-			description = "Loading Bedwars overall final kills leaderboard..."
+			description = "Loading Bedwars overall final kills leaderboard...",
+			color = ctx.author.color
 		)
 		message = await ctx.send(embed = loading_embed)
 		leaderboards_json = await core.minecraft.hypixel.leaderboards.get_leaderboards()
@@ -147,7 +151,8 @@ class LeaderboardCommands(commands.Cog):
 	async def bedwars_weekly_finals(self, ctx):
 		loading_embed = discord.Embed(
 			name = "Loading",
-			description = "Loading Bedwars weekly final kills leaderboard..."
+			description = "Loading Bedwars weekly final kills leaderboard...",
+			color = ctx.author.color
 		)
 		message = await ctx.send(embed = loading_embed)
 		leaderboards_json = await core.minecraft.hypixel.leaderboards.get_leaderboards()

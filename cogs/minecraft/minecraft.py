@@ -49,7 +49,8 @@ class Minecraft(commands.Cog):
 			except AttributeError:
 				member_not_verified = discord.Embed(
 					name = "Member not verified",
-					description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+					description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`",
+					color = ctx.author.color
 				)
 				member_not_verified.set_footer(
 					text = "... with Myaer."
@@ -59,7 +60,8 @@ class Minecraft(commands.Cog):
 			except NameError:
 				nameerror_embed = discord.Embed(
 					name = "Invalid input",
-					description = f"\"{args[0]}\" is not a valid username or UUID."
+					description = f"\"{args[0]}\" is not a valid username or UUID.",
+					color = ctx.author.color
 				)
 				await ctx.send(embed = nameerror_embed)
 				return
@@ -68,19 +70,22 @@ class Minecraft(commands.Cog):
 			if player_data is None:
 				unverified_embed = discord.Embed(
 					name = "Not verified",
-					description = "You have to verify with `/mc verify <minecraft-ign>` first."
+					description = "You have to verify with `/mc verify <minecraft-ign>` first.",
+					color = ctx.author.color
 				)
 				await ctx.send(embed = unverified_embed)
 				return
 		loading_embed = discord.Embed(
 			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}\'s name history..."
+			description = f"Loading {player_data['player_formatted_name']}\'s name history...",
+			color = ctx.author.color
 		)
 		message = await ctx.send(embed = loading_embed)
 		index = 0
 		name_history = await core.minecraft.request.get_name_history_uuid(player_data['minecraft_uuid'])
 		name_history_embed = discord.Embed(
-			name = "Name history"
+			name = "Name history",
+			color = ctx.author.color
 		)
 		for name in name_history:
 			if index == 0: # First name does not have changedToAt attribute
@@ -107,17 +112,20 @@ class Minecraft(commands.Cog):
 			except AttributeError:
 				member_not_verified = discord.Embed(
 					name = "Member not verified",
-					description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+					description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`",
+					color = ctx.author.color
 				)
 				member_not_verified.set_footer(
-					text = "... with Myaer."
+					text = "... with Myaer.",
+					color = ctx.author.color
 				)
 				await ctx.send(embed = member_not_verified)
 				return
 			except NameError:
 				nameerror_embed = discord.Embed(
 					name = "Invalid input",
-					description = f"\"{args[0]}\" is not a valid username or UUID."
+					description = f"\"{args[0]}\" is not a valid username or UUID.",
+					color = ctx.author.color
 				)
 				await ctx.send(embed = nameerror_embed)
 				return
@@ -126,18 +134,21 @@ class Minecraft(commands.Cog):
 			if player_data is None:
 				unverified_embed = discord.Embed(
 					name = "Not verified",
-					description = "You have to verify with `/mc verify <minecraft-ign>` first."
+					description = "You have to verify with `/mc verify <minecraft-ign>` first.",
+					color = ctx.author.color
 				)
 				await ctx.send(embed = unverified_embed)
 				return
 		loading_embed = discord.Embed(
 			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}\'s UUID..."
+			description = f"Loading {player_data['player_formatted_name']}\'s UUID...",
+			color = ctx.author.color
 		)
 		message = await ctx.send(embed = loading_embed)
 		player_uuid_embed = discord.Embed(
 			name = "Player UUID",
-			description = f"{player_data['player_formatted_name']}\'s UUID is {player_data['minecraft_uuid']}."
+			description = f"{player_data['player_formatted_name']}\'s UUID is {player_data['minecraft_uuid']}.",
+			color = ctx.author.color
 		)
 		await message.edit(embed = player_uuid_embed)
 
@@ -149,19 +160,23 @@ class Minecraft(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{ign}\" is not a valid username or UUID."
+				description = f"\"{ign}\" is not a valid username or UUID.",
+				color = ctx.author.color
 			)
 			await ctx.send(embed = nameerror_embed)
+			return
 		try:
 			loading_embed = discord.Embed(
 				name = "Loading",
-				description = f"Verifying you as {player_data['name']}..."
+				description = f"Verifying you as {player_data['name']}...",
+				color = ctx.author.color
 			)
 			message = await ctx.send(embed = loading_embed)
 			await core.minecraft.verification.verification.verify(ctx.author.id, f"{ctx.author.name}#{ctx.author.discriminator}", player_data['uuid'])
 			verified_embed = discord.Embed(
 				name = "Verified Minecraft IGN",
-				description = f"Verified your Minecraft account as \"{player_data['name']}\""
+				description = f"Verified your Minecraft account as \"{player_data['name']}\"",
+				color = ctx.author.color
 			)
 			verified_embed.set_footer(
 				text = "... with Myaer."
@@ -170,21 +185,22 @@ class Minecraft(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['name']}\" does not seem to have Hypixel stats."
+				description = f"\"{player_data['name']}\" does not seem to have Hypixel stats.",
+				color = ctx.author.color
 			)
 			await message.edit(embed = nameerror_embed)
-			raise NameError("Invalid input")
 			return
 		except ValueError:
 			already_has_discord_hypixel_embed = discord.Embed(
 				name = "Already linked on Hypixel",
-				description = f"{player_data['name']} has a linked Discord account on Hypixel that is not yours."
+				description = f"{player_data['name']} has a linked Discord account on Hypixel that is not yours.",
+				color = ctx.author.color
 			)
 			already_has_discord_hypixel_embed.set_footer(
-				text = "If this is your Minecraft account, update your Discord name on Hypixel."
+				text = "If this is your Minecraft account, update your Discord name on Hypixel.",
+				color = ctx.author.color
 			)
 			await message.edit(embed = already_has_discord_hypixel_embed)
-			raise ValueError("Already linked on Hypixel")
 			return
 		except AttributeError:
 			no_discord_hypixel_embed = discord.Embed(
@@ -195,7 +211,6 @@ class Minecraft(commands.Cog):
 				text = "Set your Discord name on Hypixel."
 			)
 			await message.edit(embed = no_discord_hypixel_embed)
-			raise AttributeError("No Discord linked on Hypixel")
 			return
 
 	@minecraft.command(name = "forceverify", aliases = ["forcelink"])
@@ -212,13 +227,15 @@ class Minecraft(commands.Cog):
 			return
 		loading_embed = discord.Embed(
 			name = "Loading",
-			description = f"Verifying {target} as {player_data['name']}..."
+			description = f"Verifying {target} as {player_data['name']}...",
+			color = ctx.author.color
 		)
 		message = await ctx.send(embed = loading_embed)
 		await core.minecraft.verification.verification.force_verify(target.id, player_data['uuid'])
 		verified_embed = discord.Embed(
 			name = "Verified Minecraft IGN",
-			description = f"Verified {target}\'s Minecraft account as \"{player_data['name']}\""
+			description = f"Verified {target}\'s Minecraft account as \"{player_data['name']}\"",
+			color = ctx.author.color
 		)
 		verified_embed.set_footer(
 			text = "... with Myaer."
@@ -237,7 +254,8 @@ class Minecraft(commands.Cog):
 			unverified_data = await core.minecraft.verification.verification.unverify(ctx.author.id)
 			unverified_embed = discord.Embed(
 				name = "Unverified",
-				description = f"Unverified your Minecraft account \"{(await core.minecraft.request.get_profile_uuid((unverified_data[0]['minecraft_uuid'])))['name']}\"."
+				description = f"Unverified your Minecraft account \"{(await core.minecraft.request.get_profile_uuid((unverified_data[0]['minecraft_uuid'])))['name']}\".",
+				color = ctx.author.color
 			)
 			unverified_embed.set_footer(
 				text = f"UUID was {(await core.minecraft.request.get_profile_uuid(unverified_data[0]['minecraft_uuid']))['uuid']}"
@@ -246,7 +264,8 @@ class Minecraft(commands.Cog):
 		except NameError:
 			not_verified_embed = discord.Embed(
 				name = "Not verified",
-				description = "Your Minecraft account was not verified."
+				description = "Your Minecraft account was not verified.",
+				color = ctx.author.color
 			)
 			not_verified_embed.set_footer(
 				text = "... with Myaer."
@@ -265,7 +284,8 @@ class Minecraft(commands.Cog):
 			unverified_data = await core.minecraft.verification.verification.unverify(target.id)
 			unverified_embed = discord.Embed(
 				name = "Unverified",
-				description = f"Unverified {target}\'s Minecraft account \"{(await core.minecraft.request.get_profile_uuid((unverified_data[0]['minecraft_uuid'])))['name']}\"."
+				description = f"Unverified {target}\'s Minecraft account \"{(await core.minecraft.request.get_profile_uuid((unverified_data[0]['minecraft_uuid'])))['name']}\".",
+				color = ctx.author.color
 			)
 			unverified_embed.set_footer(
 				text = f"UUID was {(await core.minecraft.request.get_profile_uuid(unverified_data[0]['minecraft_uuid']))['uuid']}"
@@ -274,7 +294,8 @@ class Minecraft(commands.Cog):
 		except NameError:
 			not_verified_embed = discord.Embed(
 				name = "Not verified",
-				description = f"{target}\'s Minecraft account was not verified."
+				description = f"{target}\'s Minecraft account was not verified.",
+				color = ctx.author.color
 			)
 			not_verified_embed.set_footer(
 				text = "... with Myaer."

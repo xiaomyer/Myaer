@@ -46,7 +46,8 @@ class Hypixel(commands.Cog):
 			except AttributeError:
 				member_not_verified = discord.Embed(
 					name = "Member not verified",
-					description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`"
+					description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`",
+					color = ctx.author.color
 				)
 				member_not_verified.set_footer(
 					text = "... with Myaer."
@@ -56,7 +57,8 @@ class Hypixel(commands.Cog):
 			except NameError:
 				nameerror_embed = discord.Embed(
 					name = "Invalid input",
-					description = f"\"{args[0]}\" is not a valid username or UUID."
+					description = f"\"{args[0]}\" is not a valid username or UUID.",
+					color = ctx.author.color
 				)
 				await ctx.send(embed = nameerror_embed)
 				return
@@ -65,13 +67,15 @@ class Hypixel(commands.Cog):
 			if player_data is None:
 				unverified_embed = discord.Embed(
 					name = "Not verified",
-					description = "You have to verify with `/mc verify <minecraft-ign>` first."
+					description = "You have to verify with `/mc verify <minecraft-ign>` first.",
+					color = ctx.author.color
 				)
 				await ctx.send(embed = unverified_embed)
 				return
 		loading_embed = discord.Embed(
 			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s Hypixel stats..."
+			description = f"Loading {player_data['player_formatted_name']}'s Hypixel stats...",
+			color = ctx.author.color
 		)
 		message = await ctx.send(embed = loading_embed)
 		try:
