@@ -26,7 +26,7 @@ from discord.ext import commands
 import datetime
 import discord
 import humanfriendly
-from core.minecraft.request import MojangAPI
+import core.minecraft.request
 import sys
 import traceback
 from core.minecraft.verification.verification import Verification
@@ -34,7 +34,6 @@ from core.minecraft.verification.verification import Verification
 class Minecraft(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.mojang = MojangAPI()
         self.user_converter = commands.UserConverter()
         self.verification = Verification()
 
@@ -81,7 +80,7 @@ class Minecraft(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         index = 0
-        name_history = await self.mojang.get_name_history_uuid(player_data['minecraft_uuid'])
+        name_history = await core.minecraft.request.get_name_history_uuid(player_data['minecraft_uuid'])
         name_history_embed = discord.Embed(
             name = "Name history"
         )
@@ -149,7 +148,7 @@ class Minecraft(commands.Cog):
     @commands.cooldown(1, 60, commands.BucketType.guild)
     async def verify(self, ctx, ign):
         try:
-            player_data = await self.mojang.get_profile(ign)
+            player_data = await core.minecraft.request.get_profile(ign)
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -206,7 +205,7 @@ class Minecraft(commands.Cog):
     @commands.is_owner()
     async def force_verify(self, ctx, target: discord.User, ign):
         try:
-            player_data = await self.mojang.get_profile(ign)
+            player_data = await core.minecraft.request.get_profile(ign)
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -241,10 +240,10 @@ class Minecraft(commands.Cog):
             unverified_data = await self.verification.unverify(ctx.author.id)
             unverified_embed = discord.Embed(
                 name = "Unverified",
-                description = f"Unverified your Minecraft account \"{(await self.mojang.get_profile_uuid((unverified_data[0]['minecraft_uuid'])))['name']}\"."
+                description = f"Unverified your Minecraft account \"{(await core.minecraft.request.get_profile_uuid((unverified_data[0]['minecraft_uuid'])))['name']}\"."
             )
             unverified_embed.set_footer(
-                text = f"UUID was {(await self.mojang.get_profile_uuid(unverified_data[0]['minecraft_uuid']))['uuid']}"
+                text = f"UUID was {(await core.minecraft.request.get_profile_uuid(unverified_data[0]['minecraft_uuid']))['uuid']}"
             )
             await message.edit(embed = unverified_embed)
         except NameError:
@@ -269,10 +268,10 @@ class Minecraft(commands.Cog):
             unverified_data = await self.verification.unverify(target.id)
             unverified_embed = discord.Embed(
                 name = "Unverified",
-                description = f"Unverified {target}\'s Minecraft account \"{(await self.mojang.get_profile_uuid((unverified_data[0]['minecraft_uuid'])))['name']}\"."
+                description = f"Unverified {target}\'s Minecraft account \"{(await core.minecraft.request.get_profile_uuid((unverified_data[0]['minecraft_uuid'])))['name']}\"."
             )
             unverified_embed.set_footer(
-                text = f"UUID was {(await self.mojang.get_profile_uuid(unverified_data[0]['minecraft_uuid']))['uuid']}"
+                text = f"UUID was {(await core.minecraft.request.get_profile_uuid(unverified_data[0]['minecraft_uuid']))['uuid']}"
             )
             await message.edit(embed = unverified_embed)
         except NameError:

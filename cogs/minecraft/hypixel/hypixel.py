@@ -27,7 +27,7 @@ import datetime
 import discord
 import humanfriendly
 import math
-from core.minecraft.request import MojangAPI
+import core.minecraft.request
 from core.minecraft.hypixel.player import Player
 import core.minecraft.hypixel.static
 import core.static
@@ -36,7 +36,6 @@ from core.minecraft.verification.verification import Verification
 class Hypixel(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.mojang = MojangAPI()
         self.player = Player()
         self.verification = Verification()
 

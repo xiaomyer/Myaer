@@ -24,13 +24,12 @@ SOFTWARE.
 
 from discord.ext import commands
 import discord
-from core.minecraft.request import MojangAPI
+import core.minecraft.request
 from core.minecraft.hypixel.player import Player
 from tinydb import TinyDB, Query, where
 
 class Verification():
     def __init__(self):
-        self.mojang = MojangAPI()
         self.player = Player()
         self.user_converter = commands.UserConverter()
 
@@ -94,15 +93,15 @@ class Verification():
                 print("database")
                 db_data = (await self.find_uuid(player_discord.id))
                 player_data = {
-                    "player_formatted_name" : (await self.mojang.get_profile((db_data[0]["minecraft_uuid"])))["name"],
+                    "player_formatted_name" : (await core.minecraft.request.get_profile((db_data[0]["minecraft_uuid"])))["name"],
                     "minecraft_uuid" : db_data[0]["minecraft_uuid"]
                 }
                 return player_data
             else:
                 try:
                     player_data = {
-                        "player_formatted_name" : (await self.mojang.get_profile(input))["name"],
-                        "minecraft_uuid" : (await self.mojang.get_profile(input))["uuid"]
+                        "player_formatted_name" : (await core.minecraft.request.get_profile(input))["name"],
+                        "minecraft_uuid" : (await core.minecraft.request.get_profile(input))["uuid"]
                     }
                     return player_data
                 except NameError:
@@ -115,7 +114,7 @@ class Verification():
         try:
             db_data = await self.find_uuid(discord_id)
             player_data = {
-                "player_formatted_name" : (await self.mojang.get_profile((db_data[0]["minecraft_uuid"])))["name"],
+                "player_formatted_name" : (await core.minecraft.request.get_profile((db_data[0]["minecraft_uuid"])))["name"],
                 "minecraft_uuid" : db_data[0]["minecraft_uuid"]
             }
             return player_data

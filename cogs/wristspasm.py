@@ -24,7 +24,7 @@ SOFTWARE.
 
 from discord.ext import commands
 import discord
-from core.minecraft.request import MojangAPI
+import core.minecraft.request
 from core.minecraft.hypixel.player import Player
 import core.minecraft.hypixel.static
 import core.static
@@ -50,7 +50,6 @@ class WristSpasm(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.guild = 600311056627269642
-        self.mojang = MojangAPI()
         self.player = Player()
         self.roles = {
             "Stone" : 600314048617119757,
@@ -79,7 +78,7 @@ class WristSpasm(commands.Cog):
     @wristspasm.command(name = "verify")
     async def prestige_role(self, ctx, player):
         try:
-            player_data = await self.mojang.get_profile(player)
+            player_data = await core.minecraft.request.get_profile(player)
             loading_embed = discord.Embed(
                 name = "Loading",
                 description = f"Verifying you as {player_data['name']}..."
@@ -173,7 +172,7 @@ class WristSpasm(commands.Cog):
     @commands.check(override_check)
     async def verify_override(self, ctx, target: discord.Member, ign):
         try:
-            player_data = await self.mojang.get_profile(ign)
+            player_data = await core.minecraft.request.get_profile(ign)
             loading_embed = discord.Embed(
                 name = "Loading",
                 description = f"Verifying {target} as {player_data['name']}..."
