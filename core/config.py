@@ -27,8 +27,6 @@ import json
 with open("/home/myerfire/Myaer/Myaer/config.json") as config_raw:
     config_json = json.load(config_raw)
 
-class Config():
-    def __init__(self):
-        self.token = config_json["keys"]["token"]
-        self.hypixel_api_key = config_json["keys"]["hypixel"]
-        self.status_log_channel = config_json["channels"]["status_log_channel"]
+token = config_json["keys"]["token"]
+hypixel_api_key = config_json["keys"]["hypixel"]
+status_log_channel = config_json["channels"]["status_log_channel"]

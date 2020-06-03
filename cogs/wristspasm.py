@@ -25,7 +25,7 @@ SOFTWARE.
 from discord.ext import commands
 import discord
 import core.minecraft.request
-from core.minecraft.hypixel.player import Player
+import core.minecraft.hypixel.player
 import core.minecraft.hypixel.static
 import core.static
 
@@ -50,7 +50,6 @@ class WristSpasm(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.guild = 600311056627269642
-        self.player = Player()
         self.roles = {
             "Stone" : 600314048617119757,
             "Iron" : 600313179452735498,
@@ -95,7 +94,7 @@ class WristSpasm(commands.Cog):
             await ctx.send(embed = nameerror_embed)
             return
         try:
-            player_stats = await self.player.get_player(player_data["uuid"])
+            player_stats = await core.minecraft.hypixel.player.get_player(player_data["uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -189,7 +188,7 @@ class WristSpasm(commands.Cog):
             await ctx.send(embed = nameerror_embed)
             return
         try:
-            player_stats = await self.player.get_player(player_data["uuid"])
+            player_stats = await core.minecraft.hypixel.player.get_player(player_data["uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",

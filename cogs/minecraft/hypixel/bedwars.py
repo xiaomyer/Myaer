@@ -26,22 +26,20 @@ from discord.ext import commands
 import discord
 import math
 import core.static
-from core.minecraft.hypixel.player import Player
+import core.minecraft.hypixel.player
 import core.minecraft.hypixel.static
-from core.minecraft.verification.verification import Verification
+import core.minecraft.verification.verification
 
 class BedwarsStats(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.player = Player()
-        self.verification = Verification()
 
     @commands.group(name = "bw", invoke_without_command = True) # OH MY GOD THIS FILE IS 6000 LINES LONG KILL ME
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def bedwars(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -61,7 +59,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -75,7 +73,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -142,7 +140,7 @@ class BedwarsStats(commands.Cog):
     async def bedwars_stats(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -162,7 +160,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -176,7 +174,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -243,7 +241,7 @@ class BedwarsStats(commands.Cog):
     async def solo_bedwars(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -263,7 +261,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -277,7 +275,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -339,7 +337,7 @@ class BedwarsStats(commands.Cog):
     async def doubles_bedwars(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -359,7 +357,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -373,7 +371,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -435,7 +433,7 @@ class BedwarsStats(commands.Cog):
     async def threes_bedwars(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -455,7 +453,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -469,7 +467,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -531,7 +529,7 @@ class BedwarsStats(commands.Cog):
     async def fours_bedwars(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -551,7 +549,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -565,7 +563,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -627,7 +625,7 @@ class BedwarsStats(commands.Cog):
     async def four_v_four_bedwars(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -647,7 +645,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -661,7 +659,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -729,7 +727,7 @@ class BedwarsStats(commands.Cog):
     async def armed_doubles(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -749,7 +747,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -758,7 +756,7 @@ class BedwarsStats(commands.Cog):
                 await ctx.send(embed = unverified_embed)
                 return
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -825,7 +823,7 @@ class BedwarsStats(commands.Cog):
     async def armed_fours(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -845,7 +843,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -854,7 +852,7 @@ class BedwarsStats(commands.Cog):
                 await ctx.send(embed = unverified_embed)
                 return
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -922,7 +920,7 @@ class BedwarsStats(commands.Cog):
     async def bedwars_castle(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -942,7 +940,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -951,7 +949,7 @@ class BedwarsStats(commands.Cog):
                 await ctx.send(embed = unverified_embed)
                 return
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -1024,7 +1022,7 @@ class BedwarsStats(commands.Cog):
     async def luckyblocks_doubles(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -1044,7 +1042,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -1053,7 +1051,7 @@ class BedwarsStats(commands.Cog):
                 await ctx.send(embed = unverified_embed)
                 return
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -1121,7 +1119,7 @@ class BedwarsStats(commands.Cog):
     async def luckyblocks_fours(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -1141,7 +1139,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -1150,7 +1148,7 @@ class BedwarsStats(commands.Cog):
                 await ctx.send(embed = unverified_embed)
                 return
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -1222,7 +1220,7 @@ class BedwarsStats(commands.Cog):
     async def rush_solo(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -1242,7 +1240,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -1251,7 +1249,7 @@ class BedwarsStats(commands.Cog):
                 await ctx.send(embed = unverified_embed)
                 return
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -1318,7 +1316,7 @@ class BedwarsStats(commands.Cog):
     async def rush_doubles(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -1338,7 +1336,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -1347,7 +1345,7 @@ class BedwarsStats(commands.Cog):
                 await ctx.send(embed = unverified_embed)
                 return
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -1414,7 +1412,7 @@ class BedwarsStats(commands.Cog):
     async def rush_fours(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -1434,7 +1432,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -1443,7 +1441,7 @@ class BedwarsStats(commands.Cog):
                 await ctx.send(embed = unverified_embed)
                 return
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -1516,7 +1514,7 @@ class BedwarsStats(commands.Cog):
     async def ultimate_solo(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -1536,7 +1534,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -1545,7 +1543,7 @@ class BedwarsStats(commands.Cog):
                 await ctx.send(embed = unverified_embed)
                 return
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -1613,7 +1611,7 @@ class BedwarsStats(commands.Cog):
     async def ultimate_doubles(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -1633,7 +1631,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -1642,7 +1640,7 @@ class BedwarsStats(commands.Cog):
                 await ctx.send(embed = unverified_embed)
                 return
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -1710,7 +1708,7 @@ class BedwarsStats(commands.Cog):
     async def ultimate_fours(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -1730,7 +1728,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -1739,7 +1737,7 @@ class BedwarsStats(commands.Cog):
                 await ctx.send(embed = unverified_embed)
                 return
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -1812,7 +1810,7 @@ class BedwarsStats(commands.Cog):
     async def voidless_doubles(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -1832,7 +1830,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -1841,7 +1839,7 @@ class BedwarsStats(commands.Cog):
                 await ctx.send(embed = unverified_embed)
                 return
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -1909,7 +1907,7 @@ class BedwarsStats(commands.Cog):
     async def voidless_fours(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -1929,7 +1927,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -1938,7 +1936,7 @@ class BedwarsStats(commands.Cog):
                 await ctx.send(embed = unverified_embed)
                 return
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -2006,7 +2004,7 @@ class BedwarsStats(commands.Cog):
     async def fkdr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -2026,7 +2024,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -2040,7 +2038,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -2090,7 +2088,7 @@ class BedwarsStats(commands.Cog):
     async def solo_fkdr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -2110,7 +2108,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -2124,7 +2122,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -2174,7 +2172,7 @@ class BedwarsStats(commands.Cog):
     async def doubles_fkdr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -2194,7 +2192,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -2208,7 +2206,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -2258,7 +2256,7 @@ class BedwarsStats(commands.Cog):
     async def threes_fkdr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -2278,7 +2276,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -2292,7 +2290,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -2342,7 +2340,7 @@ class BedwarsStats(commands.Cog):
     async def fours_fkdr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -2362,7 +2360,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -2376,7 +2374,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -2426,7 +2424,7 @@ class BedwarsStats(commands.Cog):
     async def four_v_four_fkdr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -2446,7 +2444,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -2460,7 +2458,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -2513,7 +2511,7 @@ class BedwarsStats(commands.Cog):
     async def armed_doubles_fkdr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -2533,7 +2531,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -2547,7 +2545,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -2596,7 +2594,7 @@ class BedwarsStats(commands.Cog):
     async def armed_fours_fkdr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -2616,7 +2614,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -2630,7 +2628,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -2680,7 +2678,7 @@ class BedwarsStats(commands.Cog):
     async def castle_fkdr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -2700,7 +2698,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -2714,7 +2712,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -2769,7 +2767,7 @@ class BedwarsStats(commands.Cog):
     async def luckyblocks_doubles_fkdr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -2789,7 +2787,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -2803,7 +2801,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -2853,7 +2851,7 @@ class BedwarsStats(commands.Cog):
     async def luckyblocks_fours_fkdr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -2873,7 +2871,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -2887,7 +2885,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -2942,7 +2940,7 @@ class BedwarsStats(commands.Cog):
     async def solo_rush_fkdr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -2962,7 +2960,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -2976,7 +2974,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -3026,7 +3024,7 @@ class BedwarsStats(commands.Cog):
     async def doubles_rush_fkdr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -3046,7 +3044,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -3060,7 +3058,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -3110,7 +3108,7 @@ class BedwarsStats(commands.Cog):
     async def fours_rush_fkdr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -3130,7 +3128,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -3144,7 +3142,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -3199,7 +3197,7 @@ class BedwarsStats(commands.Cog):
     async def ultimate_solo_fkdr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -3219,7 +3217,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -3233,7 +3231,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -3283,7 +3281,7 @@ class BedwarsStats(commands.Cog):
     async def ultimate_doubles_fkdr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -3303,7 +3301,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -3317,7 +3315,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -3367,7 +3365,7 @@ class BedwarsStats(commands.Cog):
     async def ultimate_fours_fkdr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -3387,7 +3385,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -3401,7 +3399,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -3456,7 +3454,7 @@ class BedwarsStats(commands.Cog):
     async def voidless_doubles_fkdr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -3476,7 +3474,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -3490,7 +3488,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -3540,7 +3538,7 @@ class BedwarsStats(commands.Cog):
     async def voidless_fours_fkdr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -3560,7 +3558,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -3574,7 +3572,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -3624,7 +3622,7 @@ class BedwarsStats(commands.Cog):
     async def bblr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -3644,7 +3642,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -3658,7 +3656,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -3714,7 +3712,7 @@ class BedwarsStats(commands.Cog):
     async def solo_bblr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -3734,7 +3732,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -3748,7 +3746,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -3798,7 +3796,7 @@ class BedwarsStats(commands.Cog):
     async def doubles_bblr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -3818,7 +3816,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -3832,7 +3830,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -3882,7 +3880,7 @@ class BedwarsStats(commands.Cog):
     async def threes_bblr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -3902,7 +3900,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -3916,7 +3914,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -3966,7 +3964,7 @@ class BedwarsStats(commands.Cog):
     async def fours_bblr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -3986,7 +3984,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -4000,7 +3998,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -4050,7 +4048,7 @@ class BedwarsStats(commands.Cog):
     async def four_v_four_bblr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -4070,7 +4068,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -4084,7 +4082,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -4137,7 +4135,7 @@ class BedwarsStats(commands.Cog):
     async def armed_doubles_bblr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -4157,7 +4155,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -4171,7 +4169,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -4220,7 +4218,7 @@ class BedwarsStats(commands.Cog):
     async def armed_fours_bblr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -4240,7 +4238,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -4254,7 +4252,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -4304,7 +4302,7 @@ class BedwarsStats(commands.Cog):
     async def castle_bblr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -4324,7 +4322,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -4338,7 +4336,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -4393,7 +4391,7 @@ class BedwarsStats(commands.Cog):
     async def luckyblocks_doubles_bblr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -4413,7 +4411,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -4427,7 +4425,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -4477,7 +4475,7 @@ class BedwarsStats(commands.Cog):
     async def luckyblocks_fours_bblr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -4497,7 +4495,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -4511,7 +4509,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -4566,7 +4564,7 @@ class BedwarsStats(commands.Cog):
     async def solo_rush_bblr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -4586,7 +4584,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -4600,7 +4598,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -4650,7 +4648,7 @@ class BedwarsStats(commands.Cog):
     async def doubles_rush_bblr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -4670,7 +4668,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -4684,7 +4682,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -4734,7 +4732,7 @@ class BedwarsStats(commands.Cog):
     async def fours_rush_bblr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -4754,7 +4752,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -4768,7 +4766,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -4823,7 +4821,7 @@ class BedwarsStats(commands.Cog):
     async def ultimate_solo_bblr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -4843,7 +4841,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -4857,7 +4855,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -4907,7 +4905,7 @@ class BedwarsStats(commands.Cog):
     async def ultimate_doubles_bblr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -4927,7 +4925,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -4941,7 +4939,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -4991,7 +4989,7 @@ class BedwarsStats(commands.Cog):
     async def ultimate_fours_bblr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -5011,7 +5009,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -5025,7 +5023,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -5080,7 +5078,7 @@ class BedwarsStats(commands.Cog):
     async def voidless_doubles_bblr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -5100,7 +5098,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -5114,7 +5112,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -5164,7 +5162,7 @@ class BedwarsStats(commands.Cog):
     async def voidless_fours_bblr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -5184,7 +5182,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -5198,7 +5196,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -5248,7 +5246,7 @@ class BedwarsStats(commands.Cog):
     async def wlr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -5268,7 +5266,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -5282,7 +5280,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -5338,7 +5336,7 @@ class BedwarsStats(commands.Cog):
     async def solo_wlr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -5358,7 +5356,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -5372,7 +5370,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -5422,7 +5420,7 @@ class BedwarsStats(commands.Cog):
     async def doubles_wlr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -5442,7 +5440,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -5456,7 +5454,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -5506,7 +5504,7 @@ class BedwarsStats(commands.Cog):
     async def threes_wlr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -5526,7 +5524,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -5540,7 +5538,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -5590,7 +5588,7 @@ class BedwarsStats(commands.Cog):
     async def fours_wlr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -5610,7 +5608,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -5624,7 +5622,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -5674,7 +5672,7 @@ class BedwarsStats(commands.Cog):
     async def four_v_four_wlr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -5694,7 +5692,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -5708,7 +5706,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -5761,7 +5759,7 @@ class BedwarsStats(commands.Cog):
     async def armed_doubles_wlr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -5781,7 +5779,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -5795,7 +5793,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -5844,7 +5842,7 @@ class BedwarsStats(commands.Cog):
     async def armed_fours_wlr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -5864,7 +5862,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -5878,7 +5876,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -5928,7 +5926,7 @@ class BedwarsStats(commands.Cog):
     async def castle_wlr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -5948,7 +5946,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -5962,7 +5960,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -6017,7 +6015,7 @@ class BedwarsStats(commands.Cog):
     async def luckyblocks_doubles_wlr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -6037,7 +6035,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -6051,7 +6049,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -6106,7 +6104,7 @@ class BedwarsStats(commands.Cog):
     async def solo_rush_wlr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -6126,7 +6124,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -6140,7 +6138,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -6190,7 +6188,7 @@ class BedwarsStats(commands.Cog):
     async def doubles_rush_wlr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -6210,7 +6208,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -6224,7 +6222,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -6274,7 +6272,7 @@ class BedwarsStats(commands.Cog):
     async def fours_rush_wlr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -6294,7 +6292,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -6308,7 +6306,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -6363,7 +6361,7 @@ class BedwarsStats(commands.Cog):
     async def ultimate_solo_wlr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -6383,7 +6381,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -6397,7 +6395,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -6447,7 +6445,7 @@ class BedwarsStats(commands.Cog):
     async def ultimate_doubles_wlr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -6467,7 +6465,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -6481,7 +6479,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -6531,7 +6529,7 @@ class BedwarsStats(commands.Cog):
     async def ultimate_fours_wlr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -6551,7 +6549,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -6565,7 +6563,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -6620,7 +6618,7 @@ class BedwarsStats(commands.Cog):
     async def voidless_doubles_wlr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -6640,7 +6638,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -6654,7 +6652,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -6704,7 +6702,7 @@ class BedwarsStats(commands.Cog):
     async def voidless_fours_wlr(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -6724,7 +6722,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -6738,7 +6736,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
@@ -6788,7 +6786,7 @@ class BedwarsStats(commands.Cog):
     async def winstreaks(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -6808,7 +6806,7 @@ class BedwarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -6822,7 +6820,7 @@ class BedwarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",

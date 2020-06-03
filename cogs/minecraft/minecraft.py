@@ -29,13 +29,12 @@ import humanfriendly
 import core.minecraft.request
 import sys
 import traceback
-from core.minecraft.verification.verification import Verification
+import core.minecraft.verification.verification
 
 class Minecraft(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.user_converter = commands.UserConverter()
-        self.verification = Verification()
 
     @commands.group(name = "minecraft", aliases = ["mc"], invoke_without_command = True)
     async def minecraft(self, ctx):
@@ -46,7 +45,7 @@ class Minecraft(commands.Cog):
     async def name_history(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -66,7 +65,7 @@ class Minecraft(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -105,7 +104,7 @@ class Minecraft(commands.Cog):
     async def uuid(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -125,7 +124,7 @@ class Minecraft(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -161,7 +160,7 @@ class Minecraft(commands.Cog):
                 description = f"Verifying you as {player_data['name']}..."
             )
             message = await ctx.send(embed = loading_embed)
-            await self.verification.verify(ctx.author.id, f"{ctx.author.name}#{ctx.author.discriminator}", player_data['uuid'])
+            await core.minecraft.verification.verification.verify(ctx.author.id, f"{ctx.author.name}#{ctx.author.discriminator}", player_data['uuid'])
             verified_embed = discord.Embed(
                 name = "Verified Minecraft IGN",
                 description = f"Verified your Minecraft account as \"{player_data['name']}\""
@@ -218,7 +217,7 @@ class Minecraft(commands.Cog):
             description = f"Verifying {target} as {player_data['name']}..."
         )
         message = await ctx.send(embed = loading_embed)
-        await self.verification.force_verify(target.id, player_data['uuid'])
+        await core.minecraft.verification.verification.force_verify(target.id, player_data['uuid'])
         verified_embed = discord.Embed(
             name = "Verified Minecraft IGN",
             description = f"Verified {target}\'s Minecraft account as \"{player_data['name']}\""
@@ -237,7 +236,7 @@ class Minecraft(commands.Cog):
                 description = f"Unverifying you..."
             )
             message = await ctx.send(embed = loading_embed)
-            unverified_data = await self.verification.unverify(ctx.author.id)
+            unverified_data = await core.minecraft.verification.verification.unverify(ctx.author.id)
             unverified_embed = discord.Embed(
                 name = "Unverified",
                 description = f"Unverified your Minecraft account \"{(await core.minecraft.request.get_profile_uuid((unverified_data[0]['minecraft_uuid'])))['name']}\"."
@@ -265,7 +264,7 @@ class Minecraft(commands.Cog):
                 description = f"Unverifying {target}\'s Minecraft account..."
             )
             message = await ctx.send(embed = loading_embed)
-            unverified_data = await self.verification.unverify(target.id)
+            unverified_data = await core.minecraft.verification.verification.unverify(target.id)
             unverified_embed = discord.Embed(
                 name = "Unverified",
                 description = f"Unverified {target}\'s Minecraft account \"{(await core.minecraft.request.get_profile_uuid((unverified_data[0]['minecraft_uuid'])))['name']}\"."

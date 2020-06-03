@@ -25,23 +25,21 @@ SOFTWARE.
 import core.static
 from discord.ext import commands
 import discord
-from core.minecraft.hypixel.player import Player
+import core.minecraft.hypixel.player
 import core.minecraft.hypixel.static
-from core.minecraft.verification.verification import Verification
+import core.minecraft.verification.verification
 
 class SkywarsStats(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.player = Player()
         self.user_converter = commands.UserConverter()
-        self.verification = Verification()
 
     @commands.group(name = "sw", invoke_without_command = True)
     @commands.max_concurrency(1, per = commands.BucketType.user)
     async def skywars(self, ctx, *args):
         if len(args):
             try:
-                player_data = await self.verification.parse_input(ctx, args[0])
+                player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
             except AttributeError:
                 member_not_verified = discord.Embed(
                     name = "Member not verified",
@@ -61,7 +59,7 @@ class SkywarsStats(commands.Cog):
                 return
         else: # If no arguments
             try:
-                player_data = await self.verification.database_lookup(ctx.author.id)
+                player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
             except AttributeError:
                 unverified_embed = discord.Embed(
                     name = "Not verified",
@@ -75,7 +73,7 @@ class SkywarsStats(commands.Cog):
         )
         message = await ctx.send(embed = loading_embed)
         try:
-            player_json = await self.player.get_player(player_data["minecraft_uuid"])
+            player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
         except NameError:
             nameerror_embed = discord.Embed(
                 name = "Invalid input",
