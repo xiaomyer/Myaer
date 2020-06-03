@@ -129,7 +129,7 @@ class HypixelStatic():
         elif rank and not formatted_rank:
             formatted_rank = ranks.get(rank, rank)
 
-        elif (monthly_package_rank and monthly_package_rank != "NONE") and not formatted_rank:
+        elif (monthly_package_rank and monthly_package_rank != "NONE") and not formatted_rank: # WHY DOES IT EXIST IF IT'S NONE HYPIXEL WHY
             formatted_rank = ranks.get(monthly_package_rank, monthly_package_rank)
 
         elif new_package_rank and not formatted_rank:
@@ -166,47 +166,47 @@ class HypixelStatic():
         star_rounded = star // 100 # // is floor division, basically math.floor(await self.get_star() / 100)
         star_rounded = star_rounded if star_rounded < 10 else 10 # if greater than 10, set to ten
         return {
-                    "prestige": prestiges[star_rounded], 
+                    "prestige": prestiges[star_rounded],
                     "prestige_color": prestige_colors[prestiges[star_rounded]]
         } # based on order of prestiges and prestige colors
 
     async def get_skywars_prestige_data(self, star):
         if star in range(0, 5):
             prestige = "Stone"
-            prestige_color = prestige_colors["Stone"]
+            prestige_color = prestige_colors[prestige]
         elif star in range(5, 10):
             prestige = "Iron"
-            prestige_color = prestige_colors["Iron"]
+            prestige_color = prestige_colors[prestige]
         elif star in range(10, 15):
             prestige = "Gold"
-            prestige_color = prestige_colors["Gold"]
+            prestige_color = prestige_colors[prestige]
         elif star in range(15, 20):
             prestige = "Diamond"
-            prestige_color = prestige_colors["Diamond"]
+            prestige_color = prestige_colors[prestige]
         elif star in range(20, 25):
             prestige = "Emerald"
-            prestige_color = prestige_colors["Emerald"]
+            prestige_color = prestige_colors[prestige]
         elif star in range(25, 30):
             prestige = "Sapphire"
-            prestige_color = prestige_colors["Sapphire"]
+            prestige_color = prestige_colors[prestige]
         elif star in range(30, 35):
             prestige = "Ruby"
-            prestige_color = prestige_colors["Ruby"]
+            prestige_color = prestige_colors[prestige]
         elif star in range(35, 40):
             prestige = "Crystal"
-            prestige_color = prestige_colors["Crystal"]
+            prestige_color = prestige_colors[prestige]
         elif star in range(40, 45):
             prestige = "Opal"
-            prestige_color = prestige_colors["Opal"]
+            prestige_color = prestige_colors[prestige]
         elif star in range(45, 50):
             prestige = "Amethyst"
-            prestige_color = prestige_colors["Amethyst"]
+            prestige_color = prestige_colors[prestige]
         elif star in range(50, 60):
             prestige = "Rainbow"
-            prestige_color = prestige_colors["Rainbow"]
+            prestige_color = prestige_colors[prestige]
         else:
             prestige = "Mystic"
-            prestige_color = prestige_colors["Rainbow"]
+            prestige_color = prestige_colors["Rainbow"] # Mystic and Rainbow use the same color
 
         prestige_data = {
             "prestige" : prestige,
