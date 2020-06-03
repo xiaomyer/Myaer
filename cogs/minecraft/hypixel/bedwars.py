@@ -98,7 +98,7 @@ class BedwarsStats(commands.Cog):
         )
         player_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
-            value = f"{player_json['bedwars']['winstreak']}",
+            value = f"{(player_json['bedwars']['winstreak']):,d}",
             inline = False
         )
         player_stats_embed.add_field(
@@ -107,7 +107,7 @@ class BedwarsStats(commands.Cog):
         )
         player_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
-            value = f"{player_json['bedwars']['final_deaths']}"
+            value = f"{(player_json['bedwars']['final_deaths']):,d}"
         )
         player_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} FKDR**__",
@@ -115,11 +115,11 @@ class BedwarsStats(commands.Cog):
         )
         player_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
-            value = f"{player_json['bedwars']['beds_broken']}"
+            value = f"{(player_json['bedwars']['beds_broken']):,d}"
         )
         player_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
-            value = f"{player_json['bedwars']['beds_lost']}"
+            value = f"{(player_json['bedwars']['beds_lost']):,d}"
         )
         player_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} BBLR**__",
@@ -127,11 +127,11 @@ class BedwarsStats(commands.Cog):
         )
         player_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Wins**__",
-            value = f"{player_json['bedwars']['wins']}"
+            value = f"{(player_json['bedwars']['wins']):,d}"
         )
         player_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Losses**__",
-            value = f"{player_json['bedwars']['losses']}"
+            value = f"{(player_json['bedwars']['losses']):,d}"
         )
         player_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} WLR**__",
@@ -199,7 +199,7 @@ class BedwarsStats(commands.Cog):
         )
         player_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
-            value = f"{player_json['bedwars']['winstreak']}",
+            value = f"{(player_json['bedwars']['winstreak']):,d}",
             inline = False
         )
         player_stats_embed.add_field(
@@ -208,7 +208,7 @@ class BedwarsStats(commands.Cog):
         )
         player_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
-            value = f"{player_json['bedwars']['final_deaths']}"
+            value = f"{(player_json['bedwars']['final_deaths']):,d}"
         )
         player_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} FKDR**__",
@@ -216,11 +216,11 @@ class BedwarsStats(commands.Cog):
         )
         player_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
-            value = f"{player_json['bedwars']['beds_broken']}"
+            value = f"{(player_json['bedwars']['beds_broken']):,d}"
         )
         player_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
-            value = f"{player_json['bedwars']['beds_lost']}"
+            value = f"{(player_json['bedwars']['beds_lost']):,d}"
         )
         player_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} BBLR**__",
@@ -228,11 +228,11 @@ class BedwarsStats(commands.Cog):
         )
         player_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Wins**__",
-            value = f"{player_json['bedwars']['wins']}"
+            value = f"{(player_json['bedwars']['wins']):,d}"
         )
         player_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Losses**__",
-            value = f"{player_json['bedwars']['losses']}"
+            value = f"{(player_json['bedwars']['losses']):,d}"
         )
         player_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} WLR**__",
@@ -295,16 +295,16 @@ class BedwarsStats(commands.Cog):
         )
         player_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
-            value = f"{player_json['bedwars']['solo']['winstreak']}",
+            value = f"{(player_json['bedwars']['solo']['winstreak']):,d}",
             inline = False
         )
         player_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
-            value = f"{player_json['bedwars']['solo']['final_kills']}"
+            value = f"{(player_json['bedwars']['solo']['final_kills']):,d}"
         )
         player_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
-            value = f"{player_json['bedwars']['solo']['final_deaths']}"
+            value = f"{(player_json['bedwars']['solo']['final_deaths']):,d}"
         )
         player_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} FKDR**__",
@@ -312,11 +312,11 @@ class BedwarsStats(commands.Cog):
         )
         player_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
-            value = f"{player_json['bedwars']['solo']['beds_broken']}"
+            value = f"{(player_json['bedwars']['solo']['beds_broken']):,d}"
         )
         player_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
-            value = f"{player_json['bedwars']['solo']['beds_lost']}"
+            value = f"{(player_json['bedwars']['solo']['beds_lost']):,d}"
         )
         player_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} BBLR**__",
@@ -324,11 +324,11 @@ class BedwarsStats(commands.Cog):
         )
         player_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Wins**__",
-            value = f"{player_json['bedwars']['solo']['wins']}"
+            value = f"{(player_json['bedwars']['solo']['wins']):,d}"
         )
         player_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Losses**__",
-            value = f"{player_json['bedwars']['solo']['losses']}"
+            value = f"{(player_json['bedwars']['solo']['losses']):,d}"
         )
         player_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} WLR**__",
@@ -391,16 +391,16 @@ class BedwarsStats(commands.Cog):
         )
         player_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
-            value = f"{player_json['bedwars']['doubles']['winstreak']}",
+            value = f"{(player_json['bedwars']['doubles']['winstreak']):,d}",
             inline = False
         )
         player_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
-            value = f"{player_json['bedwars']['doubles']['final_kills']}"
+            value = f"{(player_json['bedwars']['doubles']['final_kills']):,d}"
         )
         player_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
-            value = f"{player_json['bedwars']['doubles']['final_deaths']}"
+            value = f"{(player_json['bedwars']['doubles']['final_deaths']):,d}"
         )
         player_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} FKDR**__",
@@ -408,11 +408,11 @@ class BedwarsStats(commands.Cog):
         )
         player_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
-            value = f"{player_json['bedwars']['doubles']['beds_broken']}"
+            value = f"{(player_json['bedwars']['doubles']['beds_broken']):,d}"
         )
         player_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
-            value = f"{player_json['bedwars']['doubles']['beds_lost']}"
+            value = f"{(player_json['bedwars']['doubles']['beds_lost']):,d}"
         )
         player_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} BBLR**__",
@@ -420,11 +420,11 @@ class BedwarsStats(commands.Cog):
         )
         player_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Wins**__",
-            value = f"{player_json['bedwars']['doubles']['wins']}"
+            value = f"{(player_json['bedwars']['doubles']['wins']):,d}"
         )
         player_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Losses**__",
-            value = f"{player_json['bedwars']['doubles']['losses']}"
+            value = f"{(player_json['bedwars']['doubles']['losses']):,d}"
         )
         player_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} WLR**__",
@@ -487,16 +487,16 @@ class BedwarsStats(commands.Cog):
         )
         player_threes_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
-            value = f"{player_json['bedwars']['threes']['winstreak']}",
+            value = f"{(player_json['bedwars']['threes']['winstreak']):,d}",
             inline = False
         )
         player_threes_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
-            value = f"{player_json['bedwars']['threes']['final_kills']}"
+            value = f"{(player_json['bedwars']['threes']['final_kills']):,d}"
         )
         player_threes_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
-            value = f"{player_json['bedwars']['threes']['final_deaths']}"
+            value = f"{(player_json['bedwars']['threes']['final_deaths']):,d}"
         )
         player_threes_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} FKDR**__",
@@ -504,11 +504,11 @@ class BedwarsStats(commands.Cog):
         )
         player_threes_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
-            value = f"{player_json['bedwars']['threes']['beds_broken']}"
+            value = f"{(player_json['bedwars']['threes']['beds_broken']):,d}"
         )
         player_threes_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
-            value = f"{player_json['bedwars']['threes']['beds_lost']}"
+            value = f"{(player_json['bedwars']['threes']['beds_lost']):,d}"
         )
         player_threes_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} BBLR**__",
@@ -516,11 +516,11 @@ class BedwarsStats(commands.Cog):
         )
         player_threes_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Wins**__",
-            value = f"{player_json['bedwars']['threes']['wins']}"
+            value = f"{(player_json['bedwars']['threes']['wins']):,d}"
         )
         player_threes_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Losses**__",
-            value = f"{player_json['bedwars']['threes']['losses']}"
+            value = f"{(player_json['bedwars']['threes']['losses']):,d}"
         )
         player_threes_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} WLR**__",
@@ -583,16 +583,16 @@ class BedwarsStats(commands.Cog):
         )
         player_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
-            value = f"{player_json['bedwars']['fours']['winstreak']}",
+            value = f"{(player_json['bedwars']['fours']['winstreak']):,d}",
             inline = False
         )
         player_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
-            value = f"{player_json['bedwars']['fours']['final_kills']}"
+            value = f"{(player_json['bedwars']['fours']['final_kills']):,d}"
         )
         player_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
-            value = f"{player_json['bedwars']['fours']['final_deaths']}"
+            value = f"{(player_json['bedwars']['fours']['final_deaths']):,d}"
         )
         player_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} FKDR**__",
@@ -600,11 +600,11 @@ class BedwarsStats(commands.Cog):
         )
         player_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
-            value = f"{player_json['bedwars']['fours']['beds_broken']}"
+            value = f"{(player_json['bedwars']['fours']['beds_broken']):,d}"
         )
         player_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
-            value = f"{player_json['bedwars']['fours']['beds_lost']}"
+            value = f"{(player_json['bedwars']['fours']['beds_lost']):,d}"
         )
         player_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} BBLR**__",
@@ -612,11 +612,11 @@ class BedwarsStats(commands.Cog):
         )
         player_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Wins**__",
-            value = f"{player_json['bedwars']['fours']['wins']}"
+            value = f"{(player_json['bedwars']['fours']['wins']):,d}"
         )
         player_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Losses**__",
-            value = f"{player_json['bedwars']['fours']['losses']}"
+            value = f"{(player_json['bedwars']['fours']['losses']):,d}"
         )
         player_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} WLR**__",
@@ -679,16 +679,16 @@ class BedwarsStats(commands.Cog):
         )
         player_four_v_four_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
-            value = f"{player_json['bedwars']['four_v_four']['winstreak']}",
+            value = f"{(player_json['bedwars']['four_v_four']['winstreak']):,d}",
             inline = False
         )
         player_four_v_four_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
-            value = f"{player_json['bedwars']['four_v_four']['final_kills']}"
+            value = f"{(player_json['bedwars']['four_v_four']['final_kills']):,d}"
         )
         player_four_v_four_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
-            value = f"{player_json['bedwars']['four_v_four']['final_deaths']}"
+            value = f"{(player_json['bedwars']['four_v_four']['final_deaths']):,d}"
         )
         player_four_v_four_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} FKDR**__",
@@ -696,11 +696,11 @@ class BedwarsStats(commands.Cog):
         )
         player_four_v_four_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
-            value = f"{player_json['bedwars']['four_v_four']['beds_broken']}"
+            value = f"{(player_json['bedwars']['four_v_four']['beds_broken']):,d}"
         )
         player_four_v_four_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
-            value = f"{player_json['bedwars']['four_v_four']['beds_lost']}"
+            value = f"{(player_json['bedwars']['four_v_four']['beds_lost']):,d}"
         )
         player_four_v_four_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} BBLR**__",
@@ -708,11 +708,11 @@ class BedwarsStats(commands.Cog):
         )
         player_four_v_four_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Wins**__",
-            value = f"{player_json['bedwars']['four_v_four']['wins']}"
+            value = f"{(player_json['bedwars']['four_v_four']['wins']):,d}"
         )
         player_four_v_four_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Losses**__",
-            value = f"{player_json['bedwars']['four_v_four']['losses']}"
+            value = f"{(player_json['bedwars']['four_v_four']['losses']):,d}"
         )
         player_four_v_four_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} WLR**__",
@@ -781,16 +781,16 @@ class BedwarsStats(commands.Cog):
         )
         player_armed_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
-            value = f"{player_json['bedwars']['dreams']['armed']['doubles']['winstreak']}",
+            value = f"{(player_json['bedwars']['dreams']['armed']['doubles']['winstreak']):,d}",
             inline = False
         )
         player_armed_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
-            value = f"{player_json['bedwars']['dreams']['armed']['doubles']['final_kills']}"
+            value = f"{(player_json['bedwars']['dreams']['armed']['doubles']['final_kills']):,d}"
         )
         player_armed_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
-            value = f"{player_json['bedwars']['dreams']['armed']['doubles']['final_deaths']}"
+            value = f"{(player_json['bedwars']['dreams']['armed']['doubles']['final_deaths']):,d}"
         )
         player_armed_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} FKDR**__",
@@ -798,11 +798,11 @@ class BedwarsStats(commands.Cog):
         )
         player_armed_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
-            value = f"{player_json['bedwars']['dreams']['armed']['doubles']['beds_broken']}"
+            value = f"{(player_json['bedwars']['dreams']['armed']['doubles']['beds_broken']):,d}"
         )
         player_armed_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
-            value = f"{player_json['bedwars']['dreams']['armed']['doubles']['beds_lost']}"
+            value = f"{(player_json['bedwars']['dreams']['armed']['doubles']['beds_lost']):,d}"
         )
         player_armed_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} BBLR**__",
@@ -810,11 +810,11 @@ class BedwarsStats(commands.Cog):
         )
         player_armed_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Wins**__",
-            value = f"{player_json['bedwars']['dreams']['armed']['doubles']['wins']}"
+            value = f"{(player_json['bedwars']['dreams']['armed']['doubles']['wins']):,d}"
         )
         player_armed_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Losses**__",
-            value = f"{player_json['bedwars']['dreams']['armed']['doubles']['losses']}"
+            value = f"{(player_json['bedwars']['dreams']['armed']['doubles']['losses']):,d}"
         )
         player_armed_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} WLR**__",
@@ -877,16 +877,16 @@ class BedwarsStats(commands.Cog):
         )
         player_armed_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
-            value = f"{player_json['bedwars']['dreams']['armed']['fours']['winstreak']}",
+            value = f"{(player_json['bedwars']['dreams']['armed']['fours']['winstreak']):,d}",
             inline = False
         )
         player_armed_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
-            value = f"{player_json['bedwars']['dreams']['armed']['fours']['final_kills']}"
+            value = f"{(player_json['bedwars']['dreams']['armed']['fours']['final_kills']):,d}"
         )
         player_armed_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
-            value = f"{player_json['bedwars']['dreams']['armed']['fours']['final_deaths']}"
+            value = f"{(player_json['bedwars']['dreams']['armed']['fours']['final_deaths']):,d}"
         )
         player_armed_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} FKDR**__",
@@ -894,11 +894,11 @@ class BedwarsStats(commands.Cog):
         )
         player_armed_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
-            value = f"{player_json['bedwars']['dreams']['armed']['fours']['beds_broken']}"
+            value = f"{(player_json['bedwars']['dreams']['armed']['fours']['beds_broken']):,d}"
         )
         player_armed_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
-            value = f"{player_json['bedwars']['dreams']['armed']['fours']['beds_lost']}"
+            value = f"{(player_json['bedwars']['dreams']['armed']['fours']['beds_lost']):,d}"
         )
         player_armed_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} BBLR**__",
@@ -906,11 +906,11 @@ class BedwarsStats(commands.Cog):
         )
         player_armed_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Wins**__",
-            value = f"{player_json['bedwars']['dreams']['armed']['fours']['wins']}"
+            value = f"{(player_json['bedwars']['dreams']['armed']['fours']['wins']):,d}"
         )
         player_armed_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Losses**__",
-            value = f"{player_json['bedwars']['dreams']['armed']['fours']['losses']}"
+            value = f"{(player_json['bedwars']['dreams']['armed']['fours']['losses']):,d}"
         )
         player_armed_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} WLR**__",
@@ -974,16 +974,16 @@ class BedwarsStats(commands.Cog):
         )
         player_castle_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
-            value = f"{player_json['bedwars']['dreams']['castle']['winstreak']}",
+            value = f"{(player_json['bedwars']['dreams']['castle']['winstreak']):,d}",
             inline = False
         )
         player_castle_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
-            value = f"{player_json['bedwars']['dreams']['castle']['final_kills']}"
+            value = f"{(player_json['bedwars']['dreams']['castle']['final_kills']):,d}"
         )
         player_castle_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
-            value = f"{player_json['bedwars']['dreams']['castle']['final_deaths']}"
+            value = f"{(player_json['bedwars']['dreams']['castle']['final_deaths']):,d}"
         )
         player_castle_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} FKDR**__",
@@ -991,11 +991,11 @@ class BedwarsStats(commands.Cog):
         )
         player_castle_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
-            value = f"{player_json['bedwars']['dreams']['castle']['beds_broken']}"
+            value = f"{(player_json['bedwars']['dreams']['castle']['beds_broken']):,d}"
         )
         player_castle_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
-            value = f"{player_json['bedwars']['dreams']['castle']['beds_lost']}"
+            value = f"{(player_json['bedwars']['dreams']['castle']['beds_lost']):,d}"
         )
         player_castle_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} BBLR**__",
@@ -1003,11 +1003,11 @@ class BedwarsStats(commands.Cog):
         )
         player_castle_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Wins**__",
-            value = f"{player_json['bedwars']['dreams']['castle']['wins']}"
+            value = f"{(player_json['bedwars']['dreams']['castle']['wins']):,d}"
         )
         player_castle_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Losses**__",
-            value = f"{player_json['bedwars']['dreams']['castle']['losses']}"
+            value = f"{(player_json['bedwars']['dreams']['castle']['losses']):,d}"
         )
         player_castle_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} WLR**__",
@@ -1076,16 +1076,16 @@ class BedwarsStats(commands.Cog):
         )
         player_luckyblocks_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
-            value = f"{player_json['bedwars']['dreams']['lucky_blocks']['doubles']['winstreak']}",
+            value = f"{(player_json['bedwars']['dreams']['lucky_blocks']['doubles']['winstreak']):,d}",
             inline = False
         )
         player_luckyblocks_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
-            value = f"{player_json['bedwars']['dreams']['lucky_blocks']['doubles']['final_kills']}"
+            value = f"{(player_json['bedwars']['dreams']['lucky_blocks']['doubles']['final_kills']):,d}"
         )
         player_luckyblocks_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
-            value = f"{player_json['bedwars']['dreams']['lucky_blocks']['doubles']['final_deaths']}"
+            value = f"{(player_json['bedwars']['dreams']['lucky_blocks']['doubles']['final_deaths']):,d}"
         )
         player_luckyblocks_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} FKDR**__",
@@ -1093,11 +1093,11 @@ class BedwarsStats(commands.Cog):
         )
         player_luckyblocks_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
-            value = f"{player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_broken']}"
+            value = f"{(player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_broken']):,d}"
         )
         player_luckyblocks_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
-            value = f"{player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_lost']}"
+            value = f"{(player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_lost']):,d}"
         )
         player_luckyblocks_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} BBLR**__",
@@ -1105,11 +1105,11 @@ class BedwarsStats(commands.Cog):
         )
         player_luckyblocks_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Wins**__",
-            value = f"{player_json['bedwars']['dreams']['lucky_blocks']['doubles']['wins']}"
+            value = f"{(player_json['bedwars']['dreams']['lucky_blocks']['doubles']['wins']):,d}"
         )
         player_luckyblocks_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Losses**__",
-            value = f"{player_json['bedwars']['dreams']['lucky_blocks']['doubles']['losses']}"
+            value = f"{(player_json['bedwars']['dreams']['lucky_blocks']['doubles']['losses']):,d}"
         )
         player_luckyblocks_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} WLR**__",
@@ -1173,16 +1173,16 @@ class BedwarsStats(commands.Cog):
         )
         player_luckyblocks_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
-            value = f"{player_json['bedwars']['dreams']['lucky_blocks']['fours']['winstreak']}",
+            value = f"{(player_json['bedwars']['dreams']['lucky_blocks']['fours']['winstreak']):,d}",
             inline = False
         )
         player_luckyblocks_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
-            value = f"{player_json['bedwars']['dreams']['lucky_blocks']['fours']['final_kills']}"
+            value = f"{(player_json['bedwars']['dreams']['lucky_blocks']['fours']['final_kills']):,d}"
         )
         player_luckyblocks_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
-            value = f"{player_json['bedwars']['dreams']['lucky_blocks']['fours']['final_deaths']}"
+            value = f"{(player_json['bedwars']['dreams']['lucky_blocks']['fours']['final_deaths']):,d}"
         )
         player_luckyblocks_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} FKDR**__",
@@ -1190,11 +1190,11 @@ class BedwarsStats(commands.Cog):
         )
         player_luckyblocks_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
-            value = f"{player_json['bedwars']['dreams']['lucky_blocks']['fours']['beds_broken']}"
+            value = f"{(player_json['bedwars']['dreams']['lucky_blocks']['fours']['beds_broken']):,d}"
         )
         player_luckyblocks_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
-            value = f"{player_json['bedwars']['dreams']['lucky_blocks']['fours']['beds_lost']}"
+            value = f"{(player_json['bedwars']['dreams']['lucky_blocks']['fours']['beds_lost']):,d}"
         )
         player_luckyblocks_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} BBLR**__",
@@ -1202,11 +1202,11 @@ class BedwarsStats(commands.Cog):
         )
         player_luckyblocks_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Wins**__",
-            value = f"{player_json['bedwars']['dreams']['lucky_blocks']['fours']['wins']}"
+            value = f"{(player_json['bedwars']['dreams']['lucky_blocks']['fours']['wins']):,d}"
         )
         player_luckyblocks_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Losses**__",
-            value = f"{player_json['bedwars']['dreams']['lucky_blocks']['fours']['losses']}"
+            value = f"{(player_json['bedwars']['dreams']['lucky_blocks']['fours']['losses']):,d}"
         )
         player_luckyblocks_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} WLR**__",
@@ -1274,16 +1274,16 @@ class BedwarsStats(commands.Cog):
         )
         player_rush_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['solo']['winstreak']}",
+            value = f"{(player_json['bedwars']['dreams']['rush']['solo']['winstreak']):,d}",
             inline = False
         )
         player_rush_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['solo']['final_kills']}"
+            value = f"{(player_json['bedwars']['dreams']['rush']['solo']['final_kills']):,d}"
         )
         player_rush_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['solo']['final_deaths']}"
+            value = f"{(player_json['bedwars']['dreams']['rush']['solo']['final_deaths']):,d}"
         )
         player_rush_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} FKDR**__",
@@ -1291,11 +1291,11 @@ class BedwarsStats(commands.Cog):
         )
         player_rush_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['solo']['beds_broken']}"
+            value = f"{(player_json['bedwars']['dreams']['rush']['solo']['beds_broken']):,d}"
         )
         player_rush_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['solo']['beds_lost']}"
+            value = f"{(player_json['bedwars']['dreams']['rush']['solo']['beds_lost']):,d}"
         )
         player_rush_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} BBLR**__",
@@ -1303,11 +1303,11 @@ class BedwarsStats(commands.Cog):
         )
         player_rush_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Wins**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['solo']['wins']}"
+            value = f"{(player_json['bedwars']['dreams']['rush']['solo']['wins']):,d}"
         )
         player_rush_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Losses**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['solo']['losses']}"
+            value = f"{(player_json['bedwars']['dreams']['rush']['solo']['losses']):,d}"
         )
         player_rush_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} WLR**__",
@@ -1370,16 +1370,16 @@ class BedwarsStats(commands.Cog):
         )
         player_rush_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['doubles']['winstreak']}",
+            value = f"{(player_json['bedwars']['dreams']['rush']['doubles']['winstreak']):,d}",
             inline = False
         )
         player_rush_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['doubles']['final_kills']}"
+            value = f"{(player_json['bedwars']['dreams']['rush']['doubles']['final_kills']):,d}"
         )
         player_rush_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['doubles']['final_deaths']}"
+            value = f"{(player_json['bedwars']['dreams']['rush']['doubles']['final_deaths']):,d}"
         )
         player_rush_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} FKDR**__",
@@ -1387,11 +1387,11 @@ class BedwarsStats(commands.Cog):
         )
         player_rush_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['doubles']['beds_broken']}"
+            value = f"{(player_json['bedwars']['dreams']['rush']['doubles']['beds_broken']):,d}"
         )
         player_rush_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['doubles']['beds_lost']}"
+            value = f"{(player_json['bedwars']['dreams']['rush']['doubles']['beds_lost']):,d}"
         )
         player_rush_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} BBLR**__",
@@ -1399,11 +1399,11 @@ class BedwarsStats(commands.Cog):
         )
         player_rush_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Wins**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['doubles']['wins']}"
+            value = f"{(player_json['bedwars']['dreams']['rush']['doubles']['wins']):,d}"
         )
         player_rush_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Losses**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['doubles']['losses']}"
+            value = f"{(player_json['bedwars']['dreams']['rush']['doubles']['losses']):,d}"
         )
         player_rush_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} WLR**__",
@@ -1466,16 +1466,16 @@ class BedwarsStats(commands.Cog):
         )
         player_rush_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['fours']['winstreak']}",
+            value = f"{(player_json['bedwars']['dreams']['rush']['fours']['winstreak']):,d}",
             inline = False
         )
         player_rush_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['fours']['final_kills']}"
+            value = f"{(player_json['bedwars']['dreams']['rush']['fours']['final_kills']):,d}"
         )
         player_rush_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['fours']['final_deaths']}"
+            value = f"{(player_json['bedwars']['dreams']['rush']['fours']['final_deaths']):,d}"
         )
         player_rush_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} FKDR**__",
@@ -1483,11 +1483,11 @@ class BedwarsStats(commands.Cog):
         )
         player_rush_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['fours']['beds_broken']}"
+            value = f"{(player_json['bedwars']['dreams']['rush']['fours']['beds_broken']):,d}"
         )
         player_rush_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['fours']['beds_lost']}"
+            value = f"{(player_json['bedwars']['dreams']['rush']['fours']['beds_lost']):,d}"
         )
         player_rush_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} BBLR**__",
@@ -1495,11 +1495,11 @@ class BedwarsStats(commands.Cog):
         )
         player_rush_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Wins**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['fours']['wins']}"
+            value = f"{(player_json['bedwars']['dreams']['rush']['fours']['wins']):,d}"
         )
         player_rush_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Losses**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['fours']['losses']}"
+            value = f"{(player_json['bedwars']['dreams']['rush']['fours']['losses']):,d}"
         )
         player_rush_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} WLR**__",
@@ -1568,16 +1568,16 @@ class BedwarsStats(commands.Cog):
         )
         player_ultimate_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
-            value = f"{player_json['bedwars']['dreams']['ultimate']['solo']['winstreak']}",
+            value = f"{(player_json['bedwars']['dreams']['ultimate']['solo']['winstreak']):,d}",
             inline = False
         )
         player_ultimate_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
-            value = f"{player_json['bedwars']['dreams']['ultimate']['solo']['final_kills']}"
+            value = f"{(player_json['bedwars']['dreams']['ultimate']['solo']['final_kills']):,d}"
         )
         player_ultimate_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
-            value = f"{player_json['bedwars']['dreams']['ultimate']['solo']['final_deaths']}"
+            value = f"{(player_json['bedwars']['dreams']['ultimate']['solo']['final_deaths']):,d}"
         )
         player_ultimate_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} FKDR**__",
@@ -1585,11 +1585,11 @@ class BedwarsStats(commands.Cog):
         )
         player_ultimate_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
-            value = f"{player_json['bedwars']['dreams']['ultimate']['solo']['beds_broken']}"
+            value = f"{(player_json['bedwars']['dreams']['ultimate']['solo']['beds_broken']):,d}"
         )
         player_ultimate_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
-            value = f"{player_json['bedwars']['dreams']['ultimate']['solo']['beds_lost']}"
+            value = f"{(player_json['bedwars']['dreams']['ultimate']['solo']['beds_lost']):,d}"
         )
         player_ultimate_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} BBLR**__",
@@ -1597,11 +1597,11 @@ class BedwarsStats(commands.Cog):
         )
         player_ultimate_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Wins**__",
-            value = f"{player_json['bedwars']['dreams']['ultimate']['solo']['wins']}"
+            value = f"{(player_json['bedwars']['dreams']['ultimate']['solo']['wins']):,d}"
         )
         player_ultimate_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Losses**__",
-            value = f"{player_json['bedwars']['dreams']['ultimate']['solo']['losses']}"
+            value = f"{(player_json['bedwars']['dreams']['ultimate']['solo']['losses']):,d}"
         )
         player_ultimate_solo_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} WLR**__",
@@ -1665,16 +1665,16 @@ class BedwarsStats(commands.Cog):
         )
         player_ultimate_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
-            value = f"{player_json['bedwars']['dreams']['ultimate']['doubles']['winstreak']}",
+            value = f"{(player_json['bedwars']['dreams']['ultimate']['doubles']['winstreak']):,d}",
             inline = False
         )
         player_ultimate_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
-            value = f"{player_json['bedwars']['dreams']['ultimate']['doubles']['final_kills']}"
+            value = f"{(player_json['bedwars']['dreams']['ultimate']['doubles']['final_kills']):,d}"
         )
         player_ultimate_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
-            value = f"{player_json['bedwars']['dreams']['ultimate']['doubles']['final_deaths']}"
+            value = f"{(player_json['bedwars']['dreams']['ultimate']['doubles']['final_deaths']):,d}"
         )
         player_ultimate_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} FKDR**__",
@@ -1682,11 +1682,11 @@ class BedwarsStats(commands.Cog):
         )
         player_ultimate_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
-            value = f"{player_json['bedwars']['dreams']['ultimate']['doubles']['beds_broken']}"
+            value = f"{(player_json['bedwars']['dreams']['ultimate']['doubles']['beds_broken']):,d}"
         )
         player_ultimate_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
-            value = f"{player_json['bedwars']['dreams']['ultimate']['doubles']['beds_lost']}"
+            value = f"{(player_json['bedwars']['dreams']['ultimate']['doubles']['beds_lost']):,d}"
         )
         player_ultimate_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} BBLR**__",
@@ -1694,11 +1694,11 @@ class BedwarsStats(commands.Cog):
         )
         player_ultimate_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Wins**__",
-            value = f"{player_json['bedwars']['dreams']['ultimate']['doubles']['wins']}"
+            value = f"{(player_json['bedwars']['dreams']['ultimate']['doubles']['wins']):,d}"
         )
         player_ultimate_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Losses**__",
-            value = f"{player_json['bedwars']['dreams']['ultimate']['doubles']['losses']}"
+            value = f"{(player_json['bedwars']['dreams']['ultimate']['doubles']['losses']):,d}"
         )
         player_ultimate_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} WLR**__",
@@ -1762,16 +1762,16 @@ class BedwarsStats(commands.Cog):
         )
         player_ultimate_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
-            value = f"{player_json['bedwars']['dreams']['ultimate']['fours']['winstreak']}",
+            value = f"{(player_json['bedwars']['dreams']['ultimate']['fours']['winstreak']):,d}",
             inline = False
         )
         player_ultimate_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
-            value = f"{player_json['bedwars']['dreams']['ultimate']['fours']['final_kills']}"
+            value = f"{(player_json['bedwars']['dreams']['ultimate']['fours']['final_kills']):,d}"
         )
         player_ultimate_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
-            value = f"{player_json['bedwars']['dreams']['ultimate']['fours']['final_deaths']}"
+            value = f"{(player_json['bedwars']['dreams']['ultimate']['fours']['final_deaths']):,d}"
         )
         player_ultimate_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} FKDR**__",
@@ -1779,11 +1779,11 @@ class BedwarsStats(commands.Cog):
         )
         player_ultimate_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
-            value = f"{player_json['bedwars']['dreams']['ultimate']['fours']['beds_broken']}"
+            value = f"{(player_json['bedwars']['dreams']['ultimate']['fours']['beds_broken']):,d}"
         )
         player_ultimate_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
-            value = f"{player_json['bedwars']['dreams']['ultimate']['fours']['beds_lost']}"
+            value = f"{(player_json['bedwars']['dreams']['ultimate']['fours']['beds_lost']):,d}"
         )
         player_ultimate_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} BBLR**__",
@@ -1791,11 +1791,11 @@ class BedwarsStats(commands.Cog):
         )
         player_ultimate_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Wins**__",
-            value = f"{player_json['bedwars']['dreams']['ultimate']['fours']['wins']}"
+            value = f"{(player_json['bedwars']['dreams']['ultimate']['fours']['wins']):,d}"
         )
         player_ultimate_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Losses**__",
-            value = f"{player_json['bedwars']['dreams']['ultimate']['fours']['losses']}"
+            value = f"{(player_json['bedwars']['dreams']['ultimate']['fours']['losses']):,d}"
         )
         player_ultimate_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} WLR**__",
@@ -1864,16 +1864,16 @@ class BedwarsStats(commands.Cog):
         )
         player_voidless_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
-            value = f"{player_json['bedwars']['dreams']['voidless']['doubles']['winstreak']}",
+            value = f"{(player_json['bedwars']['dreams']['voidless']['doubles']['winstreak']):,d}",
             inline = False
         )
         player_voidless_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
-            value = f"{player_json['bedwars']['dreams']['voidless']['doubles']['final_kills']}"
+            value = f"{(player_json['bedwars']['dreams']['voidless']['doubles']['final_kills']):,d}"
         )
         player_voidless_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
-            value = f"{player_json['bedwars']['dreams']['voidless']['doubles']['final_deaths']}"
+            value = f"{(player_json['bedwars']['dreams']['voidless']['doubles']['final_deaths']):,d}"
         )
         player_voidless_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} FKDR**__",
@@ -1881,11 +1881,11 @@ class BedwarsStats(commands.Cog):
         )
         player_voidless_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
-            value = f"{player_json['bedwars']['dreams']['voidless']['doubles']['beds_broken']}"
+            value = f"{(player_json['bedwars']['dreams']['voidless']['doubles']['beds_broken']):,d}"
         )
         player_voidless_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
-            value = f"{player_json['bedwars']['dreams']['voidless']['doubles']['beds_lost']}"
+            value = f"{(player_json['bedwars']['dreams']['voidless']['doubles']['beds_lost']):,d}"
         )
         player_voidless_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} BBLR**__",
@@ -1893,11 +1893,11 @@ class BedwarsStats(commands.Cog):
         )
         player_voidless_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Wins**__",
-            value = f"{player_json['bedwars']['dreams']['voidless']['doubles']['wins']}"
+            value = f"{(player_json['bedwars']['dreams']['voidless']['doubles']['wins']):,d}"
         )
         player_voidless_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Losses**__",
-            value = f"{player_json['bedwars']['dreams']['voidless']['doubles']['losses']}"
+            value = f"{(player_json['bedwars']['dreams']['voidless']['doubles']['losses']):,d}"
         )
         player_voidless_doubles_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} WLR**__",
@@ -1961,16 +1961,16 @@ class BedwarsStats(commands.Cog):
         )
         player_voidless_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
-            value = f"{player_json['bedwars']['dreams']['voidless']['fours']['winstreak']}",
+            value = f"{(player_json['bedwars']['dreams']['voidless']['fours']['winstreak']):,d}",
             inline = False
         )
         player_voidless_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
-            value = f"{player_json['bedwars']['dreams']['voidless']['fours']['final_kills']}"
+            value = f"{(player_json['bedwars']['dreams']['voidless']['fours']['final_kills']):,d}"
         )
         player_voidless_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
-            value = f"{player_json['bedwars']['dreams']['voidless']['fours']['final_deaths']}"
+            value = f"{(player_json['bedwars']['dreams']['voidless']['fours']['final_deaths']):,d}"
         )
         player_voidless_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} FKDR**__",
@@ -1978,11 +1978,11 @@ class BedwarsStats(commands.Cog):
         )
         player_voidless_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
-            value = f"{player_json['bedwars']['dreams']['voidless']['fours']['beds_broken']}"
+            value = f"{(player_json['bedwars']['dreams']['voidless']['fours']['beds_broken']):,d}"
         )
         player_voidless_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
-            value = f"{player_json['bedwars']['dreams']['voidless']['fours']['beds_lost']}"
+            value = f"{(player_json['bedwars']['dreams']['voidless']['fours']['beds_lost']):,d}"
         )
         player_voidless_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} BBLR**__",
@@ -1990,11 +1990,11 @@ class BedwarsStats(commands.Cog):
         )
         player_voidless_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Wins**__",
-            value = f"{player_json['bedwars']['dreams']['voidless']['fours']['wins']}"
+            value = f"{(player_json['bedwars']['dreams']['voidless']['fours']['wins']):,d}"
         )
         player_voidless_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Losses**__",
-            value = f"{player_json['bedwars']['dreams']['voidless']['fours']['losses']}"
+            value = f"{(player_json['bedwars']['dreams']['voidless']['fours']['losses']):,d}"
         )
         player_voidless_fours_stats_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} WLR**__",
@@ -2066,7 +2066,7 @@ class BedwarsStats(commands.Cog):
         )
         player_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
-            value = f"{player_json['bedwars']['final_deaths']}"
+            value = f"{(player_json['bedwars']['final_deaths']):,d}"
         )
         player_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 FKDR**__",
@@ -2146,11 +2146,11 @@ class BedwarsStats(commands.Cog):
         )
         player_solo_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
-            value = f"{player_json['bedwars']['solo']['final_kills']}"
+            value = f"{(player_json['bedwars']['solo']['final_kills']):,d}"
         )
         player_solo_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
-            value = f"{player_json['bedwars']['solo']['final_deaths']}"
+            value = f"{(player_json['bedwars']['solo']['final_deaths']):,d}"
         )
         player_solo_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 FKDR**__",
@@ -2230,11 +2230,11 @@ class BedwarsStats(commands.Cog):
         )
         player_doubles_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
-            value = f"{player_json['bedwars']['doubles']['final_kills']}"
+            value = f"{(player_json['bedwars']['doubles']['final_kills']):,d}"
         )
         player_doubles_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
-            value = f"{player_json['bedwars']['doubles']['final_deaths']}"
+            value = f"{(player_json['bedwars']['doubles']['final_deaths']):,d}"
         )
         player_doubles_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 FKDR**__",
@@ -2314,11 +2314,11 @@ class BedwarsStats(commands.Cog):
         )
         player_threes_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
-            value = f"{player_json['bedwars']['threes']['final_kills']}"
+            value = f"{(player_json['bedwars']['threes']['final_kills']):,d}"
         )
         player_threes_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
-            value = f"{player_json['bedwars']['threes']['final_deaths']}"
+            value = f"{(player_json['bedwars']['threes']['final_deaths']):,d}"
         )
         player_threes_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 FKDR**__",
@@ -2398,11 +2398,11 @@ class BedwarsStats(commands.Cog):
         )
         player_fours_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
-            value = f"{player_json['bedwars']['fours']['final_kills']}"
+            value = f"{(player_json['bedwars']['fours']['final_kills']):,d}"
         )
         player_fours_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
-            value = f"{player_json['bedwars']['fours']['final_deaths']}"
+            value = f"{(player_json['bedwars']['fours']['final_deaths']):,d}"
         )
         player_fours_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 FKDR**__",
@@ -2482,11 +2482,11 @@ class BedwarsStats(commands.Cog):
         )
         player_four_v_four_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
-            value = f"{player_json['bedwars']['four_v_four']['final_kills']}"
+            value = f"{(player_json['bedwars']['four_v_four']['final_kills']):,d}"
         )
         player_four_v_four_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
-            value = f"{player_json['bedwars']['four_v_four']['final_deaths']}"
+            value = f"{(player_json['bedwars']['four_v_four']['final_deaths']):,d}"
         )
         player_four_v_four_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 FKDR**__",
@@ -2569,11 +2569,11 @@ class BedwarsStats(commands.Cog):
         )
         player_armed_doubles_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
-            value = f"{player_json['bedwars']['dreams']['armed']['doubles']['final_kills']}"
+            value = f"{(player_json['bedwars']['dreams']['armed']['doubles']['final_kills']):,d}"
         )
         player_armed_doubles_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
-            value = f"{player_json['bedwars']['dreams']['armed']['doubles']['final_deaths']}"
+            value = f"{(player_json['bedwars']['dreams']['armed']['doubles']['final_deaths']):,d}"
         )
         player_armed_doubles_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 FKDR**__",
@@ -2652,11 +2652,11 @@ class BedwarsStats(commands.Cog):
         )
         player_armed_fours_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
-            value = f"{player_json['bedwars']['dreams']['armed']['fours']['final_kills']}"
+            value = f"{(player_json['bedwars']['dreams']['armed']['fours']['final_kills']):,d}"
         )
         player_armed_fours_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
-            value = f"{player_json['bedwars']['dreams']['armed']['fours']['final_deaths']}"
+            value = f"{(player_json['bedwars']['dreams']['armed']['fours']['final_deaths']):,d}"
         )
         player_armed_fours_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 FKDR**__",
@@ -2736,11 +2736,11 @@ class BedwarsStats(commands.Cog):
         )
         player_castle_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
-            value = f"{player_json['bedwars']['dreams']['castle']['final_kills']}"
+            value = f"{(player_json['bedwars']['dreams']['castle']['final_kills']):,d}"
         )
         player_castle_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
-            value = f"{player_json['bedwars']['dreams']['castle']['final_deaths']}"
+            value = f"{(player_json['bedwars']['dreams']['castle']['final_deaths']):,d}"
         )
         player_castle_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 FKDR**__",
@@ -2825,11 +2825,11 @@ class BedwarsStats(commands.Cog):
         )
         player_luckyblocks_doubles_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
-            value = f"{player_json['bedwars']['dreams']['lucky_blocks']['doubles']['final_kills']}"
+            value = f"{(player_json['bedwars']['dreams']['lucky_blocks']['doubles']['final_kills']):,d}"
         )
         player_luckyblocks_doubles_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
-            value = f"{player_json['bedwars']['dreams']['lucky_blocks']['doubles']['final_deaths']}"
+            value = f"{(player_json['bedwars']['dreams']['lucky_blocks']['doubles']['final_deaths']):,d}"
         )
         player_luckyblocks_doubles_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 FKDR**__",
@@ -2909,11 +2909,11 @@ class BedwarsStats(commands.Cog):
         )
         player_luckyblocks_fours_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
-            value = f"{player_json['bedwars']['dreams']['lucky_blocks']['fours']['final_kills']}"
+            value = f"{(player_json['bedwars']['dreams']['lucky_blocks']['fours']['final_kills']):,d}"
         )
         player_luckyblocks_fours_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
-            value = f"{player_json['bedwars']['dreams']['lucky_blocks']['fours']['final_deaths']}"
+            value = f"{(player_json['bedwars']['dreams']['lucky_blocks']['fours']['final_deaths']):,d}"
         )
         player_luckyblocks_fours_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 FKDR**__",
@@ -2998,11 +2998,11 @@ class BedwarsStats(commands.Cog):
         )
         player_rush_solo_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['solo']['final_kills']}"
+            value = f"{(player_json['bedwars']['dreams']['rush']['solo']['final_kills']):,d}"
         )
         player_rush_solo_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['solo']['final_deaths']}"
+            value = f"{(player_json['bedwars']['dreams']['rush']['solo']['final_deaths']):,d}"
         )
         player_rush_solo_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 FKDR**__",
@@ -3082,7 +3082,7 @@ class BedwarsStats(commands.Cog):
         )
         player_rush_doubles_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['doubles']['final_kills']}"
+            value = f"{(player_json['bedwars']['dreams']['rush']['doubles']['final_kills']):,d}"
         )
         player_rush_doubles_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 FKDR**__",
@@ -3090,7 +3090,7 @@ class BedwarsStats(commands.Cog):
         )
         player_rush_doubles_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['doubles']['final_deaths']}"
+            value = f"{(player_json['bedwars']['dreams']['rush']['doubles']['final_deaths']):,d}"
         )
         player_rush_doubles_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} +1 FKDR**__",
@@ -3166,11 +3166,11 @@ class BedwarsStats(commands.Cog):
         )
         player_rush_fours_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['fours']['final_kills']}"
+            value = f"{(player_json['bedwars']['dreams']['rush']['fours']['final_kills']):,d}"
         )
         player_rush_fours_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['fours']['final_deaths']}"
+            value = f"{(player_json['bedwars']['dreams']['rush']['fours']['final_deaths']):,d}"
         )
         player_rush_fours_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 FKDR**__",
@@ -3255,11 +3255,11 @@ class BedwarsStats(commands.Cog):
         )
         player_ultimate_solo_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
-            value = f"{player_json['bedwars']['dreams']['ultimate']['solo']['final_kills']}"
+            value = f"{(player_json['bedwars']['dreams']['ultimate']['solo']['final_kills']):,d}"
         )
         player_ultimate_solo_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
-            value = f"{player_json['bedwars']['dreams']['ultimate']['solo']['final_deaths']}"
+            value = f"{(player_json['bedwars']['dreams']['ultimate']['solo']['final_deaths']):,d}"
         )
         player_ultimate_solo_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 FKDR**__",
@@ -3339,11 +3339,11 @@ class BedwarsStats(commands.Cog):
         )
         player_ultimate_doubles_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
-            value = f"{player_json['bedwars']['dreams']['ultimate']['doubles']['final_kills']}"
+            value = f"{(player_json['bedwars']['dreams']['ultimate']['doubles']['final_kills']):,d}"
         )
         player_ultimate_doubles_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
-            value = f"{player_json['bedwars']['dreams']['ultimate']['doubles']['final_deaths']}"
+            value = f"{(player_json['bedwars']['dreams']['ultimate']['doubles']['final_deaths']):,d}"
         )
         player_ultimate_doubles_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 FKDR**__",
@@ -3423,11 +3423,11 @@ class BedwarsStats(commands.Cog):
         )
         player_ultimate_fours_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
-            value = f"{player_json['bedwars']['dreams']['ultimate']['fours']['final_kills']}"
+            value = f"{(player_json['bedwars']['dreams']['ultimate']['fours']['final_kills']):,d}"
         )
         player_ultimate_fours_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
-            value = f"{player_json['bedwars']['dreams']['ultimate']['fours']['final_deaths']}"
+            value = f"{(player_json['bedwars']['dreams']['ultimate']['fours']['final_deaths']):,d}"
         )
         player_ultimate_fours_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 FKDR**__",
@@ -3512,11 +3512,11 @@ class BedwarsStats(commands.Cog):
         )
         player_voidless_doubles_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
-            value = f"{player_json['bedwars']['dreams']['voidless']['doubles']['final_kills']}"
+            value = f"{(player_json['bedwars']['dreams']['voidless']['doubles']['final_kills']):,d}"
         )
         player_voidless_doubles_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
-            value = f"{player_json['bedwars']['dreams']['voidless']['doubles']['final_deaths']}"
+            value = f"{(player_json['bedwars']['dreams']['voidless']['doubles']['final_deaths']):,d}"
         )
         player_voidless_doubles_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 FKDR**__",
@@ -3596,11 +3596,11 @@ class BedwarsStats(commands.Cog):
         )
         player_voidless_fours_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Kills**__",
-            value = f"{player_json['bedwars']['dreams']['voidless']['fours']['final_kills']}"
+            value = f"{(player_json['bedwars']['dreams']['voidless']['fours']['final_kills']):,d}"
         )
         player_voidless_fours_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Final Deaths**__",
-            value = f"{player_json['bedwars']['dreams']['voidless']['fours']['final_deaths']}"
+            value = f"{(player_json['bedwars']['dreams']['voidless']['fours']['final_deaths']):,d}"
         )
         player_voidless_fours_fkdr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 FKDR**__",
@@ -3686,11 +3686,11 @@ class BedwarsStats(commands.Cog):
         )
         player_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
-            value = f"{player_json['bedwars']['beds_broken']}"
+            value = f"{(player_json['bedwars']['beds_broken']):,d}"
         )
         player_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
-            value = f"{player_json['bedwars']['beds_lost']}"
+            value = f"{(player_json['bedwars']['beds_lost']):,d}"
         )
         player_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 BBLR**__",
@@ -3770,11 +3770,11 @@ class BedwarsStats(commands.Cog):
         )
         player_solo_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
-            value = f"{player_json['bedwars']['solo']['beds_broken']}"
+            value = f"{(player_json['bedwars']['solo']['beds_broken']):,d}"
         )
         player_solo_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
-            value = f"{player_json['bedwars']['solo']['beds_lost']}"
+            value = f"{(player_json['bedwars']['solo']['beds_lost']):,d}"
         )
         player_solo_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 BBLR**__",
@@ -3854,11 +3854,11 @@ class BedwarsStats(commands.Cog):
         )
         player_doubles_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
-            value = f"{player_json['bedwars']['doubles']['beds_broken']}"
+            value = f"{(player_json['bedwars']['doubles']['beds_broken']):,d}"
         )
         player_doubles_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
-            value = f"{player_json['bedwars']['doubles']['beds_lost']}"
+            value = f"{(player_json['bedwars']['doubles']['beds_lost']):,d}"
         )
         player_doubles_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 BBLR**__",
@@ -3938,11 +3938,11 @@ class BedwarsStats(commands.Cog):
         )
         player_threes_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
-            value = f"{player_json['bedwars']['threes']['beds_broken']}"
+            value = f"{(player_json['bedwars']['threes']['beds_broken']):,d}"
         )
         player_threes_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
-            value = f"{player_json['bedwars']['threes']['beds_lost']}"
+            value = f"{(player_json['bedwars']['threes']['beds_lost']):,d}"
         )
         player_threes_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 BBLR**__",
@@ -4022,11 +4022,11 @@ class BedwarsStats(commands.Cog):
         )
         player_fours_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
-            value = f"{player_json['bedwars']['fours']['beds_broken']}"
+            value = f"{(player_json['bedwars']['fours']['beds_broken']):,d}"
         )
         player_fours_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
-            value = f"{player_json['bedwars']['fours']['beds_lost']}"
+            value = f"{(player_json['bedwars']['fours']['beds_lost']):,d}"
         )
         player_fours_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 BBLR**__",
@@ -4106,11 +4106,11 @@ class BedwarsStats(commands.Cog):
         )
         player_four_v_four_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
-            value = f"{player_json['bedwars']['four_v_four']['beds_broken']}"
+            value = f"{(player_json['bedwars']['four_v_four']['beds_broken']):,d}"
         )
         player_four_v_four_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
-            value = f"{player_json['bedwars']['four_v_four']['beds_lost']}"
+            value = f"{(player_json['bedwars']['four_v_four']['beds_lost']):,d}"
         )
         player_four_v_four_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 BBLR**__",
@@ -4193,11 +4193,11 @@ class BedwarsStats(commands.Cog):
         )
         player_armed_doubles_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
-            value = f"{player_json['bedwars']['dreams']['armed']['doubles']['beds_broken']}"
+            value = f"{(player_json['bedwars']['dreams']['armed']['doubles']['beds_broken']):,d}"
         )
         player_armed_doubles_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
-            value = f"{player_json['bedwars']['dreams']['armed']['doubles']['beds_lost']}"
+            value = f"{(player_json['bedwars']['dreams']['armed']['doubles']['beds_lost']):,d}"
         )
         player_armed_doubles_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 BBLR**__",
@@ -4276,11 +4276,11 @@ class BedwarsStats(commands.Cog):
         )
         player_armed_fours_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
-            value = f"{player_json['bedwars']['dreams']['armed']['fours']['beds_broken']}"
+            value = f"{(player_json['bedwars']['dreams']['armed']['fours']['beds_broken']):,d}"
         )
         player_armed_fours_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
-            value = f"{player_json['bedwars']['dreams']['armed']['fours']['beds_lost']}"
+            value = f"{(player_json['bedwars']['dreams']['armed']['fours']['beds_lost']):,d}"
         )
         player_armed_fours_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 BBLR**__",
@@ -4360,11 +4360,11 @@ class BedwarsStats(commands.Cog):
         )
         player_castle_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
-            value = f"{player_json['bedwars']['dreams']['castle']['beds_broken']}"
+            value = f"{(player_json['bedwars']['dreams']['castle']['beds_broken']):,d}"
         )
         player_castle_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
-            value = f"{player_json['bedwars']['dreams']['castle']['beds_lost']}"
+            value = f"{(player_json['bedwars']['dreams']['castle']['beds_lost']):,d}"
         )
         player_castle_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 BBLR**__",
@@ -4449,11 +4449,11 @@ class BedwarsStats(commands.Cog):
         )
         player_luckyblocks_doubles_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
-            value = f"{player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_broken']}"
+            value = f"{(player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_broken']):,d}"
         )
         player_luckyblocks_doubles_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
-            value = f"{player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_lost']}"
+            value = f"{(player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_lost']):,d}"
         )
         player_luckyblocks_doubles_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 BBLR**__",
@@ -4533,11 +4533,11 @@ class BedwarsStats(commands.Cog):
         )
         player_luckyblocks_fours_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
-            value = f"{player_json['bedwars']['dreams']['lucky_blocks']['fours']['beds_broken']}"
+            value = f"{(player_json['bedwars']['dreams']['lucky_blocks']['fours']['beds_broken']):,d}"
         )
         player_luckyblocks_fours_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
-            value = f"{player_json['bedwars']['dreams']['lucky_blocks']['fours']['beds_lost']}"
+            value = f"{(player_json['bedwars']['dreams']['lucky_blocks']['fours']['beds_lost']):,d}"
         )
         player_luckyblocks_fours_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 BBLR**__",
@@ -4622,11 +4622,11 @@ class BedwarsStats(commands.Cog):
         )
         player_rush_solo_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['solo']['beds_broken']}"
+            value = f"{(player_json['bedwars']['dreams']['rush']['solo']['beds_broken']):,d}"
         )
         player_rush_solo_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['solo']['beds_lost']}"
+            value = f"{(player_json['bedwars']['dreams']['rush']['solo']['beds_lost']):,d}"
         )
         player_rush_solo_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 BBLR**__",
@@ -4706,11 +4706,11 @@ class BedwarsStats(commands.Cog):
         )
         player_rush_doubles_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['doubles']['beds_broken']}"
+            value = f"{(player_json['bedwars']['dreams']['rush']['doubles']['beds_broken']):,d}"
         )
         player_rush_doubles_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['doubles']['beds_lost']}"
+            value = f"{(player_json['bedwars']['dreams']['rush']['doubles']['beds_lost']):,d}"
         )
         player_rush_doubles_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 BBLR**__",
@@ -4790,11 +4790,11 @@ class BedwarsStats(commands.Cog):
         )
         player_rush_fours_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['fours']['beds_broken']}"
+            value = f"{(player_json['bedwars']['dreams']['rush']['fours']['beds_broken']):,d}"
         )
         player_rush_fours_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['fours']['beds_lost']}"
+            value = f"{(player_json['bedwars']['dreams']['rush']['fours']['beds_lost']):,d}"
         )
         player_rush_fours_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 BBLR**__",
@@ -4879,11 +4879,11 @@ class BedwarsStats(commands.Cog):
         )
         player_ultimate_solo_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
-            value = f"{player_json['bedwars']['dreams']['ultimate']['solo']['beds_broken']}"
+            value = f"{(player_json['bedwars']['dreams']['ultimate']['solo']['beds_broken']):,d}"
         )
         player_ultimate_solo_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
-            value = f"{player_json['bedwars']['dreams']['ultimate']['solo']['beds_lost']}"
+            value = f"{(player_json['bedwars']['dreams']['ultimate']['solo']['beds_lost']):,d}"
         )
         player_ultimate_solo_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 BBLR**__",
@@ -4963,11 +4963,11 @@ class BedwarsStats(commands.Cog):
         )
         player_ultimate_doubles_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
-            value = f"{player_json['bedwars']['dreams']['ultimate']['doubles']['beds_broken']}"
+            value = f"{(player_json['bedwars']['dreams']['ultimate']['doubles']['beds_broken']):,d}"
         )
         player_ultimate_doubles_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
-            value = f"{player_json['bedwars']['dreams']['ultimate']['doubles']['beds_lost']}"
+            value = f"{(player_json['bedwars']['dreams']['ultimate']['doubles']['beds_lost']):,d}"
         )
         player_ultimate_doubles_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 BBLR**__",
@@ -5047,11 +5047,11 @@ class BedwarsStats(commands.Cog):
         )
         player_ultimate_fours_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
-            value = f"{player_json['bedwars']['dreams']['ultimate']['fours']['beds_broken']}"
+            value = f"{(player_json['bedwars']['dreams']['ultimate']['fours']['beds_broken']):,d}"
         )
         player_ultimate_fours_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
-            value = f"{player_json['bedwars']['dreams']['ultimate']['fours']['beds_lost']}"
+            value = f"{(player_json['bedwars']['dreams']['ultimate']['fours']['beds_lost']):,d}"
         )
         player_ultimate_fours_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 BBLR**__",
@@ -5136,11 +5136,11 @@ class BedwarsStats(commands.Cog):
         )
         player_voidless_doubles_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
-            value = f"{player_json['bedwars']['dreams']['voidless']['doubles']['beds_broken']}"
+            value = f"{(player_json['bedwars']['dreams']['voidless']['doubles']['beds_broken']):,d}"
         )
         player_voidless_doubles_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
-            value = f"{player_json['bedwars']['dreams']['voidless']['doubles']['beds_lost']}"
+            value = f"{(player_json['bedwars']['dreams']['voidless']['doubles']['beds_lost']):,d}"
         )
         player_voidless_doubles_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 BBLR**__",
@@ -5220,11 +5220,11 @@ class BedwarsStats(commands.Cog):
         )
         player_voidless_fours_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Broken**__",
-            value = f"{player_json['bedwars']['dreams']['voidless']['fours']['beds_broken']}"
+            value = f"{(player_json['bedwars']['dreams']['voidless']['fours']['beds_broken']):,d}"
         )
         player_voidless_fours_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Beds Lost**__",
-            value = f"{player_json['bedwars']['dreams']['voidless']['fours']['beds_lost']}"
+            value = f"{(player_json['bedwars']['dreams']['voidless']['fours']['beds_lost']):,d}"
         )
         player_voidless_fours_bblr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 BBLR**__",
@@ -5310,11 +5310,11 @@ class BedwarsStats(commands.Cog):
         )
         player_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Wins**__",
-            value = f"{player_json['bedwars']['wins']}"
+            value = f"{(player_json['bedwars']['wins']):,d}"
         )
         player_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Losses**__",
-            value = f"{player_json['bedwars']['losses']}"
+            value = f"{(player_json['bedwars']['losses']):,d}"
         )
         player_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 WLR**__",
@@ -5394,11 +5394,11 @@ class BedwarsStats(commands.Cog):
         )
         player_solo_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Wins**__",
-            value = f"{player_json['bedwars']['solo']['wins']}"
+            value = f"{(player_json['bedwars']['solo']['wins']):,d}"
         )
         player_solo_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Losses**__",
-            value = f"{player_json['bedwars']['solo']['losses']}"
+            value = f"{(player_json['bedwars']['solo']['losses']):,d}"
         )
         player_solo_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 WLR**__",
@@ -5478,11 +5478,11 @@ class BedwarsStats(commands.Cog):
         )
         player_doubles_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Wins**__",
-            value = f"{player_json['bedwars']['doubles']['wins']}"
+            value = f"{(player_json['bedwars']['doubles']['wins']):,d}"
         )
         player_doubles_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Losses**__",
-            value = f"{player_json['bedwars']['doubles']['losses']}"
+            value = f"{(player_json['bedwars']['doubles']['losses']):,d}"
         )
         player_doubles_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 WLR**__",
@@ -5566,7 +5566,7 @@ class BedwarsStats(commands.Cog):
         )
         player_threes_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Losses**__",
-            value = f"{player_json['bedwars']['threes']['losses']}"
+            value = f"{(player_json['bedwars']['threes']['losses']):,d}"
         )
         player_threes_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 WLR**__",
@@ -5646,11 +5646,11 @@ class BedwarsStats(commands.Cog):
         )
         player_fours_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Wins**__",
-            value = f"{player_json['bedwars']['fours']['wins']}"
+            value = f"{(player_json['bedwars']['fours']['wins']):,d}"
         )
         player_fours_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Losses**__",
-            value = f"{player_json['bedwars']['fours']['losses']}"
+            value = f"{(player_json['bedwars']['fours']['losses']):,d}"
         )
         player_fours_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 WLR**__",
@@ -5730,11 +5730,11 @@ class BedwarsStats(commands.Cog):
         )
         player_four_v_four_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Wins**__",
-            value = f"{player_json['bedwars']['four_v_four']['wins']}"
+            value = f"{(player_json['bedwars']['four_v_four']['wins']):,d}"
         )
         player_four_v_four_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Losses**__",
-            value = f"{player_json['bedwars']['four_v_four']['losses']}"
+            value = f"{(player_json['bedwars']['four_v_four']['losses']):,d}"
         )
         player_four_v_four_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 WLR**__",
@@ -5817,11 +5817,11 @@ class BedwarsStats(commands.Cog):
         )
         player_armed_doubles_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Wins**__",
-            value = f"{player_json['bedwars']['dreams']['armed']['doubles']['wins']}"
+            value = f"{(player_json['bedwars']['dreams']['armed']['doubles']['wins']):,d}"
         )
         player_armed_doubles_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Losses**__",
-            value = f"{player_json['bedwars']['dreams']['armed']['doubles']['losses']}"
+            value = f"{(player_json['bedwars']['dreams']['armed']['doubles']['losses']):,d}"
         )
         player_armed_doubles_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 WLR**__",
@@ -5900,11 +5900,11 @@ class BedwarsStats(commands.Cog):
         )
         player_armed_fours_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Wins**__",
-            value = f"{player_json['bedwars']['dreams']['armed']['fours']['wins']}"
+            value = f"{(player_json['bedwars']['dreams']['armed']['fours']['wins']):,d}"
         )
         player_armed_fours_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Losses**__",
-            value = f"{player_json['bedwars']['dreams']['armed']['fours']['losses']}"
+            value = f"{(player_json['bedwars']['dreams']['armed']['fours']['losses']):,d}"
         )
         player_armed_fours_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 WLR**__",
@@ -5984,11 +5984,11 @@ class BedwarsStats(commands.Cog):
         )
         player_castle_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Wins**__",
-            value = f"{player_json['bedwars']['dreams']['castle']['wins']}"
+            value = f"{(player_json['bedwars']['dreams']['castle']['wins']):,d}"
         )
         player_castle_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Losses**__",
-            value = f"{player_json['bedwars']['dreams']['castle']['losses']}"
+            value = f"{(player_json['bedwars']['dreams']['castle']['losses']):,d}"
         )
         player_castle_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 WLR**__",
@@ -6073,11 +6073,11 @@ class BedwarsStats(commands.Cog):
         )
         player_luckyblocks_doubles_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Wins**__",
-            value = f"{player_json['bedwars']['dreams']['lucky_blocks']['doubles']['wins']}"
+            value = f"{(player_json['bedwars']['dreams']['lucky_blocks']['doubles']['wins']):,d}"
         )
         player_luckyblocks_doubles_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Losses**__",
-            value = f"{player_json['bedwars']['dreams']['lucky_blocks']['doubles']['losses']}"
+            value = f"{(player_json['bedwars']['dreams']['lucky_blocks']['doubles']['losses']):,d}"
         )
         player_luckyblocks_doubles_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 WLR**__",
@@ -6162,11 +6162,11 @@ class BedwarsStats(commands.Cog):
         )
         player_rush_solo_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Wins**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['solo']['wins']}"
+            value = f"{(player_json['bedwars']['dreams']['rush']['solo']['wins']):,d}"
         )
         player_rush_solo_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Losses**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['solo']['losses']}"
+            value = f"{(player_json['bedwars']['dreams']['rush']['solo']['losses']):,d}"
         )
         player_rush_solo_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 WLR**__",
@@ -6246,11 +6246,11 @@ class BedwarsStats(commands.Cog):
         )
         player_rush_doubles_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Wins**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['doubles']['wins']}"
+            value = f"{(player_json['bedwars']['dreams']['rush']['doubles']['wins']):,d}"
         )
         player_rush_doubles_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Losses**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['doubles']['losses']}"
+            value = f"{(player_json['bedwars']['dreams']['rush']['doubles']['losses']):,d}"
         )
         player_rush_doubles_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 WLR**__",
@@ -6330,11 +6330,11 @@ class BedwarsStats(commands.Cog):
         )
         player_rush_fours_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Wins**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['fours']['wins']}"
+            value = f"{(player_json['bedwars']['dreams']['rush']['fours']['wins']):,d}"
         )
         player_rush_fours_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Losses**__",
-            value = f"{player_json['bedwars']['dreams']['rush']['fours']['losses']}"
+            value = f"{(player_json['bedwars']['dreams']['rush']['fours']['losses']):,d}"
         )
         player_rush_fours_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 WLR**__",
@@ -6419,11 +6419,11 @@ class BedwarsStats(commands.Cog):
         )
         player_ultimate_solo_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Wins**__",
-            value = f"{player_json['bedwars']['dreams']['ultimate']['solo']['wins']}"
+            value = f"{(player_json['bedwars']['dreams']['ultimate']['solo']['wins']):,d}"
         )
         player_ultimate_solo_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Losses**__",
-            value = f"{player_json['bedwars']['dreams']['ultimate']['solo']['losses']}"
+            value = f"{(player_json['bedwars']['dreams']['ultimate']['solo']['losses']):,d}"
         )
         player_ultimate_solo_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 WLR**__",
@@ -6503,11 +6503,11 @@ class BedwarsStats(commands.Cog):
         )
         player_ultimate_doubles_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Wins**__",
-            value = f"{player_json['bedwars']['dreams']['ultimate']['doubles']['wins']}"
+            value = f"{(player_json['bedwars']['dreams']['ultimate']['doubles']['wins']):,d}"
         )
         player_ultimate_doubles_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Losses**__",
-            value = f"{player_json['bedwars']['dreams']['ultimate']['doubles']['losses']}"
+            value = f"{(player_json['bedwars']['dreams']['ultimate']['doubles']['losses']):,d}"
         )
         player_ultimate_doubles_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 WLR**__",
@@ -6587,11 +6587,11 @@ class BedwarsStats(commands.Cog):
         )
         player_ultimate_fours_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Wins**__",
-            value = f"{player_json['bedwars']['dreams']['ultimate']['fours']['wins']}"
+            value = f"{(player_json['bedwars']['dreams']['ultimate']['fours']['wins']):,d}"
         )
         player_ultimate_fours_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Losses**__",
-            value = f"{player_json['bedwars']['dreams']['ultimate']['fours']['losses']}"
+            value = f"{(player_json['bedwars']['dreams']['ultimate']['fours']['losses']):,d}"
         )
         player_ultimate_fours_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 WLR**__",
@@ -6676,11 +6676,11 @@ class BedwarsStats(commands.Cog):
         )
         player_voidless_doubles_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Wins**__",
-            value = f"{player_json['bedwars']['dreams']['voidless']['doubles']['wins']}"
+            value = f"{(player_json['bedwars']['dreams']['voidless']['doubles']['wins']):,d}"
         )
         player_voidless_doubles_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Losses**__",
-            value = f"{player_json['bedwars']['dreams']['voidless']['doubles']['losses']}"
+            value = f"{(player_json['bedwars']['dreams']['voidless']['doubles']['losses']):,d}"
         )
         player_voidless_doubles_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 WLR**__",
@@ -6760,11 +6760,11 @@ class BedwarsStats(commands.Cog):
         )
         player_voidless_fours_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Wins**__",
-            value = f"{player_json['bedwars']['dreams']['voidless']['fours']['wins']}"
+            value = f"{(player_json['bedwars']['dreams']['voidless']['fours']['wins']):,d}"
         )
         player_voidless_fours_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Losses**__",
-            value = f"{player_json['bedwars']['dreams']['voidless']['fours']['losses']}"
+            value = f"{(player_json['bedwars']['dreams']['voidless']['fours']['losses']):,d}"
         )
         player_voidless_fours_wlr_embed.add_field(
             name = f"__**{core.static.arrow_bullet_point} Next 1 WLR**__",
