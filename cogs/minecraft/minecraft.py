@@ -83,24 +83,17 @@ class Minecraft(commands.Cog):
 		message = await ctx.send(embed = loading_embed)
 		index = 0
 		name_history = await core.minecraft.request.get_name_history_uuid(player_data['minecraft_uuid'])
-		name_history_embed = discord.Embed(
-			name = "Name history",
-			color = ctx.author.color
-		)
+		name_history_string = []
 		for name in name_history:
 			if index == 0: # First name does not have changedToAt attribute
-				name_history_embed.add_field(
-					name = f"Name #{index + 1}",
-					value = f"{name_history[index][0]} (Original)",
-					inline = False
-				)
+				name_history_string.append(f"{name_history[index][0]}")
 			else:
-				name_history_embed.add_field(
-					name = f"Name #{index + 1}",
-					value = f"{name_history[index][0]} - *on {datetime.date.fromtimestamp((name_history[index][1]) / 1000)}*",
-					inline = True
-				)
+				name_history_string.append(f"{name_history[index][0]} - *on {datetime.date.fromtimestamp((name_history[index][1]) / 1000)}*")
 			index += 1
+			name_history_embed = discord.Embed(
+				name = "Name history",
+				description = "\n".join(name_history_string)
+			)
 		await message.edit(embed = name_history_embed)
 
 	@minecraft.command(name = "uuid")
