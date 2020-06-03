@@ -39,7 +39,7 @@ prestige_colors = {
 	"Rainbow" : "1ABC9C"
 }
 
-bedwars_prestiges = [
+prestiges = [
 	"Stone",
 	"Iron",
 	"Gold",
@@ -50,7 +50,8 @@ bedwars_prestiges = [
 	"Crystal",
 	"Opal",
 	"Amethyst",
-	"Rainbow"
+	"Rainbow",
+	"Rainbow" # this is for the skywars bit, since rainbow prestige has twice the amount of levels as the others, we need it twice
 ]
 
 ranks = {
@@ -161,56 +162,26 @@ async def get_increase_stat(positive_stat, negative_stat, increase):
 
 async def get_bedwars_prestige_data(star):
 	star_rounded = star // 100 # // is floor division, basically math.floor(await self.get_star() / 100)
-	star_rounded = star_rounded if star_rounded < 10 else 10 # if greater than 10, set to ten
+	if star_rounded > 10:
+		prestige = "Rainbow"
+	else:
+		prestige = prestiges[star_rounded]
 	return {
-		"prestige": bedwars_prestiges[star_rounded],
-		"prestige_color": prestige_colors[bedwars_prestiges[star_rounded]]
+		"prestige": prestige,
+		"prestige_color": prestige_colors[prestige]
 	} # based on order of prestiges and prestige colors
 
 
 async def get_skywars_prestige_data(star):
-	if star in range(0, 5):
-		prestige = "Stone"
-		prestige_color = prestige_colors[prestige]
-	elif star in range(5, 10):
-		prestige = "Iron"
-		prestige_color = prestige_colors[prestige]
-	elif star in range(10, 15):
-		prestige = "Gold"
-		prestige_color = prestige_colors[prestige]
-	elif star in range(15, 20):
-		prestige = "Diamond"
-		prestige_color = prestige_colors[prestige]
-	elif star in range(20, 25):
-		prestige = "Emerald"
-		prestige_color = prestige_colors[prestige]
-	elif star in range(25, 30):
-		prestige = "Sapphire"
-		prestige_color = prestige_colors[prestige]
-	elif star in range(30, 35):
-		prestige = "Ruby"
-		prestige_color = prestige_colors[prestige]
-	elif star in range(35, 40):
-		prestige = "Crystal"
-		prestige_color = prestige_colors[prestige]
-	elif star in range(40, 45):
-		prestige = "Opal"
-		prestige_color = prestige_colors[prestige]
-	elif star in range(45, 50):
-		prestige = "Amethyst"
-		prestige_color = prestige_colors[prestige]
-	elif star in range(50, 60):
-		prestige = "Rainbow"
-		prestige_color = prestige_colors[prestige]
-	else:
+	star_rounded = star // 5
+	if star_rounded > 11:
 		prestige = "Mystic"
-		prestige_color = prestige_colors["Rainbow"] # Mystic and Rainbow use the same color
-
-	prestige_data = {
-		"prestige" : prestige,
-		"prestige_color" : prestige_color
+	else:
+		prestige = prestiges[star_rounded] # MY BRAIN IS SO LARGE
+	return {
+		"prestige": prestige,
+		"prestige_color": prestige_colors["Rainbow" if prestige == "Mystic" else prestige] # mystic uses rainbow color
 	}
-	return prestige_data
 
 
 async def get_skywars_star_from_experience(experience): # another formula that I don't understand, thanks to @GamingGeeek and @littlemissantivirus
