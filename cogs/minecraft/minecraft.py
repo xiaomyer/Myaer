@@ -81,15 +81,15 @@ class Minecraft(commands.Cog):
 			color = ctx.author.color
 		)
 		message = await ctx.send(embed = loading_embed)
-		index = 0
 		name_history = await core.minecraft.request.get_name_history_uuid(player_data['minecraft_uuid'])
+		index = len(name_history) - 1
 		name_history_string = []
 		for name in name_history:
 			if index == 0: # First name does not have changedToAt attribute
 				name_history_string.append(f"{name_history[index][0]}")
 			else:
-				name_history_string.append(f"{name_history[index][0]} - *on {datetime.date.fromtimestamp((name_history[index][1]) / 1000)}*")
-			index += 1
+				name_history_string.append(f"{discord.utils.escape_markdown(name_history[index][0])} - *on {datetime.date.fromtimestamp((name_history[index][1]) / 1000)}*")
+			index -= 1
 			name_history_embed = discord.Embed(
 				name = "Name history",
 				description = "\n".join(name_history_string)
@@ -299,8 +299,6 @@ class Minecraft(commands.Cog):
 
 		error = getattr(error, "original", error)
 
-		if (isinstance(error, NameError)) or (isinstance(error, ValueError)) or (isinstance(error, AttributeError)):
-			await ctx.command.reset_cooldown(ctx)
 		if isinstance(error, commands.CommandOnCooldown):
 			cooldown = datetime.timedelta(seconds = error.retry_after)
 			cooldown_embed = discord.Embed(
