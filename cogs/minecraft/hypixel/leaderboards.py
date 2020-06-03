@@ -29,7 +29,7 @@ import datetime
 from discord.ext import commands
 import discord
 import humanfriendly
-from core.minecraft.hypixel.static import HypixelStatic
+import core.minecraft.hypixel.static
 from core.minecraft.hypixel.player import Player
 import sys
 import time
@@ -38,7 +38,6 @@ import traceback
 class LeaderboardCommands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.hypixel_static = HypixelStatic()
         self.leaderboards = Leaderboards()
         self.player = Player()
 
@@ -65,7 +64,7 @@ class LeaderboardCommands(commands.Cog):
         )
         for player in (leaderboards_json["bedwars"]["level"]):
             player_json = await self.player.get_player(player)
-            leaderboard.append([player_json["bedwars"]["star"], player_json["name"], await self.hypixel_static.get_ratio(player_json["bedwars"]["final_kills"], player_json["bedwars"]["final_deaths"])])
+            leaderboard.append([player_json["bedwars"]["star"], player_json["name"], await core.minecraft.hypixel.static.get_ratio(player_json["bedwars"]["final_kills"], player_json["bedwars"]["final_deaths"])])
             bedwars_level_leaderboard_embed.add_field(
                 name = f"#{index + 1}",
                 value = f"**{discord.utils.escape_markdown(f'[{leaderboard[index][0]}{core.static.bedwars_star}] {leaderboard[index][1]}')} - {leaderboard[index][2]} FKDR**",

@@ -26,7 +26,7 @@ from discord.ext import commands
 import discord
 from core.minecraft.request import MojangAPI
 from core.minecraft.hypixel.player import Player
-from core.minecraft.hypixel.static import HypixelStatic
+import core.minecraft.hypixel.static
 import core.static
 
 
@@ -53,7 +53,6 @@ class WristSpasm(commands.Cog):
         self.guild = 600311056627269642
         self.mojang = MojangAPI()
         self.player = Player()
-        self.hypixel_static = HypixelStatic()
         self.roles = {
             "Stone" : 600314048617119757,
             "Iron" : 600313179452735498,
@@ -106,7 +105,7 @@ class WristSpasm(commands.Cog):
             )
             await message.edit(embed = nameerror_embed)
             return
-        prestige = (await self.hypixel_static.get_bedwars_prestige_data(player_stats["bedwars"]["star"]))["prestige"]
+        prestige = (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_stats["bedwars"]["star"]))["prestige"]
         prestige_role = self.roles[prestige]
         prestige_role_object = ctx.guild.get_role(prestige_role)
         if ctx.author.nick != player_data["name"]:
@@ -200,7 +199,7 @@ class WristSpasm(commands.Cog):
             )
             await message.edit(embed = nameerror_embed)
             return
-        prestige = (await self.hypixel_static.get_bedwars_prestige_data(player_stats["bedwars"]["star"]))["prestige"]
+        prestige = (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_stats["bedwars"]["star"]))["prestige"]
         prestige_role = self.roles[prestige]
         prestige_role_object = ctx.guild.get_role(prestige_role)
         if target.nick != player_data["name"]:
