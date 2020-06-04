@@ -34,7 +34,7 @@ async def verify(discord_id, discord_name, minecraft_uuid):
 	db = TinyDB("/home/myerfire/Myaer/Myaer/core/minecraft/verification/verified.json")
 	Users = Query()
 	try:
-		player_json = await core.minecraft.hypixel.player.get_player(minecraft_uuid)
+		player_json = await core.minecraft.hypixel.player.get_player_data(minecraft_uuid)
 	except NameError:
 		raise NameError("No Hypixel stats for input.")
 	if (discord_name != player_json["socal_media"]["discord"]) and (player_json["socal_media"]["discord"] is not None):

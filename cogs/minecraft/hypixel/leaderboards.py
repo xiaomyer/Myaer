@@ -62,7 +62,7 @@ class LeaderboardCommands(commands.Cog):
 			color = ctx.author.color
 		)
 		for player in (leaderboards_json["bedwars"]["level"]):
-			player_json = await core.minecraft.hypixel.player.get_player(player)
+			player_json = await core.minecraft.hypixel.player.get_player_data(player)
 			bedwars_level_leaderboard_embed.add_field(
 				name = f"#{index + 1}",
 				value = f"""**{discord.utils.escape_markdown(f"[{player_json['bedwars']['star']}{core.static.star}] [{player_json['rank_data']['rank']}] {player_json['name']}") if player_json["rank_data"]["rank"] else f"[{player_json['bedwars']['star']}{core.static.star} {player_json['name']}]"} - {(await core.minecraft.hypixel.static.get_ratio(player_json["bedwars"]["final_kills"], player_json["bedwars"]["final_deaths"]))} FKDR**""",
@@ -87,7 +87,7 @@ class LeaderboardCommands(commands.Cog):
 			color = ctx.author.color
 		)
 		for player in (leaderboards_json["bedwars"]["wins"]["overall"]):
-			player_json = await core.minecraft.hypixel.player.get_player(player)
+			player_json = await core.minecraft.hypixel.player.get_player_data(player)
 			bedwars_overall_wins_leaderboard_embed.add_field(
 				name = f"#{index + 1}",
 				value = f"""**{discord.utils.escape_markdown(f"[{player_json['bedwars']['star']}{core.static.star}] [{player_json['rank_data']['rank']}] {player_json['name']}") if player_json["rank_data"]["rank"] else f"[{player_json['bedwars']['star']}{core.static.star} {player_json['name']}]"} - {player_json['bedwars']['wins']} wins**""",
@@ -112,7 +112,7 @@ class LeaderboardCommands(commands.Cog):
 			color = ctx.author.color
 		)
 		for player in (leaderboards_json["bedwars"]["wins"]["weekly"]):
-			player_json = await core.minecraft.hypixel.player.get_player(player)
+			player_json = await core.minecraft.hypixel.player.get_player_data(player)
 			bedwars_weekly_wins_leaderboard_embed.add_field(
 				name = f"#{index + 1}",
 				value = f"""**{discord.utils.escape_markdown(f"[{player_json['bedwars']['star']}{core.static.star}] [{player_json['rank_data']['rank']}] {player_json['name']}") if player_json["rank_data"]["rank"] else f"[{player_json['bedwars']['star']}{core.static.star}] {player_json['name']}"}**""",
@@ -137,7 +137,7 @@ class LeaderboardCommands(commands.Cog):
 			color = ctx.author.color
 		)
 		for player in (leaderboards_json["bedwars"]["finals"]["overall"]):
-			player_json = await core.minecraft.hypixel.player.get_player(player)
+			player_json = await core.minecraft.hypixel.player.get_player_data(player)
 			bedwars_overall_finals_leaderboard_embed.add_field(
 				name = f"#{index + 1}",
 				value = f"""**{discord.utils.escape_markdown(f"[{player_json['bedwars']['star']}{core.static.star}] [{player_json['rank_data']['rank']}] {player_json['name']}") if player_json["rank_data"]["rank"] else f"[{player_json['bedwars']['star']}{core.static.star} {player_json['name']}]"} - {player_json['bedwars']['final_kills']} finals**""",
@@ -162,7 +162,7 @@ class LeaderboardCommands(commands.Cog):
 			color = ctx.author.color
 		)
 		for player in (leaderboards_json["bedwars"]["finals"]["weekly"]):
-			player_json = await core.minecraft.hypixel.player.get_player(player)
+			player_json = await core.minecraft.hypixel.player.get_player_data(player)
 			bedwars_weekly_finals_leaderboard_embed.add_field(
 				name = f"#{index + 1}",
 				value = f"""**{discord.utils.escape_markdown(f"[{player_json['bedwars']['star']}{core.static.star}] [{player_json['rank_data']['rank']}] {player_json['name']}") if player_json["rank_data"]["rank"] else f"[{player_json['bedwars']['star']}{core.static.star} {player_json['name']}]"}**""",

@@ -95,7 +95,7 @@ class WristSpasm(commands.Cog):
 			await ctx.send(embed = nameerror_embed)
 			return
 		try:
-			player_stats = await core.minecraft.hypixel.player.get_player(player_data["uuid"])
+			player_stats = await core.minecraft.hypixel.player.get_player_data(player_data["uuid"])
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
@@ -189,7 +189,7 @@ class WristSpasm(commands.Cog):
 			await ctx.send(embed = nameerror_embed)
 			return
 		try:
-			player_stats = await core.minecraft.hypixel.player.get_player(player_data["uuid"])
+			player_stats = await core.minecraft.hypixel.player.get_player_data(player_data["uuid"])
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",

@@ -25,7 +25,7 @@ SOFTWARE.
 import core.minecraft.hypixel.request
 
 async def get_leaderboards():
-	leaderboards_json = await core.minecraft.hypixel.request.send_leaderboard_request()
+	leaderboards_json = await core.minecraft.hypixel.request.get_leaderboards()
 	leaderboards = {
 		"bedwars" : {
 			"level" : leaderboards_json["leaderboards"]["BEDWARS"][0]["leaders"],

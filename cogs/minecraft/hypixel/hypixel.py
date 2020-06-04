@@ -79,7 +79,7 @@ class Hypixel(commands.Cog):
 		)
 		message = await ctx.send(embed = loading_embed)
 		try:
-			player_json = await core.minecraft.hypixel.player.get_player(player_data["minecraft_uuid"])
+			player_json = await core.minecraft.hypixel.player.get_player_data(player_data["minecraft_uuid"])
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",

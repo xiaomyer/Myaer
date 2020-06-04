@@ -26,9 +26,9 @@ import core.minecraft.hypixel.request
 import core.minecraft.hypixel.static
 import math
 
-async def get_player(player):
+async def get_player_data(player):
 	try:
-		player_json = await core.minecraft.hypixel.request.send_player_request_uuid(player)
+		player_json = await core.minecraft.hypixel.request.get_player_uuid(player)
 	except:
 		raise NameError("No Hypixel stats")
 	player = { # This thing is pretty torture
