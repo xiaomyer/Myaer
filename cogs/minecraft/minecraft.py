@@ -32,6 +32,7 @@ import traceback
 import core.minecraft.verification.verification
 
 crafatar_api = "https://crafatar.com/"
+mc_heads_api = "https://mc-heads.net/"
 
 class Minecraft(commands.Cog):
 	def __init__(self, bot):
@@ -194,7 +195,7 @@ class Minecraft(commands.Cog):
 			color = ctx.author.color
 		)
 		player_skin_embed.set_image(
-			url = f"{crafatar_api}renders/body/{player_data['minecraft_uuid']}?overlay",
+			url = f"{mc_heads_api}body/{player_data['minecraft_uuid']}/1591285958", # don't ask me what the number is, idk either; i think it's the maximum size for images
 		)
 		player_skin_embed.set_thumbnail(
 			url = f"{crafatar_api}skins/{player_data['minecraft_uuid']}?overlay"
