@@ -119,6 +119,28 @@ async def get_network_level_data(experience):
 	}
 	return level_data
 
+async def get_guild_level_data(experience): # credit for original formula to @Sk1er, translated into Kotlin by @littlemissantivirus, then translated into Python by @SirNapkin1334
+	experienceBelow14 = [100000, 150000, 250000, 500000, 750000, 1000000, 1250000, 1500000, 2000000, 2500000, 2500000, 2500000, 2500000, 2500000]
+	c = 0.0
+	for it in experienceBelow14:
+		if (it > experience):
+			level = c + round(experience / it * 100.0) / 100.0
+		experience -= it
+		c+=1
+
+		increment = 3000000
+
+	while experience > increment:
+		c+=1
+		experience-=increment
+
+	level = c + (round(experience / increment * 100.0) / 100.0)
+	level_data = {
+		"level" : math.trunc(level),
+		"percentage" : round((level - math.trunc(level)) * 100, 2)
+	}
+	return level_data
+
 async def get_rank_data(rank, prefix_raw, monthly_package_rank, new_package_rank, package_rank): # complicated because returning the formatted rank name
 	formatted_rank = None
 	if prefix_raw:

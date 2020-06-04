@@ -24,6 +24,7 @@ SOFTWARE.
 
 from discord.ext import commands
 import discord
+import math
 import core.minecraft.request
 import core.minecraft.hypixel.player
 import core.minecraft.hypixel.guild
@@ -84,17 +85,13 @@ class Guild(commands.Cog):
 			return
 		player_guild_embed = discord.Embed(
 			name = "Player guild",
+			title = f"""{discord.utils.escape_markdown(f"{guild_json['name']} [{guild_json['tag']}]") if guild_json["tag"] else f"{guild_json['name']}"}""",
 			color = int((guild_json['color']), 16) if guild_json['color'] else ctx.author.color
 		)
 		player_guild_embed.add_field(
-			name = f"__**{core.static.arrow_bullet_point} Name**__",
-			value = f"{guild_json['name']}"
+			name = f"__**{core.static.arrow_bullet_point} Level**__",
+			value = f"{guild_json['level_data']['level']} ({guild_json['level_data']['percentage']}% to {math.trunc((guild_json['level_data']['level'])) + 1})"
 		)
-		if guild_json["tag"]:
-			player_guild_embed.add_field(
-				name = f"__**{core.static.arrow_bullet_point} Tag**__",
-				value = f"[{guild_json['tag']}]"
-			)
 		await message.edit(embed = player_guild_embed)
 def setup(bot):
 	bot.add_cog(Guild(bot))

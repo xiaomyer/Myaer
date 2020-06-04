@@ -22,24 +22,25 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import core.minecraft.hypixel.request
-import core.minecraft.hypixel.static
-import math
+from discord.ext import commands
+import datetime
+import discord
+import humanfriendly
+import core.minecraft.request
+import sys
+import traceback
+import core.minecraft.verification.verification
 
-tag_colors = {
-	"DARK_GREEN" : "00AA00",
-	"YELLOW" : "FFFF55"
-}
+class Announcement(commands.Cog):
+	def __init__(self, bot):
+		self.bot = bot
 
-async def get_guild_data_uuid(uuid):
-	try:
-		guild_json = (await core.minecraft.hypixel.request.get_guild_by_uuid(uuid))
-	except:
-		raise NameError("Not in a guild")
-	guild = {
-		"name" : guild_json.get("guild", {}).get("name", ""),
-		"level_data" : (await core.minecraft.hypixel.static.get_guild_level_data((guild_json.get("guild", {}).get("exp", 0)))),
-		"color" : tag_colors.get((guild_json.get("guild", {}).get("tagColor", "")), None),
-		"tag" : guild_json.get("guild", {}).get("tag", "")
-	}
-	return guild
+	@commands.command(name = "announcement", aliases = ["announce"])
+	@commands.is_owner()
+	async def announcement(self, ctx, message):
+		for guild in ctx.bot.guilds:
+			await [channel.send(message) for channel in guild.text_channels if guild.me.permissions_in(channel).send_messages][0]
+
+def setup(bot):
+	bot.add_cog(Announcement(bot))
+	print("Reloaded commands.announcement")

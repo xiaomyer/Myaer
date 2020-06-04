@@ -198,7 +198,7 @@ class Minecraft(commands.Cog):
 			url = f"{mc_heads_api}body/{player_data['minecraft_uuid']}/1591285958", # don't ask me what the number is, idk either; i think it's the maximum size for images
 		)
 		player_skin_embed.set_thumbnail(
-			url = f"{crafatar_api}skins/{player_data['minecraft_uuid']}?overlay"
+			url = f"{mc_heads_api}skin/{player_data['minecraft_uuid']}"
 		)
 		await message.edit(embed = player_skin_embed)
 
@@ -346,9 +346,6 @@ class Minecraft(commands.Cog):
 				name = "Not verified",
 				description = f"{target}\'s Minecraft account was not verified.",
 				color = ctx.author.color
-			)
-			not_verified_embed.set_footer(
-				text = "... with Myaer."
 			)
 			await message.edit(embed = not_verified_embed)
 
