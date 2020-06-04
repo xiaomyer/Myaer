@@ -57,6 +57,7 @@ extensions = [
 	"cogs.minecraft.minecraft",
 	"commands.ping",
 	"cogs.minecraft.hypixel.skywars",
+	"commands.suggest",
 	"cogs.wristspasm"
 ]
 
