@@ -31,10 +31,11 @@ import sys
 import traceback
 import core.minecraft.verification.verification
 
+crafatar_api = "https://crafatar.com/"
+
 class Minecraft(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
-		self.user_converter = commands.UserConverter()
 
 	@commands.group(name = "minecraft", aliases = ["mc"], invoke_without_command = True)
 	async def minecraft(self, ctx):
@@ -294,6 +295,65 @@ class Minecraft(commands.Cog):
 				text = "... with Myaer."
 			)
 			await message.edit(embed = not_verified_embed)
+
+	@minecraft.command(name = "skin")
+	@commands.max_concurrency(1, per = commands.BucketType.user)
+	async def uuid(self, ctx, *args):
+		if len(args):
+			try:
+				player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
+			except AttributeError:
+				member_not_verified = discord.Embed(
+					name = "Member not verified",
+					description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`",
+					color = ctx.author.color
+				)
+				member_not_verified.set_footer(
+					text = "... with Myaer.",
+					color = ctx.author.color
+				)
+				await ctx.send(embed = member_not_verified)
+				return
+			except NameError:
+				nameerror_embed = discord.Embed(
+					name = "Invalid input",
+					description = f"\"{args[0]}\" is not a valid username or UUID.",
+					color = ctx.author.color
+				)
+				await ctx.send(embed = nameerror_embed)
+				return
+		else:
+			player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
+			if player_data is None:
+				unverified_embed = discord.Embed(
+					name = "Not verified",
+					description = "You have to verify with `/mc verify <minecraft-ign>` first.",
+					color = ctx.author.color
+				)
+				await ctx.send(embed = unverified_embed)
+				return
+		loading_embed = discord.Embed(
+			name = "Loading",
+			description = f"Loading {player_data['player_formatted_name']}\'s skin...",
+			color = ctx.author.color
+		)
+		message = await ctx.send(embed = loading_embed)
+		player_skin_embed = discord.Embed(
+			name = "Player skin",
+			title = f"**{player_data['player_formatted_name']}'s Minecraft Skin**",
+			color = ctx.author.color
+		)
+		player_skin_embed.set_image(
+			url = f"{crafatar_api}renders/body/{player_data['minecraft_uuid']}.png",
+		)
+		player_skin_embed.set_footer(
+			text = "2D Skin",
+			icon_url = f"{crafatar_api}skins/{player_data['minecraft_uuid']}.png"
+		)
+		player_skin_embed.set_thumbnail(
+			url = f"{crafatar_api}skins/{player_data['minecraft_uuid']}.png"
+		)
+		await message.edit(embed = player_skin_embed)
 
 	async def cog_command_error(self, ctx, error):
 
