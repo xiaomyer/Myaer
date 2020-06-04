@@ -32,7 +32,7 @@ async def get_player(player):
 	uuid = (await core.minecraft.request.get_profile(player))["uuid"] # &name= is deprecated for the Hypixel API, so convert name to UUID with Mojang API
 	async with aiohttp.ClientSession() as session:
 		raw = await session.get(f"{hypixel_api}player?key={core.config.hypixel_api_key}&uuid={uuid}")
-		player_json = await raw.json() # but rather per player
+		player_json = await raw.json()
 	if player_json["success"] and player_json["player"]:
 		return player_json
 	elif player_json["success"] and player_json["player"] is None: # Hypixel API still returns "success" even if the player does not exist, hence the more complicated check
@@ -56,6 +56,20 @@ async def get_leaderboards():
 	elif not leaderboards_json["success"]:
 		return NameError("Something went wrong.") # The only reason there could be an error in retreiving leaderboard data is if the API key is invalid, but that should not be possible. TL;DR: If anything gets here, something went horribly wrong.
 
-# async def get_guild_by_uuid(self, uuid):
+async def get_guild_by_uuid(uuid):
+	async with aiohttp.ClientSession() as session:
+		raw = await session.get(f"{hypixel_api}guild?key={core.config.hypixel_api_key}&player={uuid}")
+		player_guild_json = await raw.json()
+	if player_guild_json["success"] and player_guild_json["guild"]:
+		return player_guild_json
+	elif player_guild_json["success"] and player_guild_json["guild"] is None:
+		raise NameError(f"Player \"{uuid}\" does not exist!")
 
-# async def get_guild_by_name(self, name):
+async def get_guild_by_name(guild):
+	async with aiohttp.ClientSession() as session:
+		raw = await session.get(f"{hypixel_api}guild?key={core.config.hypixel_api_key}&name={guild}")
+		player_guild_json = await raw.json()
+	if player_guild_json["success"] and player_guild_json["guild"]:
+		return player_guild_json
+	elif player_guild_json["success"] and player_guild_json["guild"] is None:
+		raise NameError(f"Player \"{uuid}\" does not exist!")

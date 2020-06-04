@@ -116,6 +116,12 @@ class Hypixel(commands.Cog):
 f"""{datetime.date.fromtimestamp((player_json['login_times']['last']) / 1000)}
 ({(humanfriendly.format_timespan(((datetime.datetime.now()) - (datetime.datetime.fromtimestamp((player_json['login_times']['last']) / 1000))), max_units = 2))} ago)"""
 		)
+		if player_json['guild_data']:
+			player_info_embed.add_field(
+				name = f"__**{core.static.arrow_bullet_point} Guild**__",
+				value = f"{player_json['guild_data']['name']} [{player_json['guild_data']['tag']}]",
+				inline = False
+			)
 		await message.edit(embed = player_info_embed)
 
 def setup(bot):

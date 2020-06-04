@@ -26,17 +26,25 @@ import core.minecraft.hypixel.request
 import core.minecraft.hypixel.static
 import math
 
-async def get_player_data(player):
+async def get_player_data(uuid):
 	try:
-		player_json = await core.minecraft.hypixel.request.get_player_uuid(player)
+		player_json = await core.minecraft.hypixel.request.get_player_uuid(uuid)
 	except:
 		raise NameError("No Hypixel stats")
+	try:
+		player_guild_json = await core.minecraft.hypixel.request.get_guild_by_uuid(uuid)
+	except:
+		player_guild_json = None
 	player = { # This thing is pretty torture
 		"name" : player_json.get("player", {}).get("displayname", ""),
 		"level_data" : (await core.minecraft.hypixel.static.get_network_level_data(player_json.get("player", {}).get("networkExp", 0))),
 		"karma" : player_json.get("player", {}).get("karma", 0),
 		"achievement_points" : player_json.get("player", {}).get("achievementPoints", 0),
 		"rank_data" : (await core.minecraft.hypixel.static.get_rank_data((player_json.get("player", {}).get("rank", None)), (player_json.get("player", {}).get("prefix", None)), (player_json.get("player", {}).get("monthlyPackageRank", None)), (player_json.get("player", {}).get("newPackageRank", None)), (player_json.get("packageRank", None)))),
+		"guild_data" : {
+			"name" : player_guild_json.get("guild", {}).get("name", ""),
+			"tag" : player_guild_json.get("guild", {}).get("tag", "")
+		} if player_guild_json else None,
 		"login_times" : {
 			"first" : player_json.get("player", {}).get("firstLogin", 0),
 			"last" : player_json.get("player", {}).get("lastLogin", 0)
