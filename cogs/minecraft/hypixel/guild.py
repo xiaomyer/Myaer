@@ -23,10 +23,7 @@ SOFTWARE.
 """
 
 from discord.ext import commands
-import datetime
 import discord
-import humanfriendly
-import math
 import core.minecraft.request
 import core.minecraft.hypixel.player
 import core.minecraft.hypixel.guild
