@@ -47,9 +47,6 @@ class Guild(commands.Cog):
 					description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`",
 					color = ctx.author.color
 				)
-				member_not_verified.set_footer(
-					text = "... with Myaer."
-				)
 				await ctx.send(embed = member_not_verified)
 				return
 			except NameError:
@@ -87,12 +84,17 @@ class Guild(commands.Cog):
 			return
 		player_guild_embed = discord.Embed(
 			name = "Player guild",
-			color = ctx.author.color
+			color = int((guild_json['color']), 16) if guild_json['color'] else ctx.author.color
 		)
 		player_guild_embed.add_field(
 			name = f"__**{core.static.arrow_bullet_point} Name**__",
 			value = f"{guild_json['name']}"
 		)
+		if guild_json["tag"]:
+			player_guild_embed.add_field(
+				name = f"__**{core.static.arrow_bullet_point} Tag**__",
+				value = f"[{guild_json['tag']}]"
+			)
 		await message.edit(embed = player_guild_embed)
 def setup(bot):
 	bot.add_cog(Guild(bot))

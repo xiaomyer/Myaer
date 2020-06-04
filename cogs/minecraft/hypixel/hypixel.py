@@ -33,6 +33,8 @@ import core.minecraft.hypixel.static
 import core.static
 import core.minecraft.verification.verification
 
+mc_heads_api = "https://mc-heads.net/"
+
 class Hypixel(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
@@ -94,6 +96,10 @@ class Hypixel(commands.Cog):
 		player_info_embed.set_thumbnail(
 			url = core.minecraft.hypixel.static.hypixel_icons["Main"]
 		)
+		player_info_embed.set_footer(
+			text = mc_heads_api,
+			icon_url = f"{mc_heads_api}avatar/{player_data['minecraft_uuid']}/100"
+		)
 		player_info_embed.add_field(
 			name = f"__**{core.static.arrow_bullet_point} Level**__",
 			value = f"{player_json['level_data']['level']} ({player_json['level_data']['percentage']}% to {math.trunc((player_json['level_data']['level']) + 1)})"
@@ -116,10 +122,10 @@ class Hypixel(commands.Cog):
 f"""{datetime.date.fromtimestamp((player_json['login_times']['last']) / 1000)}
 ({(humanfriendly.format_timespan(((datetime.datetime.now()) - (datetime.datetime.fromtimestamp((player_json['login_times']['last']) / 1000))), max_units = 2))} ago)"""
 		)
-		if player_json['guild_data']:
+		if player_json['guild_data']: # Checks if player is in a guild
 			player_info_embed.add_field(
 				name = f"__**{core.static.arrow_bullet_point} Guild**__",
-				value = f"{player_json['guild_data']['name']} [{player_json['guild_data']['tag']}]",
+				value = f"""{discord.utils.escape_markdown(f"{player_json['guild_data']['name']} [{player_json['guild_data']['tag']}]" if player_json["guild_data"]["tag"] else f"{player_json['guild_data']['name']}")}""", # checks if player's guild has a tag
 				inline = False
 			)
 		await message.edit(embed = player_info_embed)

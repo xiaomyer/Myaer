@@ -26,6 +26,10 @@ import core.minecraft.hypixel.request
 import core.minecraft.hypixel.static
 import math
 
+tag_colors = {
+	"DARK_GREEN" : "00AA00",
+	"YELLOW" : "FFFF55"
+}
 
 async def get_guild_data_uuid(uuid):
 	try:
@@ -34,6 +38,7 @@ async def get_guild_data_uuid(uuid):
 		raise NameError("Not in a guild")
 	guild = {
 		"name" : guild_json.get("guild", {}).get("name", ""),
+		"color" : tag_colors.get((guild_json.get("guild", {}).get("tagColor", "")), None),
 		"tag" : guild_json.get("guild", {}).get("tag", "")
 	}
 	return guild
