@@ -80,7 +80,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats.",
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats.",
 				color = ctx.author.color
 			)
 			await message.edit(embed = nameerror_embed)
@@ -181,7 +181,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -281,7 +281,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -376,7 +376,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.send(embed = nameerror_embed)
 			return
@@ -471,7 +471,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -566,7 +566,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -661,7 +661,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -757,7 +757,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -852,7 +852,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -948,7 +948,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -1049,7 +1049,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -1145,7 +1145,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -1245,7 +1245,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -1340,7 +1340,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -1435,7 +1435,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -1536,7 +1536,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -1632,7 +1632,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -1728,7 +1728,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -1829,7 +1829,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -1925,7 +1925,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -2026,7 +2026,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -2109,7 +2109,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -2192,7 +2192,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -2275,7 +2275,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -2358,7 +2358,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -2441,7 +2441,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -2527,7 +2527,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -2609,7 +2609,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -2692,7 +2692,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -2780,7 +2780,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -2863,7 +2863,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -2951,7 +2951,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -3034,7 +3034,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -3117,7 +3117,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -3205,7 +3205,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -3288,7 +3288,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -3371,7 +3371,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -3459,7 +3459,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -3542,7 +3542,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -3625,7 +3625,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -3714,7 +3714,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -3797,7 +3797,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -3880,7 +3880,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -3963,7 +3963,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -4046,7 +4046,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -4132,7 +4132,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -4214,7 +4214,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -4297,7 +4297,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -4385,7 +4385,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -4468,7 +4468,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -4556,7 +4556,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -4639,7 +4639,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -4722,7 +4722,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -4810,7 +4810,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -4893,7 +4893,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -4976,7 +4976,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -5064,7 +5064,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -5147,7 +5147,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -5230,7 +5230,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -5319,7 +5319,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -5402,7 +5402,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -5485,7 +5485,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -5568,7 +5568,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -5651,7 +5651,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -5737,7 +5737,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -5819,7 +5819,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -5902,7 +5902,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -5990,7 +5990,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -6078,7 +6078,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -6161,7 +6161,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -6244,7 +6244,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -6332,7 +6332,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -6415,7 +6415,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -6498,7 +6498,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -6586,7 +6586,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -6669,7 +6669,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return
@@ -6752,7 +6752,7 @@ class BedwarsStats(commands.Cog):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
+				description = f"{player_data['player_formatted_name']} does not seem to have Hypixel stats."
 			)
 			await message.edit(embed = nameerror_embed)
 			return

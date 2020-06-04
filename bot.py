@@ -50,6 +50,7 @@ extensions = [
 	"jishaku",
 	"cogs.minecraft.hypixel.bedwars",
 	"events.command_error",
+	"cogs.minecraft.hypixel.guild",
 	"commands.help",
 	"cogs.minecraft.hypixel.hypixel",
 	"cogs.minecraft.hypixel.leaderboards",
