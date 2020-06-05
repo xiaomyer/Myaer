@@ -27,10 +27,8 @@ import core.config
 import datetime
 import discord
 from discord.ext import commands
-import json
 import logging
-import sys
-import traceback
+from tinydb import TinyDB, Query, where
 
 logger = logging.getLogger("discord")
 logger.setLevel(logging.INFO)
@@ -39,7 +37,10 @@ handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(me
 logger.addHandler(handler)
 
 async def get_prefix(bot, message):
-	return commands.when_mentioned_or("/", "myaer ", "Myaer ")(bot, message)
+	db = TinyDB("/home/myerfire/Myaer/Myaer/prefixes.json")
+	prefix_data = db.search(where("guild_id") == message.guild.id) if db.search(where("guild_id") == message.guild.id) else None
+	prefix = prefix_data[0]["prefix"] if prefix_data else core.config.default_prefix
+	return commands.when_mentioned_or(prefix, "myaer ", "Myaer ")(bot, message)
 
 bot = commands.Bot(
 	command_prefix = get_prefix,
@@ -48,6 +49,7 @@ bot = commands.Bot(
 
 extensions = [
 	"jishaku",
+	"commands.announcement",
 	"cogs.minecraft.hypixel.bedwars",
 	"events.command_error",
 	"cogs.minecraft.hypixel.guild",
@@ -56,6 +58,7 @@ extensions = [
 	"cogs.minecraft.hypixel.leaderboards",
 	"cogs.minecraft.minecraft",
 	"commands.ping",
+	"cogs.prefix",
 	"cogs.minecraft.hypixel.skywars",
 	"commands.suggest",
 	"cogs.wristspasm"

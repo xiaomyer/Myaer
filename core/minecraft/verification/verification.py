@@ -69,12 +69,10 @@ async def unverify(discord_id):
 		db.remove(Users.discord_id == discord_id)
 		return saved_data
 	else:
-		print("not verified")
 		raise NameError("User is not verified.")
 
 async def find_uuid(discord_id):
 	db = TinyDB("/home/myerfire/Myaer/Myaer/core/minecraft/verification/verified.json")
-	Users = Query()
 	try:
 		return db.search(where("discord_id") == discord_id)
 	except:

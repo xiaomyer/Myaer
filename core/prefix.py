@@ -22,12 +22,32 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import json
+from tinydb import TinyDB, Query, where
 
-with open("/home/myerfire/Myaer/Myaer/config.json") as config_raw:
-	config_json = json.load(config_raw)
+async def get_prefix(guild_id):
+	db = TinyDB("/home/myerfire/Myaer/Myaer/prefixes.json")
+	try:
+		return db.search(where("guild_id") == guild_id)
+	except:
+		return None
 
-token = config_json["keys"]["token"]
-hypixel_api_key = config_json["keys"]["hypixel"]
-status_log_channel = config_json["channels"]["status_log_channel"]
-default_prefix = config_json["prefix"]
+async def set_prefix(guild_id, prefix):
+	db = TinyDB("/home/myerfire/Myaer/Myaer/prefixes.json")
+	Prefixes = Query()
+	if db.search(where("guild_id") == guild_id):
+		db.update({"prefix" : prefix}, Prefixes.guild_id == guild_id)
+	elif db.search(where("guild_id") == guild_id):
+		db.remove(Prefixes.guild_id == guild_id)
+		db.insert({"guild_id" : guild_id, "prefix" : prefix})
+	else:
+		db.insert({"guild_id" : guild_id, "prefix" : prefix})
+
+async def reset_prefix(guild_id):
+	db = TinyDB("/home/myerfire/Myaer/Myaer/prefixes.json")
+	Prefixes = Query()
+	if db.search(where("guild_id") == guild_id):
+		saved_data = db.search(where("guild_id") == guild_id)
+		db.remove(Prefixes.guild_id == guild_id)
+		return saved_data
+	else:
+		raise NameError("Prefix was not set")

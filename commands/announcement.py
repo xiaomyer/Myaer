@@ -23,13 +23,7 @@ SOFTWARE.
 """
 
 from discord.ext import commands
-import datetime
 import discord
-import humanfriendly
-import core.minecraft.request
-import sys
-import traceback
-import core.minecraft.verification.verification
 
 class Announcement(commands.Cog):
 	def __init__(self, bot):
@@ -37,7 +31,7 @@ class Announcement(commands.Cog):
 
 	@commands.command(name = "announcement", aliases = ["announce"])
 	@commands.is_owner()
-	async def announcement(self, ctx, message):
+	async def announcement(self, ctx, *, message):
 		for guild in ctx.bot.guilds:
 			await [channel.send(message) for channel in guild.text_channels if guild.me.permissions_in(channel).send_messages][0]
 
