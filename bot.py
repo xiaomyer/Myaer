@@ -37,10 +37,11 @@ handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(me
 logger.addHandler(handler)
 
 async def get_prefix(bot, message):
-	db = TinyDB("/home/myerfire/Myaer/Myaer/prefixes.json")
-	prefix_data = db.search(where("guild_id") == message.guild.id) if db.search(where("guild_id") == message.guild.id) else None
-	prefix = prefix_data[0]["prefix"] if prefix_data else core.config.default_prefix
-	return commands.when_mentioned_or(prefix, "myaer ", "Myaer ")(bot, message)
+#	db = TinyDB("/home/myerfire/Myaer/Myaer/prefixes.json")
+#	prefix_data = db.search(where("guild_id") == message.guild.id) if db.search(where("guild_id") == message.guild.id) else None
+#	prefix = prefix_data[0]["prefix"] if prefix_data else core.config.default_prefix
+#	return commands.when_mentioned_or(prefix, "myaer ", "Myaer ")(bot, message)
+	return commands.when_mentioned_or(core.config.default_prefix, "myaer", "Myaer")(bot, message)
 
 bot = commands.Bot(
 	command_prefix = get_prefix,
@@ -59,7 +60,7 @@ extensions = [
 	"cogs.minecraft.minecraft",
 	"cogs.minecraft.hypixel.paintball",
 	"commands.ping",
-	"cogs.prefix",
+#	"cogs.prefix",
 	"cogs.minecraft.hypixel.skywars",
 	"commands.suggest",
 	"cogs.wristspasm"
