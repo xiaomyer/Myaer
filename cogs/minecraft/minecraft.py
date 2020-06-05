@@ -195,7 +195,7 @@ class Minecraft(commands.Cog):
 		await message.edit(embed = player_skin_embed)
 
 	@minecraft.command(name = "verify", aliases = ["link"])
-	@commands.cooldown(1, 60, commands.BucketType.guild)
+	@commands.cooldown(1, 60, commands.BucketType.user)
 	async def verify(self, ctx, ign):
 		try:
 			player_data = await core.minecraft.request.get_profile(ign)
@@ -278,7 +278,7 @@ class Minecraft(commands.Cog):
 		await message.edit(embed = verified_embed)
 
 	@minecraft.command(name = "unverify", aliases = ["unlink"])
-	@commands.cooldown(1, 60, commands.BucketType.guild)
+	@commands.cooldown(1, 60, commands.BucketType.user)
 	async def unverify(self, ctx):
 		try:
 			loading_embed = discord.Embed(
