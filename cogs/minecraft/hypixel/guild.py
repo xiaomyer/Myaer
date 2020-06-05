@@ -39,35 +39,11 @@ class Guild(commands.Cog):
 	@commands.group(name = "guild", aliases = ["g"], invoke_without_command = True)
 	@commands.max_concurrency(1, per = commands.BucketType.user)
 	async def guild(self, ctx, *args):
-		if len(args):
-			try:
-				player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
-			except AttributeError:
-				member_not_verified = discord.Embed(
-					name = "Member not verified",
-					description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`",
-					color = ctx.author.color
-				)
-				await ctx.send(embed = member_not_verified)
-				return
-			except NameError:
-				nameerror_embed = discord.Embed(
-					name = "Invalid input",
-					description = f"\"{args[0]}\" is not a valid username or UUID.",
-					color = ctx.author.color
-				)
-				await ctx.send(embed = nameerror_embed)
-				return
-		else:
-			player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
-			if player_data is None:
-				unverified_embed = discord.Embed(
-					name = "Not verified",
-					description = "You have to verify with `/mc verify <minecraft-ign>` first.",
-					color = ctx.author.color
-				)
-				await ctx.send(embed = unverified_embed)
-				return
+		player_info = await core.minecraft.hypixel.static.name_handler(ctx, args)
+		if player_info:
+			player_data = player_info["player_data"]
+			player_json = player_info["player_json"]
+		else: return
 		loading_embed = discord.Embed(
 			name = "Loading",
 			description = f"Loading {player_data['player_formatted_name']}'s guild data...",

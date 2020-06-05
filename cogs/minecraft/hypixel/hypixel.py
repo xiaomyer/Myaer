@@ -42,53 +42,17 @@ class Hypixel(commands.Cog):
 	@commands.group(name = "hypixel", aliases = ["hp"], invoke_without_command = True)
 	@commands.max_concurrency(1, per = commands.BucketType.user)
 	async def hypixel(self, ctx, *args):
-		if len(args):
-			try:
-				player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
-			except AttributeError:
-				member_not_verified = discord.Embed(
-					name = "Member not verified",
-					description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`",
-					color = ctx.author.color
-				)
-				member_not_verified.set_footer(
-					text = "... with Myaer."
-				)
-				await ctx.send(embed = member_not_verified)
-				return
-			except NameError:
-				nameerror_embed = discord.Embed(
-					name = "Invalid input",
-					description = f"\"{args[0]}\" is not a valid username or UUID.",
-					color = ctx.author.color
-				)
-				await ctx.send(embed = nameerror_embed)
-				return
-		else:
-			player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
-			if player_data is None:
-				unverified_embed = discord.Embed(
-					name = "Not verified",
-					description = "You have to verify with `/mc verify <minecraft-ign>` first.",
-					color = ctx.author.color
-				)
-				await ctx.send(embed = unverified_embed)
-				return
+		player_info = await core.minecraft.hypixel.static.name_handler(ctx, args)
+		if player_info:
+			player_data = player_info["player_data"]
+			player_json = player_info["player_json"]
+		else: return
 		loading_embed = discord.Embed(
 			name = "Loading",
 			description = f"Loading {player_data['player_formatted_name']}'s Hypixel stats...",
 			color = ctx.author.color
 		)
 		message = await ctx.send(embed = loading_embed)
-		try:
-			player_json = await core.minecraft.hypixel.player.get_player_data(player_data["minecraft_uuid"])
-		except NameError:
-			nameerror_embed = discord.Embed(
-				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
-			)
-			await message.edit(embed = nameerror_embed)
-			return
 		player_info_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}**""",
 			color = int((player_json["rank_data"])["color"], 16) # 16 - hex value
@@ -122,7 +86,7 @@ class Hypixel(commands.Cog):
 f"""{datetime.date.fromtimestamp((player_json['login_times']['last']) / 1000)}
 ({(humanfriendly.format_timespan(((datetime.datetime.now()) - (datetime.datetime.fromtimestamp((player_json['login_times']['last']) / 1000))), max_units = 2))} ago)"""
 		)
-		if player_json['guild_data']: # Checks if player is in a guild
+		if player_json['guild_data']: # checks if player is in a guild
 			player_info_embed.add_field(
 				name = f"__**{core.static.arrow_bullet_point} Guild**__",
 				value = f"""{discord.utils.escape_markdown(f"{player_json['guild_data']['name']} [{player_json['guild_data']['tag']}]" if player_json["guild_data"]["tag"] else f"{player_json['guild_data']['name']}")}""", # checks if player's guild has a tag

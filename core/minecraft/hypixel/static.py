@@ -22,8 +22,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+import discord
 import math
+import core.minecraft.hypixel.player
 import re
+import core.minecraft.verification.verification
 
 prestige_colors = {
 	"Stone" : "607D8B",
@@ -249,3 +252,49 @@ async def get_skywars_star_from_experience(experience): # another formula that I
 				star = c + 1 + (experience - total_xp[c - 1]) / (total_xp[c] - total_xp[c - 1])
 				break
 	return star
+
+async def name_handler(ctx, args):
+	if len(args):
+		try:
+			player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
+		except AttributeError:
+			member_not_verified = discord.Embed(
+				name = "Member not verified",
+				description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`",
+				color = ctx.author.color
+			)
+			await ctx.send(embed = member_not_verified)
+			return
+		except NameError:
+			nameerror_embed = discord.Embed(
+				name = "Invalid input",
+				description = f"\"{args[0]}\" is not a valid username or UUID.",
+				color = ctx.author.color
+			)
+			await ctx.send(embed = nameerror_embed)
+			return
+	else:
+		player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
+		if player_data is None:
+			unverified_embed = discord.Embed(
+				name = "Not verified",
+				description = "You have to verify with `/mc verify <minecraft-ign>` first.",
+				color = ctx.author.color
+			)
+			await ctx.send(embed = unverified_embed)
+			return
+	try:
+		player_json = await core.minecraft.hypixel.player.get_player_data(player_data["minecraft_uuid"])
+	except NameError:
+		nameerror_embed = discord.Embed(
+			name = "Invalid input",
+			description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats.",
+			color = ctx.author.color
+		)
+		await ctx.send(embed = nameerror_embed)
+		return
+	player_info = {
+		"player_data" : player_data,
+		"player_json" : player_json
+	}
+	return player_info
