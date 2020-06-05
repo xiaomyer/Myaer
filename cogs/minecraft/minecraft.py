@@ -110,10 +110,6 @@ class Minecraft(commands.Cog):
 					description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`",
 					color = ctx.author.color
 				)
-				member_not_verified.set_footer(
-					text = "... with Myaer.",
-					color = ctx.author.color
-				)
 				await ctx.send(embed = member_not_verified)
 				return
 			except NameError:
@@ -157,10 +153,6 @@ class Minecraft(commands.Cog):
 				member_not_verified = discord.Embed(
 					name = "Member not verified",
 					description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`",
-					color = ctx.author.color
-				)
-				member_not_verified.set_footer(
-					text = "... with Myaer.",
 					color = ctx.author.color
 				)
 				await ctx.send(embed = member_not_verified)
@@ -228,9 +220,6 @@ class Minecraft(commands.Cog):
 				description = f"Verified your Minecraft account as \"{player_data['name']}\"",
 				color = ctx.author.color
 			)
-			verified_embed.set_footer(
-				text = "... with Myaer."
-			)
 			await message.edit(embed = verified_embed)
 		except NameError:
 			nameerror_embed = discord.Embed(
@@ -248,7 +237,6 @@ class Minecraft(commands.Cog):
 			)
 			already_has_discord_hypixel_embed.set_footer(
 				text = "If this is your Minecraft account, update your Discord name on Hypixel.",
-				color = ctx.author.color
 			)
 			await message.edit(embed = already_has_discord_hypixel_embed)
 			return
@@ -287,9 +275,6 @@ class Minecraft(commands.Cog):
 			description = f"Verified {target}\'s Minecraft account as \"{player_data['name']}\"",
 			color = ctx.author.color
 		)
-		verified_embed.set_footer(
-			text = "... with Myaer."
-		)
 		await message.edit(embed = verified_embed)
 
 	@minecraft.command(name = "unverify", aliases = ["unlink"])
@@ -316,9 +301,6 @@ class Minecraft(commands.Cog):
 				name = "Not verified",
 				description = "Your Minecraft account was not verified.",
 				color = ctx.author.color
-			)
-			not_verified_embed.set_footer(
-				text = "... with Myaer."
 			)
 			await message.edit(embed = not_verified_embed)
 
