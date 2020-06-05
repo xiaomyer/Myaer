@@ -49,6 +49,7 @@ class LeaderboardCommands(commands.Cog):
 	@leaderboards.group(name = "bedwars", aliases = ["bw"], invoke_without_command = True)
 	@commands.cooldown(1, 60, commands.BucketType.guild)
 	async def bedwars(self, ctx):
+		await ctx.channel.trigger_typing() # don't know how to make it stop, since i don't send a message but rather edit a previously sent message; this just goes on for 10 seconds
 		loading_embed = discord.Embed(
 			name = "Loading",
 			description = "Loading Bedwars level leaderboard...",
@@ -74,6 +75,7 @@ class LeaderboardCommands(commands.Cog):
 	@bedwars.group(name = "wins", aliases = ["win"], invoke_without_command = True)
 	@commands.cooldown(1, 60, commands.BucketType.guild)
 	async def bedwars_wins(self, ctx):
+		await ctx.channel.trigger_typing() # don't know how to make it stop, since i don't send a message but rather edit a previously sent message; this just goes on for 10 seconds
 		loading_embed = discord.Embed(
 			name = "Loading",
 			description = "Loading Bedwars overall wins leaderboard...",
@@ -99,6 +101,7 @@ class LeaderboardCommands(commands.Cog):
 	@bedwars_wins.command(name = "weekly")
 	@commands.cooldown(1, 60, commands.BucketType.guild)
 	async def bedwars_weekly_wins(self, ctx):
+		await ctx.channel.trigger_typing() # don't know how to make it stop, since i don't send a message but rather edit a previously sent message; this just goes on for 10 seconds
 		loading_embed = discord.Embed(
 			name = "Loading",
 			description = "Loading Bedwars weekly wins leaderboard...",
@@ -124,6 +127,7 @@ class LeaderboardCommands(commands.Cog):
 	@bedwars.group(name = "finals", aliases = ["final"], invoke_without_command = True)
 	@commands.cooldown(1, 60, commands.BucketType.guild)
 	async def bedwars_finals(self, ctx):
+		await ctx.channel.trigger_typing() # don't know how to make it stop, since i don't send a message but rather edit a previously sent message; this just goes on for 10 seconds
 		loading_embed = discord.Embed(
 			name = "Loading",
 			description = "Loading Bedwars overall final kills leaderboard...",
@@ -149,6 +153,7 @@ class LeaderboardCommands(commands.Cog):
 	@bedwars_finals.command(name = "weekly")
 	@commands.cooldown(1, 60, commands.BucketType.guild)
 	async def bedwars_weekly_finals(self, ctx):
+		await ctx.channel.trigger_typing() # don't know how to make it stop, since i don't send a message but rather edit a previously sent message; this just goes on for 10 seconds
 		loading_embed = discord.Embed(
 			name = "Loading",
 			description = "Loading Bedwars weekly final kills leaderboard...",
