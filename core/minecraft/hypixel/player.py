@@ -426,6 +426,18 @@ async def get_player_data(uuid):
 				}
 			}
 		},
+		"duels" : {
+			"coins" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("coins", 0),
+			"games_played" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("games_played_duels", 0),
+			"wins" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("wins", 0),
+			"losses" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("losses", 0),
+			"kills" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("kills", 0),
+			"deaths" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("deaths", 0),
+			"winstreak" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("current_winstreak", 0),
+			"uhc" : {
+				"winstreak" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("current_uhc_winstreak", 0),
+			}
+		},
 		"paintball" : {
 			"coins" : player_json.get("player", {}).get("stats", {}).get("Paintball", {}).get("coins", 0),
 			"kills" : player_json.get("player", {}).get("stats", {}).get("Paintball", {}).get("kills", 0),

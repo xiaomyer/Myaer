@@ -25,9 +25,8 @@ SOFTWARE.
 import core.static
 from discord.ext import commands
 import discord
-import core.minecraft.hypixel.player
+import math
 import core.minecraft.hypixel.static
-import core.minecraft.verification.verification
 
 class PaintballStats(commands.Cog):
 	def __init__(self, bot):
@@ -50,7 +49,7 @@ class PaintballStats(commands.Cog):
 		message = await ctx.send(embed = loading_embed)
 		player_stats_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Paintball Stats**""",
-			color = int((player_json["rank_data"])["color"], 16) # 16 - hex value
+			color = int(player_json["rank_data"]["color"], 16) # 16 - hex value
 		)
 		player_stats_embed.set_thumbnail(
 			url = core.minecraft.hypixel.static.hypixel_icons["Classic"]
@@ -81,6 +80,55 @@ class PaintballStats(commands.Cog):
 			value = f"{(player_json['paintball']['shots_fired']):,d}"
 		)
 		await message.edit(embed = player_stats_embed)
+
+	@paintball.command(name = "kdr")
+	async def kdr(self, ctx, *args):
+		player_info = await core.minecraft.hypixel.static.name_handler(ctx, args)
+		if player_info:
+			player_data = player_info["player_data"]
+			player_json = player_info["player_json"]
+		else: return
+		loading_embed = discord.Embed(
+			name = "Loading",
+			description = f"Loading {player_data['player_formatted_name']}'s KDR data..."
+		)
+		message = await ctx.send(embed = loading_embed)
+		player_kdr_embed = discord.Embed(
+			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s KDR**""",
+			color = int(player_json["rank_data"]["color"], 16) # 16 - Hex value.
+		)
+		player_kdr_embed.set_thumbnail(
+			url = core.minecraft.hypixel.static.hypixel_icons["Classic"]
+		)
+		player_kdr_embed.add_field(
+			name = f"__**{core.static.arrow_bullet_point} KDR**__",
+			value = f"{await core.minecraft.hypixel.static.get_ratio((player_json['paintball']['kills']), ((player_json['paintball']['deaths'])))}"
+		)
+		player_kdr_embed.add_field(
+			name = f"__**{core.static.arrow_bullet_point} Kills**__",
+			value = f"{(player_json['paintball']['kills']):,d}"
+		)
+		player_kdr_embed.add_field(
+			name = f"__**{core.static.arrow_bullet_point} Deaths**__",
+			value = f"{(player_json['paintball']['deaths']):,d}"
+		)
+		player_kdr_embed.add_field(
+			name = f"__**{core.static.arrow_bullet_point} Next 1 KDR**__",
+			value = f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['paintball']['kills']), (player_json['paintball']['deaths']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['paintball']['kills']), ((player_json['paintball']['deaths'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['paintball']['kills'], player_json['paintball']['deaths']))))} needed" # don't ask, cause i don't know either; this is for the next integer value
+		)
+		player_kdr_embed.add_field(
+			name = f"__**{core.static.arrow_bullet_point} +1 KDR**__",
+			value = f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['paintball']['kills']), (player_json['paintball']['deaths']), 1)} needed",
+			inline = False
+		)
+		player_kdr_embed.add_field(
+			name = f"__**{core.static.arrow_bullet_point} +2 KDR**__",
+			value = f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['paintball']['kills']), (player_json['paintball']['deaths']), 2)} needed"
+		)
+		player_kdr_embed.set_footer(
+			text = core.static.stats_needed_disclaimer
+		)
+		await message.edit(embed = player_kdr_embed)
 
 def setup(bot):
 	bot.add_cog(PaintballStats(bot))

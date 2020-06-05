@@ -22,7 +22,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import asyncio
 import core.config
 import datetime
 import discord
@@ -35,6 +34,15 @@ logger.setLevel(logging.INFO)
 handler = logging.FileHandler(filename="discord.log", encoding='utf-8', mode='w')
 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
 logger.addHandler(handler)
+
+# with open("/home/myerfire/Myaer/Myaer/prefixes.json") as prefixes_json:
+#	prefixes = json.load(prefixes_json)
+
+# @tasks.loop(seconds = 5)
+# async def update_prefixes():
+#	global prefixes
+#	with open("/home/myerfire/Myaer/Myaer/prefixes.json") as prefixes_json:
+#		prefixes = json.load(prefixes_json)
 
 async def get_prefix(bot, message):
 #	db = TinyDB("/home/myerfire/Myaer/Myaer/prefixes.json")
@@ -71,7 +79,7 @@ async def on_ready():
 	time = datetime.datetime.now().strftime("%A, %b %d, %Y - %m/%d/%Y - %I:%M:%S %p")
 	status_log_channel = bot.get_channel(core.config.status_log_channel)
 	print(f"Connection with Discord established at {time}")
-	await bot.change_presence(activity = discord.Game(name = "remember kids, Myer will set you on fire"))
+	await bot.change_presence(activity = discord.Game(name = "/help"))
 	await status_log_channel.send(f"Logged in at {time}.")
 
 if __name__ == "__main__":
