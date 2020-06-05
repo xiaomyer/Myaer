@@ -426,6 +426,14 @@ async def get_player_data(uuid):
 				}
 			}
 		},
+		"paintball" : {
+			"coins" : player_json.get("player", {}).get("stats", {}).get("Paintball", {}).get("coins", 0),
+			"kills" : player_json.get("player", {}).get("stats", {}).get("Paintball", {}).get("kills", 0),
+			"deaths" : player_json.get("player", {}).get("stats", {}).get("Paintball", {}).get("deaths", 0),
+			"wins" : player_json.get("player", {}).get("stats", {}).get("Paintball", {}).get("wins", 0),
+			"killstreaks" : player_json.get("player", {}).get("stats", {}).get("Paintball", {}).get("killstreaks", 0),
+			"shots_fired" : player_json.get("player", {}).get("stats", {}).get("Paintball", {}).get("shots_fired", 0)
+		},
 		"skywars" : {
 			"star" : math.trunc((await core.minecraft.hypixel.static.get_skywars_star_from_experience((player_json.get("player", {}).get("stats", {}).get("SkyWars", {}).get("skywars_experience", 0))))),
 			"coins" : player_json.get("player", {}).get("stats", {}).get("SkyWars", {}).get("coins", 0),

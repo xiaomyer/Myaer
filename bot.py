@@ -57,6 +57,7 @@ extensions = [
 	"cogs.minecraft.hypixel.hypixel",
 	"cogs.minecraft.hypixel.leaderboards",
 	"cogs.minecraft.minecraft",
+	"cogs.minecraft.hypixel.paintball",
 	"commands.ping",
 	"cogs.prefix",
 	"cogs.minecraft.hypixel.skywars",
