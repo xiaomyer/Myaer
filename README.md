@@ -12,7 +12,6 @@ Myaer is a Discord bot written with discord.py in Python 3.8.2. It is focused ar
 #### General
 **If you are verified, you can omit the \<name\> part and it will default to you**
 - **/mc name \<name\>** - Shows name history
-  - verified mode (omitting name) coming soon™
 - **/mc uuid \<name\>** - Shows UUID
 - **/mc verify \<name\>** - Verifies you with the Myaer Bot database for easier command access
   - this requires that your Discord social media option be set to your Discord name on Hypixel
