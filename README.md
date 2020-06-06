@@ -46,7 +46,7 @@ Myaer is a Discord bot written with discord.py in Python 3.8.2. It is focused ar
 
 ##### Duels
 **If you are verified, you can omit the \<player\> part and it will default to you**
-**/duels \<player\>** - Shows general Duels stats
+- **/duels \<player\>** - Shows general Duels stats
 	- per mode and per stats calculations coming soon™
 
 ##### Paintball
