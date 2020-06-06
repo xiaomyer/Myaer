@@ -256,9 +256,9 @@ async def get_skywars_prestige_data(star):
 	}
 	return prestige_data
 
-async def get_skywars_star_from_experience(experience): # another formula that I don't understand, thanks to @GamingGeeek and @littlemissantivirus
+async def get_skywars_level_data_from_experience(experience): # another formula that I don't understand, thanks to @GamingGeeek and @littlemissantivirus
 	total_xp = [20, 70, 150, 250, 500, 1000, 2000, 3500, 6000, 10000, 15000]
-	star = 0
+	level = 0
 	if experience >= 15000:
 		return (experience - 15000) / 10000 + 12
 	else:
@@ -267,6 +267,10 @@ async def get_skywars_star_from_experience(experience): # another formula that I
 			if experience - total_xp[c] >= 0:
 				c += 1
 			else:
-				star = c + 1 + (experience - total_xp[c - 1]) / (total_xp[c] - total_xp[c - 1])
+				level = c + 1 + (experience - total_xp[c - 1]) / (total_xp[c] - total_xp[c - 1])
 				break
-	return star
+	level_data = {
+		"level" : math.trunc(level),
+		"percentage" : round((level - math.trunc(level)) * 100, 2)
+	}
+	return level_data

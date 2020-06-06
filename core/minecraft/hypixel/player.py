@@ -437,8 +437,31 @@ async def get_player_data(uuid, *, get_guild: bool = False):
 			"kills" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("kills", 0),
 			"deaths" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("deaths", 0),
 			"winstreak" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("current_winstreak", 0),
+			"classic" : {
+				"games_played" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("classic_duel_rounds_played", 0),
+				"kills" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("classic_duel_kills", 0),
+				"deaths" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("classic_duel_deaths", 0),
+				"wins" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("classic_duel_wins", 0),
+				"losses" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("classic_duel_losses", 0),
+				"winstreak" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("current_classic_winstreak", 0),
+				"melee_swings" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("classic_duel_melee_swings", 0),
+				"melee_hits" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("classic_duel_melee_hits", 0),
+				"bow_shots" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("classic_duel_bow_shots", 0),
+				"bow_hits" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("classic_duel_bow_hits", 0),
+				"damage_dealt" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("classic_duel_damage_dealt", 0),
+			},
 			"uhc" : {
+				"games_played" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("uhc_duel_rounds_played", 0),
+				"kills" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("uhc_duel_kills", 0),
+				"deaths" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("uhc_duel_deaths", 0),
+				"wins" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("uhc_duel_wins", 0),
+				"losses" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("uhc_duel_losses", 0),
 				"winstreak" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("current_uhc_winstreak", 0),
+				"melee_swings" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("uhc_duel_melee_swings", 0),
+				"melee_hits" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("uhc_duel_melee_hits", 0),
+				"bow_shots" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("uhc_duel_bow_shots", 0),
+				"bow_hits" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("uhc_duel_bow_hits", 0),
+				"damage_dealt" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("uhc_duel_damage_dealt", 0),
 			}
 		},
 		"paintball" : {
@@ -450,7 +473,7 @@ async def get_player_data(uuid, *, get_guild: bool = False):
 			"shots_fired" : player_json.get("player", {}).get("stats", {}).get("Paintball", {}).get("shots_fired", 0)
 		},
 		"skywars" : {
-			"star" : math.trunc((await core.minecraft.hypixel.static.get_skywars_star_from_experience((player_json.get("player", {}).get("stats", {}).get("SkyWars", {}).get("skywars_experience", 0))))),
+			"level_data" : (await core.minecraft.hypixel.static.get_skywars_level_data_from_experience((player_json.get("player", {}).get("stats", {}).get("SkyWars", {}).get("skywars_experience", 0)))),
 			"coins" : player_json.get("player", {}).get("stats", {}).get("SkyWars", {}).get("coins", 0),
 			"tokens" : player_json.get("player", {}).get("stats", {}).get("SkyWars", {}).get("cosmetic_tokens", 0),
 			"souls" : player_json.get("player", {}).get("stats", {}).get("SkyWars", {}).get("souls", 0),

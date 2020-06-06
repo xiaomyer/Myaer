@@ -25,6 +25,7 @@ SOFTWARE.
 import core.static
 from discord.ext import commands
 import discord
+import math
 import core.minecraft.hypixel.player
 import core.minecraft.static
 import core.minecraft.hypixel.static
@@ -45,14 +46,14 @@ class SkywarsStats(commands.Cog):
 		else: return
 		player_stats_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Skywars Stats**""",
-			color = int((await core.minecraft.hypixel.static.get_skywars_prestige_data(player_json["skywars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
+			color = int((await core.minecraft.hypixel.static.get_skywars_prestige_data(player_json["skywars"]["level_data"]["level"]))["prestige_color"], 16) # 16 - Hex value.
 		)
 		player_stats_embed.set_thumbnail(
 			url = core.minecraft.hypixel.static.hypixel_icons["Skywars"]
 		)
 		player_stats_embed.add_field(
 			name = f"__**{core.static.arrow_bullet_point} Level**__",
-			value = f"{player_json['skywars']['star']} {core.static.star} ({(await core.minecraft.hypixel.static.get_skywars_prestige_data(player_json['skywars']['star']))['prestige']} Prestige)",
+			value = f"{player_json['skywars']['level_data']['level']} {core.static.star} ({player_json['skywars']['level_data']['percentage']}% to {math.trunc((player_json['skywars']['level_data']['level']) + 1)}) [{(await core.minecraft.hypixel.static.get_skywars_prestige_data(player_json['skywars']['level_data']['level']))['prestige']} Prestige]",
 			inline = False
 		)
 		player_stats_embed.add_field(
