@@ -33,7 +33,7 @@ async def get_player_data(uuid, *, get_guild: bool = False):
 		raise NameError("No Hypixel stats")
 	if get_guild: # only get guild if necessary, because it's another request
 		try:
-			player_guild_json = await core.minecraft.hypixel.guild.get_guild_data_uuid(uuid)
+			player_guild_json = await core.minecraft.hypixel.static.get_guild_data_uuid(uuid)
 		except NameError:
 			player_guild_json = None
 	else:

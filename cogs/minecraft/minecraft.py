@@ -27,6 +27,7 @@ import datetime
 import discord
 import humanfriendly
 import core.minecraft.request
+import core.minecraft.static
 import sys
 import traceback
 import core.minecraft.verification.verification
@@ -45,7 +46,7 @@ class Minecraft(commands.Cog):
 	@minecraft.command(name = "name")
 	@commands.max_concurrency(1, per = commands.BucketType.user)
 	async def name_history(self, ctx, *args):
-		player_info = await core.minecraft.hypixel.static.name_handler(ctx, args)
+		player_info = await core.minecraft.static.name_handler(ctx, args)
 		if player_info:
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
@@ -69,7 +70,7 @@ class Minecraft(commands.Cog):
 	@minecraft.command(name = "uuid")
 	@commands.max_concurrency(1, per = commands.BucketType.user)
 	async def uuid(self, ctx, *args):
-		player_info = await core.minecraft.hypixel.static.name_handler(ctx, args)
+		player_info = await core.minecraft.static.name_handler(ctx, args)
 		if player_info:
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
@@ -84,7 +85,7 @@ class Minecraft(commands.Cog):
 	@minecraft.command(name = "skin")
 	@commands.max_concurrency(1, per = commands.BucketType.user)
 	async def skin(self, ctx, *args):
-		player_info = await core.minecraft.hypixel.static.name_handler(ctx, args)
+		player_info = await core.minecraft.static.name_handler(ctx, args)
 		if player_info:
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]

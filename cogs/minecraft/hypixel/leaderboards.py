@@ -29,6 +29,7 @@ import datetime
 from discord.ext import commands
 import discord
 import humanfriendly
+import core.minecraft.static
 import core.minecraft.hypixel.static
 import core.minecraft.hypixel.player
 import sys

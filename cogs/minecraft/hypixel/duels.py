@@ -27,6 +27,7 @@ import discord
 import math
 import core.static
 import core.minecraft.hypixel.player
+import core.minecraft.static
 import core.minecraft.hypixel.static
 import core.minecraft.verification.verification
 
@@ -37,7 +38,7 @@ class DuelsStats(commands.Cog):
 	@commands.group(name = "duels", invoke_without_command = True)
 	@commands.max_concurrency(1, per = commands.BucketType.user)
 	async def duels(self, ctx, *args):
-		player_info = await core.minecraft.hypixel.static.name_handler(ctx, args)
+		player_info = await core.minecraft.static.name_handler(ctx, args)
 		if player_info:
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]

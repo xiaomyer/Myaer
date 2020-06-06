@@ -91,6 +91,11 @@ rank_colors = {
 	None : "607D8B"
 }
 
+tag_colors = {
+	"DARK_GREEN" : "00AA00",
+	"YELLOW" : "FFFF55"
+}
+
 hypixel_icons = { # Hypixel icons
 	"Main" : "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/main.png",
 	"Arcade" : "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/arcade.png",
@@ -121,6 +126,19 @@ async def get_network_level_data(experience):
 		"percentage" : round((level - math.trunc(level)) * 100, 2)
 	}
 	return level_data
+
+async def get_guild_data_uuid(uuid):
+	try:
+		guild_json = (await core.minecraft.hypixel.request.get_guild_by_uuid(uuid))
+	except:
+		raise NameError("Not in a guild")
+	guild = {
+		"name" : guild_json.get("guild", {}).get("name", ""),
+		"level_data" : (await core.minecraft.hypixel.static.get_guild_level_data((guild_json.get("guild", {}).get("exp", 0)))),
+		"color" : tag_colors.get((guild_json.get("guild", {}).get("tagColor", "")), None),
+		"tag" : guild_json.get("guild", {}).get("tag", "")
+	}
+	return guild
 
 async def get_guild_level_data(experience): # credit for original formula to @Sk1er, translated into Kotlin by @littlemissantivirus, then translated into Python by @SirNapkin1334
 	experienceBelow14 = [100000, 150000, 250000, 500000, 750000, 1000000, 1250000, 1500000, 2000000, 2500000, 2500000, 2500000, 2500000, 2500000]
@@ -252,49 +270,3 @@ async def get_skywars_star_from_experience(experience): # another formula that I
 				star = c + 1 + (experience - total_xp[c - 1]) / (total_xp[c] - total_xp[c - 1])
 				break
 	return star
-
-async def name_handler(ctx, args, *, get_guild: bool = False):
-	if len(args):
-		try:
-			player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
-		except AttributeError:
-			member_not_verified = discord.Embed(
-				name = "Member not verified",
-				description = f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`",
-				color = ctx.author.color
-			)
-			await ctx.send(embed = member_not_verified)
-			return
-		except NameError:
-			nameerror_embed = discord.Embed(
-				name = "Invalid input",
-				description = f"\"{args[0]}\" is not a valid username or UUID.",
-				color = ctx.author.color
-			)
-			await ctx.send(embed = nameerror_embed)
-			return
-	else:
-		player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
-		if player_data is None:
-			unverified_embed = discord.Embed(
-				name = "Not verified",
-				description = "You have to verify with `/mc verify <minecraft-ign>` first.",
-				color = ctx.author.color
-			)
-			await ctx.send(embed = unverified_embed)
-			return
-	try:
-		player_json = await core.minecraft.hypixel.player.get_player_data(player_data["minecraft_uuid"], get_guild = get_guild)
-	except NameError:
-		nameerror_embed = discord.Embed(
-			name = "Invalid input",
-			description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats.",
-			color = ctx.author.color
-		)
-		await ctx.send(embed = nameerror_embed)
-		return
-	player_info = {
-		"player_data" : player_data,
-		"player_json" : player_json
-	}
-	return player_info

@@ -26,6 +26,7 @@ import core.static
 from discord.ext import commands
 import discord
 import core.minecraft.hypixel.player
+import core.minecraft.static
 import core.minecraft.hypixel.static
 import core.minecraft.verification.verification
 
@@ -37,7 +38,7 @@ class SkywarsStats(commands.Cog):
 	@commands.group(name = "skywars", aliases = ["sw"], invoke_without_command = True)
 	@commands.max_concurrency(1, per = commands.BucketType.user)
 	async def skywars(self, ctx, *args):
-		player_info = await core.minecraft.hypixel.static.name_handler(ctx, args)
+		player_info = await core.minecraft.static.name_handler(ctx, args)
 		if player_info:
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]

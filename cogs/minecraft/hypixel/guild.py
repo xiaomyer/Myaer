@@ -27,7 +27,7 @@ import discord
 import math
 import core.minecraft.request
 import core.minecraft.hypixel.player
-import core.minecraft.hypixel.guild
+import core.minecraft.static
 import core.minecraft.hypixel.static
 import core.static
 import core.minecraft.verification.verification
@@ -39,13 +39,13 @@ class Guild(commands.Cog):
 	@commands.group(name = "guild", aliases = ["g"], invoke_without_command = True)
 	@commands.max_concurrency(1, per = commands.BucketType.user)
 	async def guild(self, ctx, *args):
-		player_info = await core.minecraft.hypixel.static.name_handler(ctx, args)
+		player_info = await core.minecraft.static.name_handler(ctx, args)
 		if player_info:
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
 		try:
-			guild_json = await core.minecraft.hypixel.guild.get_guild_data_uuid(player_data["minecraft_uuid"])
+			guild_json = await core.minecraft.hypixel.static.get_guild_data_uuid(player_data["minecraft_uuid"])
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
