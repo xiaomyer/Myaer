@@ -49,13 +49,7 @@ class LeaderboardCommands(commands.Cog):
 	@leaderboards.group(name = "bedwars", aliases = ["bw"], invoke_without_command = True)
 	@commands.cooldown(1, 60, commands.BucketType.guild)
 	async def bedwars(self, ctx):
-		await ctx.channel.trigger_typing() # don't know how to make it stop, since i don't send a message but rather edit a previously sent message; this just goes on for 10 seconds
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = "Loading Bedwars level leaderboard...",
-			color = ctx.author.color
-		)
-		message = await ctx.send(embed = loading_embed)
+		await ctx.channel.trigger_typing()
 		leaderboards_json = await core.minecraft.hypixel.leaderboards.get_leaderboards()
 		index = 0
 		bedwars_level_leaderboard_embed = discord.Embed(
@@ -70,18 +64,12 @@ class LeaderboardCommands(commands.Cog):
 				inline = False
 			)
 			index += 1
-		await message.edit(embed = bedwars_level_leaderboard_embed)
+		await ctx.send(embed = bedwars_level_leaderboard_embed)
 
 	@bedwars.group(name = "wins", aliases = ["win"], invoke_without_command = True)
 	@commands.cooldown(1, 60, commands.BucketType.guild)
 	async def bedwars_wins(self, ctx):
-		await ctx.channel.trigger_typing() # don't know how to make it stop, since i don't send a message but rather edit a previously sent message; this just goes on for 10 seconds
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = "Loading Bedwars overall wins leaderboard...",
-			color = ctx.author.color
-		)
-		message = await ctx.send(embed = loading_embed)
+		await ctx.channel.trigger_typing()
 		leaderboards_json = await core.minecraft.hypixel.leaderboards.get_leaderboards()
 		index = 0
 		bedwars_overall_wins_leaderboard_embed = discord.Embed(
@@ -96,18 +84,12 @@ class LeaderboardCommands(commands.Cog):
 				inline = False
 			)
 			index += 1
-		await message.edit(embed = bedwars_overall_wins_leaderboard_embed)
+		await ctx.send(embed = bedwars_overall_wins_leaderboard_embed)
 
 	@bedwars_wins.command(name = "weekly")
 	@commands.cooldown(1, 60, commands.BucketType.guild)
 	async def bedwars_weekly_wins(self, ctx):
-		await ctx.channel.trigger_typing() # don't know how to make it stop, since i don't send a message but rather edit a previously sent message; this just goes on for 10 seconds
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = "Loading Bedwars weekly wins leaderboard...",
-			color = ctx.author.color
-		)
-		message = await ctx.send(embed = loading_embed)
+		await ctx.channel.trigger_typing()
 		leaderboards_json = await core.minecraft.hypixel.leaderboards.get_leaderboards()
 		index = 0
 		bedwars_weekly_wins_leaderboard_embed = discord.Embed(
@@ -122,17 +104,12 @@ class LeaderboardCommands(commands.Cog):
 				inline = False
 			)
 			index += 1
-		await message.edit(embed = bedwars_weekly_wins_leaderboard_embed)
+		await ctx.send(embed = bedwars_weekly_wins_leaderboard_embed)
 
 	@bedwars.group(name = "finals", aliases = ["final"], invoke_without_command = True)
 	@commands.cooldown(1, 60, commands.BucketType.guild)
 	async def bedwars_finals(self, ctx):
-		await ctx.channel.trigger_typing() # don't know how to make it stop, since i don't send a message but rather edit a previously sent message; this just goes on for 10 seconds
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = "Loading Bedwars overall final kills leaderboard...",
-			color = ctx.author.color
-		)
+		await ctx.channel.trigger_typing()
 		message = await ctx.send(embed = loading_embed)
 		leaderboards_json = await core.minecraft.hypixel.leaderboards.get_leaderboards()
 		index = 0
@@ -148,18 +125,12 @@ class LeaderboardCommands(commands.Cog):
 				inline = False
 			)
 			index += 1
-		await message.edit(embed = bedwars_overall_finals_leaderboard_embed)
+		await ctx.send(embed = bedwars_overall_finals_leaderboard_embed)
 
 	@bedwars_finals.command(name = "weekly")
 	@commands.cooldown(1, 60, commands.BucketType.guild)
 	async def bedwars_weekly_finals(self, ctx):
-		await ctx.channel.trigger_typing() # don't know how to make it stop, since i don't send a message but rather edit a previously sent message; this just goes on for 10 seconds
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = "Loading Bedwars weekly final kills leaderboard...",
-			color = ctx.author.color
-		)
-		message = await ctx.send(embed = loading_embed)
+		await ctx.channel.trigger_typing()
 		leaderboards_json = await core.minecraft.hypixel.leaderboards.get_leaderboards()
 		index = 0
 		bedwars_weekly_finals_leaderboard_embed = discord.Embed(
@@ -174,7 +145,7 @@ class LeaderboardCommands(commands.Cog):
 				inline = False
 			)
 			index += 1
-		await message.edit(embed = bedwars_weekly_finals_leaderboard_embed)
+		await ctx.send(embed = bedwars_weekly_finals_leaderboard_embed)
 
 	async def cog_command_error(self, ctx, error):
 		if isinstance(error, commands.CommandOnCooldown):

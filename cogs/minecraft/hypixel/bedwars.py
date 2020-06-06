@@ -46,7 +46,7 @@ class BedwarsStats(commands.Cog):
 			name = "Loading",
 			description = f"Loading {player_data['player_formatted_name']}'s Bedwars stats..."
 		)
-		message = await ctx.send(embed = loading_embed)		
+		message = await ctx.send(embed = loading_embed)
 		player_stats_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Bedwars Stats**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -4097,7 +4097,7 @@ class BedwarsStats(commands.Cog):
 			name = "Loading",
 			description = f"Loading {player_data['player_formatted_name']}'s voidless doubles WLR data..."
 		)
-		message = await ctx.send(embed = loading_embed)		
+		message = await ctx.send(embed = loading_embed)
 		player_voidless_doubles_wlr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Voidless Doubles WLR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -4147,7 +4147,7 @@ class BedwarsStats(commands.Cog):
 			name = "Loading",
 			description = f"Loading {player_data['player_formatted_name']}'s voidless fours WLR data..."
 		)
-		message = await ctx.send(embed = loading_embed)		
+		message = await ctx.send(embed = loading_embed)
 		player_voidless_fours_wlr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Voidless Fours WLR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.

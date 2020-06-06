@@ -22,76 +22,64 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import core.static
 from discord.ext import commands
 import discord
+import math
+import core.static
 import core.minecraft.hypixel.player
 import core.minecraft.hypixel.static
 import core.minecraft.verification.verification
 
-class SkywarsStats(commands.Cog):
+class DuelsStats(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
-		self.user_converter = commands.UserConverter()
 
-	@commands.group(name = "skywars", aliases = ["sw"], invoke_without_command = True)
+	@commands.group(name = "duels", invoke_without_command = True)
 	@commands.max_concurrency(1, per = commands.BucketType.user)
-	async def skywars(self, ctx, *args):
+	async def duels(self, ctx, *args):
 		player_info = await core.minecraft.hypixel.static.name_handler(ctx, args)
 		if player_info:
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
 		player_stats_embed = discord.Embed(
-			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Skywars Stats**""",
-			color = int((await core.minecraft.hypixel.static.get_skywars_prestige_data(player_json["skywars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
+			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Duels Stats**""",
+			color = int(player_json["rank_data"]["color"], 16) # 16 - hex value
 		)
 		player_stats_embed.set_thumbnail(
-			url = core.minecraft.hypixel.static.hypixel_icons["Skywars"]
+			url = core.minecraft.hypixel.static.hypixel_icons["Duels"]
 		)
 		player_stats_embed.add_field(
-			name = f"__**{core.static.arrow_bullet_point} Level**__",
-			value = f"{player_json['skywars']['star']} {core.static.star} ({(await core.minecraft.hypixel.static.get_skywars_prestige_data(player_json['skywars']['star']))['prestige']} Prestige)",
+			name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
+			value = f"{(player_json['duels']['winstreak']):,d}",
 			inline = False
 		)
 		player_stats_embed.add_field(
-			name = f"__**{core.static.arrow_bullet_point} Coins**__",
-			value = f"{(player_json['skywars']['coins']):,d}"
-		)
-		player_stats_embed.add_field(
-			name = f"__**{core.static.arrow_bullet_point} Tokens**__",
-			value = f"{(player_json['skywars']['tokens']):,d}"
-		)
-		player_stats_embed.add_field(
-			name = f"__**{core.static.arrow_bullet_point} Souls**__",
-			value = f"{(player_json['skywars']['souls']):,d}"
-		)
-		player_stats_embed.add_field(
-			name = f"__**{core.static.arrow_bullet_point} Kills**__",
-			value = f"{(player_json['skywars']['kills']):,d}"
-		)
-		player_stats_embed.add_field(
-			name = f"__**{core.static.arrow_bullet_point} Deaths**__",
-			value = f"{(player_json['skywars']['deaths']):,d}"
-		)
-		player_stats_embed.add_field(
-			name = f"__**{core.static.arrow_bullet_point} KDR**__",
-			value = f"{(await core.minecraft.hypixel.static.get_ratio((player_json['skywars']['kills']), (player_json['skywars']['deaths'])))}"
-		)
-		player_stats_embed.add_field(
 			name = f"__**{core.static.arrow_bullet_point} Wins**__",
-			value = f"{(player_json['skywars']['wins']):,d}"
+			value = f"{(player_json['duels']['wins']):,d}"
 		)
 		player_stats_embed.add_field(
 			name = f"__**{core.static.arrow_bullet_point} Losses**__",
-			value = f"{(player_json['skywars']['losses']):,d}"
+			value = f"{(player_json['duels']['losses']):,d}"
 		)
 		player_stats_embed.add_field(
 			name = f"__**{core.static.arrow_bullet_point} WLR**__",
-			value = f"{(await core.minecraft.hypixel.static.get_ratio((player_json['skywars']['wins']), (player_json['skywars']['losses'])))}"
+			value = f"{await core.minecraft.hypixel.static.get_ratio((player_json['duels']['wins']), ((player_json['duels']['losses'])))}"
+		)
+		player_stats_embed.add_field(
+			name = f"__**{core.static.arrow_bullet_point} Kills**__",
+			value = f"{(player_json['duels']['kills']):,d}"
+		)
+		player_stats_embed.add_field(
+			name = f"__**{core.static.arrow_bullet_point} Deaths**__",
+			value = f"{(player_json['duels']['deaths']):,d}"
+		)
+		player_stats_embed.add_field(
+			name = f"__**{core.static.arrow_bullet_point} KDR**__",
+			value = f"{await core.minecraft.hypixel.static.get_ratio((player_json['duels']['kills']), ((player_json['duels']['deaths'])))}"
 		)
 		await ctx.send(embed = player_stats_embed)
 
 def setup(bot):
-	bot.add_cog(SkywarsStats(bot))
-	print("Reloaded cogs.minecraft.hypixel.skywars")
+	bot.add_cog(DuelsStats(bot))
+	print("Reloaded cogs.minecraft.hypixel.duels")

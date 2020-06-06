@@ -44,12 +44,6 @@ class Guild(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s guild data...",
-			color = ctx.author.color
-		)
-		message = await ctx.send(embed = loading_embed)
 		try:
 			guild_json = await core.minecraft.hypixel.guild.get_guild_data_uuid(player_data["minecraft_uuid"])
 		except NameError:
@@ -68,7 +62,7 @@ class Guild(commands.Cog):
 			name = f"__**{core.static.arrow_bullet_point} Level**__",
 			value = f"{guild_json['level_data']['level']} ({guild_json['level_data']['percentage']}% to {math.trunc((guild_json['level_data']['level'])) + 1})"
 		)
-		await message.edit(embed = player_guild_embed)
+		await ctx.send(embed = player_guild_embed)
 def setup(bot):
 	bot.add_cog(Guild(bot))
 	print("Reloaded cogs.minecraft.hypixel.guild")

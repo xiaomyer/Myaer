@@ -50,12 +50,7 @@ class Minecraft(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}\'s name history...",
-			color = ctx.author.color
-		)
-		message = await ctx.send(embed = loading_embed)
+		await ctx.channel.trigger_typing()
 		name_history = await core.minecraft.request.get_name_history_uuid(player_data['minecraft_uuid'])
 		index = len(name_history) - 1
 		name_history_string = []
@@ -69,7 +64,7 @@ class Minecraft(commands.Cog):
 				name = "Name history",
 				description = "\n".join(name_history_string)
 			)
-		await message.edit(embed = name_history_embed)
+		await ctx.send(embed = name_history_embed)
 
 	@minecraft.command(name = "uuid")
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -79,18 +74,12 @@ class Minecraft(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}\'s UUID...",
-			color = ctx.author.color
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_uuid_embed = discord.Embed(
 			name = "Player UUID",
 			description = f"{player_data['player_formatted_name']}\'s UUID is {player_data['minecraft_uuid']}.",
 			color = ctx.author.color
 		)
-		await message.edit(embed = player_uuid_embed)
+		await ctx.send(embed = player_uuid_embed)
 
 	@minecraft.command(name = "skin")
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -100,12 +89,6 @@ class Minecraft(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}\'s skin...",
-			color = ctx.author.color
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_skin_embed = discord.Embed(
 			name = "Player skin",
 			title = f"**{player_data['player_formatted_name']}'s Minecraft Skin**",
@@ -117,7 +100,7 @@ class Minecraft(commands.Cog):
 		player_skin_embed.set_thumbnail(
 			url = f"{mc_heads_api}skin/{player_data['minecraft_uuid']}"
 		)
-		await message.edit(embed = player_skin_embed)
+		await ctx.send(embed = player_skin_embed)
 
 	@minecraft.command(name = "verify", aliases = ["link"])
 	@commands.cooldown(1, 60, commands.BucketType.user)
@@ -133,26 +116,20 @@ class Minecraft(commands.Cog):
 			await ctx.send(embed = nameerror_embed)
 			return
 		try:
-			loading_embed = discord.Embed(
-				name = "Loading",
-				description = f"Verifying you as {player_data['name']}...",
-				color = ctx.author.color
-			)
-			message = await ctx.send(embed = loading_embed)
 			await core.minecraft.verification.verification.verify(ctx.author.id, f"{ctx.author.name}#{ctx.author.discriminator}", player_data['uuid'])
 			verified_embed = discord.Embed(
 				name = "Verified Minecraft IGN",
 				description = f"Verified your Minecraft account as \"{player_data['name']}\"",
 				color = ctx.author.color
 			)
-			await message.edit(embed = verified_embed)
+			await ctx.send(embed = verified_embed)
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
 				description = f"\"{player_data['name']}\" does not seem to have Hypixel stats.",
 				color = ctx.author.color
 			)
-			await message.edit(embed = nameerror_embed)
+			await ctx.send(embed = nameerror_embed)
 			return
 		except ValueError:
 			already_has_discord_hypixel_embed = discord.Embed(
@@ -163,7 +140,7 @@ class Minecraft(commands.Cog):
 			already_has_discord_hypixel_embed.set_footer(
 				text = "If this is your Minecraft account, update your Discord name on Hypixel.",
 			)
-			await message.edit(embed = already_has_discord_hypixel_embed)
+			await ctx.send(embed = already_has_discord_hypixel_embed)
 			return
 		except AttributeError:
 			no_discord_hypixel_embed = discord.Embed(
@@ -173,7 +150,7 @@ class Minecraft(commands.Cog):
 			no_discord_hypixel_embed.set_footer(
 				text = "Set your Discord name on Hypixel."
 			)
-			await message.edit(embed = no_discord_hypixel_embed)
+			await ctx.send(embed = no_discord_hypixel_embed)
 			return
 
 	@minecraft.command(name = "forceverify", aliases = ["forcelink"])
@@ -188,29 +165,18 @@ class Minecraft(commands.Cog):
 			)
 			await ctx.send(embed = nameerror_embed)
 			return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Verifying {target} as {player_data['name']}...",
-			color = ctx.author.color
-		)
-		message = await ctx.send(embed = loading_embed)
 		await core.minecraft.verification.verification.force_verify(target.id, player_data['uuid'])
 		verified_embed = discord.Embed(
 			name = "Verified Minecraft IGN",
 			description = f"Verified {target}\'s Minecraft account as \"{player_data['name']}\"",
 			color = ctx.author.color
 		)
-		await message.edit(embed = verified_embed)
+		await ctx.send(embed = verified_embed)
 
 	@minecraft.command(name = "unverify", aliases = ["unlink"])
 	@commands.cooldown(1, 60, commands.BucketType.user)
 	async def unverify(self, ctx):
 		try:
-			loading_embed = discord.Embed(
-				name = "Loading",
-				description = f"Unverifying you..."
-			)
-			message = await ctx.send(embed = loading_embed)
 			unverified_data = await core.minecraft.verification.verification.unverify(ctx.author.id)
 			unverified_embed = discord.Embed(
 				name = "Unverified",
@@ -220,24 +186,19 @@ class Minecraft(commands.Cog):
 			unverified_embed.set_footer(
 				text = f"UUID was {(await core.minecraft.request.get_profile_uuid(unverified_data[0]['minecraft_uuid']))['uuid']}"
 			)
-			await message.edit(embed = unverified_embed)
+			await ctx.send(embed = unverified_embed)
 		except NameError:
 			not_verified_embed = discord.Embed(
 				name = "Not verified",
 				description = "Your Minecraft account was not verified.",
 				color = ctx.author.color
 			)
-			await message.edit(embed = not_verified_embed)
+			await ctx.send(embed = not_verified_embed)
 
 	@minecraft.command(name = "forceunverify", aliases = ["forceunlink"])
 	@commands.is_owner()
 	async def force_unverify(self, ctx, target: discord.Member):
 		try:
-			loading_embed = discord.Embed(
-				name = "Loading",
-				description = f"Unverifying {target}\'s Minecraft account..."
-			)
-			message = await ctx.send(embed = loading_embed)
 			unverified_data = await core.minecraft.verification.verification.unverify(target.id)
 			unverified_embed = discord.Embed(
 				name = "Unverified",
@@ -247,14 +208,14 @@ class Minecraft(commands.Cog):
 			unverified_embed.set_footer(
 				text = f"UUID was {(await core.minecraft.request.get_profile_uuid(unverified_data[0]['minecraft_uuid']))['uuid']}"
 			)
-			await message.edit(embed = unverified_embed)
+			await ctx.send(embed = unverified_embed)
 		except NameError:
 			not_verified_embed = discord.Embed(
 				name = "Not verified",
 				description = f"{target}\'s Minecraft account was not verified.",
 				color = ctx.author.color
 			)
-			await message.edit(embed = not_verified_embed)
+			await ctx.send(embed = not_verified_embed)
 
 	async def cog_command_error(self, ctx, error):
 

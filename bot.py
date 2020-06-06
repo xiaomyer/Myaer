@@ -61,6 +61,7 @@ extensions = [
 	"commands.announcement",
 	"cogs.minecraft.hypixel.bedwars",
 	"events.command_error",
+	"cogs.minecraft.hypixel.duels",
 	"cogs.minecraft.hypixel.guild",
 	"commands.help",
 	"cogs.minecraft.hypixel.hypixel",
@@ -79,7 +80,7 @@ async def on_ready():
 	time = datetime.datetime.now().strftime("%A, %b %d, %Y - %m/%d/%Y - %I:%M:%S %p")
 	status_log_channel = bot.get_channel(core.config.status_log_channel)
 	print(f"Connection with Discord established at {time}")
-	await bot.change_presence(activity = discord.Game(name = "/help"))
+	await bot.change_presence(activity = discord.Game(name = "/help | /suggest"))
 	await status_log_channel.send(f"Logged in at {time}.")
 
 if __name__ == "__main__":

@@ -253,7 +253,7 @@ async def get_skywars_star_from_experience(experience): # another formula that I
 				break
 	return star
 
-async def name_handler(ctx, args):
+async def name_handler(ctx, args, *, get_guild: bool = False):
 	if len(args):
 		try:
 			player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
@@ -284,7 +284,7 @@ async def name_handler(ctx, args):
 			await ctx.send(embed = unverified_embed)
 			return
 	try:
-		player_json = await core.minecraft.hypixel.player.get_player_data(player_data["minecraft_uuid"])
+		player_json = await core.minecraft.hypixel.player.get_player_data(player_data["minecraft_uuid"], get_guild = get_guild)
 	except NameError:
 		nameerror_embed = discord.Embed(
 			name = "Invalid input",

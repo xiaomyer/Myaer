@@ -42,17 +42,11 @@ class Hypixel(commands.Cog):
 	@commands.group(name = "hypixel", aliases = ["hp"], invoke_without_command = True)
 	@commands.max_concurrency(1, per = commands.BucketType.user)
 	async def hypixel(self, ctx, *args):
-		player_info = await core.minecraft.hypixel.static.name_handler(ctx, args)
+		player_info = await core.minecraft.hypixel.static.name_handler(ctx, args, get_guild = True)
 		if player_info:
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s Hypixel stats...",
-			color = ctx.author.color
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_info_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}**""",
 			color = int((player_json["rank_data"])["color"], 16) # 16 - hex value
@@ -92,7 +86,7 @@ f"""{datetime.date.fromtimestamp((player_json['login_times']['last']) / 1000)}
 				value = f"""{discord.utils.escape_markdown(f"{player_json['guild_data']['name']} [{player_json['guild_data']['tag']}]" if player_json["guild_data"]["tag"] else f"{player_json['guild_data']['name']}")}""", # checks if player's guild has a tag
 				inline = False
 			)
-		await message.edit(embed = player_info_embed)
+		await ctx.send(embed = player_info_embed)
 
 def setup(bot):
 	bot.add_cog(Hypixel(bot))

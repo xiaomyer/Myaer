@@ -41,12 +41,6 @@ class PaintballStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s Paintball stats...",
-			color = ctx.author.color
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_stats_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Paintball Stats**""",
 			color = int(player_json["rank_data"]["color"], 16) # 16 - hex value
@@ -56,7 +50,7 @@ class PaintballStats(commands.Cog):
 		)
 		player_stats_embed.add_field(
 			name = f"__**{core.static.arrow_bullet_point} Coins**__",
-			value = f"{player_json['paintball']['coins']}",
+			value = f"{(player_json['paintball']['coins']):,d}",
 			inline = False
 		)
 		player_stats_embed.add_field(
@@ -79,7 +73,7 @@ class PaintballStats(commands.Cog):
 			name = f"__**{core.static.arrow_bullet_point} Shots Fired**__",
 			value = f"{(player_json['paintball']['shots_fired']):,d}"
 		)
-		await message.edit(embed = player_stats_embed)
+		await ctx.send(embed = player_stats_embed)
 
 	@paintball.command(name = "kdr")
 	async def kdr(self, ctx, *args):
@@ -88,11 +82,6 @@ class PaintballStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s KDR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_kdr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s KDR**""",
 			color = int(player_json["rank_data"]["color"], 16) # 16 - Hex value.
@@ -128,7 +117,7 @@ class PaintballStats(commands.Cog):
 		player_kdr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_kdr_embed)
+		await ctx.send(embed = player_kdr_embed)
 
 def setup(bot):
 	bot.add_cog(PaintballStats(bot))
