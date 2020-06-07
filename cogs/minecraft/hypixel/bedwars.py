@@ -165,11 +165,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s Solo Bedwars stats..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_solo_stats_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Solo Bedwars Stats**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -218,7 +213,7 @@ class BedwarsStats(commands.Cog):
 			name = f"__**{core.static.arrow_bullet_point} WLR**__",
 			value = f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['solo']['wins']), ((player_json['bedwars']['solo']['losses'])))}"
 		)
-		await message.edit(embed = player_solo_stats_embed)
+		await ctx.send(embed = player_solo_stats_embed)
 
 	@bedwars.command(name = "doubles", aliases = ["2", "2s", "double", "twos"])
 	async def doubles_bedwars(self, ctx, *args):
@@ -227,11 +222,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s Doubles Bedwars stats..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_doubles_stats_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Doubles Bedwars Stats**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -280,7 +270,7 @@ class BedwarsStats(commands.Cog):
 			name = f"__**{core.static.arrow_bullet_point} WLR**__",
 			value = f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['doubles']['wins']), ((player_json['bedwars']['doubles']['losses'])))}"
 		)
-		await message.edit(embed = player_doubles_stats_embed)
+		await ctx.send(embed = player_doubles_stats_embed)
 
 	@bedwars.command(name = "threes", aliases = ["3", "3s", "triple", "three"])
 	async def threes_bedwars(self, ctx, *args):
@@ -289,11 +279,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s Threes Bedwars stats..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_threes_stats_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Threes Bedwars Stats**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -342,7 +327,7 @@ class BedwarsStats(commands.Cog):
 			name = f"__**{core.static.arrow_bullet_point} WLR**__",
 			value = f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['threes']['wins']), ((player_json['bedwars']['threes']['losses'])))}"
 		)
-		await message.edit(embed = player_threes_stats_embed)
+		await ctx.send(embed = player_threes_stats_embed)
 
 	@bedwars.command(name = "fours", aliases = ["4", "4s", "four"])
 	async def fours_bedwars(self, ctx, *args):
@@ -351,11 +336,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s Fours Bedwars stats..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_fours_stats_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Fours Bedwars Stats**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -404,7 +384,7 @@ class BedwarsStats(commands.Cog):
 			name = f"__**{core.static.arrow_bullet_point} WLR**__",
 			value = f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['fours']['wins']), ((player_json['bedwars']['fours']['losses'])))}"
 		)
-		await message.edit(embed = player_fours_stats_embed)
+		await ctx.send(embed = player_fours_stats_embed)
 
 	@bedwars.command(name = "4v4")
 	async def four_v_four_bedwars(self, ctx, *args):
@@ -413,11 +393,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s 4v4 Bedwars stats..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_four_v_four_stats_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s 4v4 Bedwars Stats**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -466,7 +441,7 @@ class BedwarsStats(commands.Cog):
 			name = f"__**{core.static.arrow_bullet_point} WLR**__",
 			value = f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['four_v_four']['wins']), ((player_json['bedwars']['four_v_four']['losses'])))}"
 		)
-		await message.edit(embed = player_four_v_four_stats_embed)
+		await ctx.send(embed = player_four_v_four_stats_embed)
 
 	@bedwars.group(name = "armed", invoke_without_command = True)
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -481,11 +456,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s armed doubles stats..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_armed_doubles_stats_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Armed Doubles Bedwars Stats**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -534,7 +504,7 @@ class BedwarsStats(commands.Cog):
 			name = f"__**{core.static.arrow_bullet_point} WLR**__",
 			value = f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['armed']['doubles']['wins']), ((player_json['bedwars']['dreams']['armed']['doubles']['losses'])))}"
 		)
-		await message.edit(embed = player_armed_doubles_stats_embed)
+		await ctx.send(embed = player_armed_doubles_stats_embed)
 
 	@armed.command(name = "fours", aliases = ["4", "4s", "four"])
 	async def armed_fours(self, ctx, *args):
@@ -543,11 +513,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s armed fours stats..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_armed_fours_stats_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Armed Fours Bedwars Stats**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -596,7 +561,7 @@ class BedwarsStats(commands.Cog):
 			name = f"__**{core.static.arrow_bullet_point} WLR**__",
 			value = f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['armed']['fours']['wins']), ((player_json['bedwars']['dreams']['armed']['fours']['losses'])))}"
 		)
-		await message.edit(embed = player_armed_fours_stats_embed)
+		await ctx.send(embed = player_armed_fours_stats_embed)
 
 	@bedwars.group(name = "castle", aliases = ["castles"], invoke_without_command = True)
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -606,11 +571,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s castle stats..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_castle_stats_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Castle Bedwars Stats**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -659,7 +619,7 @@ class BedwarsStats(commands.Cog):
 			name = f"__**{core.static.arrow_bullet_point} WLR**__",
 			value = f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['castle']['wins']), ((player_json['bedwars']['dreams']['castle']['losses'])))}"
 		)
-		await message.edit(embed = player_castle_stats_embed)
+		await ctx.send(embed = player_castle_stats_embed)
 
 	@bedwars.group(name = "luckyblocks", aliases = ["luckyblock", "lucky"], invoke_without_command = True)
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -674,11 +634,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s luckyblock doubles stats..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_luckyblocks_doubles_stats_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Luckyblocks Doubles Bedwars Stats**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -727,7 +682,7 @@ class BedwarsStats(commands.Cog):
 			name = f"__**{core.static.arrow_bullet_point} WLR**__",
 			value = f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['wins']), ((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['losses'])))}"
 		)
-		await message.edit(embed = player_luckyblocks_doubles_stats_embed)
+		await ctx.send(embed = player_luckyblocks_doubles_stats_embed)
 
 	@luckyblocks.command(name = "fours", aliases = ["4s", "4"])
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -737,11 +692,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s luckyblock fours stats..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_luckyblocks_fours_stats_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Luckyblocks Fours Bedwars Stats**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -790,7 +740,7 @@ class BedwarsStats(commands.Cog):
 			name = f"__**{core.static.arrow_bullet_point} WLR**__",
 			value = f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['lucky_blocks']['fours']['wins']), ((player_json['bedwars']['dreams']['lucky_blocks']['fours']['losses'])))}"
 		)
-		await message.edit(embed = player_luckyblocks_fours_stats_embed)
+		await ctx.send(embed = player_luckyblocks_fours_stats_embed)
 
 	@bedwars.group(name = "rush", invoke_without_command = True)
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -804,11 +754,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s rush solo stats..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_rush_solo_stats_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Rush Solo Bedwars Stats**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -857,7 +802,7 @@ class BedwarsStats(commands.Cog):
 			name = f"__**{core.static.arrow_bullet_point} WLR**__",
 			value = f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['rush']['solo']['wins']), ((player_json['bedwars']['dreams']['rush']['solo']['losses'])))}"
 		)
-		await message.edit(embed = player_rush_solo_stats_embed)
+		await ctx.send(embed = player_rush_solo_stats_embed)
 
 	@rush.command(name = "doubles", aliases = ["2", "2s", "double"])
 	async def rush_doubles(self, ctx, *args):
@@ -866,11 +811,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s rush doubles stats..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_rush_doubles_stats_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Rush Doubles Bedwars Stats**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -919,7 +859,7 @@ class BedwarsStats(commands.Cog):
 			name = f"__**{core.static.arrow_bullet_point} WLR**__",
 			value = f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['rush']['doubles']['wins']), ((player_json['bedwars']['dreams']['rush']['doubles']['losses'])))}"
 		)
-		await message.edit(embed = player_rush_doubles_stats_embed)
+		await ctx.send(embed = player_rush_doubles_stats_embed)
 
 	@rush.command(name = "fours", aliases = ["4", "4s", "four"])
 	async def rush_fours(self, ctx, *args):
@@ -928,11 +868,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s rush fours stats..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_rush_fours_stats_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Rush Fours Bedwars Stats**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -981,7 +916,7 @@ class BedwarsStats(commands.Cog):
 			name = f"__**{core.static.arrow_bullet_point} WLR**__",
 			value = f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['rush']['fours']['wins']), ((player_json['bedwars']['dreams']['rush']['fours']['losses'])))}"
 		)
-		await message.edit(embed = player_rush_fours_stats_embed)
+		await ctx.send(embed = player_rush_fours_stats_embed)
 
 	@bedwars.group(name = "ultimate", invoke_without_command = True)
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -996,11 +931,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s ultimate solo stats..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_ultimate_solo_stats_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Ultimate Solo Bedwars Stats**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -1049,7 +979,7 @@ class BedwarsStats(commands.Cog):
 			name = f"__**{core.static.arrow_bullet_point} WLR**__",
 			value = f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['solo']['wins']), ((player_json['bedwars']['dreams']['ultimate']['solo']['losses'])))}"
 		)
-		await message.edit(embed = player_ultimate_solo_stats_embed)
+		await ctx.send(embed = player_ultimate_solo_stats_embed)
 
 	@ultimate.command(name = "doubles", aliases = ["2", "2s", "double"])
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -1059,11 +989,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s ultimate doubles stats..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_ultimate_doubles_stats_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Ultimate Doubles Bedwars Stats**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -1112,7 +1037,7 @@ class BedwarsStats(commands.Cog):
 			name = f"__**{core.static.arrow_bullet_point} WLR**__",
 			value = f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['doubles']['wins']), ((player_json['bedwars']['dreams']['ultimate']['doubles']['losses'])))}"
 		)
-		await message.edit(embed = player_ultimate_doubles_stats_embed)
+		await ctx.send(embed = player_ultimate_doubles_stats_embed)
 
 	@ultimate.command(name = "fours", aliases = ["4", "4s", "four"])
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -1122,11 +1047,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s ultimate fours stats..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_ultimate_fours_stats_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Ultimate Fours Bedwars Stats**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -1175,7 +1095,7 @@ class BedwarsStats(commands.Cog):
 			name = f"__**{core.static.arrow_bullet_point} WLR**__",
 			value = f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['fours']['wins']), ((player_json['bedwars']['dreams']['ultimate']['fours']['losses'])))}"
 		)
-		await message.edit(embed = player_ultimate_fours_stats_embed)
+		await ctx.send(embed = player_ultimate_fours_stats_embed)
 
 	@bedwars.group(name = "voidless", invoke_without_command = True)
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -1190,11 +1110,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s voidless doubles stats..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_voidless_doubles_stats_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Voidless Doubles Bedwars Stats**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -1243,7 +1158,7 @@ class BedwarsStats(commands.Cog):
 			name = f"__**{core.static.arrow_bullet_point} WLR**__",
 			value = f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['voidless']['doubles']['wins']), ((player_json['bedwars']['dreams']['voidless']['doubles']['losses'])))}"
 		)
-		await message.edit(embed = player_voidless_doubles_stats_embed)
+		await ctx.send(embed = player_voidless_doubles_stats_embed)
 
 	@voidless.command(name = "fours", aliases = ["4", "4s", "four"])
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -1253,11 +1168,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s voidless fours stats..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_voidless_fours_stats_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Voidless Fours Bedwars Stats**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -1306,7 +1216,7 @@ class BedwarsStats(commands.Cog):
 			name = f"__**{core.static.arrow_bullet_point} WLR**__",
 			value = f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['voidless']['fours']['wins']), ((player_json['bedwars']['dreams']['voidless']['fours']['losses'])))}"
 		)
-		await message.edit(embed = player_voidless_fours_stats_embed)
+		await ctx.send(embed = player_voidless_fours_stats_embed)
 
 	@bedwars.group(name = "fkdr", invoke_without_command = True)
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -1316,11 +1226,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s FKDR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_fkdr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s FKDR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -1356,7 +1261,7 @@ class BedwarsStats(commands.Cog):
 		player_fkdr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_fkdr_embed)
+		await ctx.send(embed = player_fkdr_embed)
 
 	@fkdr.command(name = "solo", aliases = ["1", "solos"])
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -1366,11 +1271,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s solo FKDR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_solo_fkdr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Solo FKDR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -1406,7 +1306,7 @@ class BedwarsStats(commands.Cog):
 		player_solo_fkdr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_solo_fkdr_embed)
+		await ctx.send(embed = player_solo_fkdr_embed)
 
 	@fkdr.command(name = "doubles", aliases = ["2", "2s", "double"])
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -1416,11 +1316,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s doubles FKDR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_doubles_fkdr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Doubles FKDR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -1456,7 +1351,7 @@ class BedwarsStats(commands.Cog):
 		player_doubles_fkdr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_doubles_fkdr_embed)
+		await ctx.send(embed = player_doubles_fkdr_embed)
 
 	@fkdr.command(name = "threes", aliases = ["3", "3s", "triple", "three"])
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -1466,11 +1361,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s threes FKDR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_threes_fkdr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Threes FKDR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -1506,7 +1396,7 @@ class BedwarsStats(commands.Cog):
 		player_threes_fkdr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_threes_fkdr_embed)
+		await ctx.send(embed = player_threes_fkdr_embed)
 
 	@fkdr.command(name = "fours", aliases = ["4", "4s", "four"])
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -1516,11 +1406,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s fours FKDR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_fours_fkdr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Fours FKDR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -1556,7 +1441,7 @@ class BedwarsStats(commands.Cog):
 		player_fours_fkdr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_fours_fkdr_embed)
+		await ctx.send(embed = player_fours_fkdr_embed)
 
 	@fkdr.command(name = "4v4")
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -1566,11 +1451,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s 4v4 FKDR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_four_v_four_fkdr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s 4v4 FKDR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -1606,7 +1486,7 @@ class BedwarsStats(commands.Cog):
 		player_four_v_four_fkdr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_four_v_four_fkdr_embed)
+		await ctx.send(embed = player_four_v_four_fkdr_embed)
 
 	@fkdr.group(name = "armed", invoke_without_command = True)
 	async def armed_fkdr(self, ctx):
@@ -1619,11 +1499,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s armed doubles FKDR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_armed_doubles_fkdr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Armed Doubles FKDR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -1659,7 +1534,7 @@ class BedwarsStats(commands.Cog):
 		player_armed_doubles_fkdr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_armed_doubles_fkdr_embed)
+		await ctx.send(embed = player_armed_doubles_fkdr_embed)
 
 	@armed_fkdr.command(name = "fours", aliases = ["4", "4s", "four"])
 	async def armed_fours_fkdr(self, ctx, *args):
@@ -1668,11 +1543,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s armed fours FKDR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_armed_fours_fkdr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Armed Fours FKDR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -1708,7 +1578,7 @@ class BedwarsStats(commands.Cog):
 		player_armed_fours_fkdr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_armed_fours_fkdr_embed)
+		await ctx.send(embed = player_armed_fours_fkdr_embed)
 
 	@fkdr.command(name = "castle")
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -1718,11 +1588,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s castle FKDR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_castle_fkdr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Castle FKDR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -1758,7 +1623,7 @@ class BedwarsStats(commands.Cog):
 		player_castle_fkdr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_castle_fkdr_embed)
+		await ctx.send(embed = player_castle_fkdr_embed)
 
 	@fkdr.group(name = "luckyblocks", aliases = ["luckyblock", "lucky"], invoke_without_command = True)
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -1773,11 +1638,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s luckyblocks doubles FKDR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_luckyblocks_doubles_fkdr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Luckyblocks Doubles FKDR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -1813,7 +1673,7 @@ class BedwarsStats(commands.Cog):
 		player_luckyblocks_doubles_fkdr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_luckyblocks_doubles_fkdr_embed)
+		await ctx.send(embed = player_luckyblocks_doubles_fkdr_embed)
 
 	@luckyblocks_fkdr.command(name = "fours", aliases = ["4", "4s", "four"])
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -1823,11 +1683,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s luckyblocks fours FKDR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_luckyblocks_fours_fkdr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Luckyblocks fours FKDR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -1863,7 +1718,7 @@ class BedwarsStats(commands.Cog):
 		player_luckyblocks_fours_fkdr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_luckyblocks_fours_fkdr_embed)
+		await ctx.send(embed = player_luckyblocks_fours_fkdr_embed)
 
 	@fkdr.group(name = "rush", invoke_without_command = True)
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -1878,11 +1733,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s rush solo FKDR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_rush_solo_fkdr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Rush Solo FKDR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -1918,7 +1768,7 @@ class BedwarsStats(commands.Cog):
 		player_rush_solo_fkdr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_rush_solo_fkdr_embed)
+		await ctx.send(embed = player_rush_solo_fkdr_embed)
 
 	@rush_fkdr.command(name = "doubles", aliases = ["2", "2s", "double"])
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -1928,11 +1778,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s rush doubles FKDR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_rush_doubles_fkdr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Rush doubles FKDR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -1968,7 +1813,7 @@ class BedwarsStats(commands.Cog):
 		player_rush_doubles_fkdr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_rush_doubles_fkdr_embed)
+		await ctx.send(embed = player_rush_doubles_fkdr_embed)
 
 	@rush_fkdr.command(name = "fours", aliases = ["4", "4s"])
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -1978,11 +1823,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s rush fours FKDR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_rush_fours_fkdr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Rush Fours FKDR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -2018,7 +1858,7 @@ class BedwarsStats(commands.Cog):
 		player_rush_fours_fkdr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_rush_fours_fkdr_embed)
+		await ctx.send(embed = player_rush_fours_fkdr_embed)
 
 	@fkdr.group(name = "ultimate", aliases = ["ultimates"], invoke_without_command = True)
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -2033,11 +1873,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s ultimate solo FKDR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_ultimate_solo_fkdr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Ultimate Solo FKDR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -2073,7 +1908,7 @@ class BedwarsStats(commands.Cog):
 		player_ultimate_solo_fkdr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_ultimate_solo_fkdr_embed)
+		await ctx.send(embed = player_ultimate_solo_fkdr_embed)
 
 	@ultimate_fkdr.command(name = "doubles", aliases = ["2", "2s", "double"])
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -2083,11 +1918,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s ultimate doubles FKDR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_ultimate_doubles_fkdr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Ultimate Doubles FKDR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -2123,7 +1953,7 @@ class BedwarsStats(commands.Cog):
 		player_ultimate_doubles_fkdr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_ultimate_doubles_fkdr_embed)
+		await ctx.send(embed = player_ultimate_doubles_fkdr_embed)
 
 	@ultimate_fkdr.command(name = "fours", aliases = ["4", "4s", "four"])
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -2133,11 +1963,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s ultimate fours FKDR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_ultimate_fours_fkdr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Ultimate Fours FKDR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -2173,7 +1998,7 @@ class BedwarsStats(commands.Cog):
 		player_ultimate_fours_fkdr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_ultimate_fours_fkdr_embed)
+		await ctx.send(embed = player_ultimate_fours_fkdr_embed)
 
 	@fkdr.group(name = "voidless")
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -2188,11 +2013,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s voidless doubles FKDR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_voidless_doubles_fkdr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Voidless Doubles FKDR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -2228,7 +2048,7 @@ class BedwarsStats(commands.Cog):
 		player_voidless_doubles_fkdr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_voidless_doubles_fkdr_embed)
+		await ctx.send(embed = player_voidless_doubles_fkdr_embed)
 
 	@voidless_fkdr.command(name = "fours", aliases = ["4", "4s", "four"])
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -2238,11 +2058,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s voidless fours FKDR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_voidless_fours_fkdr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Voidless Fours FKDR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -2278,7 +2093,7 @@ class BedwarsStats(commands.Cog):
 		player_voidless_fours_fkdr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_voidless_fours_fkdr_embed)
+		await ctx.send(embed = player_voidless_fours_fkdr_embed)
 
 	@bedwars.group(name = "bblr", invoke_without_command = True)
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -2288,11 +2103,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s BBLR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_bblr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s BBLR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -2328,7 +2138,7 @@ class BedwarsStats(commands.Cog):
 		player_bblr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_bblr_embed)
+		await ctx.send(embed = player_bblr_embed)
 
 	@bblr.command(name = "solo", aliases = ["1", "solos"])
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -2338,11 +2148,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s solo BBLR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_solo_bblr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Solo BBLR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -2378,7 +2183,7 @@ class BedwarsStats(commands.Cog):
 		player_solo_bblr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_solo_bblr_embed)
+		await ctx.send(embed = player_solo_bblr_embed)
 
 	@bblr.command(name = "doubles", aliases = ["2", "2s", "double", "twos"])
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -2388,11 +2193,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s doubles BBLR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_doubles_bblr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Doubles BBLR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -2428,7 +2228,7 @@ class BedwarsStats(commands.Cog):
 		player_doubles_bblr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_doubles_bblr_embed)
+		await ctx.send(embed = player_doubles_bblr_embed)
 
 	@bblr.command(name = "threes", aliases = ["3", "3s", "triple", "three"])
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -2438,11 +2238,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s threes BBLR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_threes_bblr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Threes BBLR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -2478,7 +2273,7 @@ class BedwarsStats(commands.Cog):
 		player_threes_bblr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_threes_bblr_embed)
+		await ctx.send(embed = player_threes_bblr_embed)
 
 	@bblr.command(name = "fours", aliases = ["4", "4s", "four"])
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -2488,11 +2283,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s fours BBLR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_fours_bblr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Fours BBLR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -2528,7 +2318,7 @@ class BedwarsStats(commands.Cog):
 		player_fours_bblr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_fours_bblr_embed)
+		await ctx.send(embed = player_fours_bblr_embed)
 
 	@bblr.command(name = "4v4")
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -2538,11 +2328,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s 4v4 BBLR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_four_v_four_bblr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s 4v4 BBLR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -2578,7 +2363,7 @@ class BedwarsStats(commands.Cog):
 		player_four_v_four_bblr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_four_v_four_bblr_embed)
+		await ctx.send(embed = player_four_v_four_bblr_embed)
 
 	@bblr.group(name = "armed", invoke_without_command = True)
 	async def armed_bblr(self, ctx):
@@ -2591,11 +2376,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s armed doubles BBLR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_armed_doubles_bblr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Armed Doubles BBLR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -2631,7 +2411,7 @@ class BedwarsStats(commands.Cog):
 		player_armed_doubles_bblr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_armed_doubles_bblr_embed)
+		await ctx.send(embed = player_armed_doubles_bblr_embed)
 
 	@armed_bblr.command(name = "fours", aliases = ["4", "4s", "four"])
 	async def armed_fours_bblr(self, ctx, *args):
@@ -2640,11 +2420,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s armed fours BBLR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_armed_fours_bblr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Armed Fours BBLR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -2680,7 +2455,7 @@ class BedwarsStats(commands.Cog):
 		player_armed_fours_bblr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_armed_fours_bblr_embed)
+		await ctx.send(embed = player_armed_fours_bblr_embed)
 
 	@bblr.command(name = "castle")
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -2690,11 +2465,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s castle BBLR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_castle_bblr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Castle BBLR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -2730,7 +2500,7 @@ class BedwarsStats(commands.Cog):
 		player_castle_bblr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_castle_bblr_embed)
+		await ctx.send(embed = player_castle_bblr_embed)
 
 	@bblr.group(name = "luckyblocks", aliases = ["luckyblock", "lucky"], invoke_without_command = True)
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -2745,11 +2515,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s luckyblocks doubles BBLR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_luckyblocks_doubles_bblr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Luckyblocks Doubles BBLR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -2785,7 +2550,7 @@ class BedwarsStats(commands.Cog):
 		player_luckyblocks_doubles_bblr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_luckyblocks_doubles_bblr_embed)
+		await ctx.send(embed = player_luckyblocks_doubles_bblr_embed)
 
 	@luckyblocks_bblr.command(name = "fours", aliases = ["4", "4s", "four"])
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -2795,11 +2560,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s luckyblocks fours BBLR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_luckyblocks_fours_bblr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Luckyblocks fours BBLR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -2835,7 +2595,7 @@ class BedwarsStats(commands.Cog):
 		player_luckyblocks_fours_bblr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_luckyblocks_fours_bblr_embed)
+		await ctx.send(embed = player_luckyblocks_fours_bblr_embed)
 
 	@bblr.group(name = "rush", invoke_without_command = True)
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -2850,11 +2610,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s rush solo BBLR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_rush_solo_bblr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Rush Solo BBLR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -2890,7 +2645,7 @@ class BedwarsStats(commands.Cog):
 		player_rush_solo_bblr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_rush_solo_bblr_embed)
+		await ctx.send(embed = player_rush_solo_bblr_embed)
 
 	@rush_bblr.command(name = "doubles", aliases = ["2", "2s", "double"])
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -2900,11 +2655,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s rush doubles BBLR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_rush_doubles_bblr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Rush doubles BBLR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -2940,7 +2690,7 @@ class BedwarsStats(commands.Cog):
 		player_rush_doubles_bblr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_rush_doubles_bblr_embed)
+		await ctx.send(embed = player_rush_doubles_bblr_embed)
 
 	@rush_bblr.command(name = "fours", aliases = ["4", "4s"])
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -2950,11 +2700,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s rush fours BBLR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_rush_fours_bblr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Rush Fours BBLR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -2990,7 +2735,7 @@ class BedwarsStats(commands.Cog):
 		player_rush_fours_bblr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_rush_fours_bblr_embed)
+		await ctx.send(embed = player_rush_fours_bblr_embed)
 
 	@bblr.group(name = "ultimate", aliases = ["ultimates"], invoke_without_command = True)
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -3005,11 +2750,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s ultimate solo BBLR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_ultimate_solo_bblr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Ultimate Solo BBLR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -3045,7 +2785,7 @@ class BedwarsStats(commands.Cog):
 		player_ultimate_solo_bblr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_ultimate_solo_bblr_embed)
+		await ctx.send(embed = player_ultimate_solo_bblr_embed)
 
 	@ultimate_bblr.command(name = "doubles", aliases = ["2", "2s", "double"])
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -3055,11 +2795,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s ultimate doubles BBLR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_ultimate_doubles_bblr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Ultimate Doubles BBLR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -3095,7 +2830,7 @@ class BedwarsStats(commands.Cog):
 		player_ultimate_doubles_bblr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_ultimate_doubles_bblr_embed)
+		await ctx.send(embed = player_ultimate_doubles_bblr_embed)
 
 	@ultimate_bblr.command(name = "fours", aliases = ["4", "4s", "four"])
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -3105,11 +2840,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s ultimate fours BBLR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_ultimate_fours_bblr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Ultimate Fours BBLR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -3145,7 +2875,7 @@ class BedwarsStats(commands.Cog):
 		player_ultimate_fours_bblr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_ultimate_fours_bblr_embed)
+		await ctx.send(embed = player_ultimate_fours_bblr_embed)
 
 	@bblr.group(name = "voidless")
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -3160,11 +2890,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s voidless doubles BBLR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_voidless_doubles_bblr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Voidless Doubles BBLR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -3200,7 +2925,7 @@ class BedwarsStats(commands.Cog):
 		player_voidless_doubles_bblr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_voidless_doubles_bblr_embed)
+		await ctx.send(embed = player_voidless_doubles_bblr_embed)
 
 	@voidless_bblr.command(name = "fours", aliases = ["4", "4s", "four"])
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -3210,11 +2935,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s voidless fours BBLR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_voidless_fours_bblr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Voidless Fours BBLR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -3250,7 +2970,7 @@ class BedwarsStats(commands.Cog):
 		player_voidless_fours_bblr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_voidless_fours_bblr_embed)
+		await ctx.send(embed = player_voidless_fours_bblr_embed)
 
 	@bedwars.group(name = "wlr", invoke_without_command = True)
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -3260,11 +2980,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s WLR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_wlr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s WLR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -3300,7 +3015,7 @@ class BedwarsStats(commands.Cog):
 		player_wlr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_wlr_embed)
+		await ctx.send(embed = player_wlr_embed)
 
 	@wlr.command(name = "solo", aliases = ["1", "solos"])
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -3310,11 +3025,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s solo WLR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_solo_wlr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Solo WLR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -3350,7 +3060,7 @@ class BedwarsStats(commands.Cog):
 		player_solo_wlr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_solo_wlr_embed)
+		await ctx.send(embed = player_solo_wlr_embed)
 
 	@wlr.command(name = "doubles", aliases = ["2", "2s", "double", "twos"])
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -3360,11 +3070,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s doubles WLR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_doubles_wlr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Doubles WLR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -3400,7 +3105,7 @@ class BedwarsStats(commands.Cog):
 		player_doubles_wlr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_doubles_wlr_embed)
+		await ctx.send(embed = player_doubles_wlr_embed)
 
 	@wlr.command(name = "threes", aliases = ["3", "3s", "triple", "three"])
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -3410,11 +3115,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s threes WLR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_threes_wlr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Threes WLR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -3450,7 +3150,7 @@ class BedwarsStats(commands.Cog):
 		player_threes_wlr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_threes_wlr_embed)
+		await ctx.send(embed = player_threes_wlr_embed)
 
 	@wlr.command(name = "fours", aliases = ["4", "4s", "four"])
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -3460,11 +3160,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s fours WLR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_fours_wlr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Fours WLR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -3500,7 +3195,7 @@ class BedwarsStats(commands.Cog):
 		player_fours_wlr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_fours_wlr_embed)
+		await ctx.send(embed = player_fours_wlr_embed)
 
 	@wlr.command(name = "4v4")
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -3510,11 +3205,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s 4v4 WLR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_four_v_four_wlr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s 4v4 WLR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -3550,7 +3240,7 @@ class BedwarsStats(commands.Cog):
 		player_four_v_four_wlr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_four_v_four_wlr_embed)
+		await ctx.send(embed = player_four_v_four_wlr_embed)
 
 	@wlr.group(name = "armed", invoke_without_command = True)
 	async def armed_wlr(self, ctx):
@@ -3563,11 +3253,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s armed doubles WLR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_armed_doubles_wlr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Armed Doubles WLR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -3603,7 +3288,7 @@ class BedwarsStats(commands.Cog):
 		player_armed_doubles_wlr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_armed_doubles_wlr_embed)
+		await ctx.send(embed = player_armed_doubles_wlr_embed)
 
 	@armed_wlr.command(name = "fours", aliases = ["4", "4s", "four"])
 	async def armed_fours_wlr(self, ctx, *args):
@@ -3612,11 +3297,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s armed fours WLR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_armed_fours_wlr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Armed Fours WLR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -3652,7 +3332,7 @@ class BedwarsStats(commands.Cog):
 		player_armed_fours_wlr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_armed_fours_wlr_embed)
+		await ctx.send(embed = player_armed_fours_wlr_embed)
 
 	@wlr.command(name = "castle")
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -3662,11 +3342,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s castle WLR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_castle_wlr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Castle WLR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -3702,7 +3377,7 @@ class BedwarsStats(commands.Cog):
 		player_castle_wlr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_castle_wlr_embed)
+		await ctx.send(embed = player_castle_wlr_embed)
 
 	@wlr.group(name = "luckyblocks", aliases = ["luckyblock", "lucky"], invoke_without_command = True)
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -3717,11 +3392,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s luckyblocks doubles WLR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_luckyblocks_doubles_wlr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Luckyblocks Doubles WLR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -3757,7 +3427,7 @@ class BedwarsStats(commands.Cog):
 		player_luckyblocks_doubles_wlr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_luckyblocks_doubles_wlr_embed)
+		await ctx.send(embed = player_luckyblocks_doubles_wlr_embed)
 
 	@wlr.group(name = "rush", invoke_without_command = True)
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -3772,11 +3442,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s rush solo WLR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_rush_solo_wlr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Rush Solo WLR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -3812,7 +3477,7 @@ class BedwarsStats(commands.Cog):
 		player_rush_solo_wlr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_rush_solo_wlr_embed)
+		await ctx.send(embed = player_rush_solo_wlr_embed)
 
 	@rush_wlr.command(name = "doubles", aliases = ["2", "2s", "double"])
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -3822,11 +3487,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s rush doubles WLR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_rush_doubles_wlr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Rush Doubles WLR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -3862,7 +3522,7 @@ class BedwarsStats(commands.Cog):
 		player_rush_doubles_wlr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_rush_doubles_wlr_embed)
+		await ctx.send(embed = player_rush_doubles_wlr_embed)
 
 	@rush_wlr.command(name = "fours", aliases = ["4", "4s"])
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -3872,11 +3532,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s rush fours WLR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_rush_fours_wlr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Rush Fours WLR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -3912,7 +3567,7 @@ class BedwarsStats(commands.Cog):
 		player_rush_fours_wlr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_rush_fours_wlr_embed)
+		await ctx.send(embed = player_rush_fours_wlr_embed)
 
 	@wlr.group(name = "ultimate", aliases = ["ultimates"], invoke_without_command = True)
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -3927,11 +3582,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s ultimate solo WLR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_ultimate_solo_wlr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Ultimate Solo WLR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -3967,7 +3617,7 @@ class BedwarsStats(commands.Cog):
 		player_ultimate_solo_wlr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_ultimate_solo_wlr_embed)
+		await ctx.send(embed = player_ultimate_solo_wlr_embed)
 
 	@ultimate_wlr.command(name = "doubles", aliases = ["2", "2s", "double"])
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -3977,11 +3627,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s ultimate doubles WLR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_ultimate_doubles_wlr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Ultimate Doubles WLR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -4017,7 +3662,7 @@ class BedwarsStats(commands.Cog):
 		player_ultimate_doubles_wlr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_ultimate_doubles_wlr_embed)
+		await ctx.send(embed = player_ultimate_doubles_wlr_embed)
 
 	@ultimate_wlr.command(name = "fours", aliases = ["4", "4s", "four"])
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -4027,11 +3672,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s ultimate fours WLR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_ultimate_fours_wlr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Ultimate Fours WLR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -4067,7 +3707,7 @@ class BedwarsStats(commands.Cog):
 		player_ultimate_fours_wlr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_ultimate_fours_wlr_embed)
+		await ctx.send(embed = player_ultimate_fours_wlr_embed)
 
 	@wlr.group(name = "voidless")
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -4082,11 +3722,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s voidless doubles WLR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_voidless_doubles_wlr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Voidless Doubles WLR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -4122,7 +3757,7 @@ class BedwarsStats(commands.Cog):
 		player_voidless_doubles_wlr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_voidless_doubles_wlr_embed)
+		await ctx.send(embed = player_voidless_doubles_wlr_embed)
 
 	@voidless_wlr.command(name = "fours", aliases = ["4", "4s", "four"])
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -4132,11 +3767,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s voidless fours WLR data..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		player_voidless_fours_wlr_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Voidless Fours WLR**""",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16) # 16 - Hex value.
@@ -4172,7 +3802,7 @@ class BedwarsStats(commands.Cog):
 		player_voidless_fours_wlr_embed.set_footer(
 			text = core.static.stats_needed_disclaimer
 		)
-		await message.edit(embed = player_voidless_fours_wlr_embed)
+		await ctx.send(embed = player_voidless_fours_wlr_embed)
 
 	@bedwars.command(name = "winstreaks", aliases = ["winstreak", "ws"])
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -4182,11 +3812,6 @@ class BedwarsStats(commands.Cog):
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
-		loading_embed = discord.Embed(
-			name = "Loading",
-			description = f"Loading {player_data['player_formatted_name']}'s current winstreaks..."
-		)
-		message = await ctx.send(embed = loading_embed)
 		winstreak_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}")}'s Winstreaks**""" if (player_json["rank_data"]["rank"]) else f"**{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Winstreaks**",
 			color = int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16), # 16 - Hex value.
@@ -4214,7 +3839,7 @@ __**{core.static.arrow_bullet_point} Voidless Fours**__: {player_json['bedwars']
 		winstreak_embed.set_thumbnail(
 			url = core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
 		)
-		await message.edit(embed = winstreak_embed)
+		await ctx.send(embed = winstreak_embed)
 def setup(bot):
 	bot.add_cog(BedwarsStats(bot))
 	print("Reloaded cogs.minecraft.hypixel.bedwars")
