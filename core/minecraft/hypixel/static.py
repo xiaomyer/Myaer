@@ -260,7 +260,7 @@ async def get_skywars_level_data_from_experience(experience): # another formula 
 	total_xp = [20, 70, 150, 250, 500, 1000, 2000, 3500, 6000, 10000, 15000]
 	level = 0
 	if experience >= 15000:
-		return (experience - 15000) / 10000 + 12
+		level = (experience - 15000) / 10000 + 12
 	else:
 		c = 0
 		while experience >= 0 and c < len(total_xp):
