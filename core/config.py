@@ -23,6 +23,7 @@ SOFTWARE.
 """
 
 import json
+from tinydb import TinyDB
 
 with open("/home/myerfire/Myaer/Myaer/config.json") as config_raw:
 	config_json = json.load(config_raw)
@@ -31,3 +32,6 @@ token = config_json["keys"]["token"]
 hypixel_api_key = config_json["keys"]["hypixel"]
 status_log_channel = config_json["channels"]["status_log_channel"]
 default_prefix = config_json["prefix"]
+
+prefix_db = TinyDB("/home/myerfire/Myaer/Myaer/prefixes.json")
+prefix_db_cache = prefix_db

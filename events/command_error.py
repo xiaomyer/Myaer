@@ -52,7 +52,7 @@ class CommandError(commands.Cog):
 			concurrency_embed = discord.Embed(
 				name = "Cooldown",
 				color = ctx.author.color,
-				description = f"{ctx.author.name}, this command is being ratelimited. Try again in a bit."
+				description = f"{ctx.author.name}, this command is being ratelimited. Try again in a bit"
 			)
 			await ctx.send(embed = concurrency_embed)
 
@@ -69,7 +69,15 @@ class CommandError(commands.Cog):
 			argument_embed = discord.Embed(
 				name = "Missing required argument",
 				color = ctx.author.color,
-				description = f"{ctx.author.name}, you forgot to provide an input of some sort."
+				description = f"{ctx.author.name}, you forgot to provide an input of some sort"
+			)
+			await ctx.send(embed = argument_embed)
+
+		if isinstance(error, commands.MissingPermissions):
+			argument_embed = discord.Embed(
+				name = "Missing required argument",
+				color = ctx.author.color,
+				description = f"{ctx.author.name}, you don't have enough permissions to do that"
 			)
 			await ctx.send(embed = argument_embed)
 

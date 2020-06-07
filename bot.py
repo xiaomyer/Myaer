@@ -35,21 +35,10 @@ handler = logging.FileHandler(filename="discord.log", encoding='utf-8', mode='w'
 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
 logger.addHandler(handler)
 
-# with open("/home/myerfire/Myaer/Myaer/prefixes.json") as prefixes_json:
-#	prefixes = json.load(prefixes_json)
-
-# @tasks.loop(seconds = 5)
-# async def update_prefixes():
-#	global prefixes
-#	with open("/home/myerfire/Myaer/Myaer/prefixes.json") as prefixes_json:
-#		prefixes = json.load(prefixes_json)
-
 async def get_prefix(bot, message):
-#	db = TinyDB("/home/myerfire/Myaer/Myaer/prefixes.json")
-#	prefix_data = db.search(where("guild_id") == message.guild.id) if db.search(where("guild_id") == message.guild.id) else None
-#	prefix = prefix_data[0]["prefix"] if prefix_data else core.config.default_prefix
-#	return commands.when_mentioned_or(prefix, "myaer ", "Myaer ")(bot, message)
-	return commands.when_mentioned_or(core.config.default_prefix, "myaer", "Myaer")(bot, message)
+	prefix_data = core.config.prefix_db_cache.search(where("guild_id") == message.guild.id)
+	prefix = prefix_data[0]["prefix"] if prefix_data else core.config.default_prefix
+	return commands.when_mentioned_or(prefix, "myaer ", "Myaer ")(bot, message)
 
 bot = commands.Bot(
 	command_prefix = get_prefix,
@@ -70,7 +59,7 @@ extensions = [
 	"events.command",
 	"cogs.minecraft.hypixel.paintball",
 	"commands.ping",
-#	"cogs.prefix",
+	"cogs.prefix",
 	"cogs.minecraft.hypixel.skywars",
 	"commands.suggest",
 	"cogs.wristspasm"
