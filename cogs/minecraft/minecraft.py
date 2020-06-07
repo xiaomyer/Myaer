@@ -44,13 +44,12 @@ class Minecraft(commands.Cog):
 	async def minecraft(self, ctx):
 		return
 
-	@minecraft.command(name = "name")
+	@minecraft.command(name = "history")
 	@commands.max_concurrency(1, per = commands.BucketType.user)
 	async def name_history(self, ctx, *args):
 		player_info = await core.minecraft.static.name_handler(ctx, args)
 		if player_info:
-			player_data = player_info["player_data"]
-			player_json = player_info["player_json"]
+			player_data = player_info
 		else: return
 		await ctx.channel.trigger_typing()
 		name_history = await core.minecraft.request.get_name_history_uuid(player_data['minecraft_uuid'])
@@ -74,8 +73,8 @@ class Minecraft(commands.Cog):
 		player_info = await core.minecraft.static.name_handler(ctx, args)
 		if player_info:
 			player_data = player_info["player_data"]
-			player_json = player_info["player_json"]
 		else: return
+		await ctx.channel.trigger_typing()
 		player_uuid_embed = discord.Embed(
 			name = "Player UUID",
 			description = f"{player_data['player_formatted_name']}\'s UUID is {player_data['minecraft_uuid']}.",
@@ -89,8 +88,8 @@ class Minecraft(commands.Cog):
 		player_info = await core.minecraft.static.name_handler(ctx, args)
 		if player_info:
 			player_data = player_info["player_data"]
-			player_json = player_info["player_json"]
 		else: return
+		await ctx.channel.trigger_typing()
 		player_skin_embed = discord.Embed(
 			name = "Player skin",
 			title = f"**{player_data['player_formatted_name']}'s Minecraft Skin**",

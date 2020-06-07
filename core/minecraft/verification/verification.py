@@ -90,9 +90,10 @@ async def parse_input(ctx, input):
 			return player_data
 		else:
 			try:
+				player_info = await core.minecraft.request.get_profile(input)
 				player_data = {
-					"player_formatted_name" : (await core.minecraft.request.get_profile(input))["name"],
-					"minecraft_uuid" : (await core.minecraft.request.get_profile(input))["uuid"]
+					"player_formatted_name" : player_info["name"],
+					"minecraft_uuid" : player_info["uuid"]
 				}
 				return player_data
 			except NameError:
@@ -101,13 +102,9 @@ async def parse_input(ctx, input):
 		raise AttributeError("Member not verified")
 		return
 
-async def database_lookup(discord_id):
+async def database_lookup_uuid(discord_id):
 	try:
 		db_data = await find_uuid(discord_id)
-		player_data = {
-			"player_formatted_name" : (await core.minecraft.request.get_profile((db_data[0]["minecraft_uuid"])))["name"],
-			"minecraft_uuid" : db_data[0]["minecraft_uuid"]
-		}
-		return player_data
+		return db_data[0]["minecraft_uuid"]
 	except IndexError:
 		return None # not found in database

@@ -40,7 +40,7 @@ class Hypixel(commands.Cog):
 	@commands.group(name = "hypixel", aliases = ["hp"], invoke_without_command = True)
 	@commands.max_concurrency(1, per = commands.BucketType.user)
 	async def hypixel(self, ctx, *args):
-		player_info = await core.minecraft.static.name_handler(ctx, args, get_guild = True)
+		player_info = await core.minecraft.static.hypixel_name_handler(ctx, args, get_guild = True)
 		if player_info:
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]

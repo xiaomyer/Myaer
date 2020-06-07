@@ -37,7 +37,7 @@ class SkywarsStats(commands.Cog):
 	@commands.group(name = "skywars", aliases = ["sw"], invoke_without_command = True)
 	@commands.max_concurrency(1, per = commands.BucketType.user)
 	async def skywars(self, ctx, *args):
-		player_info = await core.minecraft.static.name_handler(ctx, args)
+		player_info = await core.minecraft.static.hypixel_name_handler(ctx, args)
 		if player_info:
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]

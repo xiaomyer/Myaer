@@ -24,7 +24,6 @@ SOFTWARE.
 
 import core.minecraft.hypixel.request
 import core.minecraft.hypixel.static
-import math
 
 async def get_player_data(uuid, *, get_guild: bool = False):
 	try:
