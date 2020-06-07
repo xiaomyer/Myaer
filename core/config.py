@@ -33,5 +33,5 @@ hypixel_api_key = config_json["keys"]["hypixel"]
 status_log_channel = config_json["channels"]["status_log_channel"]
 default_prefix = config_json["prefix"]
 
-prefix_db = TinyDB("/home/myerfire/Myaer/Myaer/prefixes.json")
+prefix_db = TinyDB("/home/myerfire/Myaer/Myaer/core/prefixes.json")
 prefix_db_cache = prefix_db
