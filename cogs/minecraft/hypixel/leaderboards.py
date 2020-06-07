@@ -22,16 +22,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import asyncio
-import core.minecraft.hypixel.leaderboards
-import core.static
-import datetime
 from discord.ext import commands
+import datetime
 import discord
 import humanfriendly
+import math
+import core.static
 import core.minecraft.static
 import core.minecraft.hypixel.static
-import core.minecraft.hypixel.player
 import sys
 import time
 import traceback

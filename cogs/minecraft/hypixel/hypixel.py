@@ -27,12 +27,9 @@ import datetime
 import discord
 import humanfriendly
 import math
-import core.minecraft.request
-import core.minecraft.hypixel.player
+import core.static
 import core.minecraft.static
 import core.minecraft.hypixel.static
-import core.static
-import core.minecraft.verification.verification
 
 mc_heads_api = "https://mc-heads.net/"
 

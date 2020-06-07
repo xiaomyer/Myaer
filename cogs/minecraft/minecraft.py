@@ -27,6 +27,7 @@ import datetime
 import discord
 import humanfriendly
 import core.minecraft.request
+import core.static
 import core.minecraft.static
 import sys
 import traceback
@@ -57,9 +58,9 @@ class Minecraft(commands.Cog):
 		name_history_string = []
 		for name in name_history: # the index is only needed because something else has to be done for the first one
 			if index == 0: # First name does not have changedToAt attribute
-				name_history_string.append(f"{name_history[index][0]}")
+				name_history_string.append(f"{core.static.arrow_bullet_point}{name_history[index][0]}")
 			else:
-				name_history_string.append(f"{discord.utils.escape_markdown(name_history[index][0])} - *on {datetime.date.fromtimestamp((name_history[index][1]) / 1000)}*")
+				name_history_string.append(f"{core.static.arrow_bullet_point}{discord.utils.escape_markdown(name_history[index][0])} - *on {datetime.date.fromtimestamp((name_history[index][1]) / 1000)}*")
 			index -= 1
 			name_history_embed = discord.Embed(
 				name = "Name history",

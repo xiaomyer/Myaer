@@ -26,16 +26,14 @@ from discord.ext import commands
 import discord
 import math
 import core.static
-import core.minecraft.hypixel.player
 import core.minecraft.static
 import core.minecraft.hypixel.static
-import core.minecraft.verification.verification
 
 class BedwarsStats(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 
-	@commands.group(name = "bw", invoke_without_command = True)
+	@commands.group(name = "bedwars", aliases = ["bw"], invoke_without_command = True)
 	@commands.max_concurrency(1, per = commands.BucketType.user)
 	async def bedwars(self, ctx, *args):
 		player_info = await core.minecraft.static.name_handler(ctx, args)

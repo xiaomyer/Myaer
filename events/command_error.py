@@ -38,20 +38,14 @@ class CommandError(commands.Cog):
 		if hasattr(ctx.command, "on_error"):
 			return
 
-		if isinstance(error, commands.CommandNotFound):
-			return
-
 		ignored = (commands.CommandNotFound)
 
-		error = getattr(error, 'original', error)
+		error = getattr(error, "original", error)
 
 		if isinstance(error, ignored):
 			return
 
 		if (str(ctx.command)).startswith("leaderboards"):
-			return
-
-		if "verify" in (str(ctx.command)):
 			return
 
 		if isinstance(error, commands.MaxConcurrencyReached):
@@ -73,13 +67,13 @@ class CommandError(commands.Cog):
 
 		if isinstance(error, commands.MissingRequiredArgument):
 			argument_embed = discord.Embed(
-				name = "Error",
+				name = "Missing required argument",
 				color = ctx.author.color,
 				description = f"{ctx.author.name}, you forgot to provide an input of some sort."
 			)
 			await ctx.send(embed = argument_embed)
 
-		print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
+		print("Ignoring exception in command {}:".format(ctx.command), file=sys.stderr)
 		traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
 
 def setup(bot):

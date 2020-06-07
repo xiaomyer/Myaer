@@ -73,10 +73,7 @@ async def unverify(discord_id):
 
 async def find_uuid(discord_id):
 	db = TinyDB("/home/myerfire/Myaer/Myaer/core/minecraft/verification/verified.json")
-	try:
-		return db.search(where("discord_id") == discord_id)
-	except:
-		return None
+	return db.search(where("discord_id") == discord_id)
 
 async def parse_input(ctx, input):
 	try:
@@ -85,7 +82,6 @@ async def parse_input(ctx, input):
 		player_discord = None
 	try:
 		if player_discord and (player_discord.mentioned_in(ctx.message) or input.isdigit()): # if input is a discord id
-			print("database")
 			db_data = (await find_uuid(player_discord.id))
 			player_data = {
 				"player_formatted_name" : (await core.minecraft.request.get_profile((db_data[0]["minecraft_uuid"])))["name"],

@@ -1,1 +1,1 @@
-pm2 start /home/myerfire/Myaer/Myaer/bot.py --interpreter=/home/myerfire/Myaer/bin/python -i max
+pm2 start /home/myerfire/Myaer/Myaer/bot.py --interpreter=/home/myerfire/Myaer/bin/python

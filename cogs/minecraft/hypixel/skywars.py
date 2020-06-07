@@ -22,14 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import core.static
 from discord.ext import commands
 import discord
 import math
-import core.minecraft.hypixel.player
+import core.static
 import core.minecraft.static
 import core.minecraft.hypixel.static
-import core.minecraft.verification.verification
 
 class SkywarsStats(commands.Cog):
 	def __init__(self, bot):

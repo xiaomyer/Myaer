@@ -25,12 +25,9 @@ SOFTWARE.
 from discord.ext import commands
 import discord
 import math
-import core.minecraft.request
-import core.minecraft.hypixel.player
+import core.static
 import core.minecraft.static
 import core.minecraft.hypixel.static
-import core.static
-import core.minecraft.verification.verification
 
 class Guild(commands.Cog):
 	def __init__(self, bot):

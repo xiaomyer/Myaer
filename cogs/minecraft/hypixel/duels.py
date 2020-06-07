@@ -24,11 +24,10 @@ SOFTWARE.
 
 from discord.ext import commands
 import discord
+import math
 import core.static
-import core.minecraft.hypixel.player
 import core.minecraft.static
 import core.minecraft.hypixel.static
-import core.minecraft.verification.verification
 
 class DuelsStats(commands.Cog):
 	def __init__(self, bot):
