@@ -25,6 +25,7 @@ SOFTWARE.
 import discord
 import core.minecraft.hypixel.player
 import ratelimit
+import core.minecraft.request
 import core.minecraft.verification.verification
 
 async def hypixel_name_handler(ctx, args, *, get_guild: bool = False):
@@ -55,7 +56,7 @@ async def hypixel_name_handler(ctx, args, *, get_guild: bool = False):
 		if player_uuid is None:
 			unverified_embed = discord.Embed(
 				name = "Not verified",
-				description = "You have to verify with `/mc verify <minecraft-ign>` first",
+				description = "You have to verify with `/mc verify <minecraft-ign>` first, or specify a player name",
 				color = ctx.author.color
 			)
 			await ctx.send(embed = unverified_embed)
@@ -63,6 +64,50 @@ async def hypixel_name_handler(ctx, args, *, get_guild: bool = False):
 	try:
 		player_json = await core.minecraft.hypixel.player.get_player_data(player_uuid, get_guild = get_guild)
 		player_name = player_json["name"] if not player_name else player_name
+		player_data = {
+			"player_formatted_name" : player_name,
+			"minecraft_uuid" : player_uuid
+		}
+	except NameError:
+		nameerror_embed = discord.Embed(
+			name = "Invalid input",
+			description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats",
+			color = ctx.author.color
+		)
+		await ctx.send(embed = nameerror_embed)
+		return
+	except OverflowError:
+		ratelimit_embed = discord.Embed(
+			name = "Ratelimit met",
+			description = "API ratelimit has been reached. Please try again later"
+		)
+		await ctx.send(embed = ratelimit_embed)
+		return
+	player_info = {
+		"player_data" : player_data,
+		"player_json" : player_json
+	}
+	return player_info
+
+async def hypixel_name_handler_no_database(ctx, player, *, get_guild: bool = False):
+	try:
+		player_profile = await core.minecraft.request.get_profile(player)
+		player_data = {
+			"player_formatted_name" : player_profile["name"],
+			"minecraft_uuid" : player_profile["uuid"]
+		}
+		player_uuid = player_data["minecraft_uuid"]
+		player_name = player_data["player_formatted_name"]
+	except NameError:
+		nameerror_embed = discord.Embed(
+			name = "Invalid input",
+			description = f"\"{args[0]}\" is not a valid username or UUID",
+			color = ctx.author.color
+		)
+		await ctx.send(embed = nameerror_embed)
+		return
+	try:
+		player_json = await core.minecraft.hypixel.player.get_player_data(player_uuid, get_guild = get_guild)
 		player_data = {
 			"player_formatted_name" : player_name,
 			"minecraft_uuid" : player_uuid

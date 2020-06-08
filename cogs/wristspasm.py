@@ -30,13 +30,9 @@ import core.minecraft.hypixel.static
 import core.static
 
 master = 394984668656566274
-
 admin_role = 633073051784708099
-
 moderator_role = 700177102925987850
-
 trial_moderator_role = 700177445957140521
-
 guild = 600311056627269642
 roles = {
 	"Stone" : 600314048617119757,
@@ -76,42 +72,22 @@ class WristSpasm(commands.Cog):
 		await ctx.send("the best guild")
 
 	@wristspasm.command(name = "verify")
-	async def prestige_role(self, ctx, player):
-		try:
-			player_data = await core.minecraft.request.get_profile(player)
-			loading_embed = discord.Embed(
-				name = "Loading",
-				description = f"Verifying you as {player_data['name']}..."
-			)
-			loading_embed.set_footer(
-				text = core.static.wrist_spasm_disclaimer
-			)
-			message = await ctx.send(embed = loading_embed)
-		except NameError:
-			nameerror_embed = discord.Embed(
-				name = "Invalid input",
-				description = f"\"{player}\" is not a valid username or UUID."
-			)
-			await ctx.send(embed = nameerror_embed)
-			return
-		try:
-			player_stats = await core.minecraft.hypixel.player.get_player_data(player_data["uuid"])
-		except NameError:
-			nameerror_embed = discord.Embed(
-				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
-			)
-			await message.edit(embed = nameerror_embed)
-			return
-		prestige = (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_stats["bedwars"]["star"]))["prestige"]
+	async def prestige_role(self, ctx, *args):
+		player_info = await core.minecraft.static.hypixel_name_handler(ctx, args)
+		if player_info:
+			player_data = player_info["player_data"]
+			player_json = player_info["player_json"]
+		else: return
+		await ctx.channel.trigger_typing()
+		prestige = (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige"]
 		prestige_role = roles[prestige]
 		prestige_role_object = ctx.guild.get_role(prestige_role)
-		if ctx.author.nick != player_data["name"]:
+		if ctx.author.nick != player_data["player_formatted_name"]:
 			try:
-				await ctx.author.edit(nick = player_data["name"])
+				await ctx.author.edit(nick = player_data["player_formatted_name"])
 				nickname_changed_embed = discord.Embed(
 					name = "Nickname changed",
-					description = f"Changed your nickname to {player_data['name']}."
+					description = f"Changed your nickname to {player_data['player_formatted_name']}."
 				)
 				nickname_changed_embed.set_footer(
 					text = core.static.wrist_spasm_disclaimer
@@ -120,7 +96,7 @@ class WristSpasm(commands.Cog):
 			except discord.errors.Forbidden:
 				forbidden_embed = discord.Embed(
 					name = "No permissions",
-					description = f"Cannot change {target}'s nickname."
+					description = f"Cannot change your nickname."
 				)
 				forbidden_embed.set_footer(
 					text = "Insufficient permissions"
@@ -129,7 +105,7 @@ class WristSpasm(commands.Cog):
 		else:
 			nickname_already_set_embed = discord.Embed(
 				name = "Already have nickname",
-				description = f"Your nickname is already {player_data['name']}."
+				description = f"Your nickname is already {player_data['player_formatted_name']}."
 			)
 			nickname_already_set_embed.set_footer(
 				text = core.static.wrist_spasm_disclaimer
@@ -138,7 +114,7 @@ class WristSpasm(commands.Cog):
 		if prestige_role_object in ctx.author.roles:
 			already_have_role_embed = discord.Embed(
 				name = "Already have role",
-				description = f"You already have the {prestige} Prestige role."
+				description = f"You already have the role <@&{prestige_role}>."
 			)
 			already_have_role_embed.set_footer(
 				text = core.static.wrist_spasm_disclaimer
@@ -148,7 +124,7 @@ class WristSpasm(commands.Cog):
 			await ctx.author.add_roles(prestige_role_object)
 			added_role_embed = discord.Embed(
 				name = "Added role",
-				description = f"Gave you the {prestige} Prestige role."
+				description = f"Gave you the role <@&{prestige_role}>."
 			)
 			added_role_embed.set_footer(
 				text = core.static.wrist_spasm_disclaimer
@@ -160,52 +136,33 @@ class WristSpasm(commands.Cog):
 				await ctx.author.remove_roles(role_object)
 				role_remove_embed = discord.Embed(
 					name = "Role removed",
-					description = f"Removed role <@{roles[role]}> from you."
+					description = f"Removed role <@&{roles[role]}> from you."
 				)
 				role_remove_embed.set_footer(
-					text = f"{core.static.wrist_spasm_disclaimer}\n\
-					You are only supposed to have one Bedwars prestige role."
+					text =
+f"""{core.static.wrist_spasm_disclaimer}
+You are only supposed to have one Bedwars prestige role."""
 				)
 				await ctx.send(embed = role_remove_embed)
 
 	@wristspasm.command(name = "override")
 	@commands.check(override_check)
 	async def verify_override(self, ctx, target: discord.Member, ign):
-		try:
-			player_data = await core.minecraft.request.get_profile(ign)
-			loading_embed = discord.Embed(
-				name = "Loading",
-				description = f"Verifying {target} as {player_data['name']}..."
-			)
-			loading_embed.set_footer(
-				text = core.static.wrist_spasm_disclaimer
-			)
-			message = await ctx.send(embed = loading_embed)
-		except NameError:
-			nameerror_embed = discord.Embed(
-				name = "Invalid input",
-				description = f"\"{ign}\" is not a valid username or UUID."
-			)
-			await ctx.send(embed = nameerror_embed)
-			return
-		try:
-			player_stats = await core.minecraft.hypixel.player.get_player_data(player_data["uuid"])
-		except NameError:
-			nameerror_embed = discord.Embed(
-				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats."
-			)
-			await message.edit(embed = nameerror_embed)
-			return
-		prestige = (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_stats["bedwars"]["star"]))["prestige"]
+		player_info = await core.minecraft.static.hypixel_name_handler_no_database(ctx, ign)
+		if player_info:
+			player_data = player_info["player_data"]
+			player_json = player_info["player_json"]
+		else: return
+		await ctx.channel.trigger_typing()
+		prestige = (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige"]
 		prestige_role = roles[prestige]
 		prestige_role_object = ctx.guild.get_role(prestige_role)
-		if target.nick != player_data["name"]:
+		if target.nick != player_data["player_formatted_name"]:
 			try:
-				await target.edit(nick = player_data["name"])
+				await target.edit(nick = player_data["player_formatted_name"])
 				nickname_changed_embed = discord.Embed(
 					name = "Nickname changed",
-					description = f"Changed {target}'s nickname to {player_data['name']}."
+					description = f"Changed <@!{target.id}>'s nickname to {player_data['player_formatted_name']}."
 					)
 				nickname_changed_embed.set_footer(
 					text = core.static.wrist_spasm_disclaimer
@@ -214,7 +171,7 @@ class WristSpasm(commands.Cog):
 			except discord.errors.Forbidden:
 				forbidden_embed = discord.Embed(
 					name = "No permissions",
-					description = f"Cannot change {target}'s nickname."
+					description = f"Cannot change <@!{target.id}>'s nickname."
 				)
 				forbidden_embed.set_footer(
 					text = "Insufficient permissions"
@@ -223,7 +180,7 @@ class WristSpasm(commands.Cog):
 		else:
 			nickname_already_set_embed = discord.Embed(
 				name = "Already have nickname",
-				description = f"{target}'s nickname is already {player_data['name']}."
+				description = f"<@!{target.id}>'s nickname is already {player_data['player_formatted_name']}."
 			)
 			nickname_already_set_embed.set_footer(
 				text = core.static.wrist_spasm_disclaimer
@@ -232,7 +189,7 @@ class WristSpasm(commands.Cog):
 		if prestige_role_object in target.roles:
 			already_have_role_embed = discord.Embed(
 				name = "Already have role",
-				description = f"{target} already has the {prestige} Prestige role."
+				description = f"<@!{target.id}> already has the {prestige} Prestige role."
 			)
 			already_have_role_embed.set_footer(
 				text = core.static.wrist_spasm_disclaimer
@@ -242,7 +199,7 @@ class WristSpasm(commands.Cog):
 			await target.add_roles(prestige_role_object)
 			added_role_embed = discord.Embed(
 				name = "Added role",
-				description = f"Gave {target} the {prestige} Prestige role."
+				description = f"Gave <@!{target.id}> the role <@&{prestige_role}>."
 			)
 			added_role_embed.set_footer(
 				text = core.static.wrist_spasm_disclaimer
@@ -254,11 +211,11 @@ class WristSpasm(commands.Cog):
 				await target.remove_roles(role_object)
 				role_remove_embed = discord.Embed(
 					name = "Role removed",
-					description = f"Removed role <@{roles[role]}> from {target}."
+					description = f"Removed the role <@&{roles[role]}> from <@!{target.id}>."
 				)
 				role_remove_embed.set_footer(
-					text = f"{core.static.wrist_spasm_disclaimer}\n\
-					You are only supposed to have one Bedwars prestige role."
+text = f"""{core.static.wrist_spasm_disclaimer}
+You are only supposed to have one Bedwars prestige role."""
 				)
 				await ctx.send(embed = role_remove_embed)
 
