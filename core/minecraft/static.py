@@ -81,9 +81,12 @@ async def hypixel_name_handler(ctx, args, *, get_guild: bool = False):
 	return player_info
 
 async def name_handler(ctx, args):
+	player_name = None
 	if len(args):
 		try:
 			player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
+			player_uuid = player_data["minecraft_uuid"]
+			player_name = player_data["player_formatted_name"]
 		except AttributeError:
 			member_not_verified = discord.Embed(
 				name = "Member not verified",

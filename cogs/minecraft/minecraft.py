@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from discord.ext import commands
+from discord.ext import commands, menus
 import datetime
 import discord
 import humanfriendly
@@ -35,6 +35,17 @@ import core.minecraft.verification.verification
 
 crafatar_api = "https://crafatar.com/"
 mc_heads_api = "https://mc-heads.net/"
+
+class NameHistoryPaginator(menus.ListPageSource):
+	def __init__(self, data):
+		super().__init__(data, per_page = 15)
+
+	async def format_page(self, menu, entries):
+		page_embed = discord.Embed(
+			name = "Name history page",
+			description = "\n".join(entries)
+		)
+		return page_embed
 
 class Minecraft(commands.Cog):
 	def __init__(self, bot):
@@ -52,7 +63,7 @@ class Minecraft(commands.Cog):
 			player_data = player_info
 		else: return
 		await ctx.channel.trigger_typing()
-		name_history = await core.minecraft.request.get_name_history_uuid(player_data['minecraft_uuid'])
+		name_history = await core.minecraft.request.get_name_history_uuid(player_data["minecraft_uuid"])
 		index = len(name_history) - 1
 		name_history_string = []
 		for name in name_history: # the index is only needed because something else has to be done for the first one
@@ -61,11 +72,8 @@ class Minecraft(commands.Cog):
 			else:
 				name_history_string.append(f"{core.static.arrow_bullet_point}{discord.utils.escape_markdown(name_history[index][0])} - *on {datetime.date.fromtimestamp((name_history[index][1]) / 1000)}*")
 			index -= 1
-			name_history_embed = discord.Embed(
-				name = "Name history",
-				description = "\n".join(name_history_string)
-			)
-		await ctx.send(embed = name_history_embed)
+		name_history_paginator = menus.MenuPages(source=NameHistoryPaginator(name_history_string), clear_reactions_after=True)
+		await name_history_paginator.start(ctx)
 
 	@minecraft.command(name = "uuid")
 	@commands.max_concurrency(1, per = commands.BucketType.user)
