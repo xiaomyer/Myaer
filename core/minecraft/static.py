@@ -24,6 +24,7 @@ SOFTWARE.
 
 import discord
 import core.minecraft.hypixel.player
+import ratelimit
 import core.minecraft.verification.verification
 
 async def hypixel_name_handler(ctx, args, *, get_guild: bool = False):
@@ -44,7 +45,7 @@ async def hypixel_name_handler(ctx, args, *, get_guild: bool = False):
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{args[0]}\" is not a valid username or UUID.",
+				description = f"\"{args[0]}\" is not a valid username or UUID",
 				color = ctx.author.color
 			)
 			await ctx.send(embed = nameerror_embed)
@@ -54,7 +55,7 @@ async def hypixel_name_handler(ctx, args, *, get_guild: bool = False):
 		if player_uuid is None:
 			unverified_embed = discord.Embed(
 				name = "Not verified",
-				description = "You have to verify with `/mc verify <minecraft-ign>` first.",
+				description = "You have to verify with `/mc verify <minecraft-ign>` first",
 				color = ctx.author.color
 			)
 			await ctx.send(embed = unverified_embed)
@@ -69,10 +70,17 @@ async def hypixel_name_handler(ctx, args, *, get_guild: bool = False):
 	except NameError:
 		nameerror_embed = discord.Embed(
 			name = "Invalid input",
-			description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats.",
+			description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats",
 			color = ctx.author.color
 		)
 		await ctx.send(embed = nameerror_embed)
+		return
+	except OverflowError:
+		ratelimit_embed = discord.Embed(
+			name = "Ratelimit met",
+			description = "API ratelimit has been reached. Please try again later"
+		)
+		await ctx.send(embed = ratelimit_embed)
 		return
 	player_info = {
 		"player_data" : player_data,

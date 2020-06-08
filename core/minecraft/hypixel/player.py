@@ -22,6 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+import ratelimit
 import core.minecraft.hypixel.request
 import core.minecraft.hypixel.static
 
@@ -30,11 +31,15 @@ async def get_player_data(uuid, *, get_guild: bool = False):
 		player_json = await core.minecraft.hypixel.request.get_player_uuid(uuid)
 	except NameError:
 		raise NameError("No Hypixel stats")
+	except ratelimit.RateLimitException:
+		raise OverflowError # idk how to make custom exceptions so this is close enough
 	if get_guild: # only get guild if necessary, because it's another request
 		try:
 			player_guild_json = await core.minecraft.hypixel.static.get_guild_data_uuid(uuid)
 		except NameError:
 			player_guild_json = None
+		except ratelimit.RateLimitException:
+			raise ratelimit.RateLimitException
 	else:
 		player_guild_json = None
 	player = { # This thing is pretty torture

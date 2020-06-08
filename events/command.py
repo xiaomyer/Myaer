@@ -36,7 +36,7 @@ class OnCommand(commands.Cog):
 	@commands.Cog.listener()
 	async def on_command(self, ctx):
 		if (str(ctx.command) in uses_verify) and (not (await core.minecraft.verification.verification.find_uuid(ctx.author.id))) and "verify" not in str(ctx.command):
-			if random.randint(0, 100) < 15: # some percent chance that a tip will be sent
+			if random.randint(0, 100) < 15: # some percent chance that this will be sent
 				await ctx.send("**__TIP__**: Verify with `/mc verify <ign>` to skip having to add your IGN when you stat check!")
 
 def setup(bot):

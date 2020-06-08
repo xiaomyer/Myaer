@@ -23,10 +23,12 @@ SOFTWARE.
 """
 
 import aiohttp
+from ratelimit import limits
 
 mojang_api = "https://api.mojang.com/"
 mojang_session_server = "https://sessionserver.mojang.com/"
 
+@limits(calls = 550, period = 600) # mojang ratelimit is 600 requests per 10 minutes, this is to be safe
 async def get_profile(player): # When input could be name or UUID
 	try:
 		return await get_profile_name(player)
@@ -36,6 +38,7 @@ async def get_profile(player): # When input could be name or UUID
 		except NameError:
 			raise NameError(f"Invalid player name or UUID {player}")
 
+@limits(calls = 550, period = 600) # mojang ratelimit is 600 requests per 10 minutes, this is to be safe
 async def get_profile_name(player): # When input is name
 	try:
 		async with aiohttp.ClientSession() as session:
@@ -49,6 +52,7 @@ async def get_profile_name(player): # When input is name
 		raise NameError(f"Player \"{player}\" does not exist")
 	return profile_data
 
+@limits(calls = 550, period = 600) # mojang ratelimit is 600 requests per 10 minutes, this is to be safe
 async def get_profile_uuid(uuid): # When input is only UUID
 	try:
 		async with aiohttp.ClientSession() as session:
@@ -62,6 +66,7 @@ async def get_profile_uuid(uuid): # When input is only UUID
 		raise NameError(f"Invalid UUID \"{uuid}\"")
 	return profile_data
 
+@limits(calls = 550, period = 600) # mojang ratelimit is 600 requests per 10 minutes, this is to be safe
 async def get_name_history_uuid(player):
 	try:
 		name_history = []
