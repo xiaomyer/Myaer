@@ -26,12 +26,10 @@ from discord.ext import commands
 import datetime
 import discord
 import humanfriendly
-import math
+import core.minecraft.hypixel.leaderboards
 import core.static
-import core.minecraft.static
 import core.minecraft.hypixel.static
 import sys
-import time
 import traceback
 
 class LeaderboardCommands(commands.Cog):
@@ -51,18 +49,15 @@ class LeaderboardCommands(commands.Cog):
 		await ctx.channel.trigger_typing()
 		leaderboards_json = await core.minecraft.hypixel.leaderboards.get_leaderboards()
 		index = 0
-		bedwars_level_leaderboard_embed = discord.Embed(
-			name = "Level leaderboard",
-			color = ctx.author.color
-		)
+		bedwars_level_leaderboard_string = []
 		for player in (leaderboards_json["bedwars"]["level"]):
 			player_json = await core.minecraft.hypixel.player.get_player_data(player)
-			bedwars_level_leaderboard_embed.add_field(
-				name = f"#{index + 1}",
-				value = f"""**{discord.utils.escape_markdown(f"[{player_json['bedwars']['star']}{core.static.star}] [{player_json['rank_data']['rank']}] {player_json['name']}") if player_json["rank_data"]["rank"] else f"[{player_json['bedwars']['star']}{core.static.star} {player_json['name']}]"} - {(await core.minecraft.hypixel.static.get_ratio(player_json["bedwars"]["final_kills"], player_json["bedwars"]["final_deaths"]))} FKDR**""",
-				inline = False
-			)
+			bedwars_level_leaderboard_string.append(f"""**#{index + 1} - {discord.utils.escape_markdown(f"[{player_json['bedwars']['star']}{core.static.star}] [{player_json['rank_data']['rank']}] {player_json['name']}") if player_json["rank_data"]["rank"] else f"[{player_json['bedwars']['star']}{core.static.star} {player_json['name']}]"} - {(await core.minecraft.hypixel.static.get_ratio(player_json["bedwars"]["final_kills"], player_json["bedwars"]["final_deaths"]))} FKDR**""",)
 			index += 1
+		bedwars_level_leaderboard_embed = discord.Embed(
+			name = "Bedwars level leaderboard",
+			description = "\n".join(bedwars_level_leaderboard_string)
+		)
 		await ctx.send(embed = bedwars_level_leaderboard_embed)
 
 	@bedwars.group(name = "wins", aliases = ["win"], invoke_without_command = True)

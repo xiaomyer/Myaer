@@ -31,10 +31,10 @@ mojang_session_server = "https://sessionserver.mojang.com/"
 @limits(calls = 550, period = 600) # mojang ratelimit is 600 requests per 10 minutes, this is to be safe
 async def get_profile(player): # When input could be name or UUID
 	try:
-		return await get_profile_name(player)
+		return await get_profile_uuid(player)
 	except NameError:
 		try:
-			return await get_profile_uuid(player)
+			return await get_profile_name(player)
 		except NameError:
 			raise NameError(f"Invalid player name or UUID {player}")
 

@@ -28,7 +28,7 @@ import core.minecraft.hypixel.static
 
 async def get_player_data(uuid, *, get_guild: bool = False):
 	try:
-		player_json = await core.minecraft.hypixel.request.get_player_uuid(uuid)
+		player_json = await core.minecraft.hypixel.request.get_player(uuid)
 	except NameError:
 		raise NameError("No Hypixel stats")
 	except ratelimit.RateLimitException:
@@ -451,6 +451,47 @@ async def get_player_data(uuid, *, get_guild: bool = False):
 				"bow_shots" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("bow_duel_bow_shots", 0),
 				"bow_hits" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("bow_duel_bow_hits", 0),
 				"damage_dealt" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("bow_duel_damage_dealt", 0),
+			},
+			"bridge" : {
+				"solo" : {
+					"games_played" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("bridge_duel_rounds_played", 0),
+					"kills" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("bridge_duel_kills", 0),
+					"deaths" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("bridge_duel_deaths", 0),
+					"wins" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("bridge_duel_wins", 0),
+					"losses" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("bridge_duel_losses", 0),
+					"winstreak" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("current_bridge_winstreak", 0),
+					"melee_swings" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("bridge_duel_melee_swings", 0),
+					"melee_hits" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("bridge_duel_melee_hits", 0),
+					"bow_shots" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("bridge_duel_bow_shots", 0),
+					"bow_hits" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("bridge_duel_bow_hits", 0),
+					"damage_dealt" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("bridge_duel_damage_dealt", 0),
+				},
+				"doubles" : {
+					"games_played" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("bridge_doubles_rounds_played", 0),
+					"kills" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("bridge_doubles_kills", 0),
+					"deaths" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("bridge_doubles_deaths", 0),
+					"wins" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("bridge_doubles_wins", 0),
+					"losses" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("bridge_doubles_losses", 0),
+					"winstreak" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("current_bridge_winstreak", 0),
+					"melee_swings" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("bridge_doubles_melee_swings", 0),
+					"melee_hits" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("bridge_doubles_melee_hits", 0),
+					"bow_shots" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("bridge_doubles_bow_shots", 0),
+					"bow_hits" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("bridge_doubles_bow_hits", 0),
+					"damage_dealt" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("bridge_doubles_damage_dealt", 0),
+				},
+				"fours" : {
+					"games_played" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("bridge_four_rounds_played", 0),
+					"kills" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("bridge_four_kills", 0),
+					"deaths" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("bridge_four_deaths", 0),
+					"wins" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("bridge_four_wins", 0),
+					"losses" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("bridge_four_losses", 0),
+					"winstreak" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("current_bridge_winstreak", 0),
+					"melee_swings" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("bridge_four_melee_swings", 0),
+					"melee_hits" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("bridge_four_melee_hits", 0),
+					"bow_shots" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("bridge_four_bow_shots", 0),
+					"bow_hits" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("bridge_four_bow_hits", 0),
+					"damage_dealt" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("bridge_four_damage_dealt", 0),
+				},
 			},
 			"classic" : {
 				"games_played" : player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("classic_duel_rounds_played", 0),

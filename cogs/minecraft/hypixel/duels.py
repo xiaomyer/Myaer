@@ -79,6 +79,97 @@ class DuelsStats(commands.Cog):
 		)
 		await ctx.send(embed = player_stats_embed)
 
+	@duels.command(name = "stats")
+	@commands.max_concurrency(1, per = commands.BucketType.user)
+	async def duels_stats(self, ctx, *args):
+		player_info = await core.minecraft.static.hypixel_name_handler(ctx, args)
+		if player_info:
+			player_data = player_info["player_data"]
+			player_json = player_info["player_json"]
+		else: return
+		player_stats_embed = discord.Embed(
+			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Duels Stats**""",
+			color = int(player_json["rank_data"]["color"], 16) # 16 - hex value
+		)
+		player_stats_embed.set_thumbnail(
+			url = core.minecraft.hypixel.static.hypixel_icons["Duels"]
+		)
+		player_stats_embed.add_field(
+			name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
+			value = f"{(player_json['duels']['winstreak']):,d}",
+			inline = False
+		)
+		player_stats_embed.add_field(
+			name = f"__**{core.static.arrow_bullet_point} Wins**__",
+			value = f"{(player_json['duels']['wins']):,d}"
+		)
+		player_stats_embed.add_field(
+			name = f"__**{core.static.arrow_bullet_point} Losses**__",
+			value = f"{(player_json['duels']['losses']):,d}"
+		)
+		player_stats_embed.add_field(
+			name = f"__**{core.static.arrow_bullet_point} WLR**__",
+			value = f"{await core.minecraft.hypixel.static.get_ratio((player_json['duels']['wins']), ((player_json['duels']['losses'])))}"
+		)
+		player_stats_embed.add_field(
+			name = f"__**{core.static.arrow_bullet_point} Kills**__",
+			value = f"{(player_json['duels']['kills']):,d}"
+		)
+		player_stats_embed.add_field(
+			name = f"__**{core.static.arrow_bullet_point} Deaths**__",
+			value = f"{(player_json['duels']['deaths']):,d}"
+		)
+		player_stats_embed.add_field(
+			name = f"__**{core.static.arrow_bullet_point} KDR**__",
+			value = f"{await core.minecraft.hypixel.static.get_ratio((player_json['duels']['kills']), ((player_json['duels']['deaths'])))}"
+		)
+		await ctx.send(embed = player_stats_embed)
+
+	@duels.group(name = "bridge", invoke_without_command = True)
+	async def bridge_duels(self, ctx, *args):
+		player_info = await core.minecraft.static.hypixel_name_handler(ctx, args)
+		if player_info:
+			player_data = player_info["player_data"]
+			player_json = player_info["player_json"]
+		else: return
+		player_bridge_stats_embed = discord.Embed(
+			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Bridge Duels Stats**""",
+			color = int(player_json["rank_data"]["color"], 16) # 16 - hex value
+		)
+		player_bridge_stats_embed.set_thumbnail(
+			url = core.minecraft.hypixel.static.hypixel_icons["Duels"]
+		)
+		player_bridge_stats_embed.add_field(
+			name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
+			value = f"{(player_json['duels']['bridge']['solo']['winstreak']):,d}",
+			inline = False
+		)
+		player_bridge_stats_embed.add_field(
+			name = f"__**{core.static.arrow_bullet_point} Wins**__",
+			value = f"{(player_json['duels']['bridge']['solo']['wins']):,d}"
+		)
+		player_bridge_stats_embed.add_field(
+			name = f"__**{core.static.arrow_bullet_point} Losses**__",
+			value = f"{(player_json['duels']['bridge']['solo']['losses']):,d}"
+		)
+		player_bridge_stats_embed.add_field(
+			name = f"__**{core.static.arrow_bullet_point} WLR**__",
+			value = f"{await core.minecraft.hypixel.static.get_ratio((player_json['duels']['bridge']['solo']['wins']), ((player_json['duels']['bridge']['solo']['losses'])))}"
+		)
+		player_bridge_stats_embed.add_field(
+			name = f"__**{core.static.arrow_bullet_point} Kills**__",
+			value = f"{(player_json['duels']['bridge']['solo']['kills']):,d}"
+		)
+		player_bridge_stats_embed.add_field(
+			name = f"__**{core.static.arrow_bullet_point} Deaths**__",
+			value = f"{(player_json['duels']['bridge']['solo']['deaths']):,d}"
+		)
+		player_bridge_stats_embed.add_field(
+			name = f"__**{core.static.arrow_bullet_point} KDR**__",
+			value = f"{await core.minecraft.hypixel.static.get_ratio((player_json['duels']['bridge']['solo']['kills']), ((player_json['duels']['bridge']['solo']['deaths'])))}"
+		)
+		await ctx.send(embed = player_bridge_stats_embed)
+
 	@duels.command(name = "classic")
 	async def classic_duels(self, ctx, *args):
 		player_info = await core.minecraft.static.hypixel_name_handler(ctx, args)
@@ -123,6 +214,51 @@ class DuelsStats(commands.Cog):
 			value = f"{await core.minecraft.hypixel.static.get_ratio((player_json['duels']['classic']['kills']), ((player_json['duels']['classic']['deaths'])))}"
 		)
 		await ctx.send(embed = player_classic_stats_embed)
+
+	@duels.group(name = "skywars", aliases = ["sw"], invoke_without_command = True)
+	async def skywars_duels(self, ctx, *args):
+		player_info = await core.minecraft.static.hypixel_name_handler(ctx, args)
+		if player_info:
+			player_data = player_info["player_data"]
+			player_json = player_info["player_json"]
+		else: return
+		player_skywars_stats_embed = discord.Embed(
+			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Skywars Duels Stats**""",
+			color = int(player_json["rank_data"]["color"], 16) # 16 - hex value
+		)
+		player_skywars_stats_embed.set_thumbnail(
+			url = core.minecraft.hypixel.static.hypixel_icons["Duels"]
+		)
+		player_skywars_stats_embed.add_field(
+			name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
+			value = f"{(player_json['duels']['skywars']['solo']['winstreak']):,d}",
+			inline = False
+		)
+		player_skywars_stats_embed.add_field(
+			name = f"__**{core.static.arrow_bullet_point} Wins**__",
+			value = f"{(player_json['duels']['skywars']['solo']['wins']):,d}"
+		)
+		player_skywars_stats_embed.add_field(
+			name = f"__**{core.static.arrow_bullet_point} Losses**__",
+			value = f"{(player_json['duels']['skywars']['solo']['losses']):,d}"
+		)
+		player_skywars_stats_embed.add_field(
+			name = f"__**{core.static.arrow_bullet_point} WLR**__",
+			value = f"{await core.minecraft.hypixel.static.get_ratio((player_json['duels']['skywars']['solo']['wins']), ((player_json['duels']['skywars']['solo']['losses'])))}"
+		)
+		player_skywars_stats_embed.add_field(
+			name = f"__**{core.static.arrow_bullet_point} Kills**__",
+			value = f"{(player_json['duels']['skywars']['solo']['kills']):,d}"
+		)
+		player_skywars_stats_embed.add_field(
+			name = f"__**{core.static.arrow_bullet_point} Deaths**__",
+			value = f"{(player_json['duels']['skywars']['solo']['deaths']):,d}"
+		)
+		player_skywars_stats_embed.add_field(
+			name = f"__**{core.static.arrow_bullet_point} KDR**__",
+			value = f"{await core.minecraft.hypixel.static.get_ratio((player_json['duels']['skywars']['solo']['kills']), ((player_json['duels']['skywars']['solo']['deaths'])))}"
+		)
+		await ctx.send(embed = player_skywars_stats_embed)
 
 	@duels.command(name = "uhc")
 	async def uhc_duels(self, ctx, *args):
