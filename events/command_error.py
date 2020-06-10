@@ -24,10 +24,13 @@ SOFTWARE.
 
 import discord
 from discord.ext import commands
+import core.config
 import datetime
 import humanfriendly
 import sys
 import traceback
+
+error_log_channel = core.config.error_log_channel
 
 class CommandError(commands.Cog):
 	def __init(self, bot):
@@ -35,15 +38,32 @@ class CommandError(commands.Cog):
 
 	@commands.Cog.listener()
 	async def on_command_error(self, ctx, error):
-		if hasattr(ctx.command, "on_error"):
-			return
-
-		ignored = (commands.CommandNotFound)
-
 		error = getattr(error, "original", error)
 
+		if hasattr(ctx.command, "on_error"):
+			return
+		ignored = (commands.CommandNotFound)
 		if isinstance(error, ignored):
 			return
+
+		error_traceback = "".join(traceback.format_exception(type(error), error, error.__traceback__))
+		error_log_channel_object = ctx.bot.get_channel(error_log_channel)
+		error_embed = discord.Embed(
+			name = "Error",
+			color = ctx.author.color,
+			timestamp = ctx.message.created_at,
+			title = f"Ignoring exception in command {ctx.command}",
+			description =
+f"""
+in guild `{ctx.guild.name} ({ctx.guild.id})`
+invoked by `{ctx.author.name} ({ctx.author.id})`
+```{error_traceback}```"""
+		)
+		await error_log_channel_object.send(embed = error_embed)
+
+# myer, you silly goose! why are you putting this before the check for a local error handler?
+# i just want to see how many times there are actual errors
+# and i want to see how many times my cooldowns are met
 
 		if (str(ctx.command)).startswith("leaderboards"):
 			return
