@@ -56,7 +56,7 @@ class CommandError(commands.Cog):
 			description =
 f"""
 in guild `{ctx.guild.name} ({ctx.guild.id})`
-invoked by `{ctx.author.name} ({ctx.author.id})`
+invoked by <@!{ctx.author.id}> `({ctx.author.name}#{ctx.author.discriminator}) ({ctx.author.id})`
 ```{error_traceback}```"""
 		)
 		await error_log_channel_object.send(embed = error_embed)
