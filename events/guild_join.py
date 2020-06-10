@@ -22,18 +22,38 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import json
-from tinydb import TinyDB
+from discord.ext import commands
+import core.config
+import discord
+import random
+import core.minecraft.verification.verification
 
-with open("/home/myerfire/Myaer/Myaer/config.json") as config_raw:
-	config_json = json.load(config_raw)
+guilds_log_channel = core.config.guilds_log_channel
 
-token = config_json["keys"]["token"]
-hypixel_api_key = config_json["keys"]["hypixel"]
-status_log_channel = config_json["channels"]["status_log"]
-guilds_log_channel = config_json["channels"]["guilds_log"]
-error_log_channel = config_json["channels"]["error_log"]
-default_prefix = config_json["prefix"]
+class OnGuildJoin(commands.Cog):
+	def __init__(self, bot):
+		self.bot = bot
 
-prefix_db = TinyDB("/home/myerfire/Myaer/Myaer/core/prefixes.json")
-prefix_db_cache = prefix_db
+	@commands.Cog.listener()
+	async def on_guild_join(self, guild):
+		guilds_log_channel_object = self.bot.get_channel(guilds_log_channel)
+		guild_join_embed = discord.Embed(
+			name = "Joined guild",
+			title = f"**Joined Guild {discord.utils.escape_markdown(f'{guild.name}')}**"
+		)
+		guild_join_embed.add_field(
+			name = f"__**{core.static.arrow_bullet_point} ID**__",
+			value = f"{guild.id}"
+		)
+		guild_join_embed.add_field(
+			name = f"__**{core.static.arrow_bullet_point} Members**__",
+			value = f"{(len(guild.members)):,d}"
+		)
+		guild_join_embed.set_thumbnail(
+			url = str(guild.icon_url_as(static_format="png", size=2048))
+		)
+		await guilds_log_channel_object.send(embed = guild_join_embed)
+
+def setup(bot):
+	bot.add_cog(OnGuildJoin(bot))
+	print("Reloaded events.guild_join")
