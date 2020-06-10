@@ -37,12 +37,14 @@ logger.setLevel(logging.INFO)
 handler = logging.FileHandler(filename="discord.log", encoding='utf-8', mode='w')
 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
 logger.addHandler(handler)
-program_start_time = datetime.datetime.now()
 
+program_start_time = datetime.datetime.now()
 os.environ["JISHAKU_NO_UNDERSCORE"] = "True"
 error_log_channel = core.config.error_log_channel
 
 async def get_prefix(bot, message):
+	if isinstance(message.channel, discord.DMChannel):
+		return commands.when_mentioned_or(core.config.default_prefix, "myaer", "Myaer")(bot, message)
 	prefix_data = core.config.prefix_db_cache.search(where("guild_id") == message.guild.id)
 	prefix = prefix_data[0]["prefix"] if prefix_data else core.config.default_prefix
 	return commands.when_mentioned_or(prefix, "myaer ", "Myaer ")(bot, message)

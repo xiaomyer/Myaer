@@ -52,10 +52,12 @@ class CommandError(commands.Cog):
 			name = "Error",
 			color = ctx.author.color,
 			timestamp = ctx.message.created_at,
-			title = f"Ignoring exception in command {ctx.command}",
+			title =
+f"""Ignoring exception in command {ctx.command}
+```{ctx.message.content}```""",
 			description =
 f"""
-in guild `{ctx.guild.name} ({ctx.guild.id})`
+{f'in guild `{ctx.guild.name} ({ctx.guild.id})`' if isinstance(ctx.message.channel, discord.TextChannel) else 'in a DM channel'}
 invoked by <@!{ctx.author.id}> `({ctx.author.name}#{ctx.author.discriminator}) ({ctx.author.id})`
 ```{error_traceback}```"""
 		)
