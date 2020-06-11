@@ -38,6 +38,7 @@ handler = logging.FileHandler(filename="discord.log", encoding='utf-8', mode='w'
 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
 logger.addHandler(handler)
 
+time_format = "%A, %b %d, %Y - %m/%d/%Y - %I:%M:%S %p"
 program_start_time = datetime.datetime.now()
 os.environ["JISHAKU_NO_UNDERSCORE"] = "True"
 error_log_channel = core.config.error_log_channel
@@ -80,9 +81,9 @@ extensions = [
 async def on_ready():
 	ready_time = datetime.datetime.now()
 	status_log_channel = bot.get_channel(core.config.status_log_channel)
-	print(f"Connection with Discord established at {ready_time.strftime('%A, %b %d, %Y - %m/%d/%Y - %I:%M:%S %p')}")
+	print(f"Connection with Discord established at {ready_time.strftime(time_format)}")
 	await bot.change_presence(activity = discord.Game(name = "/help | /suggest"))
-	await status_log_channel.send(f"Logged in at {ready_time.strftime('%A, %b %d, %Y - %m/%d/%Y - %I:%M:%S %p')} (took {(ready_time - program_start_time).total_seconds()} seconds).")
+	await status_log_channel.send(f"Logged in at {ready_time.strftime(time_format)} (took {(ready_time - program_start_time).total_seconds()} seconds).")
 
 @bot.event
 async def on_error(event, *args, **kwargs):
@@ -94,6 +95,9 @@ async def on_error(event, *args, **kwargs):
 		name = "Error",
 		title = "Exception",
 		description = f"```{error_traceback}```"
+	)
+	error_embed.set_footer(
+		text = (datetime.datetime.now()).strftime(time_format)
 	)
 	await error_log_channel_object.send(embed = error_embed)
 

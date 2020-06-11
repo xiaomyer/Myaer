@@ -112,7 +112,7 @@ class Minecraft(commands.Cog):
 		await ctx.send(embed = player_skin_embed)
 
 	@minecraft.command(name = "verify", aliases = ["link"])
-	@commands.cooldown(1, 60, commands.BucketType.user)
+	@commands.max_concurrency(1, per = commands.BucketType.user)
 	async def verify(self, ctx, ign):
 		try:
 			player_data = await core.minecraft.request.get_profile(ign)
@@ -183,7 +183,7 @@ class Minecraft(commands.Cog):
 		await ctx.send(embed = verified_embed)
 
 	@minecraft.command(name = "unverify", aliases = ["unlink"])
-	@commands.cooldown(1, 60, commands.BucketType.user)
+	@commands.max_concurrency(1, per = commands.BucketType.user)
 	async def unverify(self, ctx):
 		try:
 			unverified_data = await core.minecraft.verification.verification.unverify(ctx.author.id)
@@ -225,22 +225,6 @@ class Minecraft(commands.Cog):
 				color = ctx.author.color
 			)
 			await ctx.send(embed = not_verified_embed)
-
-	async def cog_command_error(self, ctx, error):
-
-		error = getattr(error, "original", error)
-
-		if isinstance(error, commands.CommandOnCooldown):
-			cooldown = datetime.timedelta(seconds = error.retry_after)
-			cooldown_embed = discord.Embed(
-				name = "Cooldown",
-				color = ctx.author.color,
-				description = f"Verification commands should not need to be used this often. Try again in {humanfriendly.format_timespan(cooldown)}"
-			)
-			await ctx.send(embed = cooldown_embed)
-
-		print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
-		traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
 
 def setup(bot):
 	bot.add_cog(Minecraft(bot))
