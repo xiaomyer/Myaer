@@ -92,7 +92,6 @@ async def on_error(event, *args, **kwargs):
 	print(error_traceback)
 	error_log_channel_object = bot.get_channel(error_log_channel)
 	error_embed = discord.Embed(
-		name = "Error",
 		title = "Exception",
 		description = f"```{error_traceback}```"
 	)

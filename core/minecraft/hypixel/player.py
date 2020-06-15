@@ -53,7 +53,7 @@ async def get_player_data(uuid, *, get_guild: bool = False):
 			"first" : player_json.get("player", {}).get("firstLogin", 0),
 			"last" : player_json.get("player", {}).get("lastLogin", 0)
 		},
-		"socal_media" : {
+		"social_media" : {
 			"twitter" : player_json.get("player", {}).get("socialMedia", {}).get("links", {}).get("TWITTER", None),
 			"youtube" : player_json.get("player", {}).get("socialMedia", {}).get("links", {}).get("YOUTUBE", None),
 			"instagram" : player_json.get("player", {}).get("socialMedia", {}).get("links", {}).get("INSTAGRAM", None),

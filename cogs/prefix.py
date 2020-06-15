@@ -54,17 +54,12 @@ class Prefix(commands.Cog):
 			)
 			await ctx.send(embed = default_embed)
 		elif len(prefix) < 10:
-			setting_embed = discord.Embed(
-				name = "Setting prefix",
-				description = "Setting custom guild prefix..."
-			)
-			message = await ctx.send(embed = setting_embed)
 			await core.prefix.set_prefix(ctx.guild.id, prefix)
 			set_embed = discord.Embed(
 				name = "Set prefix",
 				description = f"Set this server's prefix to `{prefix}`"
 			)
-			await message.edit(embed = set_embed)
+			await ctx.send(embed = set_embed)
 		else:
 			too_long_embed = discord.Embed(
 				name = "Too long",

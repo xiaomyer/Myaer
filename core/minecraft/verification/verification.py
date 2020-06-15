@@ -37,9 +37,9 @@ async def verify(discord_id, discord_name, minecraft_uuid):
 		player_json = await core.minecraft.hypixel.player.get_player_data(minecraft_uuid)
 	except NameError:
 		raise NameError("No Hypixel stats for input.")
-	if (discord_name != player_json["socal_media"]["discord"]) and (player_json["socal_media"]["discord"] is not None):
+	if (discord_name != player_json["social_media"]["discord"]) and (player_json["social_media"]["discord"] is not None):
 		raise ValueError("Minecraft account already has verified Discord name on Hypixel.")
-	elif discord_name == player_json["socal_media"]["discord"]:
+	elif discord_name == player_json["social_media"]["discord"]:
 		if db.search(where("discord_id") == discord_id):
 			db.update({"minecraft_uuid" : minecraft_uuid}, Users.discord_id == discord_id)
 		elif db.search(where("minecraft_uuid") == minecraft_uuid):

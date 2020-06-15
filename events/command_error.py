@@ -49,7 +49,6 @@ class CommandError(commands.Cog):
 		error_traceback = "".join(traceback.format_exception(type(error), error, error.__traceback__))
 		error_log_channel_object = ctx.bot.get_channel(error_log_channel)
 		error_embed = discord.Embed(
-			name = "Error",
 			color = ctx.author.color,
 			timestamp = ctx.message.created_at,
 			title =
@@ -72,7 +71,6 @@ invoked by <@!{ctx.author.id}> `({ctx.author.name}#{ctx.author.discriminator}) (
 
 		if isinstance(error, commands.MaxConcurrencyReached):
 			concurrency_embed = discord.Embed(
-				name = "Cooldown",
 				color = ctx.author.color,
 				description = f"{ctx.author.name}, this command is being ratelimited. Try again in a bit"
 			)
@@ -81,7 +79,6 @@ invoked by <@!{ctx.author.id}> `({ctx.author.name}#{ctx.author.discriminator}) (
 		if isinstance(error, commands.CommandOnCooldown):
 			cooldown = datetime.timedelta(seconds = error.retry_after)
 			cooldown_embed = discord.Embed(
-				name = "Cooldown",
 				color = ctx.author.color,
 				description = f"{ctx.author.name}, you are sending commands too fast. Try again in {humanfriendly.format_timespan(cooldown)}"
 			)
@@ -89,7 +86,6 @@ invoked by <@!{ctx.author.id}> `({ctx.author.name}#{ctx.author.discriminator}) (
 
 		if isinstance(error, commands.MissingRequiredArgument):
 			argument_embed = discord.Embed(
-				name = "Missing required argument",
 				color = ctx.author.color,
 				description = f"{ctx.author.name}, you forgot to provide an input of some sort"
 			)
@@ -97,7 +93,6 @@ invoked by <@!{ctx.author.id}> `({ctx.author.name}#{ctx.author.discriminator}) (
 
 		if isinstance(error, commands.MissingPermissions):
 			argument_embed = discord.Embed(
-				name = "Missing required argument",
 				color = ctx.author.color,
 				description = f"{ctx.author.name}, you don't have enough permissions to do that"
 			)
