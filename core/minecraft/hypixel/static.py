@@ -91,11 +91,6 @@ rank_colors = {
 	None : "607D8B"
 }
 
-tag_colors = {
-	"DARK_GREEN" : "00AA00",
-	"YELLOW" : "FFFF55"
-}
-
 hypixel_icons = { # Hypixel icons
 	"Main" : "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/main.png",
 	"Arcade" : "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/arcade.png",
@@ -126,19 +121,6 @@ async def get_network_level_data(experience):
 		"percentage" : round((level - math.trunc(level)) * 100, 2)
 	}
 	return level_data
-
-async def get_guild_data_uuid(uuid):
-	try:
-		guild_json = (await core.minecraft.hypixel.request.get_guild_by_uuid(uuid))
-	except:
-		raise NameError("Not in a guild")
-	guild = {
-		"name" : guild_json.get("guild", {}).get("name", ""),
-		"level_data" : (await core.minecraft.hypixel.static.get_guild_level_data((guild_json.get("guild", {}).get("exp", 0)))),
-		"color" : tag_colors.get((guild_json.get("guild", {}).get("tagColor", "")), None),
-		"tag" : guild_json.get("guild", {}).get("tag", "")
-	}
-	return guild
 
 async def get_guild_level_data(experience): # credit for original formula to @Sk1er, translated into Kotlin by @littlemissantivirus, then translated into Python by @SirNapkin1334
 	experienceBelow14 = [100000, 150000, 250000, 500000, 750000, 1000000, 1250000, 1500000, 2000000, 2500000, 2500000, 2500000, 2500000, 2500000]

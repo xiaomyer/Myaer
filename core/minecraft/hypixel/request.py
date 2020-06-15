@@ -79,3 +79,13 @@ async def get_guild_by_name(guild):
 		return player_guild_json
 	elif player_guild_json["success"] and player_guild_json["guild"] is None:
 		raise NameError(f"Player \"{uuid}\" does not exist!")
+
+@limits(calls = 100, period = 60) # hypixel ratelimit is 120/min, this is to be safe
+async def get_friends_by_uuid(uuid):
+	async with aiohttp.ClientSession() as session:
+		raw = await session.get(f"{hypixel_api}friends?key={core.config.hypixel_api_key}&uuid={uuid}")
+		player_friends_json = await raw.json()
+	if player_friends_json["success"] and player_friends_json["friends"]:
+		return player_friends_json
+	elif player_friends_json["success"] and player_friends_json["friends"] is None:
+		raise NameError(f"Player \"{uuid}\" does not exist!")

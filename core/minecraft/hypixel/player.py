@@ -22,11 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+import core.minecraft.hypixel.guild
 import ratelimit
 import core.minecraft.hypixel.request
 import core.minecraft.hypixel.static
 
-async def get_player_data(uuid, *, get_guild: bool = False):
+async def get_player_data(uuid, *, get_guild: bool = False, get_friends: bool = False):
 	try:
 		player_json = await core.minecraft.hypixel.request.get_player(uuid)
 	except NameError:
@@ -35,13 +36,22 @@ async def get_player_data(uuid, *, get_guild: bool = False):
 		raise OverflowError # idk how to make custom exceptions so this is close enough
 	if get_guild: # only get guild if necessary, because it's another request
 		try:
-			player_guild_json = await core.minecraft.hypixel.static.get_guild_data_uuid(uuid)
+			player_guild_json = await core.minecraft.hypixel.guild.get_guild_data(uuid)
 		except NameError:
 			player_guild_json = None
 		except ratelimit.RateLimitException:
 			raise ratelimit.RateLimitException
 	else:
 		player_guild_json = None
+#	if get_friends: # only get friends if necessary, because it's another request
+#		try:
+#			player_friends_json = await core.minecraft.hypixel.guild.get_friends(uuid)
+#		except NameError:
+#			player_friends_json = None
+#		except ratelimit.RateLimitException:
+#			raise ratelimit.RateLimitException
+#	else:
+#		player_friends_json = None
 	player = { # This thing is pretty torture
 		"name" : player_json.get("player", {}).get("displayname", ""),
 		"level_data" : (await core.minecraft.hypixel.static.get_network_level_data(player_json.get("player", {}).get("networkExp", 0))),

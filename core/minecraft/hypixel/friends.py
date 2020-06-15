@@ -26,20 +26,8 @@ import core.minecraft.hypixel.request
 import core.minecraft.hypixel.static
 import math
 
-tag_colors = {
-	"DARK_GREEN" : "00AA00",
-	"YELLOW" : "FFFF55"
-}
-
-async def get_guild_data(uuid):
+async def get_friends(uuid):
 	try:
-		guild_json = (await core.minecraft.hypixel.request.get_guild_by_uuid(uuid))
+		friends_json = (await core.minecraft.hypixel.request.get_friends_by_uuid(uuid))
 	except:
-		raise NameError("Not in a guild")
-	guild = {
-		"name" : guild_json.get("guild", {}).get("name", ""),
-		"level_data" : (await core.minecraft.hypixel.static.get_guild_level_data((guild_json.get("guild", {}).get("exp", 0)))),
-		"color" : tag_colors.get((guild_json.get("guild", {}).get("tagColor", "")), None),
-		"tag" : guild_json.get("guild", {}).get("tag", "")
-	}
-	return guild
+		raise NameError("No friends")

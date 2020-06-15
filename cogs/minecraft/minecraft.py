@@ -26,6 +26,7 @@ from discord.ext import commands, menus
 import datetime
 import discord
 import humanfriendly
+from core.paginators import ListPageSource
 import core.minecraft.request
 import core.static
 import core.minecraft.static
@@ -35,17 +36,6 @@ import core.minecraft.verification.verification
 
 crafatar_api = "https://crafatar.com/"
 mc_heads_api = "https://mc-heads.net/"
-
-class NameHistoryPaginator(menus.ListPageSource):
-	def __init__(self, data):
-		super().__init__(data, per_page = 15)
-
-	async def format_page(self, menu, entries):
-		page_embed = discord.Embed(
-			name = "Name history page",
-			description = "\n".join(entries)
-		)
-		return page_embed
 
 class Minecraft(commands.Cog):
 	def __init__(self, bot):
@@ -72,7 +62,7 @@ class Minecraft(commands.Cog):
 			else:
 				name_history_string.append(f"{core.static.arrow_bullet_point}{discord.utils.escape_markdown(name_history[index][0])} - *on {datetime.date.fromtimestamp((name_history[index][1]) / 1000)}*")
 			index -= 1
-		name_history_paginator = menus.MenuPages(source=NameHistoryPaginator(name_history_string), clear_reactions_after=True)
+		name_history_paginator = menus.MenuPages(source = ListPageSource(name_history_string), clear_reactions_after = True)
 		await name_history_paginator.start(ctx)
 
 	@minecraft.command(name = "uuid")

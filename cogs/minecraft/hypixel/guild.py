@@ -24,6 +24,7 @@ SOFTWARE.
 
 from discord.ext import commands
 import discord
+import core.minecraft.hypixel.guild
 import math
 import core.static
 import core.minecraft.static
@@ -42,7 +43,7 @@ class Guild(commands.Cog):
 			player_json = player_info["player_json"]
 		else: return
 		try:
-			guild_json = await core.minecraft.hypixel.static.get_guild_data_uuid(player_data["minecraft_uuid"])
+			guild_json = await core.minecraft.hypixel.guild.get_guild_data(player_data["minecraft_uuid"])
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",

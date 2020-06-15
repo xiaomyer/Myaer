@@ -21,25 +21,15 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
+from discord.ext import menus
+import discord
 
-import core.minecraft.hypixel.request
-import core.minecraft.hypixel.static
-import math
+class ListPageSource(menus.ListPageSource):
+	def __init__(self, data):
+		super().__init__(data, per_page = 15)
 
-tag_colors = {
-	"DARK_GREEN" : "00AA00",
-	"YELLOW" : "FFFF55"
-}
-
-async def get_guild_data(uuid):
-	try:
-		guild_json = (await core.minecraft.hypixel.request.get_guild_by_uuid(uuid))
-	except:
-		raise NameError("Not in a guild")
-	guild = {
-		"name" : guild_json.get("guild", {}).get("name", ""),
-		"level_data" : (await core.minecraft.hypixel.static.get_guild_level_data((guild_json.get("guild", {}).get("exp", 0)))),
-		"color" : tag_colors.get((guild_json.get("guild", {}).get("tagColor", "")), None),
-		"tag" : guild_json.get("guild", {}).get("tag", "")
-	}
-	return guild
+	async def format_page(self, menu, entries):
+		page_embed = discord.Embed(
+			description = "\n".join(entries)
+		)
+		return page_embed
