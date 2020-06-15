@@ -76,12 +76,20 @@ extensions = [
 	"commands.suggest",
 	"cogs.wristspasm"
 ]
+failed_extensions = []
 
 @bot.event
 async def on_ready():
 	ready_time = datetime.datetime.now()
 	status_log_channel = bot.get_channel(core.config.status_log_channel)
+	error_log_channel_object = bot.get_channel(error_log_channel)
 	print(f"Connection with Discord established at {ready_time.strftime(time_format)}")
+	for failed_extension in failed_extensions:
+		error_embed = discord.Embed(
+			title = f"Failed to load extension {failed_extension['extension']}",
+			description = f"```{failed_extension['traceback']}```"
+		)
+		await error_log_channel_object.send(embed = error_embed)
 	await bot.change_presence(activity = discord.Game(name = "/help | /suggest"))
 	await status_log_channel.send(f"Logged in at {ready_time.strftime(time_format)} (took {(ready_time - program_start_time).total_seconds()} seconds).")
 
@@ -107,5 +115,7 @@ if __name__ == "__main__":
 		except Exception as e:
 			exception = '{}: {}'.format(type(e).__name__, e)
 			print("Failed to load extension {}\n{}".format(extension, exception))
+			error_traceback = "".join(traceback.format_exception(type(e), e, e.__traceback__))
+			failed_extensions.append({"extension" : extension, "traceback" : error_traceback})
 
 bot.run(core.config.token)
