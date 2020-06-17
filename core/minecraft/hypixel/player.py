@@ -24,13 +24,13 @@ SOFTWARE.
 
 import core.minecraft.hypixel.friends
 import core.minecraft.hypixel.guild
-import core.caches.player
+import core.caches.players
 import ratelimit
 import core.minecraft.hypixel.request
 import core.minecraft.hypixel.static
 
 async def get_player_data(uuid, *, get_guild: bool = False, get_friends: bool = False):
-	player_cache = await core.caches.player.find_player_data(uuid)
+	player_cache = await core.caches.players.find_player_data(uuid)
 	if player_cache: # returns cached data only if it contains all the requested information
 		if get_guild and player_cache["guild_data"]:
 			return player_cache
@@ -630,5 +630,5 @@ async def get_player_data(uuid, *, get_guild: bool = False, get_friends: bool = 
 			"games_played" : player_json.get("player", {}).get("stats", {}).get("SkyWars", {}).get("games_played_skywars", 0)
 		}
 	}
-	await core.caches.player.save_player_data(uuid, player)
+	await core.caches.players.save_player_data(uuid, player)
 	return player

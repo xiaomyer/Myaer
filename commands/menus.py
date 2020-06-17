@@ -23,31 +23,29 @@ SOFTWARE.
 """
 
 from discord.ext import commands, menus
-import datetime
 import discord
-from core.paginators import MinecraftHypixelFriends
-import core.minecraft.static
-import core.minecraft.hypixel.static
 
-class Friends(commands.Cog):
+class Menu(menus.ListPageSource):
+	def __init__(self, data):
+		super().__init__(data, per_page=10)
+
+	async def format_page(self, menu, entries):
+		offset = menu.current_page * self.per_page
+		page_embed = discord.Embed(
+			name = "Page",
+			description = '\n'.join(f'{i}. {v}' for i, v in enumerate(entries, start=offset))
+		)
+		return page_embed
+
+class MenusTest(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 
-	@commands.command("friends")
-	@commands.max_concurrency(5, per = commands.BucketType.user)
-	async def friends(self, ctx, *args):
-		await ctx.trigger_typing()
-		player_info = await core.minecraft.static.hypixel_name_handler(ctx, args, get_friends = True)
-		if player_info:
-			player_data = player_info["player_data"]
-			player_json = player_info["player_json"]
-		else: return
-		friends_string = []
-		for friend in player_json["friends"]:
-			friends_string.append(f"""{discord.utils.escape_markdown(f"[{friend['rank_data']['rank']}] {friend['name']}" if (friend["rank_data"]["rank"]) else (friend["name"]))} - *on {datetime.date.fromtimestamp((friend["friended_at"]) / 1000)}*""")
-		friends_paginator = menus.MenuPages(source = MinecraftHypixelFriends(friends_string, player_json), clear_reactions_after = True)
-		await friends_paginator.start(ctx)
+	@commands.command(name = "menutest")
+	async def menustest(self, ctx):
+		pages = menus.MenuPages(source=Menu(range(1, 100)), clear_reactions_after=True)
+		await pages.start(ctx)
 
 def setup(bot):
-	bot.add_cog(Friends(bot))
-	print("Reloaded cogs.minecraft.hypixel.friends")
+	bot.add_cog(MenusTest(bot))
+	print("Reloaded cogs.menus_test")

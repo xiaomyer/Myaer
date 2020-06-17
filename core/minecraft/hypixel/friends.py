@@ -26,22 +26,35 @@ import core.caches.friends
 import core.minecraft.request
 import core.minecraft.hypixel.request
 import core.minecraft.hypixel.static
+import time
 
 async def get_friends(uuid):
 	friends_cache = await core.caches.friends.find_friends_data(uuid)
 	if friends_cache:
-		return friends_cache
-	try:
-		friends_json = (await core.minecraft.hypixel.request.get_friends_by_uuid(uuid))
-	except:
-		raise NameError("No friends")
+		if (time.time()) - friends_json[0]["time"] < 604800: # checks if cache is too old, and if it is, checks if anything has changed
+			friends_json = friends_cache[0]["data"]
+		else:
+			try:
+				friends_check_json = (await core.minecraft.hypixel.request.get_friends_by_uuid(uuid))
+			except:
+				raise NameError("No friends")
+			if friends_cache[0]["friends"] != friends_check_json["records"]:
+				friends_json = friends_check_json
+			else:
+				friends_json = friends_cache[0]["friends"]
+	else:
+		try:
+			friends_json = (await core.minecraft.hypixel.request.get_friends_by_uuid(uuid))
+		except:
+			raise NameError("No friends")
+
 	friends = []
 	for player in friends_json["records"]:
 		player_uuid = player["uuidSender"] if player["uuidSender"] != uuid else player["uuidReceiver"]
 		try:
-			player_profile = await core.minecraft.hypixel.player.get_player_data(player_uuid) if player_uuid != core.minecraft.hypixel.static.master_control else {"name" : "MasterControl", "rank_data" : {"rank" : "[MCP]", "color" : "AA0000"}} # technoblade has the account MasterControl friended, and that account is a hypixel alt that isn't in the api
+			player_profile = await core.minecraft.hypixel.player.get_player_data(player_uuid) if player_uuid != core.minecraft.hypixel.static.master_control else {"name" : "MasterControl", "rank_data" : {"rank" : "MCP", "color" : "AA0000"}} # technoblade has the account MasterControl friended, and that account is a hypixel alt that isn't in the api
 		except:
 			player_profile = {"name" : None, "uuid" : None, "rank_data" : {"rank" : None, "color" : "000000"}} # some people on friend's lists seem to not exist consistently within mojang and hypixel's apis
 		friends.append({"name" : player_profile["name"], "uuid" : player_uuid, "rank_data" : player_profile["rank_data"], "friended_at" : player["started"]})
-	await core.caches.friends.save_friends_data(uuid, friends)
+	await core.caches.friends.save_friends_data(uuid, friends_json)
 	return friends

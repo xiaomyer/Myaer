@@ -26,23 +26,23 @@ import core.caches.static
 import time
 from tinydb import TinyDB, Query, where
 
-async def find_friends_data(uuid):
-	result = core.caches.static.friends_cache_db_cache.search(where("uuid") == uuid)
+async def find_player_data(uuid):
+	result = core.caches.static.players_cache_db_cache.search(where("uuid") == uuid)
 	if result:
-		return result[0]["friends"] if (time.time()) - result[0]["time"] < 604800 else None # cached for a week
+		return result[0]["data"] if (time.time()) - result[0]["time"] < 1800 else None # cached for 30 minutes
 	else: return None
 
-async def save_friends_data(uuid, friends):
-	db = TinyDB("core/caches/friends.json")
-	Friends = Query()
-	if db.search(where("uuid") == uuid):
-		db.update({"time" : time.time(), "friends" : friends}, Friends.uuid == uuid)
-		core.caches.static.friends_cache_db_cache.update({"time" : time.time(), "friends" : friends}, Friends.uuid == uuid)
-	elif core.caches.static.friends_cache_db_cache.search(where("friends") == friends):
-		db.remove(Friends.friends == friends)
-		db.insert({"uuid" : uuid, "time" : time.time(), "friends" : friends})
-		core.caches.static.friends_cache_db_cache.remove(Friends.friends == friends)
-		core.caches.static.friends_cache_db_cache.insert({"uuid" : uuid, "time" : time.time(), "friends" : friends})
+async def save_player_data(uuid, player_data):
+	db = TinyDB("core/caches/players.json")
+	Players = Query()
+	if core.caches.static.players_cache_db_cache.search(where("uuid") == uuid):
+		db.update({"time" : time.time(), "data" : player_data}, Players.uuid == uuid)
+		core.caches.static.players_cache_db_cache.update({"time" : time.time(), "data" : player_data}, Players.uuid == uuid)
+	elif core.caches.static.players_cache_db_cache.search(where("data") == player_data):
+		db.remove(Players.data == player_data)
+		db.insert({"uuid" : uuid, "time" : time.time(), "data" : player_data})
+		core.caches.static.players_cache_db_cache.remove(Players.data == player_data)
+		core.caches.static.players_cache_db_cache.insert({"uuid" : uuid, "time" : time.time(), "data" : player_data})
 	else:
-		db.insert({"uuid" : uuid, "time" : time.time(), "friends" : friends})
-		core.caches.static.friends_cache_db_cache.insert({"uuid" : uuid, "time" : time.time(), "friends" : friends})
+		db.insert({"uuid" : uuid, "time" : time.time(), "data" : player_data})
+		core.caches.static.players_cache_db_cache.insert({"uuid" : uuid, "time" : time.time(), "data" : player_data})
