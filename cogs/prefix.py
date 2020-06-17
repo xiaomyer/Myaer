@@ -71,17 +71,12 @@ class Prefix(commands.Cog):
 	@commands.has_guild_permissions(manage_guild = True)
 	@commands.guild_only()
 	async def reset_prefix(self, ctx):
-		resetting_embed = discord.Embed(
-			name = "Resetting prefix",
-			description = "Resetting custom guild prefix..."
-		)
-		message = await ctx.send(embed = resetting_embed)
 		reset_data = await core.prefix.reset_prefix(ctx.guild.id)
 		reset_embed = discord.Embed(
 			name = "Reset prefix",
 			description = f"Reset this server's prefix from `{reset_data[0]['prefix']}` to `{core.config.default_prefix}`"
 		)
-		await message.edit(embed = reset_embed)
+		await ctx.send(embed = reset_embed)
 
 def setup(bot):
 	bot.add_cog(Prefix(bot))

@@ -46,6 +46,9 @@ class CommandError(commands.Cog):
 		if isinstance(error, ignored):
 			return
 
+		print("Ignoring exception in command {}:".format(ctx.command), file=sys.stderr)
+		traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
+
 		error_traceback = "".join(traceback.format_exception(type(error), error, error.__traceback__))
 		error_log_channel_object = ctx.bot.get_channel(error_log_channel)
 		error_embed = discord.Embed(
@@ -97,9 +100,6 @@ invoked by <@!{ctx.author.id}> `({ctx.author.name}#{ctx.author.discriminator}) (
 				description = f"{ctx.author.name}, you don't have enough permissions to do that"
 			)
 			await ctx.send(embed = argument_embed)
-
-		print("Ignoring exception in command {}:".format(ctx.command), file=sys.stderr)
-		traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
 
 def setup(bot):
 	bot.add_cog(CommandError(bot))

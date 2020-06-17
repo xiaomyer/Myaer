@@ -34,6 +34,3 @@ status_log_channel = config_json["channels"]["status_log"]
 guilds_log_channel = config_json["channels"]["guilds_log"]
 error_log_channel = config_json["channels"]["error_log"]
 default_prefix = config_json["prefix"]
-
-prefix_db = TinyDB("core/prefixes.json")
-prefix_db_cache = prefix_db

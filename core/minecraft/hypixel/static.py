@@ -152,7 +152,7 @@ async def get_rank_data(rank, prefix_raw, monthly_package_rank, new_package_rank
 		prefix = re.sub(r"§.", "", prefix_raw)[1:-1] # prefixes all start and end with brackets, and have minecraft color codes, this is to remove color codes and brackets
 		formatted_rank = ranks.get(prefix, prefix)
 
-	elif rank and not formatted_rank:
+	elif rank and rank != "NORMAL" and not formatted_rank:
 		formatted_rank = ranks.get(rank, rank)
 
 	elif (monthly_package_rank and monthly_package_rank != "NONE") and not formatted_rank: # WHY DOES IT EXIST IF IT'S NONE HYPIXEL WHY

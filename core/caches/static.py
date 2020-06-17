@@ -22,23 +22,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import core.caches.static
-import time
-from tinydb import TinyDB, Query, where
+from tinydb import TinyDB
 
-async def find_friends_data(uuid):
-	result = core.caches.static.friends_cache_db_cache.search(where("uuid") == uuid)
-	if result:
-		print("used friend cache")
-		return result[0]["friends"] if (time.time()) - result[0]["time"] < 259200 else None # cached for 3 days
-	else: return None
+friends_cache_db = TinyDB("core/caches/friends.json")
+friends_cache_db_cache = friends_cache_db
 
-async def save_friends_data(uuid, friends):
-	db = TinyDB("core/caches/friends.json")
-	Friends = Query()
-	if db.search(where("uuid") == uuid):
-		db.update({"time" : time.time(), "friends" : friends}, Friends.uuid == uuid)
-		core.caches.static.friends_cache_db_cache.update({"time" : time.time(), "friends" : friends}, Friends.uuid == uuid)
-	else:
-		db.insert({"uuid" : uuid, "time" : time.time(), "friends" : friends})
-		core.caches.static.friends_cache_db_cache.insert({"uuid" : uuid, "time" : time.time(), "friends" : friends})
+players_cache_db = TinyDB("core/caches/players.json")
+players_cache_db_cache = players_cache_db
+
+prefix_db = TinyDB("core/prefixes.json")
+prefix_db_cache = prefix_db
+
+verified_db = TinyDB("core/minecraft/verification/verified.json")
+verified_db_cache = verified_db

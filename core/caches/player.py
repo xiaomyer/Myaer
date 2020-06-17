@@ -22,20 +22,23 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+import core.caches.static
 import time
 from tinydb import TinyDB, Query, where
 
 async def find_player_data(uuid):
-	db = TinyDB("core/caches/player.json")
-	result = db.search(where("uuid") == uuid)
+	result = core.caches.static.players_cache_db_cache.search(where("uuid") == uuid)
 	if result:
+		print("used player cache")
 		return result[0]["data"] if (time.time()) - result[0]["time"] < 1800 else None # cached for 30 minutes
 	else: return None
 
 async def save_player_data(uuid, player_data):
-	db = TinyDB("core/caches/player.json")
+	db = TinyDB("core/caches/players.json")
 	Players = Query()
-	if db.search(where("uuid") == uuid):
+	if core.caches.static.players_cache_db_cache.search(where("uuid") == uuid):
 		db.update({"time" : time.time(), "data" : player_data}, Players.uuid == uuid)
+		core.caches.static.players_cache_db_cache.update({"time" : time.time(), "data" : player_data}, Players.uuid == uuid)
 	else:
 		db.insert({"uuid" : uuid, "time" : time.time(), "data" : player_data})
+		core.caches.static.players_cache_db_cache.insert({"uuid" : uuid, "time" : time.time(), "data" : player_data})

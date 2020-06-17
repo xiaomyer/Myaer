@@ -22,6 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+import core.caches.static
 import core.config
 import datetime
 import discord
@@ -46,7 +47,7 @@ error_log_channel = core.config.error_log_channel
 async def get_prefix(bot, message):
 	if isinstance(message.channel, discord.DMChannel):
 		return commands.when_mentioned_or(core.config.default_prefix, "myaer", "Myaer")(bot, message)
-	prefix_data = core.config.prefix_db_cache.search(where("guild_id") == message.guild.id)
+	prefix_data = core.caches.static.prefix_db_cache.search(where("guild_id") == message.guild.id)
 	prefix = prefix_data[0]["prefix"] if prefix_data else core.config.default_prefix
 	return commands.when_mentioned_or(prefix, "myaer ", "Myaer ")(bot, message)
 

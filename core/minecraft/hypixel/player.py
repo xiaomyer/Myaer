@@ -38,7 +38,7 @@ async def get_player_data(uuid, *, get_guild: bool = False, get_friends: bool = 
 			return player_cache
 
 	try:
-		player_json = await core.minecraft.hypixel.request.get_player(uuid)
+		player_json = await core.minecraft.hypixel.request.get_player_uuid(uuid)
 	except NameError:
 		raise NameError("No Hypixel stats")
 	except ratelimit.RateLimitException:

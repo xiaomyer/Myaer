@@ -24,7 +24,7 @@ SOFTWARE.
 
 from discord.ext import commands, menus
 import discord
-from core.paginators import ListPageSource
+from core.paginators import MinecraftHypixelFriends
 import core.minecraft.static
 import core.minecraft.hypixel.static
 
@@ -44,7 +44,7 @@ class Friends(commands.Cog):
 		friends_string = []
 		for friend in player_json["friends"]:
 			friends_string.append(f"""{discord.utils.escape_markdown(f"[{friend['rank_data']['rank']}] {friend['name']}" if friend["rank_data"]["rank"] else friend["name"])}""")
-		friends_paginator = menus.MenuPages(source = ListPageSource(friends_string), clear_reactions_after = True)
+		friends_paginator = menus.MenuPages(source = MinecraftHypixelFriends(friends_string, player_json), clear_reactions_after = True)
 		await friends_paginator.start(ctx)
 
 def setup(bot):
