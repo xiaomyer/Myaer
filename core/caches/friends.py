@@ -30,7 +30,7 @@ async def find_friends_data(uuid):
 	result = core.caches.static.friends_cache_db_cache.search(where("uuid") == uuid)
 	if result:
 		print("used friend cache")
-		return result[0]["friends"] if (time.time()) - result[0]["time"] < 259200 else None # cached for 3 days
+		return result[0]["friends"] if (time.time()) - result[0]["time"] < 604800 else None # cached for a week
 	else: return None
 
 async def save_friends_data(uuid, friends):
