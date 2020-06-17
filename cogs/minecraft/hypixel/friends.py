@@ -23,6 +23,7 @@ SOFTWARE.
 """
 
 from discord.ext import commands, menus
+import datetime
 import discord
 from core.paginators import MinecraftHypixelFriends
 import core.minecraft.static
@@ -43,7 +44,7 @@ class Friends(commands.Cog):
 		else: return
 		friends_string = []
 		for friend in player_json["friends"]:
-			friends_string.append(f"""{discord.utils.escape_markdown(f"[{friend['rank_data']['rank']}] {friend['name']}" if friend["rank_data"]["rank"] else friend["name"])}""")
+			friends_string.append(f"""{discord.utils.escape_markdown(f"[{friend['rank_data']['rank']}] {friend['name']}" if friend["rank_data"]["rank"] else friend["name"])} - *on {datetime.date.fromtimestamp((friend["friended_at"]) / 1000)}*""")
 		friends_paginator = menus.MenuPages(source = MinecraftHypixelFriends(friends_string, player_json), clear_reactions_after = True)
 		await friends_paginator.start(ctx)
 
