@@ -55,27 +55,10 @@ bot = commands.Bot(
 	owner_id = 368780147563823114
 )
 
-extensions = [
-	"jishaku",
-	"commands.announcement",
-	"cogs.minecraft.hypixel.bedwars",
-	"events.command_error",
-	"cogs.minecraft.hypixel.duels",
-	"cogs.minecraft.hypixel.guild",
-	"events.guild_join",
-	"events.guild_remove",
-	"commands.help",
-	"cogs.minecraft.hypixel.hypixel",
-	"cogs.minecraft.hypixel.leaderboards",
-	"cogs.minecraft.minecraft",
-	"events.command",
-	"cogs.minecraft.hypixel.paintball",
-	"commands.ping",
-	"cogs.prefix",
-	"cogs.minecraft.hypixel.skywars",
-	"commands.suggest",
-	"cogs.wristspasm"
-]
+extensions = [os.path.join(dp, f) for dp, dn, fn in os.walk("cogs") for f in fn] + [os.path.join(dp, f) for dp, dn, fn in os.walk("commands") for f in fn] + [os.path.join(dp, f) for dp, dn, fn in os.walk("events") for f in fn] + ["jishaku"]
+for file in extensions[:]:
+  if not file.endswith(".py") and file != "jishaku":
+    extensions.remove(file)
 failed_extensions = []
 
 @bot.event
@@ -111,7 +94,7 @@ async def on_error(event, *args, **kwargs):
 if __name__ == "__main__":
 	for extension in extensions:
 		try:
-			bot.load_extension(extension)
+			bot.load_extension(((extension.replace("/", "."))[:-3]) if extension.endswith(".py") else extension)
 		except Exception as e:
 			exception = '{}: {}'.format(type(e).__name__, e)
 			print("Failed to load extension {}\n{}".format(extension, exception))

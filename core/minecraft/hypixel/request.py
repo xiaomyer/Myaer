@@ -85,7 +85,7 @@ async def get_friends_by_uuid(uuid):
 	async with aiohttp.ClientSession() as session:
 		raw = await session.get(f"{hypixel_api}friends?key={core.config.hypixel_api_key}&uuid={uuid}")
 		player_friends_json = await raw.json()
-	if player_friends_json["success"] and player_friends_json["friends"]:
+	if player_friends_json["success"] and player_friends_json["records"]:
 		return player_friends_json
-	elif player_friends_json["success"] and player_friends_json["friends"] is None:
+	elif player_friends_json["success"] and player_friends_json["records"] is None:
 		raise NameError(f"Player \"{uuid}\" does not exist!")

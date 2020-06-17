@@ -22,12 +22,21 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+import core.minecraft.hypixel.friends
 import core.minecraft.hypixel.guild
+import core.caches.player
 import ratelimit
 import core.minecraft.hypixel.request
 import core.minecraft.hypixel.static
 
 async def get_player_data(uuid, *, get_guild: bool = False, get_friends: bool = False):
+	player_cache = await core.caches.player.find_player_data(uuid)
+	if player_cache: # returns cached data only if it contains all the requested information
+		if get_guild and player_cache["guild_data"]:
+			return player_cache
+		if get_friends and player_cache["friends"]:
+			return player_cache
+
 	try:
 		player_json = await core.minecraft.hypixel.request.get_player(uuid)
 	except NameError:
@@ -43,15 +52,16 @@ async def get_player_data(uuid, *, get_guild: bool = False, get_friends: bool = 
 			raise ratelimit.RateLimitException
 	else:
 		player_guild_json = None
-#	if get_friends: # only get friends if necessary, because it's another request
-#		try:
-#			player_friends_json = await core.minecraft.hypixel.guild.get_friends(uuid)
-#		except NameError:
-#			player_friends_json = None
-#		except ratelimit.RateLimitException:
-#			raise ratelimit.RateLimitException
-#	else:
-#		player_friends_json = None
+	if get_friends: # only get friends if necessary, because it's another request
+		try:
+			player_friends_json = await core.minecraft.hypixel.friends.get_friends(uuid)
+		except NameError:
+			player_friends_json = None
+		except ratelimit.RateLimitException:
+			raise ratelimit.RateLimitException
+	else:
+		player_friends_json = None
+
 	player = { # This thing is pretty torture
 		"name" : player_json.get("player", {}).get("displayname", ""),
 		"level_data" : (await core.minecraft.hypixel.static.get_network_level_data(player_json.get("player", {}).get("networkExp", 0))),
@@ -59,6 +69,7 @@ async def get_player_data(uuid, *, get_guild: bool = False, get_friends: bool = 
 		"achievement_points" : player_json.get("player", {}).get("achievementPoints", 0),
 		"rank_data" : (await core.minecraft.hypixel.static.get_rank_data((player_json.get("player", {}).get("rank", None)), (player_json.get("player", {}).get("prefix", None)), (player_json.get("player", {}).get("monthlyPackageRank", None)), (player_json.get("player", {}).get("newPackageRank", None)), (player_json.get("packageRank", None)))),
 		"guild_data" : player_guild_json if player_guild_json else None,
+		"friends" : player_friends_json if player_friends_json else None,
 		"login_times" : {
 			"first" : player_json.get("player", {}).get("firstLogin", 0),
 			"last" : player_json.get("player", {}).get("lastLogin", 0)
@@ -619,4 +630,5 @@ async def get_player_data(uuid, *, get_guild: bool = False, get_friends: bool = 
 			"games_played" : player_json.get("player", {}).get("stats", {}).get("SkyWars", {}).get("games_played_skywars", 0)
 		}
 	}
+	await core.caches.player.save_player_data(uuid, player)
 	return player

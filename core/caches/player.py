@@ -22,33 +22,20 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import core.config
+import time
 from tinydb import TinyDB, Query, where
 
-async def get_prefix(guild_id):
-	db = TinyDB("/home/myerfire/Myaer/Myaer/core/prefixes.json")
-	try:
-		return db.search(where("guild_id") == guild_id)
-	except:
-		return None
+async def find_player_data(uuid):
+	db = TinyDB("/home/myerfire/Myaer/Myaer/core/caches/player.json")
+	result = db.search(where("uuid") == uuid)
+	if result:
+		return result[0]["data"] if (time.time()) - result[0]["time"] < 1800 else None # cached for 30 minutes
+	else: return None
 
-async def set_prefix(guild_id, prefix):
-	db = TinyDB("/home/myerfire/Myaer/Myaer/core/prefixes.json")
-	Prefixes = Query()
-	if db.search(where("guild_id") == guild_id):
-		db.update({"prefix" : prefix}, Prefixes.guild_id == guild_id)
-		core.config.prefix_db.update({"prefix" : prefix}, Prefixes.guild_id == guild_id)
+async def save_player_data(uuid, player_data):
+	db = TinyDB("/home/myerfire/Myaer/Myaer/core/caches/player.json")
+	Players = Query()
+	if db.search(where("uuid") == uuid):
+		db.update({"time" : time.time(), "data" : player_data}, Players.uuid == uuid)
 	else:
-		db.insert({"guild_id" : guild_id, "prefix" : prefix})
-		core.config.prefix_db_cache.insert({"guild_id" : guild_id, "prefix" : prefix})
-
-async def reset_prefix(guild_id):
-	db = TinyDB("/home/myerfire/Myaer/Myaer/core/prefixes.json")
-	Prefixes = Query()
-	if db.search(where("guild_id") == guild_id):
-		saved_data = db.search(where("guild_id") == guild_id)
-		db.remove(Prefixes.guild_id == guild_id)
-		core.config.prefix_db_cache.remove(Prefixes.guild_id == guild_id)
-		return saved_data
-	else:
-		raise NameError("Prefix was not set")
+		db.insert({"uuid" : uuid, "time" : time.time(), "data" : player_data})

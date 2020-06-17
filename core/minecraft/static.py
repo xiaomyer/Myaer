@@ -28,7 +28,7 @@ import ratelimit
 import core.minecraft.request
 import core.minecraft.verification.verification
 
-async def hypixel_name_handler(ctx, args, *, get_guild: bool = False):
+async def hypixel_name_handler(ctx, args, *, get_guild: bool = False, get_friends: bool = False):
 	player_name = None
 	if len(args):
 		try:
@@ -62,7 +62,7 @@ async def hypixel_name_handler(ctx, args, *, get_guild: bool = False):
 			await ctx.send(embed = unverified_embed)
 			return
 	try:
-		player_json = await core.minecraft.hypixel.player.get_player_data(player_uuid, get_guild = get_guild)
+		player_json = await core.minecraft.hypixel.player.get_player_data(player_uuid, get_guild = get_guild, get_friends = get_friends)
 		player_name = player_json["name"] if not player_name else player_name
 		player_data = {
 			"player_formatted_name" : player_name,
