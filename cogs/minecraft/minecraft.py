@@ -58,9 +58,9 @@ class Minecraft(commands.Cog):
 		name_history_string = []
 		for name in name_history: # the index is only needed because something else has to be done for the first one
 			if index == 0: # First name does not have changedToAt attribute
-				name_history_string.append(f"{core.static.arrow_bullet_point}{name_history[index][0]}")
+				name_history_string.append(f"{name_history[index][0]}")
 			else:
-				name_history_string.append(f"{core.static.arrow_bullet_point}{discord.utils.escape_markdown(name_history[index][0])} - *on {datetime.date.fromtimestamp((name_history[index][1]) / 1000)}*")
+				name_history_string.append(f"{discord.utils.escape_markdown(name_history[index][0])} - *on {datetime.date.fromtimestamp((name_history[index][1]) / 1000)}*")
 			index -= 1
 		name_history_paginator = menus.MenuPages(source = ListPageSource(name_history_string), clear_reactions_after = True)
 		await name_history_paginator.start(ctx)
@@ -70,7 +70,7 @@ class Minecraft(commands.Cog):
 	async def uuid(self, ctx, *args):
 		player_info = await core.minecraft.static.name_handler(ctx, args)
 		if player_info:
-			player_data = player_info["player_data"]
+			player_data = player_info
 		else: return
 		await ctx.channel.trigger_typing()
 		player_uuid_embed = discord.Embed(

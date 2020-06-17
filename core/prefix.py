@@ -26,14 +26,14 @@ import core.config
 from tinydb import TinyDB, Query, where
 
 async def get_prefix(guild_id):
-	db = TinyDB("/home/myerfire/Myaer/Myaer/core/prefixes.json")
+	db = TinyDB("core/prefixes.json")
 	try:
 		return db.search(where("guild_id") == guild_id)
 	except:
 		return None
 
 async def set_prefix(guild_id, prefix):
-	db = TinyDB("/home/myerfire/Myaer/Myaer/core/prefixes.json")
+	db = TinyDB("core/prefixes.json")
 	Prefixes = Query()
 	if db.search(where("guild_id") == guild_id):
 		db.update({"prefix" : prefix}, Prefixes.guild_id == guild_id)
@@ -43,7 +43,7 @@ async def set_prefix(guild_id, prefix):
 		core.config.prefix_db_cache.insert({"guild_id" : guild_id, "prefix" : prefix})
 
 async def reset_prefix(guild_id):
-	db = TinyDB("/home/myerfire/Myaer/Myaer/core/prefixes.json")
+	db = TinyDB("core/prefixes.json")
 	Prefixes = Query()
 	if db.search(where("guild_id") == guild_id):
 		saved_data = db.search(where("guild_id") == guild_id)

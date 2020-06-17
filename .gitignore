@@ -1,5 +1,6 @@
 # Cache files
 __pycache__/
+core/caches/*.json
 
 # Secret
 *.json

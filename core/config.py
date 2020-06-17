@@ -25,7 +25,7 @@ SOFTWARE.
 import json
 from tinydb import TinyDB
 
-with open("/home/myerfire/Myaer/Myaer/config.json") as config_raw:
+with open("config.json") as config_raw:
 	config_json = json.load(config_raw)
 
 token = config_json["keys"]["token"]
@@ -35,5 +35,5 @@ guilds_log_channel = config_json["channels"]["guilds_log"]
 error_log_channel = config_json["channels"]["error_log"]
 default_prefix = config_json["prefix"]
 
-prefix_db = TinyDB("/home/myerfire/Myaer/Myaer/core/prefixes.json")
+prefix_db = TinyDB("core/prefixes.json")
 prefix_db_cache = prefix_db

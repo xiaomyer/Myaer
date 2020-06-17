@@ -28,6 +28,8 @@ import core.minecraft.hypixel.player
 import re
 import core.minecraft.verification.verification
 
+master_control = "c1ec7a0544d84dd8a44a6eb400570ed7"
+
 prestige_colors = {
 	"Stone" : "607D8B",
 	"Iron" : "95A5A6",
@@ -164,7 +166,7 @@ async def get_rank_data(rank, prefix_raw, monthly_package_rank, new_package_rank
 
 	rank_data = {
 		"rank" : formatted_rank,
-		"color" : rank_colors[formatted_rank]
+		"color" : rank_colors.get(formatted_rank, "000000")
 	}
 	return rank_data
 

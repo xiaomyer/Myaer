@@ -26,14 +26,14 @@ import time
 from tinydb import TinyDB, Query, where
 
 async def find_friends_data(uuid):
-	db = TinyDB("/home/myerfire/Myaer/Myaer/core/caches/friends.json")
+	db = TinyDB("core/caches/friends.json")
 	result = db.search(where("uuid") == uuid)
 	if result:
-		return result[0]["data"] if (time.time()) - result[0]["time"] < 86400 else None # cached for a day
+		return result[0]["friends"] if (time.time()) - result[0]["time"] < 259200 else None # cached for 3 days
 	else: return None
 
 async def save_friends_data(uuid, friends):
-	db = TinyDB("/home/myerfire/Myaer/Myaer/core/caches/friends.json")
+	db = TinyDB("core/caches/friends.json")
 	Friends = Query()
 	if db.search(where("uuid") == uuid):
 		db.update({"time" : time.time(), "friends" : friends}, Friends.uuid == uuid)
