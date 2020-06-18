@@ -98,7 +98,6 @@ class LeaderboardCommands(commands.Cog):
 	@commands.cooldown(1, 60, commands.BucketType.guild)
 	async def bedwars_finals(self, ctx):
 		await ctx.channel.trigger_typing()
-		message = await ctx.send(embed = loading_embed)
 		leaderboards_json = await core.minecraft.hypixel.leaderboards.get_leaderboards()
 		index = 0
 		bedwars_overall_finals_leaderboard_string = []
