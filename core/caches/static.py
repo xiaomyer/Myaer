@@ -27,6 +27,9 @@ from tinydb import TinyDB
 friends_cache_db = TinyDB("core/caches/friends.json")
 friends_cache_db_cache = friends_cache_db
 
+leaderboards_cache_db = TinyDB("core/caches/leaderboards.json")
+leaderboards_cache_db_cache = leaderboards_cache_db
+
 players_cache_db = TinyDB("core/caches/players.json")
 players_cache_db_cache = players_cache_db
 
