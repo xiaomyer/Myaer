@@ -29,7 +29,7 @@ from tinydb import TinyDB, Query, where
 async def find_player_data(uuid):
 	result = core.caches.static.players_cache_db_cache.search(where("uuid") == uuid)
 	if result:
-		return result[0]["data"] if (time.time()) - result[0]["time"] < 1800 else None # cached for 30 minutes
+		return result[0]
 	else: return None
 
 async def save_player_data(uuid, player_data):

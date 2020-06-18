@@ -44,7 +44,6 @@ class Friends(commands.Cog):
 		else: return
 		friends_string = []
 		for friend in player_json["friends"]:
-			print(friend)
 			friends_string.append(f"""{discord.utils.escape_markdown(f"[{str(friend['rank_data']['rank'])}] {str(friend['name'])}" if (friend["rank_data"]["rank"]) else (str(friend["name"])))} - *on {datetime.date.fromtimestamp((friend["friended_at"]) / 1000)}*""")
 		friends_paginator = menus.MenuPages(source = MinecraftHypixelFriends(friends_string, player_json), clear_reactions_after = True)
 		await friends_paginator.start(ctx)

@@ -28,25 +28,23 @@ import core.caches.players
 import ratelimit
 import core.minecraft.hypixel.request
 import core.minecraft.hypixel.static
+import time
 
 async def get_player_data(uuid, *, get_guild: bool = False, get_friends: bool = False):
 	player_cache = await core.caches.players.find_player_data(uuid)
 	if player_cache: # returns cached data only if it contains all the requested information
-		if get_guild and player_cache["guild_data"]:
-			return player_cache
-		if get_friends and player_cache["friends"]:
-			return player_cache
-		if get_friends and get_guild and player_cache["friends"] and player_cache["guild_data"]:
-			return player_cache
-		if not get_guild and not get_friends:
-			return player_cache
-
-	try:
-		player_json = await core.minecraft.hypixel.request.get_player_uuid(uuid)
-	except NameError:
-		raise NameError("No Hypixel stats")
-	except ratelimit.RateLimitException:
-		raise OverflowError # idk how to make custom exceptions so this is close enough
+		valid = True if ((not get_guild) and (not get_friends) or (get_friends and player_cache["data"]["friends"]) or (get_guild and player_cache["data"]["guild_data"])) and (time.time()) - player_cache["time"] < 1800 else False
+	else:
+		valid = False
+	if valid:
+		return player_cache["data"]
+	else:
+		try:
+			player_json = await core.minecraft.hypixel.request.get_player_uuid(uuid)
+		except NameError:
+			raise NameError("No Hypixel stats")
+		except ratelimit.RateLimitException:
+			raise OverflowError # idk how to make custom exceptions so this is close enough
 	if get_guild: # only get guild if necessary, because it's another request
 		try:
 			player_guild_json = await core.minecraft.hypixel.guild.get_guild_data(uuid)
