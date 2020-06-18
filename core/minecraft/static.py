@@ -101,7 +101,7 @@ async def hypixel_name_handler_no_database(ctx, player, *, get_guild: bool = Fal
 	except NameError:
 		nameerror_embed = discord.Embed(
 			name = "Invalid input",
-			description = f"\"{args[0]}\" is not a valid username or UUID",
+			description = f"\"{player}\" is not a valid username or UUID",
 			color = ctx.author.color
 		)
 		await ctx.send(embed = nameerror_embed)

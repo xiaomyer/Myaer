@@ -104,28 +104,23 @@ class Minecraft(commands.Cog):
 	@minecraft.command(name = "verify", aliases = ["link"])
 	@commands.max_concurrency(1, per = commands.BucketType.user)
 	async def verify(self, ctx, ign):
+		player_info = await core.minecraft.static.hypixel_name_handler_no_database(ctx, ign)
+		if player_info:
+			player_data = player_info["player_data"]
+			player_json = player_info["player_json"]
+		else: return
 		try:
-			player_data = await core.minecraft.request.get_profile(ign)
-		except NameError:
-			nameerror_embed = discord.Embed(
-				name = "Invalid input",
-				description = f"\"{ign}\" is not a valid username or UUID.",
-				color = ctx.author.color
-			)
-			await ctx.send(embed = nameerror_embed)
-			return
-		try:
-			await core.minecraft.verification.verification.verify(ctx.author.id, f"{ctx.author.name}#{ctx.author.discriminator}", player_data['uuid'])
+			await core.minecraft.verification.verification.verify(ctx.author.id, f"{ctx.author.name}#{ctx.author.discriminator}", player_data["minecraft_uuid"], player_json["social_media"]["discord"])
 			verified_embed = discord.Embed(
 				name = "Verified Minecraft IGN",
-				description = f"Verified your Minecraft account as \"{player_data['name']}\"",
+				description = f"Verified your Minecraft account as \"{player_data['player_formatted_name']}\"",
 				color = ctx.author.color
 			)
 			await ctx.send(embed = verified_embed)
 		except NameError:
 			nameerror_embed = discord.Embed(
 				name = "Invalid input",
-				description = f"\"{player_data['name']}\" does not seem to have Hypixel stats.",
+				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats.",
 				color = ctx.author.color
 			)
 			await ctx.send(embed = nameerror_embed)
@@ -133,7 +128,7 @@ class Minecraft(commands.Cog):
 		except ValueError:
 			already_has_discord_hypixel_embed = discord.Embed(
 				name = "Already linked on Hypixel",
-				description = f"{player_data['name']} has a linked Discord account on Hypixel that is not yours.",
+				description = f"{player_data['player_formatted_name']} has a linked Discord account on Hypixel that is not yours.",
 				color = ctx.author.color
 			)
 			already_has_discord_hypixel_embed.set_footer(
@@ -144,7 +139,7 @@ class Minecraft(commands.Cog):
 		except AttributeError:
 			no_discord_hypixel_embed = discord.Embed(
 				name = "No Discord linked on Hypixel",
-				description = f"{player_data['name']} does not have a linked Discord name on Hypixel."
+				description = f"{player_data['player_formatted_name']} does not have a linked Discord name on Hypixel."
 			)
 			no_discord_hypixel_embed.set_footer(
 				text = "Set your Discord name on Hypixel."

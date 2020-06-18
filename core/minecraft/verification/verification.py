@@ -31,16 +31,12 @@ from tinydb import TinyDB, Query, where
 
 user_converter = commands.UserConverter()
 
-async def verify(discord_id, discord_name, minecraft_uuid):
+async def verify(discord_id, discord_name, minecraft_uuid, hypixel_discord):
 	db = TinyDB("core/minecraft/verification/verified.json")
 	Users = Query()
-	try:
-		player_json = await core.minecraft.hypixel.player.get_player_data(minecraft_uuid)
-	except NameError:
-		raise NameError("No Hypixel stats for input.")
-	if (discord_name != player_json["social_media"]["discord"]) and (player_json["social_media"]["discord"] is not None):
+	if (discord_name != hypixel_discord) and (hypixel_discord is not None):
 		raise ValueError("Minecraft account already has verified Discord name on Hypixel.")
-	elif discord_name == player_json["social_media"]["discord"]:
+	elif discord_name == hypixel_discord:
 		if core.caches.static.verified_db_cache.search(where("discord_id") == discord_id):
 			db.update({"minecraft_uuid" : minecraft_uuid}, Users.discord_id == discord_id)
 			core.caches.static.verified_db_cache.update({"minecraft_uuid" : minecraft_uuid}, Users.discord_id == discord_id)
