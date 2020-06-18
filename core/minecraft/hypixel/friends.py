@@ -31,17 +31,17 @@ import time
 async def get_friends(uuid):
 	friends_cache = await core.caches.friends.find_friends_data(uuid)
 	if friends_cache:
-		if (time.time()) - friends_json[0]["time"] < 604800: # checks if cache is too old, and if it is, checks if anything has changed
-			friends_json = friends_cache[0]["data"]
+		if (time.time()) - friends_cache["time"] < 604800: # checks if cache is too old, and if it is, checks if anything has changed
+			friends_json = friends_cache["friends"]
 		else:
 			try:
 				friends_check_json = (await core.minecraft.hypixel.request.get_friends_by_uuid(uuid))
 			except:
 				raise NameError("No friends")
-			if friends_cache[0]["friends"] != friends_check_json["records"]:
+			if friends_cache["friends"] != friends_check_json["records"]:
 				friends_json = friends_check_json
 			else:
-				friends_json = friends_cache[0]["friends"]
+				friends_json = friends_cache["friends"]
 	else:
 		try:
 			friends_json = (await core.minecraft.hypixel.request.get_friends_by_uuid(uuid))

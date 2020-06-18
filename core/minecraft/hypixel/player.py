@@ -36,6 +36,10 @@ async def get_player_data(uuid, *, get_guild: bool = False, get_friends: bool = 
 			return player_cache
 		if get_friends and player_cache["friends"]:
 			return player_cache
+		if get_friends and get_guild and player_cache["friends"] and player_cache["guild_data"]:
+			return player_cache
+		if not get_guild and not get_friends:
+			return player_cache
 
 	try:
 		player_json = await core.minecraft.hypixel.request.get_player_uuid(uuid)

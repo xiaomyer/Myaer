@@ -29,7 +29,7 @@ from tinydb import TinyDB, Query, where
 async def find_friends_data(uuid):
 	result = core.caches.static.friends_cache_db_cache.search(where("uuid") == uuid)
 	if result:
-		return result[0]["friends"] if (time.time()) - result[0]["time"] < 604800 else None # cached for a week
+		return result[0]
 	else: return None
 
 async def save_friends_data(uuid, friends):
