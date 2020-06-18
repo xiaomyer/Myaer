@@ -34,7 +34,7 @@ class Friends(commands.Cog):
 		self.bot = bot
 
 	@commands.command("friends")
-	@commands.max_concurrency(5, per = commands.BucketType.user)
+	@commands.max_concurrency(1, per = commands.BucketType.user)
 	async def friends(self, ctx, *args):
 		await ctx.trigger_typing()
 		player_info = await core.minecraft.static.hypixel_name_handler(ctx, args, get_friends = True)
