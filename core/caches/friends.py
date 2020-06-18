@@ -33,16 +33,11 @@ async def find_friends_data(uuid):
 	else: return None
 
 async def save_friends_data(uuid, friends):
-	db = TinyDB("core/caches/friends.json")
 	Friends = Query()
-	if db.search(where("uuid") == uuid):
-		db.update({"time" : time.time(), "friends" : friends}, Friends.uuid == uuid)
+	if core.caches.static.friends_cache_db_cache.search(where("uuid") == uuid):
 		core.caches.static.friends_cache_db_cache.update({"time" : time.time(), "friends" : friends}, Friends.uuid == uuid)
 	elif core.caches.static.friends_cache_db_cache.search(where("friends") == friends):
-		db.remove(Friends.friends == friends)
-		db.insert({"uuid" : uuid, "time" : time.time(), "friends" : friends})
 		core.caches.static.friends_cache_db_cache.remove(Friends.friends == friends)
 		core.caches.static.friends_cache_db_cache.insert({"uuid" : uuid, "time" : time.time(), "friends" : friends})
 	else:
-		db.insert({"uuid" : uuid, "time" : time.time(), "friends" : friends})
 		core.caches.static.friends_cache_db_cache.insert({"uuid" : uuid, "time" : time.time(), "friends" : friends})

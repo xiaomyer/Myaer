@@ -32,21 +32,16 @@ async def get_prefix(guild_id):
 		return None
 
 async def set_prefix(guild_id, prefix):
-	db = TinyDB("core/prefixes.json")
 	Prefixes = Query()
 	if core.caches.static.prefix_db_cache.search(where("guild_id") == guild_id):
-		db.update({"prefix" : prefix}, Prefixes.guild_id == guild_id)
 		core.caches.static.prefix_db_cache.update({"prefix" : prefix}, Prefixes.guild_id == guild_id)
 	else:
-		db.insert({"guild_id" : guild_id, "prefix" : prefix})
 		core.caches.static.prefix_db_cache.insert({"guild_id" : guild_id, "prefix" : prefix})
 
 async def reset_prefix(guild_id):
-	db = TinyDB("core/prefixes.json")
 	Prefixes = Query()
 	if core.caches.static.prefix_db_cache.search(where("guild_id") == guild_id):
 		saved_data = core.caches.static.prefix_db_cache.search(where("guild_id") == guild_id)
-		db.remove(Prefixes.guild_id == guild_id)
 		core.caches.static.prefix_db_cache.remove(Prefixes.guild_id == guild_id)
 		return saved_data
 	else:

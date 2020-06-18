@@ -32,30 +32,23 @@ from tinydb import TinyDB, Query, where
 user_converter = commands.UserConverter()
 
 async def verify(discord_id, discord_name, minecraft_uuid, hypixel_discord):
-	db = TinyDB("core/minecraft/verification/verified.json")
 	Users = Query()
 	if (discord_name != hypixel_discord) and (hypixel_discord is not None):
 		raise ValueError("Minecraft account already has verified Discord name on Hypixel.")
 	elif discord_name == hypixel_discord:
 		if core.caches.static.verified_db_cache.search(where("discord_id") == discord_id):
-			db.update({"minecraft_uuid" : minecraft_uuid}, Users.discord_id == discord_id)
 			core.caches.static.verified_db_cache.update({"minecraft_uuid" : minecraft_uuid}, Users.discord_id == discord_id)
 		elif core.caches.static.verified_db_cache.search(where("minecraft_uuid") == minecraft_uuid):
-			db.remove(Users.minecraft_uuid == minecraft_uuid)
-			db.insert({"discord_id" : discord_id, "minecraft_uuid" : minecraft_uuid})
 			core.caches.static.verified_db_cache.remove(Users.minecraft_uuid == minecraft_uuid)
 			core.caches.static.verified_db_cache.insert({"discord_id" : discord_id, "minecraft_uuid" : minecraft_uuid})
 		else:
-			db.insert({"discord_id" : discord_id, "minecraft_uuid" : minecraft_uuid})
 			core.caches.static.verified_db_cache.insert({"discord_id" : discord_id, "minecraft_uuid" : minecraft_uuid})
 	else:
 		raise AttributeError("Does not have Discord name set on Hypixel.")
 
 async def force_verify(discord_id, minecraft_uuid):
-	db = TinyDB("core/minecraft/verification/verified.json")
 	Users = Query()
 	if core.caches.static.verified_db_cache.search(where("discord_id") == discord_id):
-		db.update({"minecraft_uuid" : minecraft_uuid}, Users.discord_id == discord_id)
 		core.caches.static.verified_db_cache.update({"minecraft_uuid" : minecraft_uuid}, Users.discord_id == discord_id)
 	elif core.caches.static.verified_db_cache.search(where("minecraft_uuid") == minecraft_uuid):
 		db.remove(Users.minecraft_uuid == minecraft_uuid)
@@ -67,11 +60,9 @@ async def force_verify(discord_id, minecraft_uuid):
 		core.caches.static.verified_db_cache.insert({"discord_id" : discord_id, "minecraft_uuid" : minecraft_uuid})
 
 async def unverify(discord_id):
-	db = TinyDB("core/minecraft/verification/verified.json")
 	Users = Query()
 	if core.caches.static.verified_db_cache.search(where("discord_id") == discord_id):
 		saved_data = core.caches.static.verified_db_cache.search(where("discord_id") == discord_id)
-		db.remove(Users.discord_id == discord_id)
 		core.caches.static.verified_db_cache.remove(Users.discord_id == discord_id)
 		return saved_data
 	else:

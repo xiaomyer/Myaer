@@ -34,11 +34,8 @@ async def find_player_data(uuid):
 	else: return None
 
 async def save_player_data(uuid, player_data):
-	db = TinyDB("core/caches/players.json")
 	Players = Query()
 	if core.caches.static.players_cache_db_cache.search(where("uuid") == uuid):
-		db.update({"time" : time.time(), "data" : player_data}, Players.uuid == uuid)
 		core.caches.static.players_cache_db_cache.update({"time" : time.time(), "data" : player_data}, Players.uuid == uuid)
 	else:
-		db.insert({"uuid" : uuid, "time" : time.time(), "data" : player_data})
 		core.caches.static.players_cache_db_cache.insert({"uuid" : uuid, "time" : time.time(), "data" : player_data})
