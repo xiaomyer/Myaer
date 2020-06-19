@@ -22,71 +22,30 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import core.caches.static
 from discord.ext import commands
 import discord
 import core.minecraft.request
 import core.minecraft.hypixel.player
-from tinydb import TinyDB, Query, where
+import core.config.users
 
 user_converter = commands.UserConverter()
 
-async def verify(discord_id, discord_name, minecraft_uuid, hypixel_discord):
-	Users = Query()
-	if (discord_name != hypixel_discord) and (hypixel_discord is not None):
-		raise ValueError("Minecraft account already has verified Discord name on Hypixel.")
-	elif discord_name == hypixel_discord:
-		if core.caches.static.verified_db_cache.search(where("discord_id") == discord_id):
-			core.caches.static.verified_db_cache.update({"minecraft_uuid" : minecraft_uuid}, Users.discord_id == discord_id)
-		elif core.caches.static.verified_db_cache.search(where("minecraft_uuid") == minecraft_uuid):
-			core.caches.static.verified_db_cache.remove(Users.minecraft_uuid == minecraft_uuid)
-			core.caches.static.verified_db_cache.insert({"discord_id" : discord_id, "minecraft_uuid" : minecraft_uuid})
-		else:
-			core.caches.static.verified_db_cache.insert({"discord_id" : discord_id, "minecraft_uuid" : minecraft_uuid})
-	else:
-		raise AttributeError("Does not have Discord name set on Hypixel.")
-
-async def force_verify(discord_id, minecraft_uuid):
-	Users = Query()
-	if core.caches.static.verified_db_cache.search(where("discord_id") == discord_id):
-		core.caches.static.verified_db_cache.update({"minecraft_uuid" : minecraft_uuid}, Users.discord_id == discord_id)
-	elif core.caches.static.verified_db_cache.search(where("minecraft_uuid") == minecraft_uuid):
-		db.remove(Users.minecraft_uuid == minecraft_uuid)
-		db.insert({"discord_id" : discord_id, "minecraft_uuid" : minecraft_uuid})
-		core.caches.static.verified_db_cache.remove(Users.minecraft_uuid == minecraft_uuid)
-		core.caches.static.verified_db_cache.insert({"discord_id" : discord_id, "minecraft_uuid" : minecraft_uuid})
-	else:
-		db.insert({"discord_id" : discord_id, "minecraft_uuid" : minecraft_uuid})
-		core.caches.static.verified_db_cache.insert({"discord_id" : discord_id, "minecraft_uuid" : minecraft_uuid})
-
-async def unverify(discord_id):
-	Users = Query()
-	if core.caches.static.verified_db_cache.search(where("discord_id") == discord_id):
-		saved_data = core.caches.static.verified_db_cache.search(where("discord_id") == discord_id)
-		core.caches.static.verified_db_cache.remove(Users.discord_id == discord_id)
-		return saved_data
-	else:
-		raise NameError("User is not verified.")
-
-async def find_uuid(discord_id):
-	return core.caches.static.verified_db_cache.search(where("discord_id") == discord_id)
-
-async def parse_input(ctx, input):
+async def parse_input(ctx, _input):
 	try:
-		player_discord = await user_converter.convert(ctx, input)
+		player_discord = await user_converter.convert(ctx, _input)
 	except discord.ext.commands.errors.BadArgument:
 		player_discord = None
 	try:
-		if player_discord and (player_discord.mentioned_in(ctx.message) or input.isdigit()): # if input is a discord id
-			db_data = (await find_uuid(player_discord.id))
+		if player_discord and (player_discord.mentioned_in(ctx.message) or _input.isdigit()): # if input is a discord id
+			uuid = await database_lookup_uuid(player_discord.id)
 			player_data = {
-				"player_formatted_name" : (await core.minecraft.request.get_profile((db_data[0]["minecraft_uuid"])))["name"],
-				"minecraft_uuid" : db_data[0]["minecraft_uuid"]
+				"player_formatted_name" : (await core.minecraft.request.get_profile((uuid)))["name"],
+				"minecraft_uuid" : uuid
 			}
 			return player_data
 		else:
 			try:
-				player_info = await core.minecraft.request.get_profile(input)
+				player_info = await core.minecraft.request.get_profile(_input)
 				player_data = {
 					"player_formatted_name" : player_info["name"],
 					"minecraft_uuid" : player_info["uuid"]
@@ -99,19 +58,15 @@ async def parse_input(ctx, input):
 		return
 
 async def database_lookup_uuid(discord_id):
-	try:
-		db_data = await find_uuid(discord_id)
-		return db_data[0]["minecraft_uuid"]
-	except IndexError:
-		return None # not found in database
+	result = await core.config.users.get_config(discord_id)
+	if result:
+		return result["minecraft_uuid"]
+	else: return None
 
 async def database_lookup(discord_id):
-	try:
-		db_data = await find_uuid(discord_id)
-		player_data = {
-			"player_formatted_name" : (await core.minecraft.request.get_profile((db_data[0]["minecraft_uuid"])))["name"],
-			"minecraft_uuid" : db_data[0]["minecraft_uuid"]
-		}
-		return player_data
-	except IndexError:
-		return None # not found in database
+	uuid = await database_lookup_uuid(discord_id)
+	player_data = {
+		"player_formatted_name" : (await core.minecraft.request.get_profile((uuid)))["name"],
+		"minecraft_uuid" : uuid
+	}
+	return player_data

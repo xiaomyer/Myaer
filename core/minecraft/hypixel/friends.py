@@ -22,12 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+import asyncio
 import core.caches.friends
 import ratelimit
 import core.minecraft.request
 import core.minecraft.hypixel.request
 import core.minecraft.hypixel.static
-import time
 
 async def get_friends(uuid):
 	friends_cache = await core.caches.friends.find_friends_data(uuid)
@@ -50,7 +50,7 @@ async def get_friends(uuid):
 			player_profile = await core.minecraft.hypixel.player.get_player_data(player_uuid) if player_uuid != core.minecraft.hypixel.static.master_control else {"name" : "MasterControl", "rank_data" : {"rank" : "MCP", "color" : "AA0000"}} # technoblade has the account MasterControl friended, and that account is a hypixel alt that isn't in the api
 			friends.append({"name" : player_profile["name"], "uuid" : player_uuid, "rank_data" : player_profile["rank_data"], "friended_at" : player["started"]})
 		except:
-			time.sleep(60)
+			await asyncio.sleep(60)
 			try:
 				player_profile = await core.minecraft.hypixel.player.get_player_data(player_uuid) if player_uuid != core.minecraft.hypixel.static.master_control else {"name" : "MasterControl", "rank_data" : {"rank" : "MCP", "color" : "AA0000"}} # technoblade has the account MasterControl friended, and that account is a hypixel alt that isn't in the api
 				friends.append({"name" : player_profile["name"], "uuid" : player_uuid, "rank_data" : player_profile["rank_data"], "friended_at" : player["started"]})

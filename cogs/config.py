@@ -25,7 +25,7 @@ SOFTWARE.
 from discord.ext import commands
 import core.config.config
 import discord
-import core.config.guild
+import core.config.guilds
 from tinydb import TinyDB, Query, where
 
 class Config(commands.Cog):
@@ -35,7 +35,7 @@ class Config(commands.Cog):
 	@commands.group(name = "prefix", invoke_without_command = True)
 	@commands.guild_only()
 	async def prefix(self, ctx):
-		config = await core.config.guild.get_config(ctx.guild.id)
+		config = await core.config.guilds.get_config(ctx.guild.id)
 		prefix = config.get("prefix", None) if config else None
 		prefix_embed = discord.Embed(
 			name = "Prefix",
@@ -54,7 +54,7 @@ class Config(commands.Cog):
 			)
 			await ctx.send(embed = default_embed)
 		elif len(prefix) < 10:
-			await core.config.guild.set_key(ctx.guild.id, "prefix", prefix)
+			await core.config.guilds.set_key(ctx.guild.id, "prefix", prefix)
 			set_embed = discord.Embed(
 				name = "Set prefix",
 				description = f"Set this server's prefix to `{prefix}`"
@@ -71,7 +71,7 @@ class Config(commands.Cog):
 	@commands.has_guild_permissions(manage_guild = True)
 	@commands.guild_only()
 	async def reset_prefix(self, ctx):
-		reset_data = await core.config.guild.reset_key(ctx.guild.id, "prefix")
+		reset_data = await core.config.guilds.reset_key(ctx.guild.id, "prefix")
 		if reset_data:
 			reset_embed = discord.Embed(
 				description = f"Reset this server's prefix from `{reset_data['prefix']}` to `{core.config.config.default_prefix}`"

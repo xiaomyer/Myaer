@@ -30,9 +30,7 @@ from core.paginators import MinecraftNameHistory
 import core.minecraft.request
 import core.static
 import core.minecraft.static
-import sys
-import traceback
-import core.minecraft.verification.verification
+import core.config.users
 
 crafatar_api = "https://crafatar.com/"
 mc_heads_api = "https://mc-heads.net/"
@@ -104,27 +102,19 @@ class Minecraft(commands.Cog):
 	@minecraft.command(name = "verify", aliases = ["link"])
 	@commands.max_concurrency(1, per = commands.BucketType.user)
 	async def verify(self, ctx, ign):
-		player_info = await core.minecraft.static.hypixel_name_handler_no_database(ctx, ign)
+		player_info = await core.minecraft.static.hypixel_name_handler_no_database(ctx, ign, use_cache = False)
 		if player_info:
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
 		else: return
 		try:
-			await core.minecraft.verification.verification.verify(ctx.author.id, f"{ctx.author.name}#{ctx.author.discriminator}", player_data["minecraft_uuid"], player_json["social_media"]["discord"])
+			await core.config.users.minecraft_verify(ctx.author.id, f"{ctx.author.name}#{ctx.author.discriminator}", player_data["minecraft_uuid"], player_json["social_media"]["discord"])
 			verified_embed = discord.Embed(
 				name = "Verified Minecraft IGN",
 				description = f"Verified your Minecraft account as \"{player_data['player_formatted_name']}\"",
 				color = ctx.author.color
 			)
 			await ctx.send(embed = verified_embed)
-		except NameError:
-			nameerror_embed = discord.Embed(
-				name = "Invalid input",
-				description = f"\"{player_data['player_formatted_name']}\" does not seem to have Hypixel stats.",
-				color = ctx.author.color
-			)
-			await ctx.send(embed = nameerror_embed)
-			return
 		except ValueError:
 			already_has_discord_hypixel_embed = discord.Embed(
 				name = "Already linked on Hypixel",
@@ -159,7 +149,7 @@ class Minecraft(commands.Cog):
 			)
 			await ctx.send(embed = nameerror_embed)
 			return
-		await core.minecraft.verification.verification.force_verify(target.id, player_data['uuid'])
+		await core.config.users.minecraft_force_verify(target.id, player_data['uuid'])
 		verified_embed = discord.Embed(
 			name = "Verified Minecraft IGN",
 			description = f"Verified {target}\'s Minecraft account as \"{player_data['name']}\"",
@@ -171,14 +161,14 @@ class Minecraft(commands.Cog):
 	@commands.max_concurrency(1, per = commands.BucketType.user)
 	async def unverify(self, ctx):
 		try:
-			unverified_data = await core.minecraft.verification.verification.unverify(ctx.author.id)
+			unverified_data = await core.config.users.reset_key(ctx.author.id, "minecraft_uuid")
 			unverified_embed = discord.Embed(
 				name = "Unverified",
-				description = f"Unverified your Minecraft account \"{(await core.minecraft.request.get_profile_uuid((unverified_data[0]['minecraft_uuid'])))['name']}\".",
+				description = f"Unverified your Minecraft account \"{(await core.minecraft.request.get_profile_uuid((unverified_data['minecraft_uuid'])))['name']}\".",
 				color = ctx.author.color
 			)
 			unverified_embed.set_footer(
-				text = f"UUID was {(await core.minecraft.request.get_profile_uuid(unverified_data[0]['minecraft_uuid']))['uuid']}"
+				text = f"UUID was {(await core.minecraft.request.get_profile_uuid(unverified_data['minecraft_uuid']))['uuid']}"
 			)
 			await ctx.send(embed = unverified_embed)
 		except NameError:
@@ -193,14 +183,14 @@ class Minecraft(commands.Cog):
 	@commands.is_owner()
 	async def force_unverify(self, ctx, target: discord.Member):
 		try:
-			unverified_data = await core.minecraft.verification.verification.unverify(target.id)
+			unverified_data = await core.config.users.reset_key(target.id, "minecraft_uuid")
 			unverified_embed = discord.Embed(
 				name = "Unverified",
-				description = f"Unverified {target}\'s Minecraft account \"{(await core.minecraft.request.get_profile_uuid((unverified_data[0]['minecraft_uuid'])))['name']}\".",
+				description = f"Unverified {target}\'s Minecraft account \"{(await core.minecraft.request.get_profile_uuid((unverified_data['minecraft_uuid'])))['name']}\".",
 				color = ctx.author.color
 			)
 			unverified_embed.set_footer(
-				text = f"UUID was {(await core.minecraft.request.get_profile_uuid(unverified_data[0]['minecraft_uuid']))['uuid']}"
+				text = f"UUID was {(await core.minecraft.request.get_profile_uuid(unverified_data['minecraft_uuid']))['uuid']}"
 			)
 			await ctx.send(embed = unverified_embed)
 		except NameError:

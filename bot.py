@@ -27,7 +27,7 @@ import core.config.config
 import datetime
 import discord
 from discord.ext import commands
-import core.config.guild
+import core.config.guilds
 import logging
 import os
 import sys
@@ -47,7 +47,7 @@ error_log_channel = core.config.config.error_log_channel
 async def get_prefix(bot, message):
 	if isinstance(message.channel, discord.DMChannel):
 		return commands.when_mentioned_or(core.config.config.default_prefix, "myaer", "Myaer")(bot, message)
-	guild_config = await core.config.guild.get_config(message.guild.id)
+	guild_config = await core.config.guilds.get_config(message.guild.id)
 	if guild_config:
 		prefix = guild_config["prefix"] if guild_config.get("prefix") else core.config.config.default_prefix
 	else:

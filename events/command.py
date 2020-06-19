@@ -35,9 +35,15 @@ class OnCommand(commands.Cog):
 
 	@commands.Cog.listener()
 	async def on_command(self, ctx):
-		if (str(ctx.command) in uses_verify) and (not (await core.minecraft.verification.verification.find_uuid(ctx.author.id))) and "verify" not in str(ctx.command):
-			if random.randint(0, 100) < 15: # some percent chance that this will be sent
-				await ctx.send("**__TIP__**: Verify with `/mc verify <ign>` to skip having to add your IGN when you stat check!")
+		if (str(ctx.command) in uses_verify) and "verify" not in str(ctx.command):
+			user_config = await core.config.users.get_config(ctx.author.id)
+			if user_config:
+				valid = False if (await core.config.users.get_config(ctx.author.id)).get("minecraft_uuid", None) else True
+			else:
+				valid = True
+			if valid:
+				if random.randint(0, 100) < 50: # some percent chance that this will be sent
+					await ctx.send("**__NOTE__**: If you suddenly find yourself unverified, it is because the data structure for the verification database was remade, and the database was lost in the process. If you have any questions or would like a further explanation, join my official Discord server at <https://inv.wtf/myerfire>")
 
 def setup(bot):
 	bot.add_cog(OnCommand(bot))
