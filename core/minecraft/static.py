@@ -107,7 +107,7 @@ async def hypixel_name_handler_no_database(ctx, player, *, get_guild: bool = Fal
 		await ctx.send(embed = nameerror_embed)
 		return
 	try:
-		player_json = await core.minecraft.hypixel.player.get_player_data(player_uuid, get_guild = get_guild)
+		player_json = await core.minecraft.hypixel.player.get_player_data(player_uuid, use_cache = False, get_guild = get_guild)
 		player_data = {
 			"player_formatted_name" : player_name,
 			"minecraft_uuid" : player_uuid
