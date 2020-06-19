@@ -30,12 +30,11 @@ import discord
 import typing
 import re
 
-
 class Snipes(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 		self.snipes = {}
-		self.edit_snipess = {}
+		self.edit_snipes = {}
 
 	async def snipe_embed(self, context_channel, message, user, edited = False):
 		if not message.system_content and message.embeds and message.author.bot:
@@ -43,6 +42,10 @@ class Snipes(commands.Cog):
 		msg = None
 		lines = []
 		color = message.author.color
+		embed = discord.Embed(
+			color = color,
+			timestamp = message.created_at
+		)
 		if message.system_content:
 			urlre = r"((?:https:\/\/|http:\/\/)[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/\/=]*(?:\.png|\.jpg|\.jpeg|\.gif|\.gifv|\.webp)))"
 			search = re.search(urlre, message.system_content)
@@ -97,14 +100,14 @@ class Snipes(commands.Cog):
 		if not before.guild:
 			return
 		try:
-			self.edit_snipess[before.guild.id][before.author.id] = before
+			self.edit_snipes[before.guild.id][before.author.id] = before
 		except KeyError:
-			self.edit_snipess[before.guild.id] = {before.author.id: before}
+			self.edit_snipes[before.guild.id] = {before.author.id: before}
 		if before.guild and not before.author.bot:
 			try:
-				self.edit_snipess[before.guild.id][before.channel.id] = before
+				self.edit_snipes[before.guild.id][before.channel.id] = before
 			except KeyError:
-				self.edit_snipess[before.guild.id] = {before.channel.id: before}
+				self.edit_snipes[before.guild.id] = {before.channel.id: before}
 
 	@commands.command(name = "snipe")
 	async def snipe(self, ctx, *, target: typing.Union[discord.Member, discord.TextChannel] = None):
@@ -148,7 +151,7 @@ class Snipes(commands.Cog):
 		if not target:
 			target = ctx.channel
 
-		snipetype = self.edit_snipess
+		snipetype = self.edit_snipes
 
 		guild_snipes = snipetype.get(ctx.guild.id, None)
 		if not guild_snipes:
