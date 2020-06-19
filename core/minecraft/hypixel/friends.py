@@ -28,6 +28,7 @@ import ratelimit
 import core.minecraft.request
 import core.minecraft.hypixel.request
 import core.minecraft.hypixel.static
+import time
 
 async def get_friends(uuid):
 	friends_cache = await core.caches.friends.find_friends_data(uuid)
