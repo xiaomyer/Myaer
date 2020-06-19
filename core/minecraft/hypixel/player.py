@@ -30,15 +30,15 @@ import core.minecraft.hypixel.request
 import core.minecraft.hypixel.static
 import time
 
-async def get_player_data(uuid, *, use_cache: bool = False, get_guild: bool = False, get_friends: bool = False):
-	if use_cache:
+async def get_player_data(uuid, *, use_cache: bool = True, get_guild: bool = False, get_friends: bool = False):
+	if not use_cache:
+		valid = False
+	else:
 		player_cache = await core.caches.players.find_player_data(uuid)
 		if player_cache: # returns cached data only if it contains all the requested information
 			valid = True if ((not get_guild) and (not get_friends) or (get_friends and player_cache["data"]["friends"]) or (get_guild and player_cache["data"]["guild_data"])) and (time.time()) - player_cache["time"] < 1800 else False
 		else:
 			valid = False
-	else:
-		valid = False
 	if valid:
 		return player_cache["data"]
 	else:
