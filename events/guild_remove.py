@@ -23,12 +23,12 @@ SOFTWARE.
 """
 
 from discord.ext import commands
-import core.config
+import core.config.config
 import discord
 import random
 import core.minecraft.verification.verification
 
-guilds_log_channel = core.config.guilds_log_channel
+guilds_log_channel = core.config.config.guilds_log_channel
 
 class OnGuildRemove(commands.Cog):
 	def __init__(self, bot):

@@ -23,23 +23,23 @@ SOFTWARE.
 """
 
 from discord.ext import commands
-import core.config
+import core.config.config
 import discord
-import core.prefix
+import core.config.guild
 from tinydb import TinyDB, Query, where
 
-class Prefix(commands.Cog):
+class Config(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 
 	@commands.group(name = "prefix", invoke_without_command = True)
 	@commands.guild_only()
 	async def prefix(self, ctx):
-		db_data = await core.prefix.get_prefix(ctx.guild.id)
-		prefix = db_data[0]["prefix"] if db_data else None
+		config = await core.config.guild.get_config(ctx.guild.id)
+		prefix = config.get("prefix", None) if config else None
 		prefix_embed = discord.Embed(
 			name = "Prefix",
-			description = f"This server's current prefix is `{prefix}`" if prefix else f"This server is using the default prefix, `{core.config.default_prefix}`"
+			description = f"This server's current prefix is `{prefix}`" if prefix else f"This server is using the default prefix, `{core.config.config.default_prefix}`"
 		)
 		await ctx.send(embed = prefix_embed)
 
@@ -47,14 +47,14 @@ class Prefix(commands.Cog):
 	@commands.has_guild_permissions(manage_guild = True)
 	@commands.guild_only()
 	async def set_prefix(self, ctx, prefix):
-		if prefix == core.config.default_prefix: # cannot set to default prefix
+		if prefix == core.config.config.default_prefix: # cannot set to default prefix
 			default_embed = discord.Embed(
 				name = "Cannot set prefix to default",
 				description = "You cannot set a guild's custom prefix to the default prefix"
 			)
 			await ctx.send(embed = default_embed)
 		elif len(prefix) < 10:
-			await core.prefix.set_prefix(ctx.guild.id, prefix)
+			await core.config.guild.set_key(ctx.guild.id, "prefix", prefix)
 			set_embed = discord.Embed(
 				name = "Set prefix",
 				description = f"Set this server's prefix to `{prefix}`"
@@ -71,13 +71,18 @@ class Prefix(commands.Cog):
 	@commands.has_guild_permissions(manage_guild = True)
 	@commands.guild_only()
 	async def reset_prefix(self, ctx):
-		reset_data = await core.prefix.reset_prefix(ctx.guild.id)
-		reset_embed = discord.Embed(
-			name = "Reset prefix",
-			description = f"Reset this server's prefix from `{reset_data[0]['prefix']}` to `{core.config.default_prefix}`"
-		)
-		await ctx.send(embed = reset_embed)
+		reset_data = await core.config.guild.reset_key(ctx.guild.id, "prefix")
+		if reset_data:
+			reset_embed = discord.Embed(
+				description = f"Reset this server's prefix from `{reset_data['prefix']}` to `{core.config.config.default_prefix}`"
+			)
+			await ctx.send(embed = reset_embed)
+		else:
+			not_set_embed = discord.Embed(
+				description = f"This server's prefix is already the default, `{core.config.config.default_prefix}`"
+			)
+			await ctx.send(embed = not_set_embed)
 
 def setup(bot):
-	bot.add_cog(Prefix(bot))
-	print("Reloaded cogs.prefix")
+	bot.add_cog(Config(bot))
+	print("Reloaded cogs.config")

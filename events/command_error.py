@@ -24,13 +24,13 @@ SOFTWARE.
 
 import discord
 from discord.ext import commands
-import core.config
+import core.config.config
 import datetime
 import humanfriendly
 import sys
 import traceback
 
-error_log_channel = core.config.error_log_channel
+error_log_channel = core.config.config.error_log_channel
 
 class CommandError(commands.Cog):
 	def __init(self, bot):

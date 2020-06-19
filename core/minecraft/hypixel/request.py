@@ -23,7 +23,7 @@ SOFTWARE.
 """
 
 import aiohttp
-import core.config
+import core.config.config
 from ratelimit import limits
 import core.minecraft.request
 
@@ -33,7 +33,7 @@ hypixel_api = "https://api.hypixel.net/"
 async def get_player(player):
 	uuid = (await core.minecraft.request.get_profile(player))["uuid"] # &name= is deprecated for the Hypixel API, so convert name to UUID with Mojang API
 	async with aiohttp.ClientSession() as session:
-		raw = await session.get(f"{hypixel_api}player?key={core.config.hypixel_api_key}&uuid={uuid}")
+		raw = await session.get(f"{hypixel_api}player?key={core.config.config.hypixel_api_key}&uuid={uuid}")
 		player_json = await raw.json()
 	if player_json["success"] and player_json["player"]:
 		return player_json
@@ -43,7 +43,7 @@ async def get_player(player):
 @limits(calls = 100, period = 60) # hypixel ratelimit is 120/min, this is to be safe
 async def get_player_uuid(uuid):
 	async with aiohttp.ClientSession() as session:
-		raw = await session.get(f"{hypixel_api}player?key={core.config.hypixel_api_key}&uuid={uuid.replace('-','')}")
+		raw = await session.get(f"{hypixel_api}player?key={core.config.config.hypixel_api_key}&uuid={uuid.replace('-','')}")
 		player_json = await raw.json()
 		if player_json["success"] and player_json["player"]:
 			return player_json
@@ -53,7 +53,7 @@ async def get_player_uuid(uuid):
 @limits(calls = 100, period = 60) # hypixel ratelimit is 120/min, this is to be safe
 async def get_leaderboards():
 	async with aiohttp.ClientSession() as session:
-		raw = await session.get(f"{hypixel_api}leaderboards?key={core.config.hypixel_api_key}")
+		raw = await session.get(f"{hypixel_api}leaderboards?key={core.config.config.hypixel_api_key}")
 		leaderboards_json = await raw.json()
 	if leaderboards_json["success"]:
 		return leaderboards_json
@@ -63,7 +63,7 @@ async def get_leaderboards():
 @limits(calls = 100, period = 60) # hypixel ratelimit is 120/min, this is to be safe
 async def get_guild_by_uuid(uuid):
 	async with aiohttp.ClientSession() as session:
-		raw = await session.get(f"{hypixel_api}guild?key={core.config.hypixel_api_key}&player={uuid}")
+		raw = await session.get(f"{hypixel_api}guild?key={core.config.config.hypixel_api_key}&player={uuid}")
 		player_guild_json = await raw.json()
 	if player_guild_json["success"] and player_guild_json["guild"]:
 		return player_guild_json
@@ -73,7 +73,7 @@ async def get_guild_by_uuid(uuid):
 @limits(calls = 100, period = 60) # hypixel ratelimit is 120/min, this is to be safe
 async def get_guild_by_name(guild):
 	async with aiohttp.ClientSession() as session:
-		raw = await session.get(f"{hypixel_api}guild?key={core.config.hypixel_api_key}&name={guild}")
+		raw = await session.get(f"{hypixel_api}guild?key={core.config.config.hypixel_api_key}&name={guild}")
 		player_guild_json = await raw.json()
 	if player_guild_json["success"] and player_guild_json["guild"]:
 		return player_guild_json
@@ -83,7 +83,7 @@ async def get_guild_by_name(guild):
 @limits(calls = 100, period = 60) # hypixel ratelimit is 120/min, this is to be safe
 async def get_friends_by_uuid(uuid):
 	async with aiohttp.ClientSession() as session:
-		raw = await session.get(f"{hypixel_api}friends?key={core.config.hypixel_api_key}&uuid={uuid}")
+		raw = await session.get(f"{hypixel_api}friends?key={core.config.config.hypixel_api_key}&uuid={uuid}")
 		player_friends_json = await raw.json()
 	if player_friends_json["success"] and player_friends_json["records"]:
 		return player_friends_json

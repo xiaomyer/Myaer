@@ -33,8 +33,8 @@ leaderboards_cache_db_cache = leaderboards_cache_db
 players_cache_db = TinyDB("core/caches/players.json")
 players_cache_db_cache = players_cache_db
 
-prefix_db = TinyDB("core/prefixes.json")
-prefix_db_cache = prefix_db
+guild_db = TinyDB("core/config/guild.json")
+guild_db_cache = guild_db
 
 verified_db = TinyDB("core/minecraft/verification/verified.json")
 verified_db_cache = verified_db

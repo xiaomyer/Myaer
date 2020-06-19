@@ -23,15 +23,15 @@ SOFTWARE.
 """
 
 import core.caches.static
-import core.config
+import core.config.config
 import datetime
 import discord
 from discord.ext import commands
+import core.config.guild
 import logging
 import os
 import sys
 import traceback
-from tinydb import TinyDB, Query, where
 
 logger = logging.getLogger("discord")
 logger.setLevel(logging.INFO)
@@ -42,13 +42,16 @@ logger.addHandler(handler)
 time_format = "%A, %b %d, %Y - %m/%d/%Y - %I:%M:%S %p"
 program_start_time = datetime.datetime.now()
 os.environ["JISHAKU_NO_UNDERSCORE"] = "True"
-error_log_channel = core.config.error_log_channel
+error_log_channel = core.config.config.error_log_channel
 
 async def get_prefix(bot, message):
 	if isinstance(message.channel, discord.DMChannel):
-		return commands.when_mentioned_or(core.config.default_prefix, "myaer", "Myaer")(bot, message)
-	prefix_data = core.caches.static.prefix_db_cache.search(where("guild_id") == message.guild.id)
-	prefix = prefix_data[0]["prefix"] if prefix_data else core.config.default_prefix
+		return commands.when_mentioned_or(core.config.config.default_prefix, "myaer", "Myaer")(bot, message)
+	guild_config = await core.config.guild.get_config(message.guild.id)
+	if guild_config:
+		prefix = guild_config["prefix"] if guild_config.get("prefix") else core.config.config.default_prefix
+	else:
+		prefix = core.config.config.default_prefix
 	return commands.when_mentioned_or(prefix, "myaer ", "Myaer ")(bot, message)
 
 bot = commands.Bot(
@@ -65,7 +68,7 @@ failed_extensions = []
 @bot.event
 async def on_ready():
 	ready_time = datetime.datetime.now()
-	status_log_channel = bot.get_channel(core.config.status_log_channel)
+	status_log_channel = bot.get_channel(core.config.config.status_log_channel)
 	error_log_channel_object = bot.get_channel(error_log_channel)
 	print(f"Connection with Discord established at {ready_time.strftime(time_format)}")
 	for failed_extension in failed_extensions:
@@ -102,4 +105,4 @@ if __name__ == "__main__":
 			error_traceback = "".join(traceback.format_exception(type(e), e, e.__traceback__))
 			failed_extensions.append({"extension" : extension, "traceback" : error_traceback})
 
-bot.run(core.config.token)
+bot.run(core.config.config.token)

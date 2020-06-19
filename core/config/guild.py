@@ -22,30 +22,31 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from discord.ext import commands, menus
-import discord
+import core.caches.static
+from tinydb import Query, where
+from tinydb.operations import delete
 
-class Menu(menus.ListPageSource):
-	def __init__(self, data):
-		super().__init__(data, per_page=10)
+async def get_config(guild_id):
+	result = core.caches.static.guild_db_cache.search(where("guild_id") == guild_id)
+	if result:
+		return result[0]
+	else: return None
 
-	async def format_page(self, menu, entries):
-		offset = menu.current_page * self.per_page
-		page_embed = discord.Embed(
-			name = "Page",
-			description = '\n'.join(f'{i}. {v}' for i, v in enumerate(entries, start=offset))
-		)
-		return page_embed
+async def set_key(guild_id, key, data):
+	Guilds = Query()
+	result = core.caches.static.guild_db_cache.search(where("guild_id") == guild_id)
+	if result:
+		core.caches.static.guild_db_cache.update({f"{key}" : data}, Guilds.guild_id == guild_id)
+	else:
+		core.caches.static.guild_db_cache.insert({"guild_id" : guild_id, f"{key}" : data})
 
-class MenusTest(commands.Cog):
-	def __init__(self, bot):
-		self.bot = bot
-
-	@commands.command(name = "menutest")
-	async def menustest(self, ctx):
-		pages = menus.MenuPages(source=Menu(range(1, 100)), clear_reactions_after=True)
-		await pages.start(ctx)
-
-def setup(bot):
-	bot.add_cog(MenusTest(bot))
-	print("Reloaded cogs.menus_test")
+async def reset_key(guild_id, key):
+	Guilds = Query()
+	result = core.caches.static.guild_db_cache.search(where("guild_id") == guild_id)
+	if result:
+		saved_data = result if result[0].get(f"{key}", None) else None
+		if saved_data:
+			core.caches.static.guild_db_cache.update(delete(f"{key}"), Guilds.guild_id == guild_id)
+			return saved_data[0] if saved_data[0].get(f"{key}", None) else None
+		else: return None
+	else: return None
