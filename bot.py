@@ -59,7 +59,7 @@ bot = commands.Bot(
 	owner_id = 368780147563823114
 )
 
-extensions = [os.path.join(dp, f) for dp, dn, fn in os.walk("cogs") for f in fn] + [os.path.join(dp, f) for dp, dn, fn in os.walk("commands") for f in fn] + [os.path.join(dp, f) for dp, dn, fn in os.walk("events") for f in fn] + ["jishaku"]
+extensions = [os.path.join(dp, f) for dp, dn, fn in os.walk("cogs") for f in fn] + [os.path.join(dp, f) for dp, dn, fn in os.walk("commands") for f in fn] + [os.path.join(dp, f) for dp, dn, fn in os.walk("modules") for f in fn] + [os.path.join(dp, f) for dp, dn, fn in os.walk("events") for f in fn] + ["jishaku"]
 for file in extensions[:]:
   if not file.endswith(".py") and file != "jishaku":
     extensions.remove(file)
