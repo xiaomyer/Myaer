@@ -70,8 +70,8 @@ async def get_player_data(uuid, *, use_cache: bool = True, get_guild: bool = Fal
 	if get_status: # only get status if necessary, because it's another request
 		try:
 			player_status_json = await core.minecraft.hypixel.status.get_status(uuid)
-#		except NameError:
-#			player_status_json = None
+		except NameError:
+			player_status_json = None
 		except ratelimit.RateLimitException:
 			raise ratelimit.RateLimitException
 	else:

@@ -27,6 +27,7 @@ import datetime
 import discord
 import humanfriendly
 import math
+from core.paginators import MinecraftHypixelFriends
 import core.static.static
 import core.minecraft.static
 import core.minecraft.hypixel.static.static
@@ -51,7 +52,7 @@ class Hypixel(commands.Cog):
 			url = core.minecraft.hypixel.static.static.hypixel_icons["Main"]
 		)
 		player_info_embed.set_footer(
-			text = self.bot.mc_heads_api,
+			text = "Session data may not be 100% accurate as the data is cached",
 			icon_url = f"{self.bot.mc_heads_api}avatar/{player_data['minecraft_uuid']}/100"
 		)
 		player_info_embed.add_field(
@@ -75,7 +76,7 @@ class Hypixel(commands.Cog):
 			value =
 f"""{datetime.date.fromtimestamp((player_json['login_times']['last']) / 1000)}
 ({(humanfriendly.format_timespan(((datetime.datetime.now()) - (datetime.datetime.fromtimestamp((player_json['login_times']['last']) / 1000))), max_units = 2))} ago)
-{f"(currently in a {player_json['status']['session']['game']} {player_json['status']['session']['instance']})" if player_json["status"] else "(currently offline)"}"""
+{f"[currently in a {player_json['status']['session']['game']} {player_json['status']['session']['instance']}]" if player_json["status"] else "[currently offline]"}"""
 		)
 		if player_json['guild_data']: # checks if player is in a guild
 			player_info_embed.add_field(
@@ -84,6 +85,39 @@ f"""{datetime.date.fromtimestamp((player_json['login_times']['last']) / 1000)}
 				inline = False
 			)
 		await ctx.send(embed = player_info_embed)
+
+	@hypixel.command(name = "friends")
+	@commands.max_concurrency(1, per = commands.BucketType.user)
+	async def friends(self, ctx, *args):
+		await ctx.trigger_typing()
+		loading_embed = discord.Embed(
+			description = "The friends list command may take a very long time depending on whether or not cached data is available. If you end up reading this message, please be patient"
+		)
+		message = await ctx.send(embed = loading_embed)
+		player_info = await core.minecraft.static.hypixel_name_handler(ctx, args, get_friends = True)
+		if player_info:
+			player_data = player_info["player_data"]
+			player_json = player_info["player_json"]
+		else: return
+		friends_string = []
+		for friend in player_json["friends"]:
+			friends_string.append(f"""{discord.utils.escape_markdown(f"[{str(friend['rank_data']['rank'])}] {str(friend['name'])}" if (friend["rank_data"]["rank"]) else (str(friend["name"])))} - *on {datetime.date.fromtimestamp((friend["friended_at"]) / 1000)}*""")
+		friends_paginator = menus.MenuPages(source = MinecraftHypixelFriends(friends_string, player_json), clear_reactions_after = True)
+		await message.delete()
+		await friends_paginator.start(ctx)
+
+	@hypixel.command(name = "status", aliases = ["session"])
+	async def status(self, ctx, *args):
+		player_info = await core.minecraft.static.hypixel_name_handler(ctx, args, use_cache = False, get_status = True)
+		if player_info:
+			player_data = player_info["player_data"]
+			player_json = player_info["player_json"]
+		else: return
+		player_status_embed = discord.Embed(
+			description = f"""{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])} {f'is currently in a {player_json["status"]["session"]["game"]} {player_json["status"]["session"]["instance"]} server' if player_json["status"]["online"] else 'is currently offline'}""",
+			color = int((player_json["rank_data"])["color"], 16) # 16 - hex value
+		)
+		await ctx.send(embed = player_status_embed)
 
 def setup(bot):
 	bot.add_cog(Hypixel(bot))

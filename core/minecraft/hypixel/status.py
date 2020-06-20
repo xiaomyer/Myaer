@@ -43,5 +43,4 @@ async def get_status(uuid):
 			"instance" : status_json.get("session", {}).get("mode", "")
 		}
 	}
-	print(status)
 	return status
