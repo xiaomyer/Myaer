@@ -276,32 +276,32 @@ class DuelsStats(commands.Cog):
 		)
 		player_uhc_stats_embed.add_field(
 			name = f"__**{core.static.arrow_bullet_point} Winstreak**__",
-			value = f"{(player_json['duels']['uhc']['winstreak']):,d}",
+			value = f"{(player_json['duels']['uhc']['solo']['winstreak']):,d}",
 			inline = False
 		)
 		player_uhc_stats_embed.add_field(
 			name = f"__**{core.static.arrow_bullet_point} Wins**__",
-			value = f"{(player_json['duels']['uhc']['wins']):,d}"
+			value = f"{(player_json['duels']['uhc']['solo']['wins']):,d}"
 		)
 		player_uhc_stats_embed.add_field(
 			name = f"__**{core.static.arrow_bullet_point} Losses**__",
-			value = f"{(player_json['duels']['uhc']['losses']):,d}"
+			value = f"{(player_json['duels']['uhc']['solo']['losses']):,d}"
 		)
 		player_uhc_stats_embed.add_field(
 			name = f"__**{core.static.arrow_bullet_point} WLR**__",
-			value = f"{await core.minecraft.hypixel.static.get_ratio((player_json['duels']['uhc']['wins']), ((player_json['duels']['uhc']['losses'])))}"
+			value = f"{await core.minecraft.hypixel.static.get_ratio((player_json['duels']['uhc']['solo']['wins']), ((player_json['duels']['uhc']['solo']['losses'])))}"
 		)
 		player_uhc_stats_embed.add_field(
 			name = f"__**{core.static.arrow_bullet_point} Kills**__",
-			value = f"{(player_json['duels']['uhc']['kills']):,d}"
+			value = f"{(player_json['duels']['uhc']['solo']['kills']):,d}"
 		)
 		player_uhc_stats_embed.add_field(
 			name = f"__**{core.static.arrow_bullet_point} Deaths**__",
-			value = f"{(player_json['duels']['uhc']['deaths']):,d}"
+			value = f"{(player_json['duels']['uhc']['solo']['deaths']):,d}"
 		)
 		player_uhc_stats_embed.add_field(
 			name = f"__**{core.static.arrow_bullet_point} KDR**__",
-			value = f"{await core.minecraft.hypixel.static.get_ratio((player_json['duels']['uhc']['kills']), ((player_json['duels']['uhc']['deaths'])))}"
+			value = f"{await core.minecraft.hypixel.static.get_ratio((player_json['duels']['uhc']['solo']['kills']), ((player_json['duels']['uhc']['solo']['deaths'])))}"
 		)
 		await ctx.send(embed = player_uhc_stats_embed)
 
