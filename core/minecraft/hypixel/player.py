@@ -27,16 +27,17 @@ import core.minecraft.hypixel.guild
 import core.caches.players
 import ratelimit
 import core.minecraft.hypixel.request
-import core.minecraft.hypixel.static
+import core.minecraft.hypixel.static.static
+import core.minecraft.hypixel.status
 import time
 
-async def get_player_data(uuid, *, use_cache: bool = True, get_guild: bool = False, get_friends: bool = False):
+async def get_player_data(uuid, *, use_cache: bool = True, get_guild: bool = False, get_friends: bool = False, get_status: bool = False):
 	if not use_cache:
 		valid = False
 	else:
 		player_cache = await core.caches.players.find_player_data(uuid)
 		if player_cache: # returns cached data only if it contains all the requested information
-			valid = True if ((not get_guild) and (not get_friends) or (get_friends and player_cache["data"]["friends"]) or (get_guild and player_cache["data"]["guild_data"])) and (time.time()) - player_cache["time"] < 1800 else False
+			valid = True if ((not get_guild) and (not get_friends) or (get_friends and player_cache["data"]["friends"]) or (get_guild and player_cache["data"]["guild_data"])) and (time.time()) - player_cache["time"] < 300 else False # cached for 5 minutes
 		else:
 			valid = False
 	if valid:
@@ -66,15 +67,25 @@ async def get_player_data(uuid, *, use_cache: bool = True, get_guild: bool = Fal
 			raise ratelimit.RateLimitException
 	else:
 		player_friends_json = None
+	if get_status: # only get status if necessary, because it's another request
+		try:
+			player_status_json = await core.minecraft.hypixel.status.get_status(uuid)
+#		except NameError:
+#			player_status_json = None
+		except ratelimit.RateLimitException:
+			raise ratelimit.RateLimitException
+	else:
+		player_status_json = None
 
 	player = { # This thing is pretty torture
 		"name" : player_json.get("player", {}).get("displayname", ""),
-		"level_data" : (await core.minecraft.hypixel.static.get_network_level_data(player_json.get("player", {}).get("networkExp", 0))),
+		"level_data" : (await core.minecraft.hypixel.static.static.get_network_level_data(player_json.get("player", {}).get("networkExp", 0))),
 		"karma" : player_json.get("player", {}).get("karma", 0),
 		"achievement_points" : player_json.get("player", {}).get("achievementPoints", 0),
-		"rank_data" : (await core.minecraft.hypixel.static.get_rank_data((player_json.get("player", {}).get("rank", None)), (player_json.get("player", {}).get("prefix", None)), (player_json.get("player", {}).get("monthlyPackageRank", None)), (player_json.get("player", {}).get("newPackageRank", None)), (player_json.get("packageRank", None)))),
-		"guild_data" : player_guild_json if player_guild_json else None,
-		"friends" : player_friends_json if player_friends_json else None,
+		"rank_data" : (await core.minecraft.hypixel.static.static.get_rank_data((player_json.get("player", {}).get("rank", None)), (player_json.get("player", {}).get("prefix", None)), (player_json.get("player", {}).get("monthlyPackageRank", None)), (player_json.get("player", {}).get("newPackageRank", None)), (player_json.get("packageRank", None)))),
+		"guild_data" : player_guild_json,
+		"friends" : player_friends_json,
+		"status" : player_status_json,
 		"login_times" : {
 			"first" : player_json.get("player", {}).get("firstLogin", 0),
 			"last" : player_json.get("player", {}).get("lastLogin", 0)
@@ -624,7 +635,7 @@ async def get_player_data(uuid, *, use_cache: bool = True, get_guild: bool = Fal
 			"shots_fired" : player_json.get("player", {}).get("stats", {}).get("Paintball", {}).get("shots_fired", 0)
 		},
 		"skywars" : {
-			"level_data" : (await core.minecraft.hypixel.static.get_skywars_level_data_from_experience((player_json.get("player", {}).get("stats", {}).get("SkyWars", {}).get("skywars_experience", 0)))),
+			"level_data" : (await core.minecraft.hypixel.static.static.get_skywars_level_data_from_experience((player_json.get("player", {}).get("stats", {}).get("SkyWars", {}).get("skywars_experience", 0)))),
 			"coins" : player_json.get("player", {}).get("stats", {}).get("SkyWars", {}).get("coins", 0),
 			"tokens" : player_json.get("player", {}).get("stats", {}).get("SkyWars", {}).get("cosmetic_tokens", 0),
 			"souls" : player_json.get("player", {}).get("stats", {}).get("SkyWars", {}).get("souls", 0),

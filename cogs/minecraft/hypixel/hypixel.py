@@ -27,11 +27,9 @@ import datetime
 import discord
 import humanfriendly
 import math
-import core.static
+import core.static.static
 import core.minecraft.static
-import core.minecraft.hypixel.static
-
-mc_heads_api = "https://mc-heads.net/"
+import core.minecraft.hypixel.static.static
 
 class Hypixel(commands.Cog):
 	def __init__(self, bot):
@@ -40,7 +38,7 @@ class Hypixel(commands.Cog):
 	@commands.group(name = "hypixel", aliases = ["hp"], invoke_without_command = True)
 	@commands.max_concurrency(1, per = commands.BucketType.user)
 	async def hypixel(self, ctx, *args):
-		player_info = await core.minecraft.static.hypixel_name_handler(ctx, args, get_guild = True)
+		player_info = await core.minecraft.static.hypixel_name_handler(ctx, args, get_guild = True, get_status = True)
 		if player_info:
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]
@@ -50,37 +48,38 @@ class Hypixel(commands.Cog):
 			color = int((player_json["rank_data"])["color"], 16) # 16 - hex value
 		)
 		player_info_embed.set_thumbnail(
-			url = core.minecraft.hypixel.static.hypixel_icons["Main"]
+			url = core.minecraft.hypixel.static.static.hypixel_icons["Main"]
 		)
 		player_info_embed.set_footer(
-			text = mc_heads_api,
-			icon_url = f"{mc_heads_api}avatar/{player_data['minecraft_uuid']}/100"
+			text = self.bot.mc_heads_api,
+			icon_url = f"{self.bot.mc_heads_api}avatar/{player_data['minecraft_uuid']}/100"
 		)
 		player_info_embed.add_field(
-			name = f"__**{core.static.arrow_bullet_point} Level**__",
+			name = f"__**{core.static.static.arrow_bullet_point} Level**__",
 			value = f"{player_json['level_data']['level']} ({player_json['level_data']['percentage']}% to {math.trunc((player_json['level_data']['level']) + 1)})"
 		)
 		player_info_embed.add_field(
-			name = f"__**{core.static.arrow_bullet_point} Karma**__",
+			name = f"__**{core.static.static.arrow_bullet_point} Karma**__",
 			value = f"{(player_json['karma']):,d}"
 		)
 		player_info_embed.add_field(
-			name = f"__**{core.static.arrow_bullet_point} Achievement Points**__",
+			name = f"__**{core.static.static.arrow_bullet_point} Achievement Points**__",
 			value = f"{(player_json['achievement_points']):,d}"
 		)
 		player_info_embed.add_field(
-			name = f"__**{core.static.arrow_bullet_point} First Login**__",
+			name = f"__**{core.static.static.arrow_bullet_point} First Login**__",
 			value = f"{datetime.date.fromtimestamp((player_json['login_times']['first']) / 1000)}"
 		)
 		player_info_embed.add_field(
-			name = f"__**{core.static.arrow_bullet_point} Last Login**__",
+			name = f"__**{core.static.static.arrow_bullet_point} Last Login**__",
 			value =
 f"""{datetime.date.fromtimestamp((player_json['login_times']['last']) / 1000)}
-({(humanfriendly.format_timespan(((datetime.datetime.now()) - (datetime.datetime.fromtimestamp((player_json['login_times']['last']) / 1000))), max_units = 2))} ago)"""
+({(humanfriendly.format_timespan(((datetime.datetime.now()) - (datetime.datetime.fromtimestamp((player_json['login_times']['last']) / 1000))), max_units = 2))} ago)
+{f"(currently in a {player_json['status']['session']['game']} {player_json['status']['session']['instance']})" if player_json["status"] else "(currently offline)"}"""
 		)
 		if player_json['guild_data']: # checks if player is in a guild
 			player_info_embed.add_field(
-				name = f"__**{core.static.arrow_bullet_point} Guild**__",
+				name = f"__**{core.static.static.arrow_bullet_point} Guild**__",
 				value = f"""{discord.utils.escape_markdown(f"{player_json['guild_data']['name']} [{player_json['guild_data']['tag']}]" if player_json["guild_data"]["tag"] else f"{player_json['guild_data']['name']}")}""", # checks if player's guild has a tag
 				inline = False
 			)

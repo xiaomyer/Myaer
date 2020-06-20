@@ -42,11 +42,11 @@ class OnGuildJoin(commands.Cog):
 			title = f"**Joined Guild {discord.utils.escape_markdown(f'{guild.name}')}**"
 		)
 		guild_join_embed.add_field(
-			name = f"__**{core.static.arrow_bullet_point} ID**__",
+			name = f"__**{core.static.static.arrow_bullet_point} ID**__",
 			value = f"{guild.id}"
 		)
 		guild_join_embed.add_field(
-			name = f"__**{core.static.arrow_bullet_point} Members**__",
+			name = f"__**{core.static.static.arrow_bullet_point} Members**__",
 			value = f"{(len(guild.members)):,d}"
 		)
 		guild_join_embed.set_thumbnail(

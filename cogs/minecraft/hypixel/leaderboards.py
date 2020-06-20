@@ -28,8 +28,8 @@ import datetime
 import discord
 import humanfriendly
 import core.minecraft.hypixel.leaderboards
-import core.static
-import core.minecraft.hypixel.static
+import core.static.static
+import core.minecraft.hypixel.static.static
 import sys
 import traceback
 import time
@@ -62,7 +62,7 @@ class LeaderboardCommands(commands.Cog):
 			bedwars_level_leaderboard_string = []
 			for player in (leaderboards_json["bedwars"]["level"]):
 				player_json = await core.minecraft.hypixel.player.get_player_data(player)
-				bedwars_level_leaderboard_string.append(f"""#{index + 1} - {f"[{player_json['bedwars']['star']}{core.static.star}] [{player_json['rank_data']['rank']}] {player_json['name']}" if player_json["rank_data"]["rank"] else f"[{player_json['bedwars']['star']}{core.static.star} {player_json['name']}]"} - {(await core.minecraft.hypixel.static.get_ratio(player_json["bedwars"]["final_kills"], player_json["bedwars"]["final_deaths"]))} FKDR""",)
+				bedwars_level_leaderboard_string.append(f"""#{index + 1} - {f"[{player_json['bedwars']['star']}{core.static.static.star}] [{player_json['rank_data']['rank']}] {player_json['name']}" if player_json["rank_data"]["rank"] else f"[{player_json['bedwars']['star']}{core.static.static.star} {player_json['name']}]"} - {(await core.minecraft.hypixel.static.static.get_ratio(player_json["bedwars"]["final_kills"], player_json["bedwars"]["final_deaths"]))} FKDR""",)
 				index += 1
 		await core.caches.leaderboards.save_leaderboards_data("bedwars_level", bedwars_level_leaderboard_string)
 		joined_string = "\n".join(bedwars_level_leaderboard_string)
@@ -88,7 +88,7 @@ class LeaderboardCommands(commands.Cog):
 			bedwars_overall_wins_leaderboard_string = []
 			for player in (leaderboards_json["bedwars"]["wins"]["overall"]):
 				player_json = await core.minecraft.hypixel.player.get_player_data(player)
-				bedwars_overall_wins_leaderboard_string.append(f"""#{index + 1} - {f"[{player_json['bedwars']['star']}{core.static.star}] [{player_json['rank_data']['rank']}] {player_json['name']}" if player_json["rank_data"]["rank"] else f"[{player_json['bedwars']['star']}{core.static.star} {player_json['name']}]"} - {player_json['bedwars']['wins']} wins""")
+				bedwars_overall_wins_leaderboard_string.append(f"""#{index + 1} - {f"[{player_json['bedwars']['star']}{core.static.static.star}] [{player_json['rank_data']['rank']}] {player_json['name']}" if player_json["rank_data"]["rank"] else f"[{player_json['bedwars']['star']}{core.static.static.star} {player_json['name']}]"} - {player_json['bedwars']['wins']} wins""")
 				index += 1
 		await core.caches.leaderboards.save_leaderboards_data("bedwars_wins", bedwars_overall_wins_leaderboard_string)
 		joined_string = "\n".join(bedwars_overall_wins_leaderboard_string)
@@ -114,7 +114,7 @@ class LeaderboardCommands(commands.Cog):
 			bedwars_weekly_wins_leaderboard_string = []
 			for player in (leaderboards_json["bedwars"]["wins"]["weekly"]):
 				player_json = await core.minecraft.hypixel.player.get_player_data(player)
-				bedwars_weekly_wins_leaderboard_string.append(f"""#{index + 1} - {f"[{player_json['bedwars']['star']}{core.static.star}] [{player_json['rank_data']['rank']}] {player_json['name']}" if player_json["rank_data"]["rank"] else f"[{player_json['bedwars']['star']}{core.static.star}] {player_json['name']}"}""")
+				bedwars_weekly_wins_leaderboard_string.append(f"""#{index + 1} - {f"[{player_json['bedwars']['star']}{core.static.static.star}] [{player_json['rank_data']['rank']}] {player_json['name']}" if player_json["rank_data"]["rank"] else f"[{player_json['bedwars']['star']}{core.static.static.star}] {player_json['name']}"}""")
 				index += 1
 		await core.caches.leaderboards.save_leaderboards_data("bedwars_weekly_wins", bedwars_weekly_wins_leaderboard_string)
 		joined_string = "\n".join(bedwars_weekly_wins_leaderboard_string)
@@ -140,7 +140,7 @@ class LeaderboardCommands(commands.Cog):
 			bedwars_overall_finals_leaderboard_string = []
 			for player in (leaderboards_json["bedwars"]["finals"]["overall"]):
 				player_json = await core.minecraft.hypixel.player.get_player_data(player)
-				bedwars_overall_finals_leaderboard_string.append(f"""#{index + 1} - {f"[{player_json['bedwars']['star']}{core.static.star}] [{player_json['rank_data']['rank']}] {player_json['name']}" if player_json["rank_data"]["rank"] else f"[{player_json['bedwars']['star']}{core.static.star} {player_json['name']}]"} - {player_json['bedwars']['final_kills']} finals""")
+				bedwars_overall_finals_leaderboard_string.append(f"""#{index + 1} - {f"[{player_json['bedwars']['star']}{core.static.static.star}] [{player_json['rank_data']['rank']}] {player_json['name']}" if player_json["rank_data"]["rank"] else f"[{player_json['bedwars']['star']}{core.static.static.star} {player_json['name']}]"} - {player_json['bedwars']['final_kills']} finals""")
 				index += 1
 		await core.caches.leaderboards.save_leaderboards_data("bedwars_finals", bedwars_overall_finals_leaderboard_string)
 		joined_string = "\n".join(bedwars_overall_finals_leaderboard_string)
@@ -166,7 +166,7 @@ class LeaderboardCommands(commands.Cog):
 			bedwars_weekly_finals_leaderboard_string = []
 			for player in (leaderboards_json["bedwars"]["finals"]["weekly"]):
 				player_json = await core.minecraft.hypixel.player.get_player_data(player)
-				bedwars_weekly_finals_leaderboard_string.append(f"""#{index + 1} - {f"[{player_json['bedwars']['star']}{core.static.star}] [{player_json['rank_data']['rank']}] {player_json['name']}" if player_json["rank_data"]["rank"] else f"[{player_json['bedwars']['star']}{core.static.star} {player_json['name']}]"}""")
+				bedwars_weekly_finals_leaderboard_string.append(f"""#{index + 1} - {f"[{player_json['bedwars']['star']}{core.static.static.star}] [{player_json['rank_data']['rank']}] {player_json['name']}" if player_json["rank_data"]["rank"] else f"[{player_json['bedwars']['star']}{core.static.static.star} {player_json['name']}]"}""")
 				index += 1
 		await core.caches.leaderboards.save_leaderboards_data("bedwars_weekly_finals", bedwars_weekly_finals_leaderboard_string)
 		joined_string = "\n".join(bedwars_weekly_finals_leaderboard_string)

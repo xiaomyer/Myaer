@@ -27,7 +27,7 @@ import datetime
 import discord
 from core.paginators import MinecraftHypixelFriends
 import core.minecraft.static
-import core.minecraft.hypixel.static
+import core.minecraft.hypixel.static.static
 
 class Friends(commands.Cog):
 	def __init__(self, bot):
@@ -37,6 +37,10 @@ class Friends(commands.Cog):
 	@commands.max_concurrency(1, per = commands.BucketType.user)
 	async def friends(self, ctx, *args):
 		await ctx.trigger_typing()
+		loading_embed = discord.Embed(
+			description = "The friends list command may take a very long time depending on whether or not cached data is available. If you end up reading this message, please be patient"
+		)
+		message = await ctx.send(embed = loading_embed)
 		player_info = await core.minecraft.static.hypixel_name_handler(ctx, args, get_friends = True)
 		if player_info:
 			player_data = player_info["player_data"]
@@ -46,6 +50,7 @@ class Friends(commands.Cog):
 		for friend in player_json["friends"]:
 			friends_string.append(f"""{discord.utils.escape_markdown(f"[{str(friend['rank_data']['rank'])}] {str(friend['name'])}" if (friend["rank_data"]["rank"]) else (str(friend["name"])))} - *on {datetime.date.fromtimestamp((friend["friended_at"]) / 1000)}*""")
 		friends_paginator = menus.MenuPages(source = MinecraftHypixelFriends(friends_string, player_json), clear_reactions_after = True)
+		await message.delete()
 		await friends_paginator.start(ctx)
 
 def setup(bot):

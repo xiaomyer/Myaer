@@ -28,12 +28,9 @@ import discord
 import humanfriendly
 from core.paginators import MinecraftNameHistory
 import core.minecraft.request
-import core.static
+import core.static.static
 import core.minecraft.static
 import core.config.users
-
-crafatar_api = "https://crafatar.com/"
-mc_heads_api = "https://mc-heads.net/"
 
 class Minecraft(commands.Cog):
 	def __init__(self, bot):
@@ -72,7 +69,6 @@ class Minecraft(commands.Cog):
 		else: return
 		await ctx.channel.trigger_typing()
 		player_uuid_embed = discord.Embed(
-			name = "Player UUID",
 			description = f"{player_data['player_formatted_name']}\'s UUID is {player_data['minecraft_uuid']}.",
 			color = ctx.author.color
 		)
@@ -83,19 +79,19 @@ class Minecraft(commands.Cog):
 	async def skin(self, ctx, *args):
 		player_info = await core.minecraft.static.name_handler(ctx, args)
 		if player_info:
-			player_data = player_info["player_data"]
+			player_data = player_info
 		else: return
 		await ctx.channel.trigger_typing()
 		player_skin_embed = discord.Embed(
-			name = "Player skin",
 			title = f"**{player_data['player_formatted_name']}'s Minecraft Skin**",
+			description = f"[Raw Skin]({self.bot.surgeplay_api}skin/{player_data['minecraft_uuid']})",
 			color = ctx.author.color
 		)
 		player_skin_embed.set_image(
-			url = f"{mc_heads_api}body/{player_data['minecraft_uuid']}/1591285958", # don't ask me what the number is, idk either; i think it's the maximum size for images
+			url = f"{self.bot.surgeplay_api}full/256/{player_data['minecraft_uuid']}", # don't ask me what the number is, idk either; i think it's the maximum size for images
 		)
 		player_skin_embed.set_thumbnail(
-			url = f"{mc_heads_api}skin/{player_data['minecraft_uuid']}"
+			url = f"{self.bot.surgeplay_api}head/64/{player_data['minecraft_uuid']}"
 		)
 		await ctx.send(embed = player_skin_embed)
 

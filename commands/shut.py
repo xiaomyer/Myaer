@@ -23,37 +23,17 @@ SOFTWARE.
 """
 
 from discord.ext import commands
-import core.config.config
 import discord
-import random
-import core.minecraft.verification.verification
 
-guilds_log_channel = core.config.config.guilds_log_channel
-
-class OnGuildRemove(commands.Cog):
+class Shut(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 
-	@commands.Cog.listener()
-	async def on_guild_remove(self, guild):
-		guilds_log_channel_object = self.bot.get_channel(guilds_log_channel)
-		guild_remove_embed = discord.Embed(
-			name = "Left guild",
-			title = f"**Left Guild {discord.utils.escape_markdown(f'{guild.name}')}**"
-		)
-		guild_remove_embed.add_field(
-			name = f"__**{core.static.static.arrow_bullet_point} ID**__",
-			value = f"{guild.id}"
-		)
-		guild_remove_embed.add_field(
-			name = f"__**{core.static.static.arrow_bullet_point} Members**__",
-			value = f"{(len(guild.members)):,d}"
-		)
-		guild_remove_embed.set_thumbnail(
-			url = str(guild.icon_url_as(static_format="png", size=2048))
-		)
-		await guilds_log_channel_object.send(embed = guild_remove_embed)
+	@commands.command(name = "shut")
+	@commands.max_concurrency(1, per = commands.BucketType.user)
+	async def shut(self, ctx):
+		await ctx.send(file = discord.File("core/static/shut.png"))
 
 def setup(bot):
-	bot.add_cog(OnGuildRemove(bot))
-	print("Reloaded events.guild_remove")
+	bot.add_cog(Shut(bot))
+	print("Reloaded commands.shut")

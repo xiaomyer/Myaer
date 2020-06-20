@@ -25,9 +25,9 @@ SOFTWARE.
 from discord.ext import commands
 import discord
 import math
-import core.static
+import core.static.static
 import core.minecraft.static
-import core.minecraft.hypixel.static
+import core.minecraft.hypixel.static.static
 
 class SkywarsStats(commands.Cog):
 	def __init__(self, bot):
@@ -44,51 +44,51 @@ class SkywarsStats(commands.Cog):
 		else: return
 		player_stats_embed = discord.Embed(
 			title = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Skywars Stats**""",
-			color = int((await core.minecraft.hypixel.static.get_skywars_prestige_data(player_json["skywars"]["level_data"]["level"]))["prestige_color"], 16) # 16 - Hex value.
+			color = int((await core.minecraft.hypixel.static.static.get_skywars_prestige_data(player_json["skywars"]["level_data"]["level"]))["prestige_color"], 16) # 16 - Hex value.
 		)
 		player_stats_embed.set_thumbnail(
-			url = core.minecraft.hypixel.static.hypixel_icons["Skywars"]
+			url = core.minecraft.hypixel.static.static.hypixel_icons["Skywars"]
 		)
 		player_stats_embed.add_field(
-			name = f"__**{core.static.arrow_bullet_point} Level**__",
-			value = f"{player_json['skywars']['level_data']['level']} {core.static.star} ({player_json['skywars']['level_data']['percentage']}% to {math.trunc((player_json['skywars']['level_data']['level']) + 1)}) [{(await core.minecraft.hypixel.static.get_skywars_prestige_data(player_json['skywars']['level_data']['level']))['prestige']} Prestige]",
+			name = f"__**{core.static.static.arrow_bullet_point} Level**__",
+			value = f"{player_json['skywars']['level_data']['level']} {core.static.static.star} ({player_json['skywars']['level_data']['percentage']}% to {math.trunc((player_json['skywars']['level_data']['level']) + 1)}) [{(await core.minecraft.hypixel.static.static.get_skywars_prestige_data(player_json['skywars']['level_data']['level']))['prestige']} Prestige]",
 			inline = False
 		)
 		player_stats_embed.add_field(
-			name = f"__**{core.static.arrow_bullet_point} Coins**__",
+			name = f"__**{core.static.static.arrow_bullet_point} Coins**__",
 			value = f"{(player_json['skywars']['coins']):,d}"
 		)
 		player_stats_embed.add_field(
-			name = f"__**{core.static.arrow_bullet_point} Tokens**__",
+			name = f"__**{core.static.static.arrow_bullet_point} Tokens**__",
 			value = f"{(player_json['skywars']['tokens']):,d}"
 		)
 		player_stats_embed.add_field(
-			name = f"__**{core.static.arrow_bullet_point} Souls**__",
+			name = f"__**{core.static.static.arrow_bullet_point} Souls**__",
 			value = f"{(player_json['skywars']['souls']):,d}"
 		)
 		player_stats_embed.add_field(
-			name = f"__**{core.static.arrow_bullet_point} Kills**__",
+			name = f"__**{core.static.static.arrow_bullet_point} Kills**__",
 			value = f"{(player_json['skywars']['kills']):,d}"
 		)
 		player_stats_embed.add_field(
-			name = f"__**{core.static.arrow_bullet_point} Deaths**__",
+			name = f"__**{core.static.static.arrow_bullet_point} Deaths**__",
 			value = f"{(player_json['skywars']['deaths']):,d}"
 		)
 		player_stats_embed.add_field(
-			name = f"__**{core.static.arrow_bullet_point} KDR**__",
-			value = f"{(await core.minecraft.hypixel.static.get_ratio((player_json['skywars']['kills']), (player_json['skywars']['deaths'])))}"
+			name = f"__**{core.static.static.arrow_bullet_point} KDR**__",
+			value = f"{(await core.minecraft.hypixel.static.static.get_ratio((player_json['skywars']['kills']), (player_json['skywars']['deaths'])))}"
 		)
 		player_stats_embed.add_field(
-			name = f"__**{core.static.arrow_bullet_point} Wins**__",
+			name = f"__**{core.static.static.arrow_bullet_point} Wins**__",
 			value = f"{(player_json['skywars']['wins']):,d}"
 		)
 		player_stats_embed.add_field(
-			name = f"__**{core.static.arrow_bullet_point} Losses**__",
+			name = f"__**{core.static.static.arrow_bullet_point} Losses**__",
 			value = f"{(player_json['skywars']['losses']):,d}"
 		)
 		player_stats_embed.add_field(
-			name = f"__**{core.static.arrow_bullet_point} WLR**__",
-			value = f"{(await core.minecraft.hypixel.static.get_ratio((player_json['skywars']['wins']), (player_json['skywars']['losses'])))}"
+			name = f"__**{core.static.static.arrow_bullet_point} WLR**__",
+			value = f"{(await core.minecraft.hypixel.static.static.get_ratio((player_json['skywars']['wins']), (player_json['skywars']['losses'])))}"
 		)
 		await ctx.send(embed = player_stats_embed)
 

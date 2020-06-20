@@ -26,9 +26,9 @@ from discord.ext import commands
 import discord
 import core.minecraft.hypixel.guild
 import math
-import core.static
+import core.static.static
 import core.minecraft.static
-import core.minecraft.hypixel.static
+import core.minecraft.hypixel.static.static
 
 class Guild(commands.Cog):
 	def __init__(self, bot):
@@ -57,7 +57,7 @@ class Guild(commands.Cog):
 			color = int((guild_json['color']), 16) if guild_json['color'] else ctx.author.color
 		)
 		player_guild_embed.add_field(
-			name = f"__**{core.static.arrow_bullet_point} Level**__",
+			name = f"__**{core.static.static.arrow_bullet_point} Level**__",
 			value = f"{guild_json['level_data']['level']} ({guild_json['level_data']['percentage']}% to {math.trunc((guild_json['level_data']['level'])) + 1})"
 		)
 		await ctx.send(embed = player_guild_embed)

@@ -26,8 +26,8 @@ from discord.ext import commands
 import discord
 import core.minecraft.request
 import core.minecraft.hypixel.player
-import core.minecraft.hypixel.static
-import core.static
+import core.minecraft.hypixel.static.static
+import core.static.static
 
 master = 394984668656566274
 admin_role = 633073051784708099
@@ -79,7 +79,7 @@ class WristSpasm(commands.Cog):
 			player_json = player_info["player_json"]
 		else: return
 		await ctx.channel.trigger_typing()
-		prestige = (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige"]
+		prestige = (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige"]
 		prestige_role = roles[prestige]
 		prestige_role_object = ctx.guild.get_role(prestige_role)
 		if ctx.author.nick != player_data["player_formatted_name"]:
@@ -90,7 +90,7 @@ class WristSpasm(commands.Cog):
 					description = f"Changed your nickname to {player_data['player_formatted_name']}."
 				)
 				nickname_changed_embed.set_footer(
-					text = core.static.wrist_spasm_disclaimer
+					text = core.static.static.wrist_spasm_disclaimer
 				)
 				await ctx.send(embed = nickname_changed_embed)
 			except discord.errors.Forbidden:
@@ -108,7 +108,7 @@ class WristSpasm(commands.Cog):
 				description = f"Your nickname is already {player_data['player_formatted_name']}."
 			)
 			nickname_already_set_embed.set_footer(
-				text = core.static.wrist_spasm_disclaimer
+				text = core.static.static.wrist_spasm_disclaimer
 			)
 			await ctx.send(embed = nickname_already_set_embed)
 		if prestige_role_object in ctx.author.roles:
@@ -117,7 +117,7 @@ class WristSpasm(commands.Cog):
 				description = f"You already have the role <@&{prestige_role}>."
 			)
 			already_have_role_embed.set_footer(
-				text = core.static.wrist_spasm_disclaimer
+				text = core.static.static.wrist_spasm_disclaimer
 			)
 			await ctx.send(embed = already_have_role_embed)
 		else:
@@ -127,7 +127,7 @@ class WristSpasm(commands.Cog):
 				description = f"Gave you the role <@&{prestige_role}>."
 			)
 			added_role_embed.set_footer(
-				text = core.static.wrist_spasm_disclaimer
+				text = core.static.static.wrist_spasm_disclaimer
 			)
 			await ctx.send(embed = added_role_embed)
 		for role in roles:
@@ -140,7 +140,7 @@ class WristSpasm(commands.Cog):
 				)
 				role_remove_embed.set_footer(
 					text =
-f"""{core.static.wrist_spasm_disclaimer}
+f"""{core.static.static.wrist_spasm_disclaimer}
 You are only supposed to have one Bedwars prestige role."""
 				)
 				await ctx.send(embed = role_remove_embed)
@@ -154,7 +154,7 @@ You are only supposed to have one Bedwars prestige role."""
 			player_json = player_info["player_json"]
 		else: return
 		await ctx.channel.trigger_typing()
-		prestige = (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige"]
+		prestige = (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige"]
 		prestige_role = roles[prestige]
 		prestige_role_object = ctx.guild.get_role(prestige_role)
 		if target.nick != player_data["player_formatted_name"]:
@@ -165,7 +165,7 @@ You are only supposed to have one Bedwars prestige role."""
 					description = f"Changed <@!{target.id}>'s nickname to {player_data['player_formatted_name']}."
 					)
 				nickname_changed_embed.set_footer(
-					text = core.static.wrist_spasm_disclaimer
+					text = core.static.static.wrist_spasm_disclaimer
 				)
 				await ctx.send(embed = nickname_changed_embed)
 			except discord.errors.Forbidden:
@@ -183,7 +183,7 @@ You are only supposed to have one Bedwars prestige role."""
 				description = f"<@!{target.id}>'s nickname is already {player_data['player_formatted_name']}."
 			)
 			nickname_already_set_embed.set_footer(
-				text = core.static.wrist_spasm_disclaimer
+				text = core.static.static.wrist_spasm_disclaimer
 			)
 			await ctx.send(embed = nickname_already_set_embed)
 		if prestige_role_object in target.roles:
@@ -192,7 +192,7 @@ You are only supposed to have one Bedwars prestige role."""
 				description = f"<@!{target.id}> already has the {prestige} Prestige role."
 			)
 			already_have_role_embed.set_footer(
-				text = core.static.wrist_spasm_disclaimer
+				text = core.static.static.wrist_spasm_disclaimer
 			)
 			await ctx.send(embed = already_have_role_embed)
 		else:
@@ -202,7 +202,7 @@ You are only supposed to have one Bedwars prestige role."""
 				description = f"Gave <@!{target.id}> the role <@&{prestige_role}>."
 			)
 			added_role_embed.set_footer(
-				text = core.static.wrist_spasm_disclaimer
+				text = core.static.static.wrist_spasm_disclaimer
 			)
 			await ctx.send(embed = added_role_embed)
 		for role in roles:
@@ -214,7 +214,7 @@ You are only supposed to have one Bedwars prestige role."""
 					description = f"Removed the role <@&{roles[role]}> from <@!{target.id}>."
 				)
 				role_remove_embed.set_footer(
-text = f"""{core.static.wrist_spasm_disclaimer}
+text = f"""{core.static.static.wrist_spasm_disclaimer}
 You are only supposed to have one Bedwars prestige role."""
 				)
 				await ctx.send(embed = role_remove_embed)

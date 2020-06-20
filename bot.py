@@ -58,6 +58,8 @@ bot = commands.Bot(
 	command_prefix = get_prefix,
 	owner_id = 368780147563823114
 )
+bot.mc_heads_api = "https://mc-heads.net/"
+bot.surgeplay_api = "https://visage.surgeplay.com/"
 
 extensions = [os.path.join(dp, f) for dp, dn, fn in os.walk("cogs") for f in fn] + [os.path.join(dp, f) for dp, dn, fn in os.walk("commands") for f in fn] + [os.path.join(dp, f) for dp, dn, fn in os.walk("modules") for f in fn] + [os.path.join(dp, f) for dp, dn, fn in os.walk("events") for f in fn] + ["jishaku"]
 for file in extensions[:]:
