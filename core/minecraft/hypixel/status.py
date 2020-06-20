@@ -30,6 +30,10 @@ import core.minecraft.hypixel.static.static
 
 games = {}
 
+async def clear_games_cache(): # will likely never need to be used
+	global games
+	games = {}
+
 async def get_status(uuid):
 	try:
 		status_json = (await core.minecraft.hypixel.request.get_status_by_uuid(uuid))

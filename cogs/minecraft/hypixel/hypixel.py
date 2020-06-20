@@ -31,6 +31,7 @@ from core.paginators import MinecraftHypixelFriends
 import core.static.static
 import core.minecraft.static
 import core.minecraft.hypixel.static.static
+import core.minecraft.hypixel.status
 
 class Hypixel(commands.Cog):
 	def __init__(self, bot):
@@ -76,9 +77,9 @@ class Hypixel(commands.Cog):
 			value =
 f"""{datetime.date.fromtimestamp((player_json['login_times']['last']) / 1000)}
 ({(humanfriendly.format_timespan(((datetime.datetime.now()) - (datetime.datetime.fromtimestamp((player_json['login_times']['last']) / 1000))), max_units = 2))} ago)
-{f"[currently in a {player_json['status']['session']['game_formatted_name']} {player_json['status']['session']['game_formatted_mode']}]" if player_json["status"]["online"] else "[currently offline]"}"""
+{f"[currently in a {player_json['status']['session']['game']} {player_json['status']['session']['instance']}]" if player_json["status"]["online"] else "[currently offline]"}"""
 		)
-		if player_json['guild_data']: # checks if player is in a guild
+		if player_json["guild_data"]: # checks if player is in a guild
 			player_info_embed.add_field(
 				name = f"__**{core.static.static.arrow_bullet_point} Guild**__",
 				value = f"""{discord.utils.escape_markdown(f"{player_json['guild_data']['name']} [{player_json['guild_data']['tag']}]" if player_json["guild_data"]["tag"] else f"{player_json['guild_data']['name']}")}""", # checks if player's guild has a tag
@@ -118,6 +119,15 @@ f"""{datetime.date.fromtimestamp((player_json['login_times']['last']) / 1000)}
 			color = int((player_json["rank_data"])["color"], 16) # 16 - hex value
 		)
 		await ctx.send(embed = player_status_embed)
+
+	@hypixel.command(name = "cleargames", aliases = ["cg"])
+	@commands.is_owner()
+	async def clear_games_cache(self, ctx):
+		await core.minecraft.hypixel.status.clear_games_cache()
+		cleared_game_cache_embed = discord.Embed(
+			description = "Cleared the `games` variable cache from `core/minecraft/hypixel/status.py`"
+		)
+		await ctx.send(embed = cleared_game_cache_embed)
 
 def setup(bot):
 	bot.add_cog(Hypixel(bot))
