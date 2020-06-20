@@ -76,7 +76,7 @@ class Hypixel(commands.Cog):
 			value =
 f"""{datetime.date.fromtimestamp((player_json['login_times']['last']) / 1000)}
 ({(humanfriendly.format_timespan(((datetime.datetime.now()) - (datetime.datetime.fromtimestamp((player_json['login_times']['last']) / 1000))), max_units = 2))} ago)
-{f"[currently in a {player_json['status']['session']['game']} {player_json['status']['session']['instance']}]" if player_json["status"] else "[currently offline]"}"""
+{f"[currently in a {player_json['status']['session']['game']} {player_json['status']['session']['instance']}]" if player_json["status"]["online"] else "[currently offline]"}"""
 		)
 		if player_json['guild_data']: # checks if player is in a guild
 			player_info_embed.add_field(
@@ -114,7 +114,7 @@ f"""{datetime.date.fromtimestamp((player_json['login_times']['last']) / 1000)}
 			player_json = player_info["player_json"]
 		else: return
 		player_status_embed = discord.Embed(
-			description = f"""{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])} {f'is currently in a {player_json["status"]["session"]["game"]} {player_json["status"]["session"]["instance"]} server' if player_json["status"]["online"] else 'is currently offline'}""",
+			description = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}** {f'is currently in a {player_json["status"]["session"]["game"]} {player_json["status"]["session"]["instance"]} server' if player_json["status"]["online"] else 'is currently offline'}""",
 			color = int((player_json["rank_data"])["color"], 16) # 16 - hex value
 		)
 		await ctx.send(embed = player_status_embed)
