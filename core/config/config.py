@@ -23,14 +23,15 @@ SOFTWARE.
 """
 
 import json
-from tinydb import TinyDB
 
 with open("config.json") as config_raw:
 	config_json = json.load(config_raw)
 
+owner_id = config_json["owner_id"]
 token = config_json["keys"]["token"]
 hypixel_api_key = config_json["keys"]["hypixel"]
 status_log_channel = config_json["channels"]["status_log"]
 guilds_log_channel = config_json["channels"]["guilds_log"]
 error_log_channel = config_json["channels"]["error_log"]
+suggestions_channel = config_json["channels"]["suggestions"]
 default_prefix = config_json["prefix"]

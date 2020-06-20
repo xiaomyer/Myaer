@@ -23,39 +23,30 @@ SOFTWARE.
 """
 
 from discord.ext import commands
-import datetime
 import discord
 import humanfriendly
 import core.minecraft.request
-import sys
-import traceback
 import core.minecraft.verification.verification
 
 class Suggest(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
-		self.suggestions_channel = 718188926392598538
 
 	@commands.command(name = "suggest", aliases = ["suggestion"])
 	@commands.cooldown(1, 60, commands.BucketType.guild)
 	async def suggest(self, ctx, *, suggestion):
-		sending_embed = discord.Embed(
-			name = "Sending...",
-			description = "Sending suggestion in Myer's Discord server..."
-		)
-		message = await ctx.send(embed = sending_embed)
-		suggestions_channel_object = ctx.bot.get_channel(self.suggestions_channel)
+		suggestions_channel_object = ctx.bot.get_channel(self.bot.suggestions_channel)
 		suggestion_embed = discord.Embed(
 			name = "Suggestion",
 			title = f"**Suggestion from {discord.utils.escape_markdown(f'{ctx.author}')}**",
-			description = f"{suggestion}"
+			description = f"{suggestion}",
+			timestamp = ctx.message.created_at
 		)
 		suggestion_embed.set_footer(
 			text = f"Suggested from {ctx.guild}"
 		)
 		await suggestions_channel_object.send(embed = suggestion_embed)
 		sent_embed = discord.Embed(
-			name = "Sent",
 			description =
 f"""Sent suggestion \"{suggestion}\" in Myer's Discord server
 [Join the server](https://inv.wtf/myerfire) to see it!"""
@@ -63,7 +54,7 @@ f"""Sent suggestion \"{suggestion}\" in Myer's Discord server
 		sent_embed.set_footer(
 			text = "Abuse of this command will not be tolerated"
 		)
-		await message.edit(embed = sent_embed)
+		await ctx.send(embed = sent_embed)
 
 def setup(bot):
 	bot.add_cog(Suggest(bot))

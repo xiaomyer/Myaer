@@ -35,14 +35,9 @@ import traceback
 
 logger = logging.getLogger("discord")
 logger.setLevel(logging.INFO)
-handler = logging.FileHandler(filename="discord.log", encoding='utf-8', mode='w')
+handler = logging.FileHandler(filename = "discord.log", encoding = "utf-8", mode = "w")
 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
 logger.addHandler(handler)
-
-time_format = "%A, %b %d, %Y - %m/%d/%Y - %I:%M:%S %p"
-program_start_time = datetime.datetime.now()
-os.environ["JISHAKU_NO_UNDERSCORE"] = "True"
-error_log_channel = core.config.config.error_log_channel
 
 async def get_prefix(bot, message):
 	if isinstance(message.channel, discord.DMChannel):
@@ -56,10 +51,22 @@ async def get_prefix(bot, message):
 
 bot = commands.Bot(
 	command_prefix = get_prefix,
-	owner_id = 368780147563823114
+	owner_id = core.config.config.owner_id
 )
+bot.default_prefix = core.config.config.default_prefix
+bot.hypixel_api_key = core.config.config.hypixel_api_key
+bot.status_log_channel = core.config.config.status_log_channel
+bot.error_log_channel = core.config.config.error_log_channel
+bot.guilds_log_channel = core.config.config.guilds_log_channel
+bot.suggestions_channel = core.config.config.suggestions_channel
+
 bot.mc_heads_api = "https://mc-heads.net/"
 bot.surgeplay_api = "https://visage.surgeplay.com/"
+
+time_format = "%A, %b %d, %Y - %m/%d/%Y - %I:%M:%S %p"
+program_start_time = datetime.datetime.now()
+os.environ["JISHAKU_NO_UNDERSCORE"] = "True"
+error_log_channel = core.config.config.error_log_channel
 
 extensions = [os.path.join(dp, f) for dp, dn, fn in os.walk("cogs") for f in fn] + [os.path.join(dp, f) for dp, dn, fn in os.walk("commands") for f in fn] + [os.path.join(dp, f) for dp, dn, fn in os.walk("modules") for f in fn] + [os.path.join(dp, f) for dp, dn, fn in os.walk("events") for f in fn] + ["jishaku"]
 for file in extensions[:]:

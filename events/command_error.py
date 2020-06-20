@@ -24,16 +24,13 @@ SOFTWARE.
 
 import discord
 from discord.ext import commands
-import core.config.config
 import datetime
 import humanfriendly
 import sys
 import traceback
 
-error_log_channel = core.config.config.error_log_channel
-
 class CommandError(commands.Cog):
-	def __init(self, bot):
+	def __init__(self, bot):
 		self.bot = bot
 
 	@commands.Cog.listener()
@@ -50,7 +47,7 @@ class CommandError(commands.Cog):
 		traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
 
 		error_traceback = "".join(traceback.format_exception(type(error), error, error.__traceback__))
-		error_log_channel_object = ctx.bot.get_channel(error_log_channel)
+		error_log_channel_object = ctx.bot.get_channel(self.bot.error_log_channel)
 		error_embed = discord.Embed(
 			color = ctx.author.color,
 			timestamp = ctx.message.created_at,

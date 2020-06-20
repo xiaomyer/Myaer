@@ -28,6 +28,8 @@ import core.minecraft.request
 import core.minecraft.hypixel.request
 import core.minecraft.hypixel.static.static
 
+games = {}
+
 async def get_status(uuid):
 	try:
 		status_json = (await core.minecraft.hypixel.request.get_status_by_uuid(uuid))
@@ -38,9 +40,32 @@ async def get_status(uuid):
 
 	status = {
 		"online" : status_json.get("session", {}).get("online", False),
-		"session" : {
-			"game" : status_json.get("session", {}).get("gameType", ""),
-			"instance" : status_json.get("session", {}).get("mode", "")
-		}
+		"session" : await game_parser(status_json.get("session", {}).get("gameType", ""), status_json.get("session", {}).get("mode", "")) if status_json.get("session", {}).get("online", False) else None
 	}
 	return status
+
+async def game_parser(raw_game_type, raw_game_mode):
+	global games
+	if not games:
+		games = await core.minecraft.hypixel.request.get_games_connor_linfoot()
+
+	game_formatted_name = ""
+	game_formatted_mode = ""
+	for game_type in games:
+		if not game_formatted_name:
+			if raw_game_type == game_type["key"]:
+				game_formatted_name = game_type["name"]
+		if not game_formatted_mode and bool(game_type.get("modes", None)):
+			if raw_game_mode != "LOBBY":
+				for game_mode in game_type["modes"]:
+					if not game_formatted_mode:
+						if raw_game_mode == game_mode["key"]:
+							game_formatted_mode = game_mode["name"]
+			else:
+				game_formatted_mode = "Lobby"
+	game_data = {
+		"game" : game_formatted_name,
+		"instance" : game_formatted_mode,
+		"formatted" : f"is currently in a {game_formatted_name} {game_formatted_mode} game" if game_formatted_mode != "Lobby" else f"is currently in a {game_formatted_name} {game_formatted_mode}"
+	}
+	return game_data

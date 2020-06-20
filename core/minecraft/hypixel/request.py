@@ -100,3 +100,9 @@ async def get_status_by_uuid(uuid):
 	elif not player_status_json["success"]:
 		cause = player_status_json["cause"]
 		raise NameError(cause)
+
+async def get_games_connor_linfoot():
+	async with aiohttp.ClientSession() as session:
+		raw = await session.get("https://api.connorlinfoot.com/v2/games/hypixel/")
+		games_json = await raw.json()
+	return games_json

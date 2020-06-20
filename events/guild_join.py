@@ -23,12 +23,8 @@ SOFTWARE.
 """
 
 from discord.ext import commands
-import core.config.config
 import discord
-import random
 import core.minecraft.verification.verification
-
-guilds_log_channel = core.config.config.guilds_log_channel
 
 class OnGuildJoin(commands.Cog):
 	def __init__(self, bot):
@@ -36,7 +32,7 @@ class OnGuildJoin(commands.Cog):
 
 	@commands.Cog.listener()
 	async def on_guild_join(self, guild):
-		guilds_log_channel_object = self.bot.get_channel(guilds_log_channel)
+		guilds_log_channel_object = self.bot.get_channel(self.bot.guilds_log_channel)
 		guild_join_embed = discord.Embed(
 			name = "Joined guild",
 			title = f"**Joined Guild {discord.utils.escape_markdown(f'{guild.name}')}**"
