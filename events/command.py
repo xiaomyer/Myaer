@@ -45,7 +45,7 @@ class OnCommand(commands.Cog):
 				if random.randint(0, 100) < 15: # some percent chance that this will be sent
 					await ctx.send(
 """**__TIP__**: Verify using `/mc verify <ign>` to skip having to say your IGN when checking stats!
-If for some reason you can't verify, join my [Discord Server](https://inv.wtf/myerfire) and tag me in <#711657989412749363>"""
+If for some reason you can't verify, join my Discord server at https://inv.wtf/myerfire and tag me in <#711657989412749363>"""
 					)
 
 def setup(bot):
