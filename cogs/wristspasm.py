@@ -73,7 +73,7 @@ class WristSpasm(commands.Cog):
 
 	@wristspasm.command(name = "verify")
 	async def prestige_role(self, ctx, *args):
-		player_info = await core.minecraft.static.hypixel_name_handler(ctx, args)
+		player_info = await core.minecraft.static.hypixel_name_handler_no_database(ctx, args)
 		if player_info:
 			player_data = player_info["player_data"]
 			player_json = player_info["player_json"]

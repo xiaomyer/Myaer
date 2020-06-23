@@ -30,7 +30,7 @@ import core.minecraft.verification.verification
 
 async def hypixel_name_handler(ctx, args, *, use_cache: bool = True, get_guild: bool = False, get_friends: bool = False, get_status: bool = False):
 	player_name = None
-	if len(args):
+	if bool(len(args)):
 		try:
 			player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
 			player_uuid = player_data["minecraft_uuid"]
@@ -89,7 +89,7 @@ async def hypixel_name_handler(ctx, args, *, use_cache: bool = True, get_guild: 
 	}
 	return player_info
 
-async def hypixel_name_handler_no_database(ctx, player, *, use_cache: bool = True, get_guild: bool = False, get_friends: bool = False):
+async def hypixel_name_handler_no_database(ctx, player, *, use_cache: bool = True, get_status: bool = False, get_guild: bool = False, get_friends: bool = False):
 	try:
 		player_profile = await core.minecraft.request.get_profile(player)
 		player_data = {
@@ -107,7 +107,7 @@ async def hypixel_name_handler_no_database(ctx, player, *, use_cache: bool = Tru
 		await ctx.send(embed = nameerror_embed)
 		return
 	try:
-		player_json = await core.minecraft.hypixel.player.get_player_data(player_uuid, use_cache = use_cache, get_guild = get_guild, get_friends = get_friends)
+		player_json = await core.minecraft.hypixel.player.get_player_data(player_uuid, use_cache = use_cache, get_status = get_status, get_guild = get_guild, get_friends = get_friends)
 		player_data = {
 			"player_formatted_name" : player_name,
 			"minecraft_uuid" : player_uuid
@@ -135,7 +135,7 @@ async def hypixel_name_handler_no_database(ctx, player, *, use_cache: bool = Tru
 
 async def name_handler(ctx, args):
 	player_name = None
-	if len(args):
+	if bool(len(args)):
 		try:
 			player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
 			player_uuid = player_data["minecraft_uuid"]

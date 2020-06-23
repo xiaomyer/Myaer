@@ -53,6 +53,7 @@ bot = commands.Bot(
 	command_prefix = get_prefix,
 	owner_id = core.config.config.owner_id
 )
+bot.user_converter = commands.UserConverter()
 bot.default_prefix = core.config.config.default_prefix
 bot.hypixel_api_key = core.config.config.hypixel_api_key
 bot.status_log_channel = core.config.config.status_log_channel

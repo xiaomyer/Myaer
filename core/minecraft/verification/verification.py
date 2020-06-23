@@ -22,17 +22,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from discord.ext import commands
 import discord
 import core.minecraft.request
 import core.minecraft.hypixel.player
 import core.config.users
 
-user_converter = commands.UserConverter()
-
 async def parse_input(ctx, _input):
 	try:
-		player_discord = await user_converter.convert(ctx, _input)
+		player_discord = await ctx.bot.user_converter.convert(ctx, _input)
 	except discord.ext.commands.errors.BadArgument:
 		player_discord = None
 	try:
