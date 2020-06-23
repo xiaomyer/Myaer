@@ -42,8 +42,11 @@ class OnCommand(commands.Cog):
 			else:
 				valid = True
 			if valid:
-				if random.randint(0, 100) < 50: # some percent chance that this will be sent
-					await ctx.send("**__NOTE__**: If you suddenly find yourself unverified, it is because the data structure for the verification database was remade, and the database was lost in the process. If you have any questions or would like a further explanation, join my official Discord server at <https://inv.wtf/myerfire>")
+				if random.randint(0, 100) < 15: # some percent chance that this will be sent
+					await ctx.send(
+"""**__TIP__**: Verify using `/mc verify <ign>` to skip having to say your IGN when checking stats!
+If for some reason you can't verify, join my [Discord Server](https://inv.wtf/myerfire) and tag me in <#711657989412749363>"""
+					)
 
 def setup(bot):
 	bot.add_cog(OnCommand(bot))
