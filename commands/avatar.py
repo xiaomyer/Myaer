@@ -34,11 +34,14 @@ class Avatar(commands.Cog):
 	async def avatar(self, ctx, *args):
 		if bool(len(args)):
 			user = await ctx.bot.user_converter.convert(ctx, args[0])
+			member = ctx.guild.get_member(user.id)
+			color = member.color if bool(member) else ctx.author.color
 		else:
 			user = ctx.author
+			color = ctx.author.color
 		avatar_embed = discord.Embed(
 			title = f"{user.name}'s Avatar",
-			color = user.color
+			color = color
 		)
 		avatar_embed.set_image(
 			url = str(user.avatar_url_as(static_format = "png", size = 2048))
