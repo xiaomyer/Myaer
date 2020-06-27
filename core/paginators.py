@@ -41,9 +41,10 @@ class MinecraftHypixelFriends(menus.ListPageSource):
 		super().__init__(data, per_page = 15)
 
 	async def format_page(self, menu, entries):
+		joined = "\n".join(entries)
 		page_embed = discord.Embed(
 			title = f"{self.player_json['name']}'s Friends List ({len(self.data)} friends)",
-			description = "\n".join(entries),
+			description = f"```{joined}```",
 			color = int((self.player_json["rank_data"])["color"], 16) # 16 - hex value
 		)
 		return page_embed

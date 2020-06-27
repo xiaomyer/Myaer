@@ -38,9 +38,20 @@ class Minecraft(commands.Cog):
 
 	@commands.group(name = "minecraft", aliases = ["mc"], invoke_without_command = True)
 	async def minecraft(self, ctx):
-		return
+		minecraft_commands_embed = discord.Embed(
+			title = "Minecraft Commands",
+			description =
+"""
+```/mc history
+/mc uuid
+/mc skin
+/mc verify
+/mc unverify```
+"""
+		)
+		await ctx.send(embed = minecraft_commands_embed)
 
-	@minecraft.command(name = "history")
+	@minecraft.command(name = "history", aliases = ["names", "namehistory"])
 	@commands.max_concurrency(1, per = commands.BucketType.user)
 	async def name_history(self, ctx, *args):
 		player_info = await core.minecraft.static.name_handler(ctx, args)

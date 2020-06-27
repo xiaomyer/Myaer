@@ -42,9 +42,9 @@ class OnCommand(commands.Cog):
 			else:
 				valid = True
 			if valid:
-				if random.randint(0, 100) < 75: # some percent chance that this will be sent
+				if random.randint(0, 100) < 33: # some percent chance that this will be sent
 					await ctx.send(
-"""**__Note__**: The bot's host machine was reinstalled today, causing all data to be erased (the machine was corrupted). I apologize for any inconvenience."""
+"""**__TIP__** - Do `/mc verify <your-ign> to save having to type your IGN when you stat check!`"""
 					)
 
 def setup(bot):
