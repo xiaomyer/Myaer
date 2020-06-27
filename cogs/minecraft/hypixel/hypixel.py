@@ -53,7 +53,7 @@ class Hypixel(commands.Cog):
 			url = core.minecraft.hypixel.static.static.hypixel_icons["Main"]
 		)
 		player_info_embed.set_footer(
-			text = "Session data may not be 100% accurate as the data is cached",
+			text = "Session data may not be 100% accurate as the data is cached. Use /session for 100% accurate data",
 			icon_url = f"{self.bot.mc_heads_api}avatar/{player_data['minecraft_uuid']}/100"
 		)
 		player_info_embed.add_field(
@@ -77,7 +77,7 @@ class Hypixel(commands.Cog):
 			value =
 f"""{datetime.date.fromtimestamp((player_json['login_times']['last']) / 1000)}
 ({(humanfriendly.format_timespan(((datetime.datetime.now()) - (datetime.datetime.fromtimestamp((player_json['login_times']['last']) / 1000))), max_units = 2))} ago)
-{f"[currently in a {player_json['status']['session']['game']} {player_json['status']['session']['instance']}]" if player_json["status"]["online"] else "[currently offline]"}"""
+[{player_json["status"]["session"]["formatted"] if player_json["status"]["online"] else "currently offline"}]"""
 		)
 		if player_json["guild_data"]: # checks if player is in a guild
 			player_info_embed.add_field(
@@ -87,7 +87,7 @@ f"""{datetime.date.fromtimestamp((player_json['login_times']['last']) / 1000)}
 			)
 		await ctx.send(embed = player_info_embed)
 
-	@hypixel.command(name = "friends")
+	@commands.command(name = "friends")
 	@commands.max_concurrency(1, per = commands.BucketType.user)
 	async def friends(self, ctx, *args):
 		await ctx.trigger_typing()
@@ -107,7 +107,8 @@ f"""{datetime.date.fromtimestamp((player_json['login_times']['last']) / 1000)}
 		await message.delete()
 		await friends_paginator.start(ctx)
 
-	@hypixel.command(name = "status", aliases = ["session"])
+	@commands.command(name = "status", aliases = ["session"])
+	@commands.max_concurrency(1, per = commands.BucketType.user)
 	async def status(self, ctx, *args):
 		player_info = await core.minecraft.static.hypixel_name_handler(ctx, args, use_cache = False, get_status = True)
 		if player_info:
@@ -115,7 +116,7 @@ f"""{datetime.date.fromtimestamp((player_json['login_times']['last']) / 1000)}
 			player_json = player_info["player_json"]
 		else: return
 		player_status_embed = discord.Embed(
-			description = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}** {player_json["status"]["session"]["formatted"] if player_json["status"]["online"] else "is currently offline"}""",
+			description = f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}** is {player_json["status"]["session"]["formatted"] if player_json["status"]["online"] else "currently offline"}""",
 			color = int((player_json["rank_data"])["color"], 16) # 16 - hex value
 		)
 		await ctx.send(embed = player_status_embed)

@@ -42,10 +42,9 @@ class OnCommand(commands.Cog):
 			else:
 				valid = True
 			if valid:
-				if random.randint(0, 100) < 15: # some percent chance that this will be sent
+				if random.randint(0, 100) < 75: # some percent chance that this will be sent
 					await ctx.send(
-"""**__TIP__**: Verify using `/mc verify <ign>` to skip having to say your IGN when checking stats!
-If for some reason you can't verify, join my Discord server at https://inv.wtf/myerfire and tag me in <#711657989412749363>"""
+"""**__Note__**: The bot's host machine was reinstalled today, causing all data to be erased (the machine was corrupted). I apologize for any inconvenience."""
 					)
 
 def setup(bot):

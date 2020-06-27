@@ -70,6 +70,6 @@ async def game_parser(raw_game_type, raw_game_mode):
 	game_data = {
 		"game" : game_formatted_name,
 		"instance" : game_formatted_mode,
-		"formatted" : f"is currently in a {game_formatted_name} {game_formatted_mode} game" if game_formatted_mode != "Lobby" else f"is currently in a {game_formatted_name} {game_formatted_mode}"
+		"formatted" : f"currently in a {game_formatted_name} {game_formatted_mode} game" if game_formatted_mode != "Lobby" else f"currently in a {game_formatted_name} {game_formatted_mode}"
 	}
 	return game_data
