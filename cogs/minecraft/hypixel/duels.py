@@ -29,7 +29,7 @@ import core.static.static
 import core.minecraft.static
 import core.minecraft.hypixel.static.static
 
-class DuelsStats(commands.Cog):
+class Duels(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 
@@ -306,5 +306,5 @@ class DuelsStats(commands.Cog):
 		await ctx.send(embed = player_uhc_stats_embed)
 
 def setup(bot):
-	bot.add_cog(DuelsStats(bot))
+	bot.add_cog(Duels(bot))
 	print("Reloaded cogs.minecraft.hypixel.duels")

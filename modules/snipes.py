@@ -23,7 +23,7 @@ SOFTWARE.
 """
 
 # yoinked from fire's codebase because snipes were removed from fire and i want snipes
-# implementation somewhat changed 
+# implementation somewhat changed
 # https://raw.githubusercontent.com/FireDiscordBot/bot/e66f0367ce87ec00f23a0f24afd0afe4592c5037/modules/snipes.py
 
 from discord.ext import commands

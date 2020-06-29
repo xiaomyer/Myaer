@@ -29,7 +29,7 @@ import core.static.static
 import core.minecraft.static
 import core.minecraft.hypixel.static.static
 
-class PaintballStats(commands.Cog):
+class Paintball(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 		self.user_converter = commands.UserConverter()
@@ -121,5 +121,5 @@ class PaintballStats(commands.Cog):
 		await ctx.send(embed = player_kdr_embed)
 
 def setup(bot):
-	bot.add_cog(PaintballStats(bot))
+	bot.add_cog(Paintball(bot))
 	print("Reloaded cogs.minecraft.hypixel.paintball")

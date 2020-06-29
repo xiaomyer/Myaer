@@ -29,7 +29,7 @@ import core.static.static
 import core.minecraft.static
 import core.minecraft.hypixel.static.static
 
-class BedwarsStats(commands.Cog):
+class Bedwars(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 
@@ -3918,5 +3918,5 @@ __**{core.static.static.arrow_bullet_point} Voidless Fours**__: {player_json['be
 		)
 		await ctx.send(embed = winstreak_embed)
 def setup(bot):
-	bot.add_cog(BedwarsStats(bot))
+	bot.add_cog(Bedwars(bot))
 	print("Reloaded cogs.minecraft.hypixel.bedwars")

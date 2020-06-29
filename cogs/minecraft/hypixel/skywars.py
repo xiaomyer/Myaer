@@ -29,10 +29,9 @@ import core.static.static
 import core.minecraft.static
 import core.minecraft.hypixel.static.static
 
-class SkywarsStats(commands.Cog):
+class Skywars(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
-		self.user_converter = commands.UserConverter()
 
 	@commands.group(name = "skywars", aliases = ["sw"], invoke_without_command = True)
 	@commands.max_concurrency(1, per = commands.BucketType.user)
@@ -93,5 +92,5 @@ class SkywarsStats(commands.Cog):
 		await ctx.send(embed = player_stats_embed)
 
 def setup(bot):
-	bot.add_cog(SkywarsStats(bot))
+	bot.add_cog(Skywars(bot))
 	print("Reloaded cogs.minecraft.hypixel.skywars")

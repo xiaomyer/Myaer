@@ -34,7 +34,7 @@ import sys
 import traceback
 import time
 
-class LeaderboardCommands(commands.Cog):
+class Leaderboards(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 
@@ -186,5 +186,5 @@ class LeaderboardCommands(commands.Cog):
 		await ctx.send(embed = bedwars_weekly_finals_leaderboard_embed)
 
 def setup(bot):
-	bot.add_cog(LeaderboardCommands(bot))
+	bot.add_cog(Leaderboards(bot))
 	print("Reloaded cogs.minecraft.hypixel.leaderboards")
