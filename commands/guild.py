@@ -40,29 +40,23 @@ class Guild(commands.Cog):
         guild_embed = discord.Embed(
             color=ctx.guild.owner.color,
             timestamp=ctx.message.created_at
-        )
-        guild_embed.set_author(
+        ).set_author(
             name=f"{ctx.guild.name} ({ctx.guild.id})",
             icon_url=str(ctx.guild.icon_url_as(static_format="png", size=2048))
-        )
-        guild_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Owner**__",
             value=f"<@{ctx.guild.owner.id}> ({ctx.guild.owner.id})"
-        )
-        guild_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Creation Date**__",
             value=f"{ctx.guild.created_at.strftime(ctx.bot.CREATION_TIME_FORMAT)} ({humanfriendly.format_timespan(datetime.datetime.now() - ctx.guild.created_at)} ago)",
             inline=False
-        )
-        guild_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Members**__",
             value=f"{len(ctx.guild.members)}",
-        )
-        guild_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Emoji**__",
             value=f"{len(ctx.guild.emojis)}"
-        )
-        guild_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Roles ({len(ctx.guild.roles) - 1})**__",  # @everyone
             # role doesn't count
             value=f"{await get_role_names_string(await get_role_names(ctx.guild.roles))}",

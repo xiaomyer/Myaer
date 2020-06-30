@@ -51,59 +51,47 @@ class Bedwars(commands.Cog):
             color=int(
                 (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
-        )
-        player_stats_embed.set_thumbnail(
+        ).set_thumbnail(
             url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
-        )
-        player_stats_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Level**__",
             value=f"{player_json['bedwars']['star']} {core.static.static.star} ({(await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json['bedwars']['star']))['prestige']} Prestige)",
             inline=False
-        )
-        player_stats_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Winstreak**__",
             value=f"{(player_json['bedwars']['winstreak']):,d}",
             inline=False
-        )
-        player_stats_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['final_kills']):,d}"
-        )
-        player_stats_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['final_deaths']):,d}"
-        )
-        player_stats_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
             value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['final_kills']), ((player_json['bedwars']['final_deaths'])))}"
-        )
-        player_stats_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['beds_broken']):,d}"
-        )
-        player_stats_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['beds_lost']):,d}"
-        )
-        player_stats_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
             value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['beds_broken']), ((player_json['bedwars']['beds_lost'])))}"
-        )
-        player_stats_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['bedwars']['wins']):,d}"
-        )
-        player_stats_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['losses']):,d}"
-        )
-        player_stats_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
             value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['wins']), ((player_json['bedwars']['losses'])))}"
         )
         await ctx.send(embed=player_stats_embed)
 
-    @bedwars.command(name="stats")  # Safety net in case the player"s name is one of the subcommand names
+    @bedwars.command(name="stats")  # safety net in case the player"s name is one of the subcommand names
     async def bedwars_stats(self, ctx, *args):
         player_info = await core.minecraft.static.hypixel_name_handler(ctx, args)
         if player_info:

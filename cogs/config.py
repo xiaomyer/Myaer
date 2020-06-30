@@ -22,10 +22,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+import core.config.guilds
 import discord
 from discord.ext import commands
-
-import core.config.guilds
 
 
 class Config(commands.Cog):

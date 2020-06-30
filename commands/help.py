@@ -44,12 +44,10 @@ class Help(commands.Cog):
 [Invite Me](https://discord.com/api/oauth2/authorize?client_id=700133917264445480&permissions=8&scope=bot)""",
             color=ctx.author.color,
             timestamp=ctx.message.created_at
-        )
-        help_embed.set_author(
+        ).set_author(
             name="Help",
             icon_url=str(ctx.me.avatar_url_as(static_format="png", size=2048))
-        )
-        help_embed.set_footer(
+        ).set_footer(
             text="Made by MyerFire"
         )
         await ctx.send(embed=help_embed)

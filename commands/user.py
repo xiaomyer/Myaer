@@ -54,12 +54,10 @@ class User(commands.Cog):
         user_embed = discord.Embed(
             color=color,
             timestamp=ctx.message.created_at
-        )
-        user_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Creation Date**__",
             value=f"{user.created_at.strftime(ctx.bot.CREATION_TIME_FORMAT)} ({humanfriendly.format_timespan(datetime.datetime.now() - user.created_at)} ago)"
-        )
-        user_embed.set_author(
+        ).set_author(
             name=f"{user.name}#{user.discriminator} ({user.id})",
             icon_url=str(user.avatar_url_as(static_format="png", size=2048))
         )

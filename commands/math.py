@@ -36,7 +36,9 @@ class Math(commands.Cog):
     async def math(self, ctx, *, equation):
         answer = discord.Embed(
             title=f"{equation}",
-            description=f"{mathparse.parse(equation)}"
+            description=f"{mathparse.parse(equation)}",
+            color=ctx.author.color,
+            timestamp=ctx.message.created_at
         )
         await ctx.send(embed=answer)
 
