@@ -40,6 +40,7 @@ class User(commands.Cog):
     async def user(self, ctx, *, user: typing.Union[discord.Member, discord.User, str] = None):  # converts to string if
         # not a Member or User to continue code execution as a makeshift error handler
         # this is so that the argument passed is accessible
+        nick = None
         if isinstance(user, str):  # if user is a string, it failed both the Member conversion and the User conversion
             no_user_embed = discord.Embed(
                 description=f"User \"{user}\" not found"
@@ -49,8 +50,13 @@ class User(commands.Cog):
         if not user:
             user = ctx.author
             color = ctx.author.color
+            nick = ctx.author.nick
         else:
-            color = user.color  # user variable is actually a Member object with a color attribute
+            if isinstance(user, discord.Member):
+                color = user.color
+                nick = user.nick
+            else:
+                color = ctx.author.color
         user_embed = discord.Embed(
             color=color,
             timestamp=ctx.message.created_at
@@ -58,7 +64,7 @@ class User(commands.Cog):
             name=f"__**{core.static.static.arrow_bullet_point} Creation Date**__",
             value=f"{user.created_at.strftime(ctx.bot.CREATION_TIME_FORMAT)} ({humanfriendly.format_timespan(datetime.datetime.now() - user.created_at)} ago)"
         ).set_author(
-            name=f"{user.name}#{user.discriminator} ({user.id})",
+            name=f"{user.name}#{user.discriminator} ({nick}) [{user.id}]" if nick else f"{user.name}#{user.discriminator} [{user.id}]",
             icon_url=str(user.avatar_url_as(static_format="png", size=2048))
         )
         await ctx.send(embed=user_embed)

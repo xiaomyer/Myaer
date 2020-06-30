@@ -43,12 +43,11 @@ class Minecraft(commands.Cog):
         minecraft_commands_embed = discord.Embed(
             title="Minecraft Commands",
             description=
-            """
-            ```/mc history
-            /mc uuid
-            /mc skin
-            /mc verify
-            /mc unverify```
+            """```/mc history
+/mc uuid
+/mc skin
+/mc verify
+/mc unverify```
             """
         )
         await ctx.send(embed=minecraft_commands_embed)
@@ -72,8 +71,10 @@ class Minecraft(commands.Cog):
                 name_history_string.append(
                     f"{discord.utils.escape_markdown(name_history[index][0])} - *on {datetime.date.fromtimestamp((name_history[index][1]) / 1000)}*")
             index -= 1
-        name_history_paginator = menus.MenuPages(source=MinecraftNameHistory(name_history_string),
-                                                 clear_reactions_after=True)
+        name_history_paginator = menus.MenuPages(
+            source=MinecraftNameHistory(name_history_string),
+            clear_reactions_after=True
+        )
         await name_history_paginator.start(ctx)
 
     @minecraft.command(name="uuid")
@@ -124,9 +125,12 @@ class Minecraft(commands.Cog):
         else:
             return
         try:
-            await core.config.users.minecraft_verify(ctx.author.id, f"{ctx.author.name}#{ctx.author.discriminator}",
-                                                     player_data["minecraft_uuid"],
-                                                     player_json["social_media"]["discord"])
+            await core.config.users.minecraft_verify(
+                ctx.author.id,
+                f"{ctx.author.name}#{ctx.author.discriminator}",
+                player_data["minecraft_uuid"],
+                player_json["social_media"]["discord"]
+            )
             verified_embed = discord.Embed(
                 name="Verified Minecraft IGN",
                 description=f"Verified your Minecraft account as \"{player_data['player_formatted_name']}\"",

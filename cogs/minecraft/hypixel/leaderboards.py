@@ -44,10 +44,10 @@ class Leaderboards(commands.Cog):
             title="Leaderboards",
             description=
             """```/lb bw (star)
-            /lb bw wins
-            /lb bw wins weekly
-            /lb bw finals
-            /lb bw finals weekly```
+/lb bw wins
+/lb bw wins weekly
+/lb bw finals
+/lb bw finals weekly```
             """
         )
         await ctx.send(embed=leaderboard_types_embed)

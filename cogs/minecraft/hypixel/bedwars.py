@@ -102,9 +102,7 @@ class Bedwars(commands.Cog):
         await ctx.channel.trigger_typing()
         player_stats_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Bedwars Stats**""",
-            color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
-                    "prestige_color"], 16)  # 16 - Hex value.
+            color=int((await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16)  # 16 - Hex value.
         )
         player_stats_embed.set_thumbnail(
             url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
