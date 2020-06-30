@@ -55,7 +55,7 @@ async def get_prefix(bot, message):
 
 bot = commands.Bot(
     command_prefix=get_prefix,
-    owner_id=core.config.config.owner_id
+    owner_id=core.config.config.owner_id,
 )
 bot.member_converter = commands.MemberConverter()
 bot.user_converter = commands.UserConverter()

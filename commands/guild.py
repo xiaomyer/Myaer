@@ -51,6 +51,10 @@ class Guild(commands.Cog):
             value=f"{ctx.guild.created_at.strftime(ctx.bot.CREATION_TIME_FORMAT)} ({humanfriendly.format_timespan(datetime.datetime.now() - ctx.guild.created_at)} ago)",
             inline=False
         ).add_field(
+            name=f"__**{core.static.static.arrow_bullet_point} Channels ({len(await get_pure_channels(ctx.guild.channels))})**__",
+            value=f"({len(ctx.guild.text_channels)} text and {len(ctx.guild.voice_channels)} voice)",
+            inline=False
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Members**__",
             value=f"{len(ctx.guild.members)}",
         ).add_field(
@@ -64,6 +68,12 @@ class Guild(commands.Cog):
         )
         await ctx.send(embed=guild_embed)
 
+
+async def get_pure_channels(channels) -> list:
+    for channel in channels:
+        if isinstance(channel, discord.CategoryChannel):
+            channels.remove(channel)
+    return channels
 
 
 def setup(bot):

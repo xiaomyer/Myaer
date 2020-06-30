@@ -43,7 +43,9 @@ class User(commands.Cog):
         nick = None
         if isinstance(user, str):  # if user is a string, it failed both the Member conversion and the User conversion
             no_user_embed = discord.Embed(
-                description=f"User \"{user}\" not found"
+                description=f"User \"{user}\" not found",
+                color=ctx.author.color,
+                timestamp=ctx.message.created_at
             )
             await ctx.send(embed=no_user_embed)
             return
