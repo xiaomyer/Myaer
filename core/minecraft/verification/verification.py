@@ -27,43 +27,48 @@ import core.minecraft.request
 import core.minecraft.hypixel.player
 import core.config.users
 
+
 async def parse_input(ctx, _input):
-	try:
-		player_discord = await ctx.bot.user_converter.convert(ctx, _input)
-	except discord.ext.commands.errors.BadArgument:
-		player_discord = None
-	try:
-		if player_discord and (player_discord.mentioned_in(ctx.message) or _input.isdigit()): # if input is a discord id
-			uuid = await database_lookup_uuid(player_discord.id)
-			player_data = {
-				"player_formatted_name" : (await core.minecraft.request.get_profile((uuid)))["name"],
-				"minecraft_uuid" : uuid
-			}
-			return player_data
-		else:
-			try:
-				player_info = await core.minecraft.request.get_profile(_input)
-				player_data = {
-					"player_formatted_name" : player_info["name"],
-					"minecraft_uuid" : player_info["uuid"]
-				}
-				return player_data
-			except NameError:
-				raise NameError
-	except IndexError:
-		raise AttributeError("Member not verified")
-		return
+    try:
+        player_discord = await ctx.bot.user_converter.convert(ctx, _input)
+    except discord.ext.commands.errors.BadArgument:
+        player_discord = None
+    try:
+        if player_discord and (
+                player_discord.mentioned_in(ctx.message) or _input.isdigit()):  # if input is a discord id
+            uuid = await database_lookup_uuid(player_discord.id)
+            player_data = {
+                "player_formatted_name": (await core.minecraft.request.get_profile((uuid)))["name"],
+                "minecraft_uuid": uuid
+            }
+            return player_data
+        else:
+            try:
+                player_info = await core.minecraft.request.get_profile(_input)
+                player_data = {
+                    "player_formatted_name": player_info["name"],
+                    "minecraft_uuid": player_info["uuid"]
+                }
+                return player_data
+            except NameError:
+                raise NameError
+    except IndexError:
+        raise AttributeError("Member not verified")
+        return
+
 
 async def database_lookup_uuid(discord_id):
-	result = await core.config.users.get_config(discord_id)
-	if result:
-		return result["minecraft_uuid"]
-	else: return None
+    result = await core.config.users.get_config(discord_id)
+    if result:
+        return result["minecraft_uuid"]
+    else:
+        return None
+
 
 async def database_lookup(discord_id):
-	uuid = await database_lookup_uuid(discord_id)
-	player_data = {
-		"player_formatted_name" : (await core.minecraft.request.get_profile((uuid)))["name"],
-		"minecraft_uuid" : uuid
-	}
-	return player_data
+    uuid = await database_lookup_uuid(discord_id)
+    player_data = {
+        "player_formatted_name": (await core.minecraft.request.get_profile((uuid)))["name"],
+        "minecraft_uuid": uuid
+    }
+    return player_data

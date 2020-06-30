@@ -1,18 +1,17 @@
 # Cache files
 __pycache__/
-core/caches/*.json
 
 # Secret
 *.json
 
-# Run in background output
-nohup.out
-
-# Logs
+# logs
 discord.log
 
-# Backups
+# backups
 backup/
 
 # pm2
 node_modules/
+
+# pycharm goes brr
+.idea/

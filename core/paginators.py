@@ -24,27 +24,29 @@ SOFTWARE.
 from discord.ext import menus
 import discord
 
-class MinecraftNameHistory(menus.ListPageSource):
-	def __init__(self, data):
-		super().__init__(data, per_page = 15)
 
-	async def format_page(self, menu, entries):
-		page_embed = discord.Embed(
-			description = "\n".join(entries)
-		)
-		return page_embed
+class MinecraftNameHistory(menus.ListPageSource):
+    def __init__(self, data):
+        super().__init__(data, per_page=15)
+
+    async def format_page(self, menu, entries):
+        page_embed = discord.Embed(
+            description="\n".join(entries)
+        )
+        return page_embed
+
 
 class MinecraftHypixelFriends(menus.ListPageSource):
-	def __init__(self, data, player_json):
-		self.player_json = player_json
-		self.data = data
-		super().__init__(data, per_page = 15)
+    def __init__(self, data, player_json):
+        self.player_json = player_json
+        self.data = data
+        super().__init__(data, per_page=15)
 
-	async def format_page(self, menu, entries):
-		joined = "\n".join(entries)
-		page_embed = discord.Embed(
-			title = f"{self.player_json['name']}'s Friends List ({len(self.data)} friends)",
-			description = f"```{joined}```",
-			color = int((self.player_json["rank_data"])["color"], 16) # 16 - hex value
-		)
-		return page_embed
+    async def format_page(self, menu, entries):
+        joined = "\n".join(entries)
+        page_embed = discord.Embed(
+            title=f"{self.player_json['name']}'s Friends List ({len(self.data)} friends)",
+            description=f"```{joined}```",
+            color=int((self.player_json["rank_data"])["color"], 16)  # 16 - hex value
+        )
+        return page_embed

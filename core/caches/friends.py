@@ -26,18 +26,22 @@ import core.caches.static
 import time
 from tinydb import TinyDB, Query, where
 
+
 async def find_friends_data(uuid):
-	result = core.caches.static.friends_cache_db_cache.search(where("uuid") == uuid)
-	if result:
-		return result[0]
-	else: return None
+    result = core.caches.static.friends_cache_db_cache.search(where("uuid") == uuid)
+    if result:
+        return result[0]
+    else:
+        return None
+
 
 async def save_friends_data(uuid, friends):
-	Friends = Query()
-	if core.caches.static.friends_cache_db_cache.search(where("uuid") == uuid):
-		core.caches.static.friends_cache_db_cache.update({"time" : time.time(), "friends" : friends}, Friends.uuid == uuid)
-	elif core.caches.static.friends_cache_db_cache.search(where("friends") == friends):
-		core.caches.static.friends_cache_db_cache.remove(Friends.friends == friends)
-		core.caches.static.friends_cache_db_cache.insert({"uuid" : uuid, "time" : time.time(), "friends" : friends})
-	else:
-		core.caches.static.friends_cache_db_cache.insert({"uuid" : uuid, "time" : time.time(), "friends" : friends})
+    Friends = Query()
+    if core.caches.static.friends_cache_db_cache.search(where("uuid") == uuid):
+        core.caches.static.friends_cache_db_cache.update({"time": time.time(), "friends": friends},
+                                                         Friends.uuid == uuid)
+    elif core.caches.static.friends_cache_db_cache.search(where("friends") == friends):
+        core.caches.static.friends_cache_db_cache.remove(Friends.friends == friends)
+        core.caches.static.friends_cache_db_cache.insert({"uuid": uuid, "time": time.time(), "friends": friends})
+    else:
+        core.caches.static.friends_cache_db_cache.insert({"uuid": uuid, "time": time.time(), "friends": friends})

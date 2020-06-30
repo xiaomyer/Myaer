@@ -28,34 +28,36 @@ import humanfriendly
 import core.minecraft.request
 import core.minecraft.verification.verification
 
-class Suggest(commands.Cog):
-	def __init__(self, bot):
-		self.bot = bot
 
-	@commands.command(name = "suggest", aliases = ["suggestion"])
-	@commands.cooldown(1, 60, commands.BucketType.guild)
-	async def suggest(self, ctx, *, suggestion):
-		suggestions_channel_object = ctx.bot.get_channel(self.bot.suggestions_channel)
-		suggestion_embed = discord.Embed(
-			name = "Suggestion",
-			title = f"**Suggestion from {discord.utils.escape_markdown(f'{ctx.author}')}**",
-			description = f"{suggestion}",
-			timestamp = ctx.message.created_at
-		)
-		suggestion_embed.set_footer(
-			text = f"Suggested from {ctx.guild}"
-		)
-		await suggestions_channel_object.send(embed = suggestion_embed)
-		sent_embed = discord.Embed(
-			description =
-f"""Sent suggestion \"{suggestion}\" in Myer's Discord server
+class Suggest(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+
+    @commands.command(name="suggest", aliases=["suggestion"])
+    @commands.cooldown(1, 60, commands.BucketType.guild)
+    async def suggest(self, ctx, *, suggestion):
+        suggestions_channel_object = ctx.bot.get_channel(self.bot.suggestions_channel)
+        suggestion_embed = discord.Embed(
+            name="Suggestion",
+            title=f"**Suggestion from {discord.utils.escape_markdown(f'{ctx.author}')}**",
+            description=f"{suggestion}",
+            timestamp=ctx.message.created_at
+        )
+        suggestion_embed.set_footer(
+            text=f"Suggested from {ctx.guild}"
+        )
+        await suggestions_channel_object.send(embed=suggestion_embed)
+        sent_embed = discord.Embed(
+            description=
+            f"""Sent suggestion \"{suggestion}\" in Myer's Discord server
 [Join the server](https://inv.wtf/myerfire) to see it!"""
-		)
-		sent_embed.set_footer(
-			text = "Abuse of this command will not be tolerated"
-		)
-		await ctx.send(embed = sent_embed)
+        )
+        sent_embed.set_footer(
+            text="Abuse of this command will not be tolerated"
+        )
+        await ctx.send(embed=sent_embed)
+
 
 def setup(bot):
-	bot.add_cog(Suggest(bot))
-	print("Reloaded commands.suggest")
+    bot.add_cog(Suggest(bot))
+    print("Reloaded commands.suggest")

@@ -26,19 +26,21 @@ from discord.ext import commands
 import discord
 from mathparse import mathparse
 
-class Math(commands.Cog):
-	def __init__(self, bot):
-		self.bot = bot
 
-	@commands.command(name = "math", aliases = ["solve", "calc"])
-	@commands.max_concurrency(1, per = commands.BucketType.user)
-	async def math(self, ctx, *, equation):
-		answer = discord.Embed(
-			title = f"{equation}",
-			description = f"{mathparse.parse(equation)}"
-		)
-		await ctx.send(embed = answer)
+class Math(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+
+    @commands.command(name="math", aliases=["solve", "calc"])
+    @commands.max_concurrency(1, per=commands.BucketType.user)
+    async def math(self, ctx, *, equation):
+        answer = discord.Embed(
+            title=f"{equation}",
+            description=f"{mathparse.parse(equation)}"
+        )
+        await ctx.send(embed=answer)
+
 
 def setup(bot):
-	bot.add_cog(Math(bot))
-	print("Reloaded commands.math")
+    bot.add_cog(Math(bot))
+    print("Reloaded commands.math")

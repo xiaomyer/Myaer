@@ -29,75 +29,77 @@ import humanfriendly
 import sys
 import traceback
 
+
 class CommandError(commands.Cog):
-	def __init__(self, bot):
-		self.bot = bot
+    def __init__(self, bot):
+        self.bot = bot
 
-	@commands.Cog.listener()
-	async def on_command_error(self, ctx, error):
-		error = getattr(error, "original", error)
+    @commands.Cog.listener()
+    async def on_command_error(self, ctx, error):
+        error = getattr(error, "original", error)
 
-		if hasattr(ctx.command, "on_error"):
-			return
-		ignored = (commands.CommandNotFound)
-		if isinstance(error, ignored):
-			return
+        if hasattr(ctx.command, "on_error"):
+            return
+        ignored = (commands.CommandNotFound)
+        if isinstance(error, ignored):
+            return
 
-		print("Ignoring exception in command {}:".format(ctx.command), file=sys.stderr)
-		traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
+        print("Ignoring exception in command {}:".format(ctx.command), file=sys.stderr)
+        traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
 
-		error_traceback = "".join(traceback.format_exception(type(error), error, error.__traceback__))
-		error_log_channel_object = ctx.bot.get_channel(self.bot.error_log_channel)
-		error_embed = discord.Embed(
-			color = ctx.author.color,
-			timestamp = ctx.message.created_at,
-			title =
-f"""Ignoring exception in command {ctx.command}
+        error_traceback = "".join(traceback.format_exception(type(error), error, error.__traceback__))
+        error_log_channel_object = ctx.bot.get_channel(self.bot.error_log_channel)
+        error_embed = discord.Embed(
+            color=ctx.author.color,
+            timestamp=ctx.message.created_at,
+            title=
+            f"""Ignoring exception in command {ctx.command}
 ```{ctx.message.content}```""",
-			description =
-f"""
+            description=
+            f"""
 {f'in guild `{ctx.guild.name} ({ctx.guild.id})`' if isinstance(ctx.message.channel, discord.TextChannel) else 'in a DM channel'}
 invoked by <@!{ctx.author.id}> `({ctx.author.name}#{ctx.author.discriminator}) ({ctx.author.id})`
 ```{error_traceback}```"""
-		)
-		await error_log_channel_object.send(embed = error_embed)
+        )
+        await error_log_channel_object.send(embed=error_embed)
 
-# myer, you silly goose! why are you putting this before the check for a local error handler?
-# i just want to see how many times there are actual errors
-# and i want to see how many times my cooldowns are met
+        # myer, you silly goose! why are you putting this before the check for a local error handler?
+        # i just want to see how many times there are actual errors
+        # and i want to see how many times my cooldowns are met
 
-		if (str(ctx.command)).startswith("leaderboards"):
-			return
+        if (str(ctx.command)).startswith("leaderboards"):
+            return
 
-		if isinstance(error, commands.MaxConcurrencyReached):
-			concurrency_embed = discord.Embed(
-				color = ctx.author.color,
-				description = f"{ctx.author.name}, this command is being ratelimited. Try again in a bit"
-			)
-			await ctx.send(embed = concurrency_embed)
+        if isinstance(error, commands.MaxConcurrencyReached):
+            concurrency_embed = discord.Embed(
+                color=ctx.author.color,
+                description=f"{ctx.author.name}, this command is being ratelimited. Try again in a bit"
+            )
+            await ctx.send(embed=concurrency_embed)
 
-		if isinstance(error, commands.CommandOnCooldown):
-			cooldown = datetime.timedelta(seconds = error.retry_after)
-			cooldown_embed = discord.Embed(
-				color = ctx.author.color,
-				description = f"{ctx.author.name}, you are sending commands too fast. Try again in {humanfriendly.format_timespan(cooldown)}"
-			)
-			await ctx.send(embed = cooldown_embed)
+        if isinstance(error, commands.CommandOnCooldown):
+            cooldown = datetime.timedelta(seconds=error.retry_after)
+            cooldown_embed = discord.Embed(
+                color=ctx.author.color,
+                description=f"{ctx.author.name}, you are sending commands too fast. Try again in {humanfriendly.format_timespan(cooldown)}"
+            )
+            await ctx.send(embed=cooldown_embed)
 
-		if isinstance(error, commands.MissingRequiredArgument):
-			argument_embed = discord.Embed(
-				color = ctx.author.color,
-				description = f"{ctx.author.name}, you forgot to provide an input of some sort"
-			)
-			await ctx.send(embed = argument_embed)
+        if isinstance(error, commands.MissingRequiredArgument):
+            argument_embed = discord.Embed(
+                color=ctx.author.color,
+                description=f"{ctx.author.name}, you forgot to provide an input of some sort"
+            )
+            await ctx.send(embed=argument_embed)
 
-		if isinstance(error, commands.MissingPermissions):
-			argument_embed = discord.Embed(
-				color = ctx.author.color,
-				description = f"{ctx.author.name}, you don't have enough permissions to do that"
-			)
-			await ctx.send(embed = argument_embed)
+        if isinstance(error, commands.MissingPermissions):
+            argument_embed = discord.Embed(
+                color=ctx.author.color,
+                description=f"{ctx.author.name}, you don't have enough permissions to do that"
+            )
+            await ctx.send(embed=argument_embed)
+
 
 def setup(bot):
-	bot.add_cog(CommandError(bot))
-	print("Reloaded events.command_error")
+    bot.add_cog(CommandError(bot))
+    print("Reloaded events.command_error")

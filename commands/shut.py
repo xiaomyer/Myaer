@@ -25,15 +25,17 @@ SOFTWARE.
 from discord.ext import commands
 import discord
 
-class Shut(commands.Cog):
-	def __init__(self, bot):
-		self.bot = bot
 
-	@commands.command(name = "shut")
-	@commands.max_concurrency(1, per = commands.BucketType.user)
-	async def shut(self, ctx):
-		await ctx.send(file = discord.File("core/static/shut.png"))
+class Shut(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+
+    @commands.command(name="shut")
+    @commands.max_concurrency(1, per=commands.BucketType.user)
+    async def shut(self, ctx):
+        await ctx.send(file=discord.File("core/static/shut.png"))
+
 
 def setup(bot):
-	bot.add_cog(Shut(bot))
-	print("Reloaded commands.shut")
+    bot.add_cog(Shut(bot))
+    print("Reloaded commands.shut")

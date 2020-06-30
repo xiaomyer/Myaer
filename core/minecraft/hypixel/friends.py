@@ -30,32 +30,43 @@ import core.minecraft.hypixel.request
 import core.minecraft.hypixel.static.static
 import time
 
-async def get_friends(uuid):
-	friends_cache = await core.caches.friends.find_friends_data(uuid)
-	if friends_cache: # checks if cache is too old, and if it is, checks if anything has changed
-		valid = True if (time.time()) - friends_cache["time"] < 604800 else False
-	else:
-		valid = False
-	if valid:
-		return friends_cache["friends"]
-	else:
-		try:
-			friends_json = (await core.minecraft.hypixel.request.get_friends_by_uuid(uuid))
-		except:
-			raise NameError("No friends")
 
-	friends = []
-	for player in friends_json["records"]:
-		player_uuid = player["uuidSender"] if player["uuidSender"] != uuid else player["uuidReceiver"]
-		try:
-			player_profile = await core.minecraft.hypixel.player.get_player_data(player_uuid) if player_uuid != core.minecraft.hypixel.static.static.master_control else {"name" : "MasterControl", "rank_data" : {"rank" : "MCP", "color" : "AA0000"}} # technoblade has the account MasterControl friended, and that account is a hypixel alt that isn't in the api
-			friends.append({"name" : player_profile["name"], "uuid" : player_uuid, "rank_data" : player_profile["rank_data"], "friended_at" : player["started"]})
-		except:
-			await asyncio.sleep(60)
-			try:
-				player_profile = await core.minecraft.hypixel.player.get_player_data(player_uuid) if player_uuid != core.minecraft.hypixel.static.static.master_control else {"name" : "MasterControl", "rank_data" : {"rank" : "MCP", "color" : "AA0000"}} # technoblade has the account MasterControl friended, and that account is a hypixel alt that isn't in the api
-				friends.append({"name" : player_profile["name"], "uuid" : player_uuid, "rank_data" : player_profile["rank_data"], "friended_at" : player["started"]})
-			except:
-				pass
-	await core.caches.friends.save_friends_data(uuid, friends)
-	return friends
+async def get_friends(uuid):
+    friends_cache = await core.caches.friends.find_friends_data(uuid)
+    if friends_cache:  # checks if cache is too old, and if it is, checks if anything has changed
+        valid = True if (time.time()) - friends_cache["time"] < 604800 else False
+    else:
+        valid = False
+    if valid:
+        return friends_cache["friends"]
+    else:
+        try:
+            friends_json = (await core.minecraft.hypixel.request.get_friends_by_uuid(uuid))
+        except:
+            raise NameError("No friends")
+
+    friends = []
+    for player in friends_json["records"]:
+        player_uuid = player["uuidSender"] if player["uuidSender"] != uuid else player["uuidReceiver"]
+        try:
+            player_profile = await core.minecraft.hypixel.player.get_player_data(
+                player_uuid) if player_uuid != core.minecraft.hypixel.static.static.master_control else {
+                "name": "MasterControl", "rank_data": {"rank": "MCP",
+                                                       "color": "AA0000"}}  # technoblade has the account MasterControl friended, and that account is a hypixel alt that isn't in the api
+            friends.append(
+                {"name": player_profile["name"], "uuid": player_uuid, "rank_data": player_profile["rank_data"],
+                 "friended_at": player["started"]})
+        except:
+            await asyncio.sleep(60)
+            try:
+                player_profile = await core.minecraft.hypixel.player.get_player_data(
+                    player_uuid) if player_uuid != core.minecraft.hypixel.static.static.master_control else {
+                    "name": "MasterControl", "rank_data": {"rank": "MCP",
+                                                           "color": "AA0000"}}  # technoblade has the account MasterControl friended, and that account is a hypixel alt that isn't in the api
+                friends.append(
+                    {"name": player_profile["name"], "uuid": player_uuid, "rank_data": player_profile["rank_data"],
+                     "friended_at": player["started"]})
+            except:
+                pass
+    await core.caches.friends.save_friends_data(uuid, friends)
+    return friends

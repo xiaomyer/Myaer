@@ -25,7 +25,7 @@ SOFTWARE.
 import json
 
 with open("config.json") as config_raw:
-	config_json = json.load(config_raw)
+    config_json = json.load(config_raw)
 
 owner_id = config_json["owner_id"]
 token = config_json["keys"]["token"]

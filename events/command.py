@@ -29,24 +29,27 @@ import core.minecraft.verification.verification
 
 uses_verify = ["minecraft", "bedwars", "duels", "guild", "hypixel", "paintball", "skywars"]
 
-class OnCommand(commands.Cog):
-	def __init__(self, bot):
-		self.bot = bot
 
-	@commands.Cog.listener()
-	async def on_command(self, ctx):
-		if (str(ctx.command) in uses_verify) and "verify" not in str(ctx.command):
-			user_config = await core.config.users.get_config(ctx.author.id)
-			if user_config:
-				valid = False if (await core.config.users.get_config(ctx.author.id)).get("minecraft_uuid", None) else True
-			else:
-				valid = True
-			if valid:
-				if random.randint(0, 100) < 33: # some percent chance that this will be sent
-					await ctx.send(
-"""**__TIP__** - Do `/mc verify <your-ign> to save having to type your IGN when you stat check!`"""
-					)
+class OnCommand(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+
+    @commands.Cog.listener()
+    async def on_command(self, ctx):
+        if (str(ctx.command) in uses_verify) and "verify" not in str(ctx.command):
+            user_config = await core.config.users.get_config(ctx.author.id)
+            if user_config:
+                valid = False if (await core.config.users.get_config(ctx.author.id)).get("minecraft_uuid",
+                                                                                         None) else True
+            else:
+                valid = True
+            if valid:
+                if random.randint(0, 100) < 33:  # some percent chance that this will be sent
+                    await ctx.send(
+                        """**__TIP__** - Do `/mc verify <your-ign> to save having to type your IGN when you stat check!`"""
+                    )
+
 
 def setup(bot):
-	bot.add_cog(OnCommand(bot))
-	print("Reloaded events.on_command")
+    bot.add_cog(OnCommand(bot))
+    print("Reloaded events.on_command")

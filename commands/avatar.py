@@ -25,29 +25,31 @@ SOFTWARE.
 from discord.ext import commands
 import discord
 
-class Avatar(commands.Cog):
-	def __init__(self, bot):
-		self.bot = bot
 
-	@commands.command(name = "avatar", aliases = ["pfp"])
-	@commands.max_concurrency(1, per = commands.BucketType.user)
-	async def avatar(self, ctx, *args):
-		if bool(len(args)):
-			user = await ctx.bot.user_converter.convert(ctx, args[0])
-			member = ctx.guild.get_member(user.id)
-			color = member.color if bool(member) else ctx.author.color
-		else:
-			user = ctx.author
-			color = ctx.author.color
-		avatar_embed = discord.Embed(
-			title = f"{user.name}'s Avatar",
-			color = color
-		)
-		avatar_embed.set_image(
-			url = str(user.avatar_url_as(static_format = "png", size = 2048))
-		)
-		await ctx.send(embed = avatar_embed)
+class Avatar(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+
+    @commands.command(name="avatar", aliases=["pfp"])
+    @commands.max_concurrency(1, per=commands.BucketType.user)
+    async def avatar(self, ctx, *args):
+        if bool(len(args)):
+            user = await ctx.bot.user_converter.convert(ctx, args[0])
+            member = ctx.guild.get_member(user.id)
+            color = member.color if bool(member) else ctx.author.color
+        else:
+            user = ctx.author
+            color = ctx.author.color
+        avatar_embed = discord.Embed(
+            title=f"{user.name}'s Avatar",
+            color=color
+        )
+        avatar_embed.set_image(
+            url=str(user.avatar_url_as(static_format="png", size=2048))
+        )
+        await ctx.send(embed=avatar_embed)
+
 
 def setup(bot):
-	bot.add_cog(Avatar(bot))
-	print("Reloaded commands.avatar")
+    bot.add_cog(Avatar(bot))
+    print("Reloaded commands.avatar")

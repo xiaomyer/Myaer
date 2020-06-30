@@ -26,27 +26,33 @@ import core.caches.static
 from tinydb import Query, where
 from tinydb.operations import delete
 
+
 async def get_config(guild_id):
-	result = core.caches.static.guilds_db_cache.search(where("guild_id") == guild_id)
-	if result:
-		return result[0]
-	else: return None
+    result = core.caches.static.guilds_db_cache.search(where("guild_id") == guild_id)
+    if result:
+        return result[0]
+    else:
+        return None
+
 
 async def set_key(guild_id, key, data):
-	Guilds = Query()
-	result = core.caches.static.guilds_db_cache.search(where("guild_id") == guild_id)
-	if result:
-		core.caches.static.guilds_db_cache.update({f"{key}" : data}, Guilds.guild_id == guild_id)
-	else:
-		core.caches.static.guilds_db_cache.insert({"guild_id" : guild_id, f"{key}" : data})
+    Guilds = Query()
+    result = core.caches.static.guilds_db_cache.search(where("guild_id") == guild_id)
+    if result:
+        core.caches.static.guilds_db_cache.update({f"{key}": data}, Guilds.guild_id == guild_id)
+    else:
+        core.caches.static.guilds_db_cache.insert({"guild_id": guild_id, f"{key}": data})
+
 
 async def reset_key(guild_id, key):
-	Guilds = Query()
-	result = core.caches.static.guilds_db_cache.search(where("guild_id") == guild_id)
-	if result:
-		saved_data = result if result[0].get(f"{key}", None) else None
-		if saved_data:
-			core.caches.static.guilds_db_cache.update(delete(f"{key}"), Guilds.guild_id == guild_id)
-			return saved_data[0] if saved_data[0].get(f"{key}", None) else None
-		else: return None
-	else: return None
+    Guilds = Query()
+    result = core.caches.static.guilds_db_cache.search(where("guild_id") == guild_id)
+    if result:
+        saved_data = result if result[0].get(f"{key}", None) else None
+        if saved_data:
+            core.caches.static.guilds_db_cache.update(delete(f"{key}"), Guilds.guild_id == guild_id)
+            return saved_data[0] if saved_data[0].get(f"{key}", None) else None
+        else:
+            return None
+    else:
+        return None

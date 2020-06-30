@@ -25,21 +25,23 @@ SOFTWARE.
 from discord.ext import commands
 import discord
 
-class Ping(commands.Cog):
-	def __init__(self, bot):
-		self.bot = bot
 
-	@commands.command(name = "ping")
-	@commands.max_concurrency(1, per = commands.BucketType.user)
-	async def ping(self, ctx):
-		ping = self.bot.latency * 1000
-		ping_embed = discord.Embed(
-			name = "Ping",
-			description = f"Pong! **{round(ping,2)}** ms.",
-			color = ctx.author.color
-		)
-		await ctx.send(embed = ping_embed)
+class Ping(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+
+    @commands.command(name="ping")
+    @commands.max_concurrency(1, per=commands.BucketType.user)
+    async def ping(self, ctx):
+        ping = self.bot.latency * 1000
+        ping_embed = discord.Embed(
+            name="Ping",
+            description=f"Pong! **{round(ping, 2)}** ms.",
+            color=ctx.author.color
+        )
+        await ctx.send(embed=ping_embed)
+
 
 def setup(bot):
-	bot.add_cog(Ping(bot))
-	print("Reloaded commands.ping")
+    bot.add_cog(Ping(bot))
+    print("Reloaded commands.ping")

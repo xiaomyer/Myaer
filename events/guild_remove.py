@@ -26,30 +26,32 @@ from discord.ext import commands
 import discord
 import core.minecraft.verification.verification
 
-class OnGuildRemove(commands.Cog):
-	def __init__(self, bot):
-		self.bot = bot
 
-	@commands.Cog.listener()
-	async def on_guild_remove(self, guild):
-		guilds_log_channel_object = self.bot.get_channel(self.bot.guilds_log_channel)
-		guild_remove_embed = discord.Embed(
-			name = "Left guild",
-			title = f"**Left Guild {discord.utils.escape_markdown(f'{guild.name}')}**"
-		)
-		guild_remove_embed.add_field(
-			name = f"__**{core.static.static.arrow_bullet_point} ID**__",
-			value = f"{guild.id}"
-		)
-		guild_remove_embed.add_field(
-			name = f"__**{core.static.static.arrow_bullet_point} Members**__",
-			value = f"{(len(guild.members)):,d}"
-		)
-		guild_remove_embed.set_thumbnail(
-			url = str(guild.icon_url_as(static_format="png", size=2048))
-		)
-		await guilds_log_channel_object.send(embed = guild_remove_embed)
+class OnGuildRemove(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+
+    @commands.Cog.listener()
+    async def on_guild_remove(self, guild):
+        guilds_log_channel_object = self.bot.get_channel(self.bot.guilds_log_channel)
+        guild_remove_embed = discord.Embed(
+            name="Left guild",
+            title=f"**Left Guild {discord.utils.escape_markdown(f'{guild.name}')}**"
+        )
+        guild_remove_embed.add_field(
+            name=f"__**{core.static.static.arrow_bullet_point} ID**__",
+            value=f"{guild.id}"
+        )
+        guild_remove_embed.add_field(
+            name=f"__**{core.static.static.arrow_bullet_point} Members**__",
+            value=f"{(len(guild.members)):,d}"
+        )
+        guild_remove_embed.set_thumbnail(
+            url=str(guild.icon_url_as(static_format="png", size=2048))
+        )
+        await guilds_log_channel_object.send(embed=guild_remove_embed)
+
 
 def setup(bot):
-	bot.add_cog(OnGuildRemove(bot))
-	print("Reloaded events.guild_remove")
+    bot.add_cog(OnGuildRemove(bot))
+    print("Reloaded events.guild_remove")

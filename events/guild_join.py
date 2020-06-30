@@ -26,30 +26,32 @@ from discord.ext import commands
 import discord
 import core.minecraft.verification.verification
 
-class OnGuildJoin(commands.Cog):
-	def __init__(self, bot):
-		self.bot = bot
 
-	@commands.Cog.listener()
-	async def on_guild_join(self, guild):
-		guilds_log_channel_object = self.bot.get_channel(self.bot.guilds_log_channel)
-		guild_join_embed = discord.Embed(
-			name = "Joined guild",
-			title = f"**Joined Guild {discord.utils.escape_markdown(f'{guild.name}')}**"
-		)
-		guild_join_embed.add_field(
-			name = f"__**{core.static.static.arrow_bullet_point} ID**__",
-			value = f"{guild.id}"
-		)
-		guild_join_embed.add_field(
-			name = f"__**{core.static.static.arrow_bullet_point} Members**__",
-			value = f"{(len(guild.members)):,d}"
-		)
-		guild_join_embed.set_thumbnail(
-			url = str(guild.icon_url_as(static_format="png", size=2048))
-		)
-		await guilds_log_channel_object.send(embed = guild_join_embed)
+class OnGuildJoin(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+
+    @commands.Cog.listener()
+    async def on_guild_join(self, guild):
+        guilds_log_channel_object = self.bot.get_channel(self.bot.guilds_log_channel)
+        guild_join_embed = discord.Embed(
+            name="Joined guild",
+            title=f"**Joined Guild {discord.utils.escape_markdown(f'{guild.name}')}**"
+        )
+        guild_join_embed.add_field(
+            name=f"__**{core.static.static.arrow_bullet_point} ID**__",
+            value=f"{guild.id}"
+        )
+        guild_join_embed.add_field(
+            name=f"__**{core.static.static.arrow_bullet_point} Members**__",
+            value=f"{(len(guild.members)):,d}"
+        )
+        guild_join_embed.set_thumbnail(
+            url=str(guild.icon_url_as(static_format="png", size=2048))
+        )
+        await guilds_log_channel_object.send(embed=guild_join_embed)
+
 
 def setup(bot):
-	bot.add_cog(OnGuildJoin(bot))
-	print("Reloaded events.guild_join")
+    bot.add_cog(OnGuildJoin(bot))
+    print("Reloaded events.guild_join")

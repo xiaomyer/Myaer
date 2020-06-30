@@ -27,19 +27,21 @@ import core.minecraft.hypixel.static.static
 import math
 
 tag_colors = {
-	"DARK_GREEN" : "00AA00",
-	"YELLOW" : "FFFF55"
+    "DARK_GREEN": "00AA00",
+    "YELLOW": "FFFF55"
 }
 
+
 async def get_guild_data(uuid):
-	try:
-		guild_json = (await core.minecraft.hypixel.request.get_guild_by_uuid(uuid))
-	except:
-		raise NameError("Not in a guild")
-	guild = {
-		"name" : guild_json.get("guild", {}).get("name", ""),
-		"level_data" : (await core.minecraft.hypixel.static.static.get_guild_level_data((guild_json.get("guild", {}).get("exp", 0)))),
-		"color" : tag_colors.get((guild_json.get("guild", {}).get("tagColor", "")), None),
-		"tag" : guild_json.get("guild", {}).get("tag", "")
-	}
-	return guild
+    try:
+        guild_json = (await core.minecraft.hypixel.request.get_guild_by_uuid(uuid))
+    except:
+        raise NameError("Not in a guild")
+    guild = {
+        "name": guild_json.get("guild", {}).get("name", ""),
+        "level_data": (await core.minecraft.hypixel.static.static.get_guild_level_data(
+            (guild_json.get("guild", {}).get("exp", 0)))),
+        "color": tag_colors.get((guild_json.get("guild", {}).get("tagColor", "")), None),
+        "tag": guild_json.get("guild", {}).get("tag", "")
+    }
+    return guild

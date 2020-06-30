@@ -54,15 +54,20 @@ import core.caches.static
 import time
 from tinydb import TinyDB, Query, where
 
+
 async def find_leaderboards_data(_type):
-	result = core.caches.static.leaderboards_cache_db_cache.search(where("_type") == _type)
-	if result:
-		return result[0]
-	else: return None
+    result = core.caches.static.leaderboards_cache_db_cache.search(where("_type") == _type)
+    if result:
+        return result[0]
+    else:
+        return None
+
 
 async def save_leaderboards_data(_type, leaderboards):
-	Leaderboards = Query()
-	if core.caches.static.leaderboards_cache_db_cache.search(where("_type") == _type):
-		core.caches.static.leaderboards_cache_db_cache.update({"time" : time.time(), "leaderboards" : leaderboards}, Leaderboards._type == _type)
-	else:
-		core.caches.static.leaderboards_cache_db_cache.insert({"_type" : _type, "time" : time.time(), "leaderboards" : leaderboards})
+    Leaderboards = Query()
+    if core.caches.static.leaderboards_cache_db_cache.search(where("_type") == _type):
+        core.caches.static.leaderboards_cache_db_cache.update({"time": time.time(), "leaderboards": leaderboards},
+                                                              Leaderboards._type == _type)
+    else:
+        core.caches.static.leaderboards_cache_db_cache.insert(
+            {"_type": _type, "time": time.time(), "leaderboards": leaderboards})
