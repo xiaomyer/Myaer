@@ -22,7 +22,27 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+
 arrow_bullet_point = "➤"
 star = "✫"
 stats_needed_disclaimer = "Note - The amount needed for stat increase assumes that no negative stats are taken (no final deaths, no losses, etc)"
 wrist_spasm_disclaimer = "Specific to Wrist Spasm"
+
+
+async def get_role_mentions(roles) -> list:
+    role_names = []
+    for role in reversed(roles):  # discord roles attribute of a guild returns roles from lowest to highest
+        if role.name != "@everyone":  # @everyone is a default role that doesn't have to be shown
+            role_names.append(f"<@&{role.id}>")
+    return role_names
+
+
+async def get_role_mentions_string(roles: list) -> str:
+    if bool(roles):
+        times = 0
+        while len(", ".join(roles)) > 1024:
+            del roles[-1]
+            times += 1
+        return f"{', '.join(roles)}" if not bool(times) else f"{', '.join(roles)} (and {times} more)"
+    else:
+        return "No Roles"

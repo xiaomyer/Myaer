@@ -59,29 +59,11 @@ class Guild(commands.Cog):
         ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Roles ({len(ctx.guild.roles) - 1})**__",  # @everyone
             # role doesn't count
-            value=f"{await get_role_names_string(await get_role_names(ctx.guild.roles))}",
+            value=f"{await core.static.static.get_role_mentions_string(await core.static.static.get_role_mentions(ctx.guild.roles))}",
             inline=False
         )
         await ctx.send(embed=guild_embed)
 
-
-async def get_role_names(roles) -> list:
-    role_names = []
-    for role in reversed(roles):  # discord roles attribute of a guild returns roles from lowest to highest
-        if role.name != "@everyone":  # @everyone is a default role that doesn't have to be shown
-            role_names.append(f"<@&{role.id}>")
-    return role_names
-
-
-async def get_role_names_string(roles: list) -> str:
-    if bool(roles):
-        times = 0
-        while len(", ".join(roles)) > 1024:
-            del roles[-1]
-            times += 1
-        return f"{', '.join(roles)}" if not bool(times) else f"{', '.join(roles)} (and {times} more)"
-    else:
-        return "No Roles"
 
 
 def setup(bot):

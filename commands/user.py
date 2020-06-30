@@ -59,14 +59,32 @@ class User(commands.Cog):
                 color = ctx.author.color
         user_embed = discord.Embed(
             color=color,
+            description=f"<@{user.id}>",
             timestamp=ctx.message.created_at
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Creation Date**__",
-            value=f"{user.created_at.strftime(ctx.bot.CREATION_TIME_FORMAT)} ({humanfriendly.format_timespan(datetime.datetime.now() - user.created_at)} ago)"
+            name=f"__**{core.static.static.arrow_bullet_point} Account Created**__",
+            value=f"{user.created_at.strftime(ctx.bot.CREATION_TIME_FORMAT)} ({humanfriendly.format_timespan(datetime.datetime.now() - user.created_at)} ago)",
+            inline=False
         ).set_author(
-            name=f"{user.name}#{user.discriminator} ({nick}) [{user.id}]" if nick else f"{user.name}#{user.discriminator} [{user.id}]",
+            name=f"{user.name}#{user.discriminator} ({nick}) [{user.id}]" if nick else f"{user.name}#{user.discriminator} ({user.id})",
             icon_url=str(user.avatar_url_as(static_format="png", size=2048))
         )
+        if isinstance(user, discord.Member):
+            join_position = sorted(  # lmao what the hell is this
+                                    ctx.guild.members,  # thank you fire very cool idk what this is
+                                    key=lambda m: m.joined_at or m.created_at
+            ).index(user) + 1  # assuming +1 because index
+            user_embed.add_field(
+                name=f"__**{core.static.static.arrow_bullet_point} Joined Guild**__" if user != ctx.guild.owner else f"__**{core.static.static.arrow_bullet_point} Created Guild**__",
+                value=f"{user.joined_at.strftime(ctx.bot.CREATION_TIME_FORMAT)} (#{join_position}) [{humanfriendly.format_timespan(datetime.datetime.now() - user.joined_at)} ago]"
+                if user != ctx.guild.owner else
+                f"{ctx.guild.created_at.strftime(ctx.bot.CREATION_TIME_FORMAT)} ({humanfriendly.format_timespan(datetime.datetime.now() - ctx.guild.created_at)} ago)"
+            ).add_field(
+                name=f"__**{core.static.static.arrow_bullet_point} Roles ({len(user.roles) - 1})**__",  # @everyone
+                # role doesn't count
+                value=f"{await core.static.static.get_role_mentions_string(await core.static.static.get_role_mentions(user.roles))}",
+                inline=False
+            )
         await ctx.send(embed=user_embed)
 
 
