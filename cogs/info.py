@@ -30,7 +30,6 @@ from discord.ext import commands
 
 import core.static.static
 
-
 TIME_FORMAT = "%m/%d/%Y - %I:%M:%S %p"
 
 
@@ -38,27 +37,29 @@ class Info(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name="user", alises=["member"])
+    @commands.command(name="user", aliases=["member", "u"])
     @commands.max_concurrency(1, per=commands.BucketType.user)
     async def user(self, ctx, *args):
         if bool(len(args)):
             try:
                 user = await ctx.bot.member_converter.convert(ctx, args[0])
+                color = user.color
             except commands.BadArgument:
-                user = None  # could be a User and not a Member
-            try:
-                user = await ctx.bot.user_converter.convert(ctx, args[
-                    0]) if not user else user  # sets to a User instead of a Member if Member object was not found
-            except commands.BadArgument:  # actual bad argument
-                no_user_embed = discord.Embed(
-                    description=f"Member or user \"{args[0]}\" was not found"
-                )
-                await ctx.send(embed=no_user_embed)
-                return
+                try:
+                    user = await ctx.bot.user_converter.convert(ctx, args[0])
+                    color = ctx.author.color
+                    # sets to a User instead of a Member if Member object was not found
+                except commands.BadArgument:  # actual bad argument
+                    no_user_embed = discord.Embed(
+                        description=f"Member or user \"{args[0]}\" was not found"
+                    )
+                    await ctx.send(embed=no_user_embed)
+                    return
         else:
             user = ctx.author
+            color = ctx.author.color
         user_embed = discord.Embed(
-            color=user.color if isinstance(user, discord.Member) else ctx.author.color,
+            color=color,
             timestamp=ctx.message.created_at
         )
         user_embed.add_field(
@@ -90,7 +91,7 @@ class Info(commands.Cog):
         )
         guild_embed.add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Creation Date**__",
-            value= f"{ctx.guild.created_at.strftime(TIME_FORMAT)} ({humanfriendly.format_timespan(datetime.datetime.now() - ctx.guild.created_at)} ago)",
+            value=f"{ctx.guild.created_at.strftime(TIME_FORMAT)} ({humanfriendly.format_timespan(datetime.datetime.now() - ctx.guild.created_at)} ago)",
             inline=False
         )
         guild_embed.add_field(
@@ -102,18 +103,30 @@ class Info(commands.Cog):
             value=f"{len(ctx.guild.emojis)}"
         )
         guild_embed.add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Roles ({len(ctx.guild.roles)})**__",
-            value=f"{', '.join((await get_role_names(ctx.guild.roles)))}",
+            name=f"__**{core.static.static.arrow_bullet_point} Roles ({len(ctx.guild.roles) - 1})**__",  # @everyone
+            # role doesn't count
+            value=f"{await get_role_names_string(await get_role_names(ctx.guild.roles))}",
             inline=False
         )
         await ctx.send(embed=guild_embed)
 
 
-async def get_role_names(roles):
+async def get_role_names(roles) -> list:
     role_names = []
-    for role in reversed(roles):
-        role_names.append(f"<@&{role.id}>" if role.name != "@everyone" else role.name)
+    for role in reversed(roles):  # discord roles attribute of a guild returns roles from lowest to highest
+        if role.name != "@everyone":  # @everyone is a default role that doesn't have to be shown
+            role_names.append(f"<@&{role.id}>")
     return role_names
+
+
+async def get_role_names_string(roles: list) -> str:
+    if bool(roles):
+        times = 0
+        while len(", ".join(roles)) > 1024:
+            del roles[-1]
+            times += 1
+        return f"{', '.join(roles)}" if not bool(times) else f"{', '.join(roles)} (and {times} more)"
+    else: return "No Roles"
 
 
 def setup(bot):
