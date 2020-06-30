@@ -23,10 +23,15 @@ SOFTWARE.
 """
 
 import datetime
-from discord.ext import commands
+
 import discord
 import humanfriendly
+from discord.ext import commands
+
 import core.static.static
+
+
+TIME_FORMAT = "%m/%d/%Y - %I:%M:%S %p"
 
 
 class Info(commands.Cog):
@@ -43,7 +48,7 @@ class Info(commands.Cog):
                 user = None  # could be a User and not a Member
             try:
                 user = await ctx.bot.user_converter.convert(ctx, args[
-                    0]) if not user else user  # sets to a User instead of a Member if member object was not found
+                    0]) if not user else user  # sets to a User instead of a Member if Member object was not found
             except commands.BadArgument:  # actual bad argument
                 no_user_embed = discord.Embed(
                     description=f"Member or user \"{args[0]}\" was not found"
@@ -59,7 +64,7 @@ class Info(commands.Cog):
         user_embed.add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Creation Date**__",
             value=
-            f"""{user.created_at.strftime('%m/%d/%Y - %I:%M:%S %p')}
+            f"""{user.created_at.strftime(TIME_FORMAT)}
 ({humanfriendly.format_timespan(datetime.datetime.now() - user.created_at)} ago)"""
         )
         user_embed.set_author(
@@ -85,9 +90,16 @@ class Info(commands.Cog):
         )
         guild_embed.add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Creation Date**__",
-            value=
-            f"""{ctx.guild.created_at.strftime('%m/%d/%Y - %I:%M:%S %p')}
-({humanfriendly.format_timespan(datetime.datetime.now() - ctx.guild.created_at)} ago)"""
+            value= f"{ctx.guild.created_at.strftime(TIME_FORMAT)} ({humanfriendly.format_timespan(datetime.datetime.now() - ctx.guild.created_at)} ago)",
+            inline=False
+        )
+        guild_embed.add_field(
+            name=f"__**{core.static.static.arrow_bullet_point} Members**__",
+            value=f"{len(ctx.guild.members)}",
+        )
+        guild_embed.add_field(
+            name=f"__**{core.static.static.arrow_bullet_point} Emoji**__",
+            value=f"{len(ctx.guild.emojis)}"
         )
         guild_embed.add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Roles ({len(ctx.guild.roles)})**__",

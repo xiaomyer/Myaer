@@ -22,15 +22,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from discord.ext import commands, menus
 import datetime
+
 import discord
-import humanfriendly
-from core.paginators import MinecraftNameHistory
-import core.minecraft.request
-import core.static.static
-import core.minecraft.static
+from discord.ext import commands, menus
+
 import core.config.users
+import core.minecraft.request
+import core.minecraft.static
+import core.static.static
+from core.paginators import MinecraftNameHistory
 
 
 class Minecraft(commands.Cog):

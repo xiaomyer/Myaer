@@ -22,8 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from discord.ext import commands
 import discord
+from discord.ext import commands
 
 
 class Help(commands.Cog):
@@ -36,13 +36,14 @@ class Help(commands.Cog):
         help_embed = discord.Embed(
             name="Help",
             description=
-            """Here is some information about me\n\
-            [Commands](https://github.com/MyerFire/Myaer#command-list)\n\
-            [GitHub](https://github.com/MyerFire/Myaer)\n\
-            [Support/Info (My Discord Server)](https://inv.wtf/myerfire)\n\
-            [Vote](https://discord.boats/bot/700133917264445480)\n\
-            [Invite Me](https://discord.com/api/oauth2/authorize?client_id=700133917264445480&permissions=8&scope=bot)""",
-            color=ctx.author.color
+            """Here is some information about me
+[Commands](https://github.com/MyerFire/Myaer#command-list)
+[GitHub](https://github.com/MyerFire/Myaer)
+[Support/Info (My Discord Server)](https://inv.wtf/myerfire)
+[Vote](https://discord.boats/bot/700133917264445480)
+[Invite Me](https://discord.com/api/oauth2/authorize?client_id=700133917264445480&permissions=8&scope=bot)""",
+            color=ctx.author.color,
+            timestamp=ctx.message.created_at
         )
         help_embed.set_author(
             name="Help",

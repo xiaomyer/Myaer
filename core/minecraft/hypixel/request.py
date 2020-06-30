@@ -23,11 +23,13 @@ SOFTWARE.
 """
 
 import aiohttp
-import core.config.config
 from ratelimit import limits
+
+import core.config.config
 import core.minecraft.request
 
-hypixel_api = "https://api.hypixel.net/"
+HYPIXEL_API = "https://api.hypixel.net/"
+CONNOR_LINFOOT_API = "https://api.connorlinfoot.com/"
 
 
 @limits(calls=100, period=60)  # hypixel ratelimit is 120/min, this is to be safe
@@ -35,12 +37,12 @@ async def get_player(player):
     uuid = (await core.minecraft.request.get_profile(player))[
         "uuid"]  # &name= is deprecated for the Hypixel API, so convert name to UUID with Mojang API
     async with aiohttp.ClientSession() as session:
-        raw = await session.get(f"{hypixel_api}player?key={core.config.config.hypixel_api_key}&uuid={uuid}")
+        raw = await session.get(f"{HYPIXEL_API}player?key={core.config.config.hypixel_api_key}&uuid={uuid}")
         player_json = await raw.json()
     if player_json["success"] and player_json["player"]:
         return player_json
-    elif player_json["success"] and player_json[
-        "player"] is None:  # Hypixel API still returns "success" even if the player does not exist, hence the more complicated check
+    elif player_json["success"] and player_json["player"] is None:  # Hypixel API still returns "success" even if the
+        # player does not exist, hence the more complicated check
         raise NameError(f"Player \"{player}\" does not exist!")
 
 
@@ -48,31 +50,33 @@ async def get_player(player):
 async def get_player_uuid(uuid):
     async with aiohttp.ClientSession() as session:
         raw = await session.get(
-            f"{hypixel_api}player?key={core.config.config.hypixel_api_key}&uuid={uuid.replace('-', '')}")
+            f"{HYPIXEL_API}player?key={core.config.config.hypixel_api_key}&uuid={uuid.replace('-', '')}")
         player_json = await raw.json()
         if player_json["success"] and player_json["player"]:
             return player_json
-        elif player_json["success"] and player_json[
-            "player"] is None:  # Hypixel API still returns "success" even if the player does not exist, hence the more complicated check
+        elif player_json["success"] and player_json["player"] is None:  # Hypixel API still returns "success" even if
+            # the player does not exist, hence the more complicated check
             raise NameError(f"Player \"{uuid}\" does not exist!")
 
 
 @limits(calls=100, period=60)  # hypixel ratelimit is 120/min, this is to be safe
 async def get_leaderboards():
     async with aiohttp.ClientSession() as session:
-        raw = await session.get(f"{hypixel_api}leaderboards?key={core.config.config.hypixel_api_key}")
+        raw = await session.get(f"{HYPIXEL_API}leaderboards?key={core.config.config.hypixel_api_key}")
         leaderboards_json = await raw.json()
     if leaderboards_json["success"]:
         return leaderboards_json
     elif not leaderboards_json["success"]:
         return NameError(
-            "Something went wrong.")  # The only reason there could be an error in retreiving leaderboard data is if the API key is invalid, but that should not be possible. TL;DR: If anything gets here, something went horribly wrong.
+            "Something went wrong.")  # The only reason there could be an error in retreiving leaderboard data is if
+        # the API key is invalid, but that should not be possible. TL;DR: If anything gets here, something went
+        # horribly wrong.
 
 
 @limits(calls=100, period=60)  # hypixel ratelimit is 120/min, this is to be safe
 async def get_guild_by_uuid(uuid):
     async with aiohttp.ClientSession() as session:
-        raw = await session.get(f"{hypixel_api}guild?key={core.config.config.hypixel_api_key}&player={uuid}")
+        raw = await session.get(f"{HYPIXEL_API}guild?key={core.config.config.hypixel_api_key}&player={uuid}")
         player_guild_json = await raw.json()
     if player_guild_json["success"] and player_guild_json["guild"]:
         return player_guild_json
@@ -83,7 +87,7 @@ async def get_guild_by_uuid(uuid):
 @limits(calls=100, period=60)  # hypixel ratelimit is 120/min, this is to be safe
 async def get_guild_by_name(guild):
     async with aiohttp.ClientSession() as session:
-        raw = await session.get(f"{hypixel_api}guild?key={core.config.config.hypixel_api_key}&name={guild}")
+        raw = await session.get(f"{HYPIXEL_API}guild?key={core.config.config.hypixel_api_key}&name={guild}")
         player_guild_json = await raw.json()
     if player_guild_json["success"] and player_guild_json["guild"]:
         return player_guild_json
@@ -94,7 +98,7 @@ async def get_guild_by_name(guild):
 @limits(calls=100, period=60)  # hypixel ratelimit is 120/min, this is to be safe
 async def get_friends_by_uuid(uuid):
     async with aiohttp.ClientSession() as session:
-        raw = await session.get(f"{hypixel_api}friends?key={core.config.config.hypixel_api_key}&uuid={uuid}")
+        raw = await session.get(f"{HYPIXEL_API}friends?key={core.config.config.hypixel_api_key}&uuid={uuid}")
         player_friends_json = await raw.json()
     if player_friends_json["success"] and player_friends_json["records"]:
         return player_friends_json
@@ -105,7 +109,7 @@ async def get_friends_by_uuid(uuid):
 @limits(calls=100, period=60)  # hypixel ratelimit is 120/min, this is to be safe
 async def get_status_by_uuid(uuid):
     async with aiohttp.ClientSession() as session:
-        raw = await session.get(f"{hypixel_api}status?key={core.config.config.hypixel_api_key}&uuid={uuid}")
+        raw = await session.get(f"{HYPIXEL_API}status?key={core.config.config.hypixel_api_key}&uuid={uuid}")
         player_status_json = await raw.json()
     if player_status_json["success"] and player_status_json["session"]:
         return player_status_json
@@ -116,6 +120,6 @@ async def get_status_by_uuid(uuid):
 
 async def get_games_connor_linfoot():
     async with aiohttp.ClientSession() as session:
-        raw = await session.get("https://api.connorlinfoot.com/v2/games/hypixel/")
+        raw = await session.get(f"{CONNOR_LINFOOT_API}v2/games/hypixel/")
         games_json = await raw.json()
     return games_json

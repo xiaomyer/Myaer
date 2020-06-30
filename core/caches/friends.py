@@ -22,9 +22,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import core.caches.static
 import time
-from tinydb import TinyDB, Query, where
+
+from tinydb import Query, where
+
+import core.caches.static
 
 
 async def find_friends_data(uuid):

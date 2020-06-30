@@ -23,8 +23,8 @@ SOFTWARE.
 """
 
 import discord
+
 import core.minecraft.hypixel.player
-import ratelimit
 import core.minecraft.request
 import core.minecraft.verification.verification
 

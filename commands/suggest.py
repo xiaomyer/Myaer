@@ -22,11 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from discord.ext import commands
 import discord
-import humanfriendly
-import core.minecraft.request
-import core.minecraft.verification.verification
+from discord.ext import commands
 
 
 class Suggest(commands.Cog):

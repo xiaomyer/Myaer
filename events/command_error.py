@@ -22,12 +22,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import discord
-from discord.ext import commands
 import datetime
-import humanfriendly
 import sys
 import traceback
+
+import discord
+import humanfriendly
+from discord.ext import commands
 
 
 class CommandError(commands.Cog):

@@ -23,8 +23,6 @@ SOFTWARE.
 """
 
 import core.caches.static
-import time
-from tinydb import TinyDB, Query, where
 
 """
 MIT License
@@ -52,7 +50,7 @@ SOFTWARE.
 
 import core.caches.static
 import time
-from tinydb import TinyDB, Query, where
+from tinydb import Query, where
 
 
 async def find_leaderboards_data(_type):

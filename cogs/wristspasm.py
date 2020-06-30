@@ -22,11 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from discord.ext import commands
 import discord
-import core.minecraft.request
+from discord.ext import commands
+
 import core.minecraft.hypixel.player
 import core.minecraft.hypixel.static.static
+import core.minecraft.request
 import core.static.static
 
 master = 394984668656566274
@@ -84,8 +85,8 @@ class WristSpasm(commands.Cog):
             return
         await ctx.channel.trigger_typing()
         prestige = \
-        (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
-            "prestige"]
+            (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                "prestige"]
         prestige_role = roles[prestige]
         prestige_role_object = ctx.guild.get_role(prestige_role)
         if ctx.author.nick != player_data["player_formatted_name"]:
@@ -162,8 +163,8 @@ You are only supposed to have one Bedwars prestige role."""
             return
         await ctx.channel.trigger_typing()
         prestige = \
-        (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
-            "prestige"]
+            (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                "prestige"]
         prestige_role = roles[prestige]
         prestige_role_object = ctx.guild.get_role(prestige_role)
         if target.nick != player_data["player_formatted_name"]:

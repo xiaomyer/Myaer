@@ -22,12 +22,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from discord.ext import commands
-import discord
 import math
-import core.static.static
-import core.minecraft.static
+
+import discord
+from discord.ext import commands
+
 import core.minecraft.hypixel.static.static
+import core.minecraft.static
+import core.static.static
 
 
 class Bedwars(commands.Cog):
@@ -4177,8 +4179,8 @@ class Bedwars(commands.Cog):
         await ctx.channel.trigger_typing()
         winstreak_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}")}'s Winstreaks**""" if (
-            player_json["rank_data"][
-                "rank"]) else f"**{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Winstreaks**",
+                player_json["rank_data"][
+                    "rank"]) else f"**{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Winstreaks**",
             color=int(
                 (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16),  # 16 - Hex value.

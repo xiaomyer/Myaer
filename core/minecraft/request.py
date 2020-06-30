@@ -25,8 +25,8 @@ SOFTWARE.
 import aiohttp
 from ratelimit import limits
 
-mojang_api = "https://api.mojang.com/"
-mojang_session_server = "https://sessionserver.mojang.com/"
+MOJANG_API = "https://api.mojang.com/"
+MOJANG_SESSION_SERVER = "https://sessionserver.mojang.com/"
 
 
 @limits(calls=550, period=600)  # mojang ratelimit is 600 requests per 10 minutes, this is to be safe
@@ -44,7 +44,7 @@ async def get_profile(player):  # When input could be name or UUID
 async def get_profile_name(player):  # When input is name
     try:
         async with aiohttp.ClientSession() as session:
-            profile = await session.get(f"{mojang_api}users/profiles/minecraft/{player}")
+            profile = await session.get(f"{MOJANG_API}users/profiles/minecraft/{player}")
             profile_json = await profile.json()
             profile_data = {
                 "name": profile_json["name"],  # Case sensitive display name
@@ -60,7 +60,7 @@ async def get_profile_uuid(uuid):  # When input is only UUID
     try:
         async with aiohttp.ClientSession() as session:
             profile = await session.get(
-                f"{mojang_session_server}session/minecraft/profile/{uuid.replace('-', '')}")  # Mojang session server does not accept UUIDs with "-"
+                f"{MOJANG_SESSION_SERVER}session/minecraft/profile/{uuid.replace('-', '')}")  # Mojang session server does not accept UUIDs with "-"
             profile_json = await profile.json()
             profile_data = {
                 "name": profile_json["name"],
@@ -76,7 +76,7 @@ async def get_name_history_uuid(player):
     try:
         name_history = []
         async with aiohttp.ClientSession() as session:
-            name_history_raw = await session.get(f"{mojang_api}user/profiles/{player}/names")
+            name_history_raw = await session.get(f"{MOJANG_API}user/profiles/{player}/names")
             name_history_json = await name_history_raw.json()
             for name in name_history_json:
                 try:

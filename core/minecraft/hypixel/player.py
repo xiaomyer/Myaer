@@ -22,14 +22,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+import time
+
+import ratelimit
+
+import core.caches.players
 import core.minecraft.hypixel.friends
 import core.minecraft.hypixel.guild
-import core.caches.players
-import ratelimit
 import core.minecraft.hypixel.request
 import core.minecraft.hypixel.static.static
 import core.minecraft.hypixel.status
-import time
 
 
 async def get_player_data(uuid, *, use_cache: bool = True, get_guild: bool = False, get_friends: bool = False,
@@ -40,8 +42,8 @@ async def get_player_data(uuid, *, use_cache: bool = True, get_guild: bool = Fal
         player_cache = await core.caches.players.find_player_data(uuid)
         if player_cache:  # returns cached data only if it contains all the requested information
             valid = True if ((not get_guild) and (not get_friends) or (
-                        get_friends and player_cache["data"]["friends"]) or (
-                                         get_guild and player_cache["data"]["guild_data"])) and (time.time()) - \
+                    get_friends and player_cache["data"]["friends"]) or (
+                                     get_guild and player_cache["data"]["guild_data"])) and (time.time()) - \
                             player_cache["time"] < 300 else False  # cached for 5 minutes
         else:
             valid = False

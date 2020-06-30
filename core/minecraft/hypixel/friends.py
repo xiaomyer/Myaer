@@ -23,12 +23,12 @@ SOFTWARE.
 """
 
 import asyncio
+import time
+
 import core.caches.friends
-import ratelimit
-import core.minecraft.request
 import core.minecraft.hypixel.request
 import core.minecraft.hypixel.static.static
-import time
+import core.minecraft.request
 
 
 async def get_friends(uuid):

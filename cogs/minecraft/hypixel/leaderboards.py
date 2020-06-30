@@ -22,17 +22,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import core.caches.leaderboards
-from discord.ext import commands
-import datetime
-import discord
-import humanfriendly
-import core.minecraft.hypixel.leaderboards
-import core.static.static
-import core.minecraft.hypixel.static.static
-import sys
-import traceback
 import time
+
+import discord
+from discord.ext import commands
+
+import core.caches.leaderboards
+import core.minecraft.hypixel.leaderboards
+import core.minecraft.hypixel.static.static
+import core.static.static
 
 
 class Leaderboards(commands.Cog):

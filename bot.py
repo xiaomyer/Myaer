@@ -22,16 +22,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import core.caches.static
-import core.config.config
 import datetime
-import discord
-from discord.ext import commands
-import core.config.guilds
 import logging
 import os
 import sys
 import traceback
+
+import discord
+from discord.ext import commands
+
+import core.caches.static
+import core.config.config
+import core.config.guilds
 
 logger = logging.getLogger("discord")
 logger.setLevel(logging.INFO)

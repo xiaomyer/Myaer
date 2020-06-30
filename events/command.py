@@ -22,9 +22,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from discord.ext import commands
-import discord
 import random
+
+from discord.ext import commands
+
 import core.minecraft.verification.verification
 
 uses_verify = ["minecraft", "bedwars", "duels", "guild", "hypixel", "paintball", "skywars"]

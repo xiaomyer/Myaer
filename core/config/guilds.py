@@ -22,9 +22,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import core.caches.static
 from tinydb import Query, where
 from tinydb.operations import delete
+
+import core.caches.static
 
 
 async def get_config(guild_id):

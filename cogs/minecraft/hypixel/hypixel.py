@@ -22,16 +22,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from discord.ext import commands, menus
 import datetime
+import math
+
 import discord
 import humanfriendly
-import math
-from core.paginators import MinecraftHypixelFriends
-import core.static.static
-import core.minecraft.static
+from discord.ext import commands, menus
+
 import core.minecraft.hypixel.static.static
 import core.minecraft.hypixel.status
+import core.minecraft.static
+import core.static.static
+from core.paginators import MinecraftHypixelFriends
 
 
 class Hypixel(commands.Cog):

@@ -22,11 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import core.caches.friends
 import ratelimit
-import core.minecraft.request
+
+import core.caches.friends
 import core.minecraft.hypixel.request
 import core.minecraft.hypixel.static.static
+import core.minecraft.request
 
 games = {}
 

@@ -22,11 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import discord
 import math
-import core.minecraft.hypixel.player
 import re
-import core.minecraft.verification.verification
 
 master_control = "c1ec7a0544d84dd8a44a6eb400570ed7"
 

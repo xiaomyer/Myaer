@@ -26,10 +26,11 @@ SOFTWARE.
 # implementation somewhat changed
 # https://raw.githubusercontent.com/FireDiscordBot/bot/e66f0367ce87ec00f23a0f24afd0afe4592c5037/modules/snipes.py
 
-from discord.ext import commands
-import discord
-import typing
 import re
+import typing
+
+import discord
+from discord.ext import commands
 
 
 class Snipes(commands.Cog):

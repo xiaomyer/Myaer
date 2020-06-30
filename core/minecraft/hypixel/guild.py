@@ -24,7 +24,6 @@ SOFTWARE.
 
 import core.minecraft.hypixel.request
 import core.minecraft.hypixel.static.static
-import math
 
 tag_colors = {
     "DARK_GREEN": "00AA00",

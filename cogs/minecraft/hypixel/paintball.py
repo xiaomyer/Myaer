@@ -22,12 +22,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from discord.ext import commands
-import discord
 import math
-import core.static.static
-import core.minecraft.static
+
+import discord
+from discord.ext import commands
+
 import core.minecraft.hypixel.static.static
+import core.minecraft.static
+import core.static.static
 
 
 class Paintball(commands.Cog):

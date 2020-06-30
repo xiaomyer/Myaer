@@ -23,9 +23,10 @@ SOFTWARE.
 """
 
 import discord
-import core.minecraft.request
-import core.minecraft.hypixel.player
+
 import core.config.users
+import core.minecraft.hypixel.player
+import core.minecraft.request
 
 
 async def parse_input(ctx, _input):
