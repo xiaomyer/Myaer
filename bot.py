@@ -66,10 +66,11 @@ bot.error_log_channel = core.config.config.error_log_channel
 bot.guilds_log_channel = core.config.config.guilds_log_channel
 bot.suggestions_channel = core.config.config.suggestions_channel
 
-bot.mc_heads_api = "https://mc-heads.net/"
-bot.surgeplay_api = "https://visage.surgeplay.com/"
+bot.MC_HEADS_API = "https://mc-heads.net/"
+bot.SURGEPLAY_API = "https://visage.surgeplay.com/"
+bot.CREATION_TIME_FORMAT = "%m/%d/%Y - %I:%M:%S %p"
 
-time_format = "%A, %b %d, %Y - %m/%d/%Y - %I:%M:%S %p"
+STARTUP_TIME_FORMAT = "%A, %b %d, %Y - %m/%d/%Y - %I:%M:%S %p"
 program_start_time = datetime.datetime.now()
 os.environ["JISHAKU_NO_UNDERSCORE"] = "True"
 error_log_channel = core.config.config.error_log_channel
@@ -94,7 +95,7 @@ async def on_ready():
     ready_time = datetime.datetime.now()
     status_log_channel = bot.get_channel(core.config.config.status_log_channel)
     error_log_channel_object = bot.get_channel(error_log_channel)
-    print(f"Connection with Discord established at {ready_time.strftime(time_format)}")
+    print(f"Connection with Discord established at {ready_time.strftime(STARTUP_TIME_FORMAT)}")
     for failed_extension in failed_extensions:
         error_embed = discord.Embed(
             title=f"Failed to load extension {failed_extension['extension']}",
@@ -103,7 +104,7 @@ async def on_ready():
         await error_log_channel_object.send(embed=error_embed)
     await bot.change_presence(activity=discord.Game(name="/help | /suggest"))
     await status_log_channel.send(
-        f"Logged in at {ready_time.strftime(time_format)} (took {(ready_time - program_start_time).total_seconds()} seconds).")
+        f"Logged in at {ready_time.strftime(STARTUP_TIME_FORMAT)} (took {(ready_time - program_start_time).total_seconds()} seconds).")
 
 
 @bot.event
@@ -117,7 +118,7 @@ async def on_error(event, *args, **kwargs):
         description=f"```{error_traceback}```"
     )
     error_embed.set_footer(
-        text=(datetime.datetime.now()).strftime(time_format)
+        text=(datetime.datetime.now()).strftime(STARTUP_TIME_FORMAT)
     )
     await error_log_channel_object.send(embed=error_embed)
 

@@ -58,7 +58,7 @@ class Hypixel(commands.Cog):
         )
         player_info_embed.set_footer(
             text="Session data may not be 100% accurate as the data is cached. Use /session for 100% accurate data",
-            icon_url=f"{self.bot.mc_heads_api}avatar/{player_data['minecraft_uuid']}/100"
+            icon_url=f"{self.bot.MC_HEADS_API}avatar/{player_data['minecraft_uuid']}/100"
         )
         player_info_embed.add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Level**__",

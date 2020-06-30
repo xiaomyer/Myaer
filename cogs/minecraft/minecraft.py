@@ -102,15 +102,15 @@ class Minecraft(commands.Cog):
         await ctx.channel.trigger_typing()
         player_skin_embed = discord.Embed(
             title=f"**{player_data['player_formatted_name']}'s Minecraft Skin**",
-            description=f"[Raw Skin]({self.bot.surgeplay_api}skin/{player_data['minecraft_uuid']})",
+            description=f"[Raw Skin]({self.bot.SURGEPLAY_API}skin/{player_data['minecraft_uuid']})",
             color=ctx.author.color
         )
         player_skin_embed.set_image(
-            url=f"{self.bot.surgeplay_api}full/256/{player_data['minecraft_uuid']}",
+            url=f"{self.bot.SURGEPLAY_API}full/256/{player_data['minecraft_uuid']}",
             # don't ask me what the number is, idk either; i think it's the maximum size for images
         )
         player_skin_embed.set_thumbnail(
-            url=f"{self.bot.surgeplay_api}head/64/{player_data['minecraft_uuid']}"
+            url=f"{self.bot.SURGEPLAY_API}head/64/{player_data['minecraft_uuid']}"
         )
         await ctx.send(embed=player_skin_embed)
 

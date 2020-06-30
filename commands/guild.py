@@ -23,56 +23,16 @@ SOFTWARE.
 """
 
 import datetime
-
 import discord
 import humanfriendly
 from discord.ext import commands
 
 import core.static.static
 
-TIME_FORMAT = "%m/%d/%Y - %I:%M:%S %p"
 
-
-class Info(commands.Cog):
+class Guild(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-
-    @commands.command(name="user", aliases=["member", "u"])
-    @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def user(self, ctx, *args):
-        if bool(len(args)):
-            try:
-                user = await ctx.bot.member_converter.convert(ctx, args[0])
-                color = user.color
-            except commands.BadArgument:
-                try:
-                    user = await ctx.bot.user_converter.convert(ctx, args[0])
-                    color = ctx.author.color
-                    # sets to a User instead of a Member if Member object was not found
-                except commands.BadArgument:  # actual bad argument
-                    no_user_embed = discord.Embed(
-                        description=f"Member or user \"{args[0]}\" was not found"
-                    )
-                    await ctx.send(embed=no_user_embed)
-                    return
-        else:
-            user = ctx.author
-            color = ctx.author.color
-        user_embed = discord.Embed(
-            color=color,
-            timestamp=ctx.message.created_at
-        )
-        user_embed.add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Creation Date**__",
-            value=
-            f"""{user.created_at.strftime(TIME_FORMAT)}
-({humanfriendly.format_timespan(datetime.datetime.now() - user.created_at)} ago)"""
-        )
-        user_embed.set_author(
-            name=f"{user.name}#{user.discriminator} ({user.id})",
-            icon_url=str(user.avatar_url_as(static_format="png", size=2048))
-        )
-        await ctx.send(embed=user_embed)
 
     @commands.command(name="guild", aliases=["g", "server"])
     @commands.max_concurrency(1, per=commands.BucketType.user)
@@ -91,7 +51,7 @@ class Info(commands.Cog):
         )
         guild_embed.add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Creation Date**__",
-            value=f"{ctx.guild.created_at.strftime(TIME_FORMAT)} ({humanfriendly.format_timespan(datetime.datetime.now() - ctx.guild.created_at)} ago)",
+            value=f"{ctx.guild.created_at.strftime(ctx.bot.CREATION_TIME_FORMAT)} ({humanfriendly.format_timespan(datetime.datetime.now() - ctx.guild.created_at)} ago)",
             inline=False
         )
         guild_embed.add_field(
@@ -126,9 +86,10 @@ async def get_role_names_string(roles: list) -> str:
             del roles[-1]
             times += 1
         return f"{', '.join(roles)}" if not bool(times) else f"{', '.join(roles)} (and {times} more)"
-    else: return "No Roles"
+    else:
+        return "No Roles"
 
 
 def setup(bot):
-    bot.add_cog(Info(bot))
-    print("Reloaded cogs.info")
+    bot.add_cog(Guild(bot))
+    print("Reloaded commands.guild")
