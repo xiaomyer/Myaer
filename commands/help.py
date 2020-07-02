@@ -35,13 +35,12 @@ class Help(commands.Cog):
     async def help(self, ctx):
         help_embed = discord.Embed(
             name="Help",
-            description=
-            """Here is some information about me
+            description=f"""Here is some information about me
 [Commands](https://github.com/MyerFire/Myaer#command-list)
 [GitHub](https://github.com/MyerFire/Myaer)
 [Support/Info (My Discord Server)](https://inv.wtf/myerfire)
 [Vote](https://discord.boats/bot/700133917264445480)
-[Invite Me](https://discord.com/api/oauth2/authorize?client_id=700133917264445480&permissions=8&scope=bot)""",
+[Invite Me]({discord.utils.oauth_url(ctx.bot.client_id, permissions=ctx.bot.admin_permission)})""",
             color=ctx.author.color,
             timestamp=ctx.message.created_at
         ).set_author(

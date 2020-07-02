@@ -43,8 +43,7 @@ class Avatar(commands.Cog):
         avatar_embed = discord.Embed(
             title=f"{user.name}'s Avatar",
             color=color
-        )
-        avatar_embed.set_image(
+        ).set_image(
             url=str(user.avatar_url_as(static_format="png", size=2048))
         )
         await ctx.send(embed=avatar_embed)

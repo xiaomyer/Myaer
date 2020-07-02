@@ -40,7 +40,6 @@ class User(commands.Cog):
     async def user(self, ctx, *, user: typing.Union[discord.Member, discord.User, str] = None):  # converts to string if
         # not a Member or User to continue code execution as a makeshift error handler
         # this is so that the argument passed is accessible
-        nick = None
         if isinstance(user, str):  # if user is a string, it failed both the Member conversion and the User conversion
             no_user_embed = discord.Embed(
                 description=f"User \"{user}\" not found",
@@ -54,11 +53,8 @@ class User(commands.Cog):
             color = ctx.author.color
             nick = ctx.author.nick
         else:
-            if isinstance(user, discord.Member):
-                color = user.color
-                nick = user.nick
-            else:
-                color = ctx.author.color
+            color = user.color
+            nick = user.nick if isinstance(user, discord.Member) else None
         user_embed = discord.Embed(
             color=color,
             description=f"<@{user.id}>",
@@ -73,8 +69,8 @@ class User(commands.Cog):
         )
         if isinstance(user, discord.Member):
             join_position = sorted(  # lmao what the hell is this
-                                    ctx.guild.members,  # thank you fire very cool idk what this is
-                                    key=lambda m: m.joined_at or m.created_at
+                ctx.guild.members,  # thank you fire very cool idk what this is
+                key=lambda m: m.joined_at or m.created_at
             ).index(user) + 1  # assuming +1 because index
             user_embed.add_field(
                 name=f"__**{core.static.static.arrow_bullet_point} Joined Guild**__" if user != ctx.guild.owner else f"__**{core.static.static.arrow_bullet_point} Created Guild**__",

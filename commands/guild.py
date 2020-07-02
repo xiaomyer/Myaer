@@ -36,7 +36,7 @@ class Guild(commands.Cog):
 
     @commands.command(name="guild", aliases=["g", "server"])
     @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def guild(self, ctx):
+    async def guild(self, ctx: commands.Context):
         guild_embed = discord.Embed(
             color=ctx.guild.owner.color,
             timestamp=ctx.message.created_at

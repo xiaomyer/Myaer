@@ -57,6 +57,9 @@ bot = commands.Bot(
     command_prefix=get_prefix,
     owner_id=core.config.config.owner_id,
 )
+bot.admin_permission = discord.Permissions(8)
+bot.client_id = 700133917264445480
+bot.startup_time = datetime.datetime.now()
 bot.member_converter = commands.MemberConverter()
 bot.user_converter = commands.UserConverter()
 bot.default_prefix = core.config.config.default_prefix
@@ -71,7 +74,6 @@ bot.SURGEPLAY_API = "https://visage.surgeplay.com/"
 bot.CREATION_TIME_FORMAT = "%m/%d/%Y - %I:%M:%S %p"
 
 STARTUP_TIME_FORMAT = "%A, %b %d, %Y - %m/%d/%Y - %I:%M:%S %p"
-program_start_time = datetime.datetime.now()
 os.environ["JISHAKU_NO_UNDERSCORE"] = "True"
 error_log_channel = core.config.config.error_log_channel
 
@@ -104,7 +106,7 @@ async def on_ready():
         await error_log_channel_object.send(embed=error_embed)
     await bot.change_presence(activity=discord.Game(name="/help | /suggest"))
     await status_log_channel.send(
-        f"Logged in at {ready_time.strftime(STARTUP_TIME_FORMAT)} (took {(ready_time - program_start_time).total_seconds()} seconds).")
+        f"Logged in at {ready_time.strftime(STARTUP_TIME_FORMAT)} (took {(ready_time - bot.startup_time).total_seconds()} seconds).")
 
 
 @bot.event

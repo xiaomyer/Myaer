@@ -103,53 +103,41 @@ class Bedwars(commands.Cog):
         player_stats_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Bedwars Stats**""",
             color=int((await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16)  # 16 - Hex value.
-        )
-        player_stats_embed.set_thumbnail(
+        ).set_thumbnail(
             url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
-        )
-        player_stats_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Level**__",
             value=f"{player_json['bedwars']['star']} {core.static.static.star} ({(await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json['bedwars']['star']))['prestige']} Prestige)",
             inline=False
-        )
-        player_stats_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Winstreak**__",
             value=f"{(player_json['bedwars']['winstreak']):,d}",
             inline=False
-        )
-        player_stats_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['final_kills']):,d}"
-        )
-        player_stats_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['final_deaths']):,d}"
-        )
-        player_stats_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
             value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['final_kills']), ((player_json['bedwars']['final_deaths'])))}"
-        )
-        player_stats_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['beds_broken']):,d}"
-        )
-        player_stats_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['beds_lost']):,d}"
-        )
-        player_stats_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
             value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['beds_broken']), ((player_json['bedwars']['beds_lost'])))}"
-        )
-        player_stats_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['bedwars']['wins']):,d}"
-        )
-        player_stats_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['losses']):,d}"
-        )
-        player_stats_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
             value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['wins']), ((player_json['bedwars']['losses'])))}"
         )
@@ -169,48 +157,37 @@ class Bedwars(commands.Cog):
             color=int(
                 (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
-        )
-        player_solo_stats_embed.set_thumbnail(
+        ).set_thumbnail(
             url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
-        )
-        player_solo_stats_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Winstreak**__",
             value=f"{(player_json['bedwars']['solo']['winstreak']):,d}",
             inline=False
-        )
-        player_solo_stats_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['solo']['final_kills']):,d}"
-        )
-        player_solo_stats_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['solo']['final_deaths']):,d}"
-        )
-        player_solo_stats_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
             value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['solo']['final_kills']), ((player_json['bedwars']['solo']['final_deaths'])))}"
-        )
-        player_solo_stats_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['solo']['beds_broken']):,d}"
-        )
-        player_solo_stats_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['solo']['beds_lost']):,d}"
-        )
-        player_solo_stats_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
             value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['solo']['beds_broken']), ((player_json['bedwars']['solo']['beds_lost'])))}"
-        )
-        player_solo_stats_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['bedwars']['solo']['wins']):,d}"
-        )
-        player_solo_stats_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['solo']['losses']):,d}"
-        )
-        player_solo_stats_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
             value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['solo']['wins']), ((player_json['bedwars']['solo']['losses'])))}"
         )
@@ -230,48 +207,37 @@ class Bedwars(commands.Cog):
             color=int(
                 (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
-        )
-        player_doubles_stats_embed.set_thumbnail(
+        ).set_thumbnail(
             url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
-        )
-        player_doubles_stats_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Winstreak**__",
             value=f"{(player_json['bedwars']['doubles']['winstreak']):,d}",
             inline=False
-        )
-        player_doubles_stats_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['doubles']['final_kills']):,d}"
-        )
-        player_doubles_stats_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['doubles']['final_deaths']):,d}"
-        )
-        player_doubles_stats_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
             value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['doubles']['final_kills']), ((player_json['bedwars']['doubles']['final_deaths'])))}"
-        )
-        player_doubles_stats_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['doubles']['beds_broken']):,d}"
-        )
-        player_doubles_stats_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['doubles']['beds_lost']):,d}"
-        )
-        player_doubles_stats_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
             value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['doubles']['beds_broken']), ((player_json['bedwars']['doubles']['beds_lost'])))}"
-        )
-        player_doubles_stats_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['bedwars']['doubles']['wins']):,d}"
-        )
-        player_doubles_stats_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['doubles']['losses']):,d}"
-        )
-        player_doubles_stats_embed.add_field(
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
             value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['doubles']['wins']), ((player_json['bedwars']['doubles']['losses'])))}"
         )
