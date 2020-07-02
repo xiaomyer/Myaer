@@ -33,7 +33,7 @@ async def get_role_mentions(roles) -> list:
     role_names = []
     for role in reversed(roles):  # discord roles attribute of a guild returns roles from lowest to highest
         if role.name != "@everyone":  # @everyone is a default role that doesn't have to be shown
-            role_names.append(f"<@&{role.id}>")
+            role_names.append(role.mention)
     return role_names
 
 

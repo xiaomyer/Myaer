@@ -56,7 +56,7 @@ class Stats(commands.Cog):
             text="Made by MyerFire"
         ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Owner**__",
-            value=f"<@{ctx.bot.owner_id}> (myer#0001) [{ctx.bot.owner_id}]",
+            value=f"{ctx.bot.owner_user.mention} (myer#0001) [{ctx.bot.owner_id}]",
             inline=False
         ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Uptime**__",

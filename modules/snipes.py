@@ -124,16 +124,14 @@ class Snipes(commands.Cog):
         guild_snipes = snipetype.get(ctx.guild.id, None)
         if not guild_snipes:
             nothing_to_snipe_member_embed = discord.Embed(
-                description=f"Nothing to snipe for <@{target.id}>" if isinstance(target,
-                                                                                 discord.Member) else f"Nothing to snipe for <#{target.id}>"
+                description=f"Nothing to snipe for {target.mention}"
             )
             await ctx.send(embed=nothing_to_snipe_member_embed)
             return
         message = guild_snipes.pop(target.id, None)  # A message can now only be sniped once
         if not message:
             nothing_to_snipe_member_embed = discord.Embed(
-                description=f"Nothing to snipe for <@{target.id}>" if isinstance(target,
-                                                                                 discord.Member) else f"Nothing to snipe for <#{target.id}>"
+                description=f"Nothing to snipe for {target.mention}"
             )
             await ctx.send(embed=nothing_to_snipe_member_embed)
             return
@@ -164,16 +162,14 @@ class Snipes(commands.Cog):
         guild_snipes = snipetype.get(ctx.guild.id, None)
         if not guild_snipes:
             nothing_to_snipe_member_embed = discord.Embed(
-                description=f"Nothing to snipe for <@{target.id}>" if isinstance(target,
-                                                                                 discord.Member) else f"Nothing to snipe for <#{target.id}>"
+                description=f"Nothing to snipe for {target.mention}"
             )
             await ctx.send(embed=nothing_to_snipe_member_embed)
             return
         message = guild_snipes.pop(target.id, None)  # A message can now only be sniped once
         if not message:
             nothing_to_snipe_member_embed = discord.Embed(
-                description=f"Nothing to snipe for <@{target.id}>" if isinstance(target,
-                                                                                 discord.Member) else f"Nothing to snipe for <#{target.id}>"
+                description=f"Nothing to snipe for {target.mention}"
             )
             await ctx.send(embed=nothing_to_snipe_member_embed)
             return

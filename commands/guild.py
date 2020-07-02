@@ -45,7 +45,7 @@ class Guild(commands.Cog):
             icon_url=str(ctx.guild.icon_url_as(static_format="png", size=2048))
         ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Owner**__",
-            value=f"<@{ctx.guild.owner.id}> ({ctx.guild.owner.id})"
+            value=f"{ctx.guild.owner.mention} ({ctx.guild.owner.id})"
         ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Creation Date**__",
             value=f"{ctx.guild.created_at.strftime(ctx.bot.CREATION_TIME_FORMAT)} ({humanfriendly.format_timespan(datetime.datetime.now() - ctx.guild.created_at)} ago)",

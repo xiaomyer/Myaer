@@ -121,7 +121,7 @@ class WristSpasm(commands.Cog):
         if prestige_role_object in ctx.author.roles:
             already_have_role_embed = discord.Embed(
                 name="Already have role",
-                description=f"You already have the role <@&{prestige_role}>."
+                description=f"You already have the role {prestige_role_object.mention}."
             )
             already_have_role_embed.set_footer(
                 text=core.static.static.wrist_spasm_disclaimer
@@ -131,7 +131,7 @@ class WristSpasm(commands.Cog):
             await ctx.author.add_roles(prestige_role_object)
             added_role_embed = discord.Embed(
                 name="Added role",
-                description=f"Gave you the role <@&{prestige_role}>."
+                description=f"Gave you the role {prestige_role_object.mention}."
             )
             added_role_embed.set_footer(
                 text=core.static.static.wrist_spasm_disclaimer
@@ -143,12 +143,7 @@ class WristSpasm(commands.Cog):
                 await ctx.author.remove_roles(role_object)
                 role_remove_embed = discord.Embed(
                     name="Role removed",
-                    description=f"Removed role <@&{roles[role]}> from you."
-                )
-                role_remove_embed.set_footer(
-                    text=
-                    f"""{core.static.static.wrist_spasm_disclaimer}
-You are only supposed to have one Bedwars prestige role."""
+                    description=f"Removed role {role_object.mention} from you."
                 )
                 await ctx.send(embed=role_remove_embed)
 
@@ -172,7 +167,7 @@ You are only supposed to have one Bedwars prestige role."""
                 await target.edit(nick=player_data["player_formatted_name"])
                 nickname_changed_embed = discord.Embed(
                     name="Nickname changed",
-                    description=f"Changed <@!{target.id}>'s nickname to {player_data['player_formatted_name']}."
+                    description=f"Changed {target.mention}'s nickname to {player_data['player_formatted_name']}."
                 )
                 nickname_changed_embed.set_footer(
                     text=core.static.static.wrist_spasm_disclaimer
@@ -181,7 +176,7 @@ You are only supposed to have one Bedwars prestige role."""
             except discord.errors.Forbidden:
                 forbidden_embed = discord.Embed(
                     name="No permissions",
-                    description=f"Cannot change <@!{target.id}>'s nickname."
+                    description=f"Cannot change {target.mention}'s nickname."
                 )
                 forbidden_embed.set_footer(
                     text="Insufficient permissions"
@@ -190,7 +185,7 @@ You are only supposed to have one Bedwars prestige role."""
         else:
             nickname_already_set_embed = discord.Embed(
                 name="Already have nickname",
-                description=f"<@!{target.id}>'s nickname is already {player_data['player_formatted_name']}."
+                description=f"{target.mention}'s nickname is already {player_data['player_formatted_name']}."
             )
             nickname_already_set_embed.set_footer(
                 text=core.static.static.wrist_spasm_disclaimer
@@ -199,7 +194,7 @@ You are only supposed to have one Bedwars prestige role."""
         if prestige_role_object in target.roles:
             already_have_role_embed = discord.Embed(
                 name="Already have role",
-                description=f"<@!{target.id}> already has the {prestige} Prestige role."
+                description=f"{target.mention} already has the {prestige} Prestige role."
             )
             already_have_role_embed.set_footer(
                 text=core.static.static.wrist_spasm_disclaimer
@@ -209,7 +204,7 @@ You are only supposed to have one Bedwars prestige role."""
             await target.add_roles(prestige_role_object)
             added_role_embed = discord.Embed(
                 name="Added role",
-                description=f"Gave <@!{target.id}> the role <@&{prestige_role}>."
+                description=f"Gave {target.mention} the role {prestige_role_object.mention}."
             )
             added_role_embed.set_footer(
                 text=core.static.static.wrist_spasm_disclaimer
@@ -221,7 +216,7 @@ You are only supposed to have one Bedwars prestige role."""
                 await target.remove_roles(role_object)
                 role_remove_embed = discord.Embed(
                     name="Role removed",
-                    description=f"Removed the role <@&{roles[role]}> from <@!{target.id}>."
+                    description=f"Removed the role {role_object.mention} from {target.mention}."
                 )
                 role_remove_embed.set_footer(
                     text=f"""{core.static.static.wrist_spasm_disclaimer}

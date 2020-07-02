@@ -57,7 +57,7 @@ class User(commands.Cog):
             nick = user.nick if isinstance(user, discord.Member) else None
         user_embed = discord.Embed(
             color=color,
-            description=f"<@{user.id}>",
+            description=user.mention,
             timestamp=ctx.message.created_at
         ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Account Created**__",

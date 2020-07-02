@@ -57,6 +57,7 @@ bot = commands.Bot(
     command_prefix=get_prefix,
     owner_id=core.config.config.owner_id,
 )
+bot.owner_user = bot.get_user(bot.owner_id)
 bot.admin_permission = discord.Permissions(8)
 bot.client_id = 700133917264445480
 bot.startup_time = datetime.datetime.now()
