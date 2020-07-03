@@ -22,6 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+import asyncio
 import datetime
 import logging
 import os
@@ -83,6 +84,14 @@ for file in extensions[:]:
         extensions.remove(file)
 failed_extensions = []
 
+for extension in extensions:
+    try:
+        bot.load_extension(((extension.replace("/", "."))[:-3]) if extension.endswith(".py") else extension)
+    except Exception as e:
+        exception = '{}: {}'.format(type(e).__name__, e)
+        print("Failed to load extension {}\n{}".format(extension, exception))
+        error_traceback = "".join(traceback.format_exception(type(e), e, e.__traceback__))
+        failed_extensions.append({"extension": extension, "traceback": error_traceback})
 
 @bot.event
 async def on_ready():
@@ -121,14 +130,19 @@ async def on_error(event, *args, **kwargs):
     await bot.error_log_channel.send(embed=error_embed)
 
 
-if __name__ == "__main__":
-    for extension in extensions:
-        try:
-            bot.load_extension(((extension.replace("/", "."))[:-3]) if extension.endswith(".py") else extension)
-        except Exception as e:
-            exception = '{}: {}'.format(type(e).__name__, e)
-            print("Failed to load extension {}\n{}".format(extension, exception))
-            error_traceback = "".join(traceback.format_exception(type(e), e, e.__traceback__))
-            failed_extensions.append({"extension": extension, "traceback": error_traceback})
+async def start():
+    try:
+        await bot.start(core.config.config.token)
+    except KeyboardInterrupt:
+        await bot.logout()
 
-bot.run(core.config.config.token)
+
+async def stop():
+    await bot.logout()
+
+
+if __name__ == "__main__":
+    try:
+        asyncio.get_event_loop().run_until_complete(start())
+    except KeyboardInterrupt:
+        asyncio.get_event_loop().run_until_complete(stop())
