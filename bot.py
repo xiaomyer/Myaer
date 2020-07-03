@@ -48,7 +48,7 @@ async def get_prefix(bot, message):
         return commands.when_mentioned_or(core.config.config.default_prefix, "myaer", "Myaer")(bot, message)
     guild_config = await core.config.guilds.get_config(message.guild.id)
     if guild_config:
-        prefix = guild_config["prefix"] if guild_config.get("prefix") else core.config.config.default_prefix
+        prefix = guild_config["prefix"] if guild_config.get("prefix", None) else core.config.config.default_prefix
     else:
         prefix = core.config.config.default_prefix
     return commands.when_mentioned_or(prefix, "myaer ", "Myaer ")(bot, message)
