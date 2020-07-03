@@ -137,12 +137,8 @@ async def start():
         await bot.logout()
 
 
-async def stop():
-    await bot.logout()
-
-
 if __name__ == "__main__":
     try:
         asyncio.get_event_loop().run_until_complete(start())
     except KeyboardInterrupt:
-        asyncio.get_event_loop().run_until_complete(stop())
+        asyncio.get_event_loop().run_until_complete(bot.logout())

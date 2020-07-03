@@ -40,31 +40,37 @@ class Config(commands.Cog):
             name="Prefix",
             description=f"This server's current prefix is `{prefix}`" if prefix else f"This server is using the default prefix, `{self.bot.default_prefix}`"
         )
-        await ctx.send(embed=prefix_embed)
+        return await ctx.send(embed=prefix_embed)
 
     @prefix.command(name="set")
     @commands.has_guild_permissions(manage_guild=True)
     @commands.guild_only()
     async def set_prefix(self, ctx, prefix):
-        if prefix == self.bot.default_prefix:  # cannot set to default prefix
-            default_embed = discord.Embed(
-                name="Cannot set prefix to default",
-                description="You cannot set a guild's custom prefix to the default prefix"
-            )
-            await ctx.send(embed=default_embed)
+        if prefix == self.bot.default_prefix:
+            reset_data = await core.config.guilds.reset_key(ctx.guild.id, "prefix")
+            if reset_data:
+                reset_embed = discord.Embed(
+                    description=f"Reset this server's prefix from `{reset_data['prefix']}` to `{self.bot.default_prefix}`"
+                )
+                await ctx.send(embed=reset_embed)
+            else:
+                not_set_embed = discord.Embed(
+                    description=f"This server's prefix is already the default, `{self.bot.default_prefix}`"
+                )
+                return await ctx.send(embed=not_set_embed)
         elif len(prefix) < 10:
             await core.config.guilds.set_key(ctx.guild.id, "prefix", prefix)
             set_embed = discord.Embed(
                 name="Set prefix",
                 description=f"Set this server's prefix to `{prefix}`"
             )
-            await ctx.send(embed=set_embed)
+            return await ctx.send(embed=set_embed)
         else:
             too_long_embed = discord.Embed(
                 name="Too long",
                 description="Prefixes should not be that long. Try a shorter one"
             )
-            await ctx.send(embed=too_long_embed)
+            return await ctx.send(embed=too_long_embed)
 
     @prefix.command(name="reset")
     @commands.has_guild_permissions(manage_guild=True)
@@ -75,12 +81,12 @@ class Config(commands.Cog):
             reset_embed = discord.Embed(
                 description=f"Reset this server's prefix from `{reset_data['prefix']}` to `{self.bot.default_prefix}`"
             )
-            await ctx.send(embed=reset_embed)
+            return await ctx.send(embed=reset_embed)
         else:
             not_set_embed = discord.Embed(
                 description=f"This server's prefix is already the default, `{self.bot.default_prefix}`"
             )
-            await ctx.send(embed=not_set_embed)
+            return await ctx.send(embed=not_set_embed)
 
 
 def setup(bot):
