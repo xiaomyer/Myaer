@@ -46,8 +46,7 @@ class User(commands.Cog):
                 color=ctx.author.color,
                 timestamp=ctx.message.created_at
             )
-            await ctx.send(embed=no_user_embed)
-            return
+            return await ctx.send(embed=no_user_embed)
         if not user:
             user = ctx.author
             color = ctx.author.color
