@@ -22,6 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+import typing
+
 import discord
 from discord.ext import commands
 
@@ -30,21 +32,19 @@ class Avatar(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name="avatar", aliases=["pfp"])
+    @commands.command(name="avatar", aliases=["av", "pfp"])
     @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def avatar(self, ctx, *args):
-        if bool(len(args)):
-            user = await ctx.bot.user_converter.convert(ctx, args[0])
-            member = ctx.guild.get_member(user.id)
-            color = member.color if bool(member) else ctx.author.color
-        else:
-            user = ctx.author
-            color = ctx.author.color
+    async def avatar(self, ctx, target: typing.Union[discord.Member, discord.User, str] = None):
+        if not target:
+            target = ctx.author
         avatar_embed = discord.Embed(
-            title=f"{user.name}'s Avatar",
-            color=color
+            color=target.color,
+            timestamp=ctx.message.created_at,
+            description=target.mention
         ).set_image(
-            url=str(user.avatar_url_as(static_format="png", size=2048))
+            url=str(target.avatar_url_as(static_format="png", size=2048))
+        ).set_author(
+            name=f"{target.name}#{target.discriminator}'s Avatar"
         )
         await ctx.send(embed=avatar_embed)
 

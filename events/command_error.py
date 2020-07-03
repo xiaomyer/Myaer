@@ -39,8 +39,9 @@ class CommandError(commands.Cog):
     async def on_command_error(self, ctx, error):
         error = getattr(error, "original", error)
 
-        if hasattr(ctx.command, "on_error"):
+        if hasattr(ctx.command, "on_error") or hasattr(ctx, "error_handled"):
             return
+
         ignored = commands.CommandNotFound
         if isinstance(error, ignored):
             return
@@ -66,9 +67,6 @@ invoked by {ctx.author.mention} `({ctx.author.name}#{ctx.author.discriminator}) 
         # myer, you silly goose! why are you putting this before the check for a local error handler?
         # i just want to see how many times there are actual errors
         # and i want to see how many times my cooldowns are met
-
-        if (str(ctx.command)).startswith("leaderboards"):
-            return
 
         if isinstance(error, commands.MaxConcurrencyReached):
             concurrency_embed = discord.Embed(
@@ -107,9 +105,10 @@ invoked by {ctx.author.mention} `({ctx.author.name}#{ctx.author.discriminator}) 
             forbidden_embed = discord.Embed(
                 color=ctx.author.color,
                 timestamp=ctx.message.created_at,
-                description=f"""I do not have enough permissions in {ctx.guild.name}'s {ctx.channel.mention} (or the entire server).
+                description=f"""I do not have enough permissions in `{ctx.guild.name}`'s {ctx.channel.mention} channel (or the entire server).
 The permissions I require are `Read Messages`, `Send Messages`, `Attach Files`, and `Embed Links`.
-If you are having trouble with permissions, giving me the `Administrator` permission will solve any and all problems."""
+If you are having trouble with permissions, giving me the `Administrator` permission will solve any and all problems.
+For more support, join my [Discord Server](https://inv.wtf/myerfire)"""
             )
             await ctx.author.send(embed=forbidden_embed)
 
