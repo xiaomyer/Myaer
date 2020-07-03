@@ -34,7 +34,6 @@ class OnGuildJoin(commands.Cog):
 
     @commands.Cog.listener()
     async def on_guild_join(self, guild):
-        guilds_log_channel_object = self.bot.get_channel(self.bot.guilds_log_channel)
         guild_join_embed = discord.Embed(
             name="Joined guild",
             title=f"**Joined Guild {discord.utils.escape_markdown(f'{guild.name}')}**"
@@ -50,7 +49,7 @@ class OnGuildJoin(commands.Cog):
         guild_join_embed.set_thumbnail(
             url=str(guild.icon_url_as(static_format="png", size=2048))
         )
-        await guilds_log_channel_object.send(embed=guild_join_embed)
+        await self.bot.guilds_log_channel.send(embed=guild_join_embed)
 
 
 def setup(bot):

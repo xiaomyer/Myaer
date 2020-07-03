@@ -34,7 +34,6 @@ class OnGuildRemove(commands.Cog):
 
     @commands.Cog.listener()
     async def on_guild_remove(self, guild):
-        guilds_log_channel_object = self.bot.get_channel(self.bot.guilds_log_channel)
         guild_remove_embed = discord.Embed(
             name="Left guild",
             title=f"**Left Guild {discord.utils.escape_markdown(f'{guild.name}')}**"
@@ -50,7 +49,7 @@ class OnGuildRemove(commands.Cog):
         guild_remove_embed.set_thumbnail(
             url=str(guild.icon_url_as(static_format="png", size=2048))
         )
-        await guilds_log_channel_object.send(embed=guild_remove_embed)
+        await self.bot.guilds_log_channel.send(embed=guild_remove_embed)
 
 
 def setup(bot):

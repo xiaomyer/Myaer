@@ -57,7 +57,6 @@ bot = commands.Bot(
     command_prefix=get_prefix,
     owner_id=core.config.config.owner_id,
 )
-bot.owner_user = bot.get_user(bot.owner_id)
 bot.admin_permission = discord.Permissions(8)
 bot.client_id = 700133917264445480
 bot.startup_time = datetime.datetime.now()
@@ -65,49 +64,46 @@ bot.member_converter = commands.MemberConverter()
 bot.user_converter = commands.UserConverter()
 bot.default_prefix = core.config.config.default_prefix
 bot.hypixel_api_key = core.config.config.hypixel_api_key
-bot.status_log_channel = core.config.config.status_log_channel
-bot.error_log_channel = core.config.config.error_log_channel
-bot.guilds_log_channel = core.config.config.guilds_log_channel
-bot.suggestions_channel = core.config.config.suggestions_channel
 
 bot.MC_HEADS_API = "https://mc-heads.net/"
 bot.SURGEPLAY_API = "https://visage.surgeplay.com/"
 bot.CREATION_TIME_FORMAT = "%m/%d/%Y - %I:%M:%S %p"
 
 STARTUP_TIME_FORMAT = "%A, %b %d, %Y - %m/%d/%Y - %I:%M:%S %p"
+started = False
 os.environ["JISHAKU_NO_UNDERSCORE"] = "True"
-error_log_channel = core.config.config.error_log_channel
 
-extensions = [os.path.join(dp, f) for dp, dn, fn in os.walk("cogs") for f in fn] + [os.path.join(dp, f) for dp, dn, fn
-                                                                                    in os.walk("commands") for f in
-                                                                                    fn] + [os.path.join(dp, f) for
-                                                                                           dp, dn, fn in
-                                                                                           os.walk("modules") for f in
-                                                                                           fn] + [os.path.join(dp, f)
-                                                                                                  for dp, dn, fn in
-                                                                                                  os.walk("events") for
-                                                                                                  f in fn] + ["jishaku"]
+extensions = [os.path.join(dp, f) for dp, dn, fn in os.walk("cogs") for f in fn] + \
+             [os.path.join(dp, f) for dp, dn, fn in os.walk("commands") for f in fn] + \
+             [os.path.join(dp, f) for dp, dn, fn in os.walk("modules") for f in fn] + \
+             [os.path.join(dp, f) for dp, dn, fn in os.walk("events") for f in fn] + \
+             ["jishaku"]
 for file in extensions[:]:
-    if not file.endswith(".py") and file != "jishaku":
+    if not file.endswith(".py") and file != "jishaku":  # jishaku cog is a special case
         extensions.remove(file)
 failed_extensions = []
 
 
 @bot.event
 async def on_ready():
+    bot.owner_user = bot.get_user(bot.owner_id)
+    bot.error_log_channel = bot.get_channel(core.config.config.error_log_channel)
+    bot.guilds_log_channel = bot.get_channel(core.config.config.guilds_log_channel)
+    bot.status_log_channel = bot.get_channel(core.config.config.status_log_channel)
+    bot.suggestions_channel = bot.get_channel(core.config.config.suggestions_channel)
+
     ready_time = datetime.datetime.now()
-    status_log_channel = bot.get_channel(core.config.config.status_log_channel)
-    error_log_channel_object = bot.get_channel(error_log_channel)
     print(f"Connection with Discord established at {ready_time.strftime(STARTUP_TIME_FORMAT)}")
     for failed_extension in failed_extensions:
         error_embed = discord.Embed(
             title=f"Failed to load extension {failed_extension['extension']}",
             description=f"```{failed_extension['traceback']}```"
         )
-        await error_log_channel_object.send(embed=error_embed)
+        await bot.error_log_channel.send(embed=error_embed)
     await bot.change_presence(activity=discord.Game(name="/help | /suggest"))
-    await status_log_channel.send(
-        f"Logged in at {ready_time.strftime(STARTUP_TIME_FORMAT)} (took {(ready_time - bot.startup_time).total_seconds()} seconds).")
+    await bot.status_log_channel.send(f"Logged in at {ready_time.strftime(STARTUP_TIME_FORMAT)} (took {(ready_time - bot.startup_time).total_seconds()} seconds)."
+                                      if not started else
+                                      f"Automatically restarted at {ready_time.strftime(STARTUP_TIME_FORMAT)}")
 
 
 @bot.event
@@ -115,7 +111,6 @@ async def on_error(event, *args, **kwargs):
     error = sys.exc_info()
     error_traceback = "".join(traceback.format_exception(error[0], error[1], error[2]))
     print(error_traceback)
-    error_log_channel_object = bot.get_channel(error_log_channel)
     error_embed = discord.Embed(
         title="Exception",
         description=f"```{error_traceback}```"
@@ -123,7 +118,7 @@ async def on_error(event, *args, **kwargs):
     error_embed.set_footer(
         text=(datetime.datetime.now()).strftime(STARTUP_TIME_FORMAT)
     )
-    await error_log_channel_object.send(embed=error_embed)
+    await bot.error_log_channel.send(embed=error_embed)
 
 
 if __name__ == "__main__":

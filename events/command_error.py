@@ -41,7 +41,7 @@ class CommandError(commands.Cog):
 
         if hasattr(ctx.command, "on_error"):
             return
-        ignored = (commands.CommandNotFound)
+        ignored = commands.CommandNotFound
         if isinstance(error, ignored):
             return
 
@@ -49,7 +49,6 @@ class CommandError(commands.Cog):
         traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
 
         error_traceback = "".join(traceback.format_exception(type(error), error, error.__traceback__))
-        error_log_channel_object = ctx.bot.get_channel(self.bot.error_log_channel)
         error_embed = discord.Embed(
             color=ctx.author.color,
             timestamp=ctx.message.created_at,
@@ -62,7 +61,7 @@ class CommandError(commands.Cog):
 invoked by {ctx.author.mention} `({ctx.author.name}#{ctx.author.discriminator}) ({ctx.author.id})`
 ```{error_traceback}```"""
         )
-        await error_log_channel_object.send(embed=error_embed)
+        await ctx.bot.error_log_channel.send(embed=error_embed)
 
         # myer, you silly goose! why are you putting this before the check for a local error handler?
         # i just want to see how many times there are actual errors
