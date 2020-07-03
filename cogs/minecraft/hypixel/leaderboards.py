@@ -146,7 +146,7 @@ class Leaderboards(commands.Cog):
         else:
             valid = False
         if valid:
-            bedwars_weekly_wins_leaderboard_string = leaderboards_cache["leaderboards"]
+            bedwars_overall_finals_leaderboard_string = leaderboards_cache["leaderboards"]
         else:
             leaderboards_json = await core.minecraft.hypixel.leaderboards.get_leaderboards()
             index = 0
