@@ -73,6 +73,7 @@ invoked by {ctx.author.mention} `({ctx.author.name}#{ctx.author.discriminator}) 
         if isinstance(error, commands.MaxConcurrencyReached):
             concurrency_embed = discord.Embed(
                 color=ctx.author.color,
+                timestamp=ctx.message.created_at,
                 description=f"{ctx.author.name}, this command is being ratelimited. Try again in a bit"
             )
             await ctx.send(embed=concurrency_embed)
@@ -81,6 +82,7 @@ invoked by {ctx.author.mention} `({ctx.author.name}#{ctx.author.discriminator}) 
             cooldown = datetime.timedelta(seconds=error.retry_after)
             cooldown_embed = discord.Embed(
                 color=ctx.author.color,
+                timestamp=ctx.message.created_at,
                 description=f"{ctx.author.name}, you are sending commands too fast. Try again in {humanfriendly.format_timespan(cooldown)}"
             )
             await ctx.send(embed=cooldown_embed)
@@ -88,6 +90,7 @@ invoked by {ctx.author.mention} `({ctx.author.name}#{ctx.author.discriminator}) 
         if isinstance(error, commands.MissingRequiredArgument):
             argument_embed = discord.Embed(
                 color=ctx.author.color,
+                timestamp=ctx.message.created_at,
                 description=f"{ctx.author.name}, you forgot to provide an input of some sort"
             )
             await ctx.send(embed=argument_embed)
@@ -95,9 +98,20 @@ invoked by {ctx.author.mention} `({ctx.author.name}#{ctx.author.discriminator}) 
         if isinstance(error, commands.MissingPermissions):
             argument_embed = discord.Embed(
                 color=ctx.author.color,
+                timestamp=ctx.message.created_at,
                 description=f"{ctx.author.name}, you don't have enough permissions to do that"
             )
             await ctx.send(embed=argument_embed)
+
+        if isinstance(error, discord.Forbidden):
+            forbidden_embed = discord.Embed(
+                color=ctx.author.color,
+                timestamp=ctx.message.created_at,
+                description=f"""I do not have enough permissions in {ctx.guild.name}'s {ctx.channel.mention} (or the entire server).
+The permissions I require are `Read Messages`, `Send Messages`, `Attach Files`, and `Embed Links`.
+If you are having trouble with permissions, giving me the `Administrator` permission will solve any and all problems."""
+            )
+            await ctx.author.send(embed=forbidden_embed)
 
 
 def setup(bot):
