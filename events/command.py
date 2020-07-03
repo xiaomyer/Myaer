@@ -26,7 +26,7 @@ import random
 
 from discord.ext import commands
 
-import core.minecraft.verification.verification
+import core.minecraft.verification
 
 uses_verify = ["minecraft", "bedwars", "duels", "guild", "hypixel", "paintball", "skywars"]
 

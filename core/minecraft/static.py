@@ -26,7 +26,7 @@ import discord
 
 import core.minecraft.hypixel.player
 import core.minecraft.request
-import core.minecraft.verification.verification
+import core.minecraft.verification
 
 
 async def hypixel_name_handler(ctx, args, *, use_cache: bool = True, get_guild: bool = False, get_friends: bool = False,
@@ -34,7 +34,7 @@ async def hypixel_name_handler(ctx, args, *, use_cache: bool = True, get_guild: 
     player_name = None
     if bool(len(args)):
         try:
-            player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
+            player_data = await core.minecraft.verification.parse_input(ctx, args[0])
             player_uuid = player_data["minecraft_uuid"]
             player_name = player_data["player_formatted_name"]
         except AttributeError:
@@ -54,7 +54,7 @@ async def hypixel_name_handler(ctx, args, *, use_cache: bool = True, get_guild: 
             await ctx.send(embed=nameerror_embed)
             return
     else:
-        player_uuid = await core.minecraft.verification.verification.database_lookup_uuid(ctx.author.id)
+        player_uuid = await core.minecraft.verification.database_lookup_uuid(ctx.author.id)
         if player_uuid is None:
             unverified_embed = discord.Embed(
                 name="Not verified",
@@ -146,7 +146,7 @@ async def name_handler(ctx, args):
     player_name = None
     if bool(len(args)):
         try:
-            player_data = await core.minecraft.verification.verification.parse_input(ctx, args[0])
+            player_data = await core.minecraft.verification.parse_input(ctx, args[0])
             player_uuid = player_data["minecraft_uuid"]
             player_name = player_data["player_formatted_name"]
         except AttributeError:
@@ -166,7 +166,7 @@ async def name_handler(ctx, args):
             await ctx.send(embed=nameerror_embed)
             return
     else:
-        player_data = await core.minecraft.verification.verification.database_lookup(ctx.author.id)
+        player_data = await core.minecraft.verification.database_lookup(ctx.author.id)
         if player_data is None:
             unverified_embed = discord.Embed(
                 name="Not verified",

@@ -203,7 +203,7 @@ class Minecraft(commands.Cog):
 
     @minecraft.command(name="forceunverify", aliases=["forceunlink"])
     @commands.is_owner()
-    async def force_unverify(self, ctx, target: discord.Member):
+    async def force_unverify(self, ctx, target: discord.User):
         try:
             unverified_data = await core.config.users.reset_key(target.id, "minecraft_uuid")
             unverified_embed = discord.Embed(

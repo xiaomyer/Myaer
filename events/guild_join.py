@@ -25,7 +25,7 @@ SOFTWARE.
 import discord
 from discord.ext import commands
 
-import core.minecraft.verification.verification
+import core.minecraft.verification
 
 
 class OnGuildJoin(commands.Cog):
