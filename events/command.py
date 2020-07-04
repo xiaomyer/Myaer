@@ -28,7 +28,13 @@ from discord.ext import commands
 
 import core.minecraft.verification
 
-uses_verify = ["minecraft", "bedwars", "duels", "guild", "hypixel", "paintball", "skywars"]
+uses_verify = ["minecraft",
+               "bedwars",
+               "duels",
+               "guild",
+               "hypixel",
+               "paintball",
+               "skywars"]
 
 
 class OnCommand(commands.Cog):

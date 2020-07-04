@@ -143,28 +143,23 @@ async def hypixel_name_handler_no_database(ctx, player, *, use_cache: bool = Tru
 
 
 async def name_handler(ctx, args):
-    player_name = None
     if bool(len(args)):
         try:
             player_data = await core.minecraft.verification.parse_input(ctx, args[0])
-            player_uuid = player_data["minecraft_uuid"]
-            player_name = player_data["player_formatted_name"]
         except AttributeError:
             member_not_verified = discord.Embed(
                 name="Member not verified",
                 description=f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`",
                 color=ctx.author.color
             )
-            await ctx.send(embed=member_not_verified)
-            return
+            return await ctx.send(embed=member_not_verified)
         except NameError:
             nameerror_embed = discord.Embed(
                 name="Invalid input",
                 description=f"\"{args[0]}\" is not a valid username or UUID.",
                 color=ctx.author.color
             )
-            await ctx.send(embed=nameerror_embed)
-            return
+            return await ctx.send(embed=nameerror_embed)
     else:
         player_data = await core.minecraft.verification.database_lookup(ctx.author.id)
         if player_data is None:

@@ -76,8 +76,9 @@ class WristSpasm(commands.Cog):
         await ctx.send("the best guild")
 
     @wristspasm.command(name="verify")
-    async def prestige_role(self, ctx, *args):
-        player_info = await core.minecraft.static.hypixel_name_handler_no_database(ctx, args)
+    @commands.bot_has_guild_permissions(manage_nicknames=True)
+    async def prestige_role(self, ctx, ign):
+        player_info = await core.minecraft.static.hypixel_name_handler_no_database(ctx, ign)
         if player_info:
             player_data = player_info["player_data"]
             player_json = player_info["player_json"]
@@ -94,7 +95,8 @@ class WristSpasm(commands.Cog):
                 await ctx.author.edit(nick=player_data["player_formatted_name"])
                 nickname_changed_embed = discord.Embed(
                     name="Nickname changed",
-                    description=f"Changed your nickname to {player_data['player_formatted_name']}."
+                    description=f"Changed your nickname to {player_data['player_formatted_name']}.",
+                    timestamp=ctx.message.created_at
                 )
                 nickname_changed_embed.set_footer(
                     text=core.static.static.wrist_spasm_disclaimer
@@ -103,7 +105,8 @@ class WristSpasm(commands.Cog):
             except discord.errors.Forbidden:
                 forbidden_embed = discord.Embed(
                     name="No permissions",
-                    description=f"Cannot change your nickname."
+                    description=f"Cannot change your nickname.",
+                    timestamp=ctx.message.created_at
                 )
                 forbidden_embed.set_footer(
                     text="Insufficient permissions"
@@ -148,6 +151,7 @@ class WristSpasm(commands.Cog):
                 await ctx.send(embed=role_remove_embed)
 
     @wristspasm.command(name="override")
+    @commands.bot_has_guild_permissions(manage_nicknames=True)
     @commands.check(override_check)
     async def verify_override(self, ctx, target: discord.Member, ign):
         player_info = await core.minecraft.static.hypixel_name_handler_no_database(ctx, ign)

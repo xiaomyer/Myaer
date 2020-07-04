@@ -95,6 +95,7 @@ for extension in extensions:
 
 @bot.event
 async def on_ready():
+    global started
     bot.owner_user = bot.get_user(bot.owner_id)
     bot.error_log_channel = bot.get_channel(core.config.config.error_log_channel)
     bot.guilds_log_channel = bot.get_channel(core.config.config.guilds_log_channel)
@@ -113,6 +114,7 @@ async def on_ready():
     await bot.status_log_channel.send(f"Logged in at {ready_time.strftime(STARTUP_TIME_FORMAT)} (took {(ready_time - bot.startup_time).total_seconds()} seconds)."
                                       if not started else
                                       f"Automatically restarted at {ready_time.strftime(STARTUP_TIME_FORMAT)}")
+    started = False
 
 
 @bot.event

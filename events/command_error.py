@@ -101,12 +101,21 @@ invoked by {ctx.author.mention} `({ctx.author.name}#{ctx.author.discriminator}) 
             )
             await ctx.send(embed=argument_embed)
 
+        if isinstance(error, commands.BotMissingPermissions):
+            bot_permissions_needed_embed = discord.Embed(
+                color=ctx.author.color,
+                timestamp=ctx.message.created_at,
+                description=f"I am missing the `{', '.join(error.missing_perms)}` permission(s)"
+            )
+            return await ctx.send(embed=bot_permissions_needed_embed)
+
         if isinstance(error, discord.Forbidden):
             forbidden_embed = discord.Embed(
                 color=ctx.author.color,
                 timestamp=ctx.message.created_at,
                 description=f"""I do not have enough permissions in `{ctx.guild.name}`'s {ctx.channel.mention} channel (or the entire server).
-The permissions I require are `Read Messages`, `Send Messages`, `Attach Files`, and `Embed Links`.
+The base permissions I require are `Read Messages`, `Send Messages`, `Attach Files`, and `Embed Links`.
+(moderation commands may require more permissions)
 If you are having trouble with permissions, giving me the `Administrator` permission will solve any and all problems.
 For more support, join my [Discord Server](https://inv.wtf/myerfire)"""
             )

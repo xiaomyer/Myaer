@@ -86,13 +86,6 @@ class Moderation(commands.Cog):
                 description=f"You need to have the `{', '.join(error.missing_perms)}` permission(s) to {ctx.command.name} members"
             )
             return await ctx.send(embed=permission_needed_embed)
-        if isinstance(error, commands.BotMissingPermissions):
-            bot_permissions_needed_embed = discord.Embed(
-                color=ctx.author.color,
-                timestamp=ctx.message.created_at,
-                description=f"I am missing the `{', '.join(error.missing_perms)}` permission(s)"
-            )
-            return await ctx.send(embed=bot_permissions_needed_embed)
 
 
 async def parse_input(ctx, _input):
