@@ -39,7 +39,6 @@ async def hypixel_name_handler(ctx, args, *, use_cache: bool = True, get_guild: 
             player_name = player_data["player_formatted_name"]
         except AttributeError:
             member_not_verified = discord.Embed(
-                name="Member not verified",
                 description=f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`",
                 color=ctx.author.color
             )
@@ -47,7 +46,6 @@ async def hypixel_name_handler(ctx, args, *, use_cache: bool = True, get_guild: 
             return
         except NameError:
             nameerror_embed = discord.Embed(
-                name="Invalid input",
                 description=f"\"{args[0]}\" is not a valid username or UUID",
                 color=ctx.author.color
             )
@@ -57,7 +55,6 @@ async def hypixel_name_handler(ctx, args, *, use_cache: bool = True, get_guild: 
         player_uuid = await core.minecraft.verification.database_lookup_uuid(ctx.author.id)
         if player_uuid is None:
             unverified_embed = discord.Embed(
-                name="Not verified",
                 description="You have to verify with `/mc verify <minecraft-ign>` first, or specify a player name",
                 color=ctx.author.color
             )

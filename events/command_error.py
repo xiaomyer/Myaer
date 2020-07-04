@@ -94,11 +94,11 @@ invoked by {ctx.author.mention} `({ctx.author.name}#{ctx.author.discriminator}) 
             return await ctx.send(embed=argument_embed)
 
         if isinstance(error, commands.CheckFailure):
-            if ctx.command.parent.name == "wristspasm":
+            if (ctx.command.parent and ctx.command.parent.name == "wristspasm") or ctx.command.name == "wristspasm":
                 wrist_spasm_embed = discord.Embed(
                     color=ctx.author.color,
                     timestamp=ctx.message.created_at,
-                    description="This command can only be ran in the Wrist Spasm guild's Discord server"
+                    description="This command can only be run in the Wrist Spasm guild's Discord server"
                 )
                 return await ctx.send(embed=wrist_spasm_embed)
             check_failure_embed = discord.Embed(

@@ -38,11 +38,14 @@ async def parse_input(ctx, _input):
         if player_discord and (
                 player_discord.mentioned_in(ctx.message) or _input.isdigit()):  # if input is a discord id
             uuid = await database_lookup_uuid(player_discord.id)
-            player_data = {
-                "player_formatted_name": (await core.minecraft.request.get_profile((uuid)))["name"],
-                "minecraft_uuid": uuid
-            }
-            return player_data
+            if uuid:
+                player_data = {
+                    "player_formatted_name": (await core.minecraft.request.get_profile(uuid))["name"],
+                    "minecraft_uuid": uuid
+                }
+                return player_data
+            else:
+                raise AttributeError
         else:
             try:
                 player_info = await core.minecraft.request.get_profile(_input)
