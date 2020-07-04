@@ -127,7 +127,7 @@ async def on_error(event, *args, **kwargs):
         description=f"```{error_traceback}```"
     )
     error_embed.set_footer(
-        text=(datetime.datetime.now()).strftime(STARTUP_TIME_FORMAT)
+        text=datetime.datetime.now().strftime(STARTUP_TIME_FORMAT)
     )
     await bot.error_log_channel.send(embed=error_embed)
 

@@ -91,34 +91,17 @@ class WristSpasm(commands.Cog):
         prestige_role = roles[prestige]
         prestige_role_object = ctx.guild.get_role(prestige_role)
         if ctx.author.nick != player_data["player_formatted_name"]:
-            try:
-                await ctx.author.edit(nick=player_data["player_formatted_name"])
-                nickname_changed_embed = discord.Embed(
-                    name="Nickname changed",
-                    description=f"Changed your nickname to {player_data['player_formatted_name']}.",
-                    timestamp=ctx.message.created_at
-                )
-                nickname_changed_embed.set_footer(
-                    text=core.static.static.wrist_spasm_disclaimer
-                )
-                await ctx.send(embed=nickname_changed_embed)
-            except discord.errors.Forbidden:
-                forbidden_embed = discord.Embed(
-                    name="No permissions",
-                    description=f"Cannot change your nickname.",
-                    timestamp=ctx.message.created_at
-                )
-                forbidden_embed.set_footer(
-                    text="Insufficient permissions"
-                )
-                await ctx.send(embed=forbidden_embed)
+            await ctx.author.edit(nick=player_data["player_formatted_name"])
+            nickname_changed_embed = discord.Embed(
+                name="Nickname changed",
+                description=f"Changed your nickname to {player_data['player_formatted_name']}.",
+                timestamp=ctx.message.created_at
+            )
+            await ctx.send(embed=nickname_changed_embed)
         else:
             nickname_already_set_embed = discord.Embed(
                 name="Already have nickname",
                 description=f"Your nickname is already {player_data['player_formatted_name']}."
-            )
-            nickname_already_set_embed.set_footer(
-                text=core.static.static.wrist_spasm_disclaimer
             )
             await ctx.send(embed=nickname_already_set_embed)
         if prestige_role_object in ctx.author.roles:
@@ -126,18 +109,12 @@ class WristSpasm(commands.Cog):
                 name="Already have role",
                 description=f"You already have the role {prestige_role_object.mention}."
             )
-            already_have_role_embed.set_footer(
-                text=core.static.static.wrist_spasm_disclaimer
-            )
             await ctx.send(embed=already_have_role_embed)
         else:
             await ctx.author.add_roles(prestige_role_object)
             added_role_embed = discord.Embed(
                 name="Added role",
                 description=f"Gave you the role {prestige_role_object.mention}."
-            )
-            added_role_embed.set_footer(
-                text=core.static.static.wrist_spasm_disclaimer
             )
             await ctx.send(embed=added_role_embed)
         for role in roles:
@@ -167,32 +144,16 @@ class WristSpasm(commands.Cog):
         prestige_role = roles[prestige]
         prestige_role_object = ctx.guild.get_role(prestige_role)
         if target.nick != player_data["player_formatted_name"]:
-            try:
-                await target.edit(nick=player_data["player_formatted_name"])
-                nickname_changed_embed = discord.Embed(
-                    name="Nickname changed",
-                    description=f"Changed {target.mention}'s nickname to {player_data['player_formatted_name']}."
-                )
-                nickname_changed_embed.set_footer(
-                    text=core.static.static.wrist_spasm_disclaimer
-                )
-                await ctx.send(embed=nickname_changed_embed)
-            except discord.errors.Forbidden:
-                forbidden_embed = discord.Embed(
-                    name="No permissions",
-                    description=f"Cannot change {target.mention}'s nickname."
-                )
-                forbidden_embed.set_footer(
-                    text="Insufficient permissions"
-                )
-                await ctx.send(embed=forbidden_embed)
+            await target.edit(nick=player_data["player_formatted_name"])
+            nickname_changed_embed = discord.Embed(
+                name="Nickname changed",
+                description=f"Changed {target.mention}'s nickname to {player_data['player_formatted_name']}."
+            )
+            await ctx.send(embed=nickname_changed_embed)
         else:
             nickname_already_set_embed = discord.Embed(
                 name="Already have nickname",
                 description=f"{target.mention}'s nickname is already {player_data['player_formatted_name']}."
-            )
-            nickname_already_set_embed.set_footer(
-                text=core.static.static.wrist_spasm_disclaimer
             )
             await ctx.send(embed=nickname_already_set_embed)
         if prestige_role_object in target.roles:
@@ -200,18 +161,12 @@ class WristSpasm(commands.Cog):
                 name="Already have role",
                 description=f"{target.mention} already has the {prestige} Prestige role."
             )
-            already_have_role_embed.set_footer(
-                text=core.static.static.wrist_spasm_disclaimer
-            )
             await ctx.send(embed=already_have_role_embed)
         else:
             await target.add_roles(prestige_role_object)
             added_role_embed = discord.Embed(
                 name="Added role",
                 description=f"Gave {target.mention} the role {prestige_role_object.mention}."
-            )
-            added_role_embed.set_footer(
-                text=core.static.static.wrist_spasm_disclaimer
             )
             await ctx.send(embed=added_role_embed)
         for role in roles:
@@ -221,10 +176,8 @@ class WristSpasm(commands.Cog):
                 role_remove_embed = discord.Embed(
                     name="Role removed",
                     description=f"Removed the role {role_object.mention} from {target.mention}."
-                )
-                role_remove_embed.set_footer(
-                    text=f"""{core.static.static.wrist_spasm_disclaimer}
-You are only supposed to have one Bedwars prestige role."""
+                ).set_footer(
+                    text=f"You are only supposed to have one Bedwars prestige role."
                 )
                 await ctx.send(embed=role_remove_embed)
 

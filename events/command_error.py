@@ -74,7 +74,7 @@ invoked by {ctx.author.mention} `({ctx.author.name}#{ctx.author.discriminator}) 
                 timestamp=ctx.message.created_at,
                 description=f"{ctx.author.name}, this command is being ratelimited. Try again in a bit"
             )
-            await ctx.send(embed=concurrency_embed)
+            return await ctx.send(embed=concurrency_embed)
 
         if isinstance(error, commands.CommandOnCooldown):
             cooldown = datetime.timedelta(seconds=error.retry_after)
@@ -83,7 +83,7 @@ invoked by {ctx.author.mention} `({ctx.author.name}#{ctx.author.discriminator}) 
                 timestamp=ctx.message.created_at,
                 description=f"{ctx.author.name}, you are sending commands too fast. Try again in {humanfriendly.format_timespan(cooldown)}"
             )
-            await ctx.send(embed=cooldown_embed)
+            return await ctx.send(embed=cooldown_embed)
 
         if isinstance(error, commands.MissingRequiredArgument):
             argument_embed = discord.Embed(
@@ -91,15 +91,30 @@ invoked by {ctx.author.mention} `({ctx.author.name}#{ctx.author.discriminator}) 
                 timestamp=ctx.message.created_at,
                 description=f"{ctx.author.name}, you forgot to provide an input of some sort"
             )
-            await ctx.send(embed=argument_embed)
+            return await ctx.send(embed=argument_embed)
 
-        if isinstance(error, commands.MissingPermissions):
-            argument_embed = discord.Embed(
+        if isinstance(error, commands.CheckFailure):
+            if ctx.command.parent.name == "wristspasm":
+                wrist_spasm_embed = discord.Embed(
+                    color=ctx.author.color,
+                    timestamp=ctx.message.created_at,
+                    description="This command can only be ran in the Wrist Spasm guild's Discord server"
+                )
+                return await ctx.send(embed=wrist_spasm_embed)
+            check_failure_embed = discord.Embed(
                 color=ctx.author.color,
                 timestamp=ctx.message.created_at,
-                description=f"{ctx.author.name}, you don't have enough permissions to do that"
+                description="This command cannot be run here"
             )
-            await ctx.send(embed=argument_embed)
+            return await ctx.send(embed=check_failure_embed)
+
+        if isinstance(error, commands.MissingPermissions):
+            missing_permissions_embed = discord.Embed(
+                color=ctx.author.color,
+                timestamp=ctx.message.created_at,
+                description=f"You are missing the`{', '.join(error.missing_perms)}` permission(s)"
+            )
+            return await ctx.send(embed=missing_permissions_embed)
 
         if isinstance(error, commands.BotMissingPermissions):
             bot_permissions_needed_embed = discord.Embed(
@@ -119,7 +134,7 @@ The base permissions I require are `Read Messages`, `Send Messages`, `Attach Fil
 If you are having trouble with permissions, giving me the `Administrator` permission will solve any and all problems.
 For more support, join my [Discord Server](https://inv.wtf/myerfire)"""
             )
-            await ctx.author.send(embed=forbidden_embed)
+            return await ctx.author.send(embed=forbidden_embed)
 
 
 def setup(bot):

@@ -26,7 +26,6 @@ SOFTWARE.
 arrow_bullet_point = "➤"
 star = "✫"
 stats_needed_disclaimer = "Note - The amount needed for stat increase assumes that no negative stats are taken (no final deaths, no losses, etc)"
-wrist_spasm_disclaimer = "Specific to Wrist Spasm"
 
 
 async def get_role_mentions(roles) -> list:
