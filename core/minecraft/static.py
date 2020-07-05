@@ -149,14 +149,16 @@ async def name_handler(ctx, args):
                 description=f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`",
                 color=ctx.author.color
             )
-            return await ctx.send(embed=member_not_verified)
+            await ctx.send(embed=member_not_verified)
+            return
         except NameError:
             nameerror_embed = discord.Embed(
                 name="Invalid input",
                 description=f"\"{args[0]}\" is not a valid username or UUID.",
                 color=ctx.author.color
             )
-            return await ctx.send(embed=nameerror_embed)
+            await ctx.send(embed=nameerror_embed)
+            return
     else:
         player_data = await core.minecraft.verification.database_lookup(ctx.author.id)
         if player_data is None:

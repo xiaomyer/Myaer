@@ -56,9 +56,7 @@ class CommandError(commands.Cog):
             title=
             f"""Ignoring exception in command {ctx.command}
 ```{ctx.message.content}```""",
-            description=
-            f"""
-{f'in guild `{ctx.guild.name} ({ctx.guild.id})`' if isinstance(ctx.message.channel, discord.TextChannel) else 'in a DM channel'}
+            description=f"""{f'in guild `{ctx.guild.name} ({ctx.guild.id})`' if isinstance(ctx.message.channel, discord.TextChannel) else 'in a DM channel'}
 invoked by {ctx.author.mention} `({ctx.author.name}#{ctx.author.discriminator}) ({ctx.author.id})`
 ```{error_traceback}```"""
         )

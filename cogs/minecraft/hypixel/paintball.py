@@ -35,7 +35,6 @@ import core.static.static
 class Paintball(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.user_converter = commands.UserConverter()
 
     @commands.group(name="paintball", aliases=["pb"], invoke_without_command=True)
     @commands.max_concurrency(1, per=commands.BucketType.user)
