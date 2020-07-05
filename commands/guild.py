@@ -56,12 +56,12 @@ class Guild(commands.Cog):
             inline=False
         ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Members**__",
-            value=f"{len(ctx.guild.members)}",
+            value=f"{ctx.guild.member_count:,d}",
         ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Emoji**__",
-            value=f"{len(ctx.guild.emojis)}"
+            value=f"{len(ctx.guild.emojis):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Roles ({len(ctx.guild.roles) - 1})**__",  # @everyone
+            name=f"__**{core.static.static.arrow_bullet_point} Roles ({(len(ctx.guild.roles) - 1):,d})**__",  # @everyone
             # role doesn't count
             value=f"{await core.static.static.get_role_mentions_string(await core.static.static.get_role_mentions(ctx.guild.roles))}",
             inline=False

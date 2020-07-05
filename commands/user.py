@@ -77,7 +77,7 @@ class User(commands.Cog):
                 if user != ctx.guild.owner else
                 f"{ctx.guild.created_at.strftime(ctx.bot.CREATION_TIME_FORMAT)} ({humanfriendly.format_timespan(datetime.datetime.now() - ctx.guild.created_at)} ago)"
             ).add_field(
-                name=f"__**{core.static.static.arrow_bullet_point} Roles ({len(user.roles) - 1})**__",  # @everyone
+                name=f"__**{core.static.static.arrow_bullet_point} Roles ({(len(user.roles) - 1):,d})**__",  # @everyone
                 # role doesn't count
                 value=f"{await core.static.static.get_role_mentions_string(await core.static.static.get_role_mentions(user.roles))}",
                 inline=False

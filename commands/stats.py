@@ -73,10 +73,10 @@ class Stats(commands.Cog):
             value=f"{humanize.naturalsize(memory_info.uss)}"
         ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Users**__",
-            value=f"{len(ctx.bot.users)}",
+            value=f"{len(ctx.bot.users):,d}",
         ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Guilds**__",
-            value=f"{len(ctx.bot.guilds)}"
+            value=f"{len(ctx.bot.guilds):,d}"
         )
         await ctx.send(embed=stats_embed)
 
