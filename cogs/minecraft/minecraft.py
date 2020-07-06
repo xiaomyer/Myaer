@@ -28,6 +28,7 @@ import discord
 from discord.ext import commands, menus
 
 import core.config.users
+from core.exceptions import HypixelDiscordNotMatching, NoHypixelDiscord
 import core.minecraft.request
 import core.minecraft.static
 import core.static.static
@@ -55,18 +56,17 @@ class Minecraft(commands.Cog):
     @minecraft.command(name="history", aliases=["names", "namehistory"])
     @commands.max_concurrency(1, per=commands.BucketType.user)
     async def name_history(self, ctx, *args):
-        player_info = await core.minecraft.static.name_handler(ctx, args)
-        if player_info:
-            player_data = player_info
-        else:
+        player_data = await core.minecraft.static.name_handler(ctx, args)
+        if not player_data:
             return
         await ctx.channel.trigger_typing()
+        print(player_data)
         name_history = await core.minecraft.request.get_name_history_uuid(player_data["minecraft_uuid"])
         index = len(name_history) - 1
         name_history_string = []
         for name in name_history:  # the index is only needed because something else has to be done for the first one
             if index == 0:  # First name does not have changedToAt attribute
-                name_history_string.append(f"{name_history[index][0]}")
+                name_history_string.append(f"{discord.utils.escape_markdown(name_history[index][0])}")
             else:
                 name_history_string.append(
                     f"{discord.utils.escape_markdown(name_history[index][0])} - *on {datetime.date.fromtimestamp((name_history[index][1]) / 1000)}*")
@@ -137,9 +137,9 @@ class Minecraft(commands.Cog):
                 color=ctx.author.color
             )
             await ctx.send(embed=verified_embed)
-        except ValueError:
+        except HypixelDiscordNotMatching:
             already_has_discord_hypixel_embed = discord.Embed(
-                name="Already linked on Hypixel",
+                timestamp=ctx.message.created_at,
                 description=f"{player_data['player_formatted_name']} has a linked Discord account on Hypixel that is not yours.",
                 color=ctx.author.color
             )
@@ -148,7 +148,7 @@ class Minecraft(commands.Cog):
             )
             await ctx.send(embed=already_has_discord_hypixel_embed)
             return
-        except AttributeError:
+        except NoHypixelDiscord:
             no_discord_hypixel_embed = discord.Embed(
                 name="No Discord linked on Hypixel",
                 description=f"{player_data['player_formatted_name']} does not have a linked Discord name on Hypixel."

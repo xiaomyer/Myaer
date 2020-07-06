@@ -24,6 +24,7 @@ SOFTWARE.
 
 import discord
 
+from core.exceptions import NotVerified
 import core.config.users
 import core.minecraft.hypixel.player
 import core.minecraft.request
@@ -57,22 +58,20 @@ async def parse_input(ctx, _input):
             except NameError:
                 raise NameError
     except IndexError:
-        raise AttributeError("Member not verified")
-        return
+        raise NotVerified
 
 
 async def database_lookup_uuid(discord_id):
     result = await core.config.users.get_config(discord_id)
-    if result:
-        return result["minecraft_uuid"]
-    else:
-        return None
+    return result.get("minecraft_uuid", None)
 
 
 async def database_lookup(discord_id):
     uuid = await database_lookup_uuid(discord_id)
+    if uuid is None:
+        return
     player_data = {
-        "player_formatted_name": (await core.minecraft.request.get_profile((uuid)))["name"],
+        "player_formatted_name": (await core.minecraft.request.get_profile(uuid))["name"],
         "minecraft_uuid": uuid
     }
     return player_data

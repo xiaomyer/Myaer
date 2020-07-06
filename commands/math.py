@@ -33,14 +33,26 @@ class Math(commands.Cog):
 
     @commands.command(name="math", aliases=["solve", "calc"])
     @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def math(self, ctx, *, equation):
+    async def math(self, ctx, *, equation: str):
+        try:
+            parsed = mathparse.parse(equation)
+        except mathparse.PostfixTokenEvaluationException:
+            failed_embed = discord.Embed(
+                color=ctx.author.color,
+                timestamp=ctx.message.created_at,
+                description=f"Parsing the expression \"{equation}\" failed. Try adding spaces between all operators and numbers"
+            )
+            return await ctx.send(embed=failed_embed)
         answer = discord.Embed(
-            title=f"{equation}",
-            description=f"{mathparse.parse(equation)}",
+            title=equation,
+            description=parsed,
             color=ctx.author.color,
             timestamp=ctx.message.created_at
+        ).set_author(
+            name="Math",
+            icon_url=str(ctx.author.avatar_url_as(static_format="png", size=2048))
         )
-        await ctx.send(embed=answer)
+        return await ctx.send(embed=answer)
 
 
 def setup(bot):

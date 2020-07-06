@@ -24,6 +24,7 @@ SOFTWARE.
 
 import discord
 
+from core.exceptions import NotVerified
 import core.minecraft.hypixel.player
 import core.minecraft.request
 import core.minecraft.verification
@@ -143,19 +144,19 @@ async def name_handler(ctx, args):
     if bool(len(args)):
         try:
             player_data = await core.minecraft.verification.parse_input(ctx, args[0])
-        except AttributeError:
+        except NotVerified:
             member_not_verified = discord.Embed(
-                name="Member not verified",
                 description=f"{args[0]} is not verified. Tell them to do `/mc verify <their-minecraft-ign>`",
-                color=ctx.author.color
+                color=ctx.author.color,
+                timestamp=ctx.message.created_at
             )
             await ctx.send(embed=member_not_verified)
             return
         except NameError:
             nameerror_embed = discord.Embed(
-                name="Invalid input",
                 description=f"\"{args[0]}\" is not a valid username or UUID.",
-                color=ctx.author.color
+                color=ctx.author.color,
+                timestamp=ctx.message.created_at
             )
             await ctx.send(embed=nameerror_embed)
             return
@@ -163,9 +164,9 @@ async def name_handler(ctx, args):
         player_data = await core.minecraft.verification.database_lookup(ctx.author.id)
         if player_data is None:
             unverified_embed = discord.Embed(
-                name="Not verified",
-                description="You have to verify with `/mc verify <minecraft-ign>` first.",
-                color=ctx.author.color
+                description="You have to verify with `/mc verify <minecraft-ign>` first",
+                color=ctx.author.color,
+                timestamp=ctx.message.created_at
             )
             await ctx.send(embed=unverified_embed)
             return

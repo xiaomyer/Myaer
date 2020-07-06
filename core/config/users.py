@@ -26,6 +26,7 @@ from tinydb import Query, where
 from tinydb.operations import delete
 
 import core.caches.static
+from core.exceptions import HypixelDiscordNotMatching, NoHypixelDiscord
 
 
 async def get_config(user_id):
@@ -48,7 +49,7 @@ async def set_key(user_id, key, data):
 async def minecraft_verify(user_id, discord_name, minecraft_uuid, hypixel_discord):
     Users = Query()
     if (discord_name != hypixel_discord) and (hypixel_discord is not None):
-        raise ValueError("Minecraft account already has verified Discord name on Hypixel.")
+        raise HypixelDiscordNotMatching
     elif discord_name == hypixel_discord:
         if core.caches.static.users_db_cache.search(where("user_id") == user_id):
             core.caches.static.users_db_cache.update({"minecraft_uuid": minecraft_uuid}, Users.user_id == user_id)
@@ -58,7 +59,7 @@ async def minecraft_verify(user_id, discord_name, minecraft_uuid, hypixel_discor
         else:
             core.caches.static.users_db_cache.insert({"user_id": user_id, "minecraft_uuid": minecraft_uuid})
     else:
-        raise AttributeError("Does not have Discord name set on Hypixel.")
+        raise NoHypixelDiscord
 
 
 async def minecraft_force_verify(user_id, minecraft_uuid):
