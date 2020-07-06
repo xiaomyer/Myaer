@@ -23,7 +23,7 @@ SOFTWARE.
 """
 
 import discord
-from discord.ext import commands
+from discord.ext import commands, flags
 
 import core.minecraft.hypixel.player
 import core.minecraft.hypixel.static.static
@@ -72,38 +72,45 @@ class WristSpasm(commands.Cog):
             return False
 
     @commands.group(name="wristspasm", aliases=["spasm"], invoke_without_command=True)
+    @commands.max_concurrency(1, per=commands.BucketType.user)
     async def wristspasm(self, ctx):
         await ctx.send("the best guild")
 
     @wristspasm.command(name="verify")
+    @commands.max_concurrency(1, per=commands.BucketType.user)
     @commands.bot_has_guild_permissions(manage_nicknames=True)
-    async def prestige_role(self, ctx, ign):
+    async def prestige_role(self, ctx, ign, **flags):
         player_info = await core.minecraft.static.hypixel_name_handler_no_database(ctx, ign)
         if player_info:
             player_data = player_info["player_data"]
             player_json = player_info["player_json"]
         else:
             return
+        if "--nick" in ctx.message.content:
+            nick = True
+        else:
+            nick = False
         await ctx.channel.trigger_typing()
         prestige = \
             (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                 "prestige"]
         prestige_role = roles[prestige]
         prestige_role_object = ctx.guild.get_role(prestige_role)
-        if ctx.author.nick != player_data["player_formatted_name"]:
-            await ctx.author.edit(nick=player_data["player_formatted_name"])
-            nickname_changed_embed = discord.Embed(
-                name="Nickname changed",
-                description=f"Changed your nickname to {player_data['player_formatted_name']}.",
-                timestamp=ctx.message.created_at
-            )
-            await ctx.send(embed=nickname_changed_embed)
-        else:
-            nickname_already_set_embed = discord.Embed(
-                name="Already have nickname",
-                description=f"Your nickname is already {player_data['player_formatted_name']}."
-            )
-            await ctx.send(embed=nickname_already_set_embed)
+        if nick:
+            if ctx.author.nick != player_data["player_formatted_name"]:
+                await ctx.author.edit(nick=player_data["player_formatted_name"])
+                nickname_changed_embed = discord.Embed(
+                    name="Nickname changed",
+                    description=f"Changed your nickname to {player_data['player_formatted_name']}.",
+                    timestamp=ctx.message.created_at
+                )
+                await ctx.send(embed=nickname_changed_embed)
+            else:
+                nickname_already_set_embed = discord.Embed(
+                    name="Already have nickname",
+                    description=f"Your nickname is already {player_data['player_formatted_name']}."
+                )
+                await ctx.send(embed=nickname_already_set_embed)
         if prestige_role_object in ctx.author.roles:
             already_have_role_embed = discord.Embed(
                 name="Already have role",
@@ -128,6 +135,7 @@ class WristSpasm(commands.Cog):
                 await ctx.send(embed=role_remove_embed)
 
     @wristspasm.command(name="override")
+    @commands.max_concurrency(1, per=commands.BucketType.user)
     @commands.bot_has_guild_permissions(manage_nicknames=True)
     @commands.check(override_check)
     async def verify_override(self, ctx, target: discord.Member, ign):
@@ -138,24 +146,29 @@ class WristSpasm(commands.Cog):
         else:
             return
         await ctx.channel.trigger_typing()
+        if "--nick" in ctx.message.content:
+            nick = True
+        else:
+            nick = False
         prestige = \
             (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                 "prestige"]
         prestige_role = roles[prestige]
         prestige_role_object = ctx.guild.get_role(prestige_role)
-        if target.nick != player_data["player_formatted_name"]:
-            await target.edit(nick=player_data["player_formatted_name"])
-            nickname_changed_embed = discord.Embed(
-                name="Nickname changed",
-                description=f"Changed {target.mention}'s nickname to {player_data['player_formatted_name']}."
-            )
-            await ctx.send(embed=nickname_changed_embed)
-        else:
-            nickname_already_set_embed = discord.Embed(
-                name="Already have nickname",
-                description=f"{target.mention}'s nickname is already {player_data['player_formatted_name']}."
-            )
-            await ctx.send(embed=nickname_already_set_embed)
+        if nick:
+            if target.nick != player_data["player_formatted_name"]:
+                await target.edit(nick=player_data["player_formatted_name"])
+                nickname_changed_embed = discord.Embed(
+                    name="Nickname changed",
+                    description=f"Changed {target.mention}'s nickname to {player_data['player_formatted_name']}."
+                )
+                await ctx.send(embed=nickname_changed_embed)
+            else:
+                nickname_already_set_embed = discord.Embed(
+                    name="Already have nickname",
+                    description=f"{target.mention}'s nickname is already {player_data['player_formatted_name']}."
+                )
+                await ctx.send(embed=nickname_already_set_embed)
         if prestige_role_object in target.roles:
             already_have_role_embed = discord.Embed(
                 name="Already have role",
