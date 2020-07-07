@@ -63,6 +63,7 @@ async def parse_input(ctx, _input):
 
 async def database_lookup_uuid(discord_id):
     result = await core.config.users.get_config(discord_id)
+    if not bool(result): result = {}
     return result.get("minecraft_uuid", None)
 
 
