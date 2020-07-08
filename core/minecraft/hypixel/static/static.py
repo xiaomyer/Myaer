@@ -117,7 +117,8 @@ hypixel_icons = {  # Hypixel icons
 
 async def get_network_level_data(experience):
     level = (math.sqrt(
-        experience + 15312.5) - 88.38834764831843) / 35.35533905932738  # formula that i don't understand, something to do with square roots - thank you @littlemissantivirus
+        experience + 15312.5) - 88.38834764831843) / 35.35533905932738  # formula that i don't understand, something
+    # to do with square roots - thank you @littlemissantivirus
     level_data = {
         "level": math.trunc(level),
         "percentage": round((level - math.trunc(level)) * 100, 2)
@@ -126,11 +127,12 @@ async def get_network_level_data(experience):
 
 
 async def get_guild_level_data(
-        experience):  # credit for original formula to @Sk1er, translated into Kotlin by @littlemissantivirus, then translated into Python by @SirNapkin1334
-    experienceBelow14 = [100000, 150000, 250000, 500000, 750000, 1000000, 1250000, 1500000, 2000000, 2500000, 2500000,
+        experience):  # credit for original formula to @Sk1er, translated into Kotlin by @littlemissantivirus,
+    # then translated into Python by @SirNapkin1334
+    experience_below_14 = [100000, 150000, 250000, 500000, 750000, 1000000, 1250000, 1500000, 2000000, 2500000, 2500000,
                          2500000, 2500000, 2500000]
     c = 0.0
-    for it in experienceBelow14:
+    for it in experience_below_14:
         if (it > experience):
             level = c + round(experience / it * 100.0) / 100.0
         experience -= it

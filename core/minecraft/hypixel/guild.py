@@ -34,7 +34,7 @@ tag_colors = {
 async def get_guild_data(uuid):
     try:
         guild_json = (await core.minecraft.hypixel.request.get_guild_by_uuid(uuid))
-    except:
+    except NameError:
         raise NameError("Not in a guild")
     guild = {
         "name": guild_json.get("guild", {}).get("name", ""),

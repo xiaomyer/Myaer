@@ -81,7 +81,7 @@ async def get_guild_by_uuid(uuid: str) -> dict:
     if player_guild_json["success"] and player_guild_json["guild"]:
         return player_guild_json
     elif player_guild_json["success"] and player_guild_json["guild"] is None:
-        raise NameError(f"Player \"{uuid}\" does not exist!")
+        raise NameError(f"Player \"{uuid}\" is not in a guild")
 
 
 @limits(calls=100, period=60)  # hypixel ratelimit is 120/min, this is to be safe

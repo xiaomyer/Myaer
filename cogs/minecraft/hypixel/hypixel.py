@@ -146,6 +146,7 @@ class Hypixel(commands.Cog):
                 name="Invalid input",
                 description=f"{player_data['player_formatted_name']} is not in a guild"
             )
+            await ctx.send(embed=nameerror_embed)
             return
         player_guild_embed = discord.Embed(
             name="Player guild",
