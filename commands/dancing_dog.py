@@ -29,11 +29,18 @@ from discord.ext import commands
 class DancingDog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.dancing_dog_url = "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/static/dancing_dog.gif"
 
     @commands.command(name="dancingdog", aliases=["dog", "bigdog"])
     @commands.max_concurrency(1, per=commands.BucketType.user)
     async def dancing_dog(self, ctx):
-        await ctx.send(file=discord.File("core/static/dancing_dog.gif"))
+        dancing_dog_embed = discord.Embed(
+            color=ctx.author.color,
+            timestamp=ctx.message.created_at
+        ).set_image(
+            url=self.dancing_dog_url
+        )
+        await ctx.send(embed=dancing_dog_embed)
 
 
 def setup(bot):

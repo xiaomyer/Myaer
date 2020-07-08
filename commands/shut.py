@@ -29,11 +29,18 @@ from discord.ext import commands
 class Shut(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.shut_url = "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/static/shut.png"
 
     @commands.command(name="shut")
     @commands.max_concurrency(1, per=commands.BucketType.user)
     async def shut(self, ctx):
-        await ctx.send(file=discord.File("core/static/shut.png"))
+        shut_embed = discord.Embed(
+            color=ctx.author.color,
+            timestamp=ctx.message.created_at
+        ).set_image(
+            url=self.shut_url
+        )
+        await ctx.send(embed=shut_embed)
 
 
 def setup(bot):
