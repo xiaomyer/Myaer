@@ -91,6 +91,13 @@ invoked by {ctx.author.mention} `({ctx.author.name}#{ctx.author.discriminator}) 
             )
             return await ctx.send(embed=argument_embed)
 
+        if isinstance(error, commands.BadArgument):
+            return await ctx.send(embed=discord.Embed(
+                color=ctx.author.color,
+                timestamp=ctx.message.created_at,
+                description=str(error)
+            ))
+
         if isinstance(error, commands.CheckFailure):
             if (ctx.command.parent and ctx.command.parent.name == "wristspasm") or ctx.command.name == "wristspasm":
                 wrist_spasm_embed = discord.Embed(

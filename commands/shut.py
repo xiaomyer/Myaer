@@ -34,13 +34,12 @@ class Shut(commands.Cog):
     @commands.command(name="shut")
     @commands.max_concurrency(1, per=commands.BucketType.user)
     async def shut(self, ctx):
-        shut_embed = discord.Embed(
+        await ctx.send(embed=discord.Embed(
             color=ctx.author.color,
             timestamp=ctx.message.created_at
         ).set_image(
             url=self.shut_url
-        )
-        await ctx.send(embed=shut_embed)
+        ))
 
 
 def setup(bot):

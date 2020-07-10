@@ -34,13 +34,12 @@ class DancingDog(commands.Cog):
     @commands.command(name="dancingdog", aliases=["dog", "bigdog"])
     @commands.max_concurrency(1, per=commands.BucketType.user)
     async def dancing_dog(self, ctx):
-        dancing_dog_embed = discord.Embed(
+        await ctx.send(embed=discord.Embed(
             color=ctx.author.color,
             timestamp=ctx.message.created_at
         ).set_image(
             url=self.dancing_dog_url
-        )
-        await ctx.send(embed=dancing_dog_embed)
+        ))
 
 
 def setup(bot):

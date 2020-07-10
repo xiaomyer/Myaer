@@ -105,7 +105,7 @@ class Inflame(commands.Cog):
         await ctx.author.add_roles(verified_role_object)
         awaiting_verification_role_object = ctx.guild.get_role(self.awaiting_verification)
         await ctx.author.remove_roles(awaiting_verification_role_object)
-        if player_json["guild"]["name"] == "Inflame":
+        if player_json["guild_data"]["name"] == "Inflame":
             guild_member_role_object = ctx.guild.get_role(self.guild_member_role)
             await ctx.author.add_roles(guild_member_role_object)
 
@@ -130,7 +130,7 @@ class Inflame(commands.Cog):
         await target.add_roles(verified_role_object)
         awaiting_verification_role_object = ctx.guild.get_role(self.awaiting_verification)
         await target.remove_roles(awaiting_verification_role_object)
-        if player_json["guild"]["name"] == "Inflame":
+        if player_json["guild_data"]["name"] == "Inflame":
             guild_member_role_object = ctx.guild.get_role(self.guild_member_role)
             await target.add_roles(guild_member_role_object)
 
@@ -144,4 +144,4 @@ def on_member_purge_check(message):
 
 def setup(bot):
     bot.add_cog(Inflame(bot))
-    print("Reloaded cogs.flamelight")
+    print("Reloaded cogs.inflame")
