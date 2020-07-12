@@ -51,7 +51,7 @@ class Avatar(commands.Cog):
         ).set_image(
             url=str(target.avatar_url_as(static_format="png", size=2048))
         ).set_author(
-            name=f"{target.name}#{target.discriminator}'s Avatar"
+            name=f"{target}'s Avatar"
         )
         await ctx.send(embed=avatar_embed)
 
