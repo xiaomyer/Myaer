@@ -22,6 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+import discord
 
 arrow_bullet_point = "➤"
 star = "✫"
@@ -45,3 +46,10 @@ async def get_role_mentions_string(roles: list) -> str:
         return f"{', '.join(roles)}" if not bool(times) else f"{', '.join(roles)} (and {times} more)"
     else:
         return "No Roles"
+
+
+async def get_pure_channels(channels) -> list:
+    for channel in channels:
+        if isinstance(channel, discord.CategoryChannel):
+            channels.remove(channel)
+    return channels

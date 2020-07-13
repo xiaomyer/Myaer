@@ -27,14 +27,16 @@ import random
 import discord
 from discord.ext import commands
 
+import core.static.static
+
 
 class Random(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.group(name="random")
+    @commands.group(name="random", invoke_without_command=True)
     @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def random(self, ctx):
+    async def _random(self, ctx):
         await ctx.send(embed=discord.Embed(
             title="Random Commands",
             color=ctx.author.color,
@@ -44,6 +46,37 @@ class Random(commands.Cog):
 /random channel
 /random 
 ```"""
+        ))
+
+    @_random.command(name="member")
+    @commands.max_concurrency(1, per=commands.BucketType.user)
+    async def random_member(self, ctx):
+        await ctx.send(embed=discord.Embed(
+            color=ctx.author.color,
+            timestamp=ctx.message.created_at,
+            description=random.choice(ctx.guild.members).mention
+        ).set_footer(
+            text=f"Chosen out of {ctx.guild.member_count} people"
+        ))
+
+    @_random.command(name="channel")
+    @commands.max_concurrency(1, per=commands.BucketType.user)
+    async def channel(self, ctx, *args):
+        if bool(len(args)):
+            if "--text" in args:
+                channels = ctx.guild.text_channels
+            elif "--voice" in args:
+                channels = ctx.guild.voice_channels
+            else:
+                channels = await core.static.static.get_pure_channels(ctx.guild.channels)
+        else:
+            channels = await core.static.static.get_pure_channels(ctx.guild.channels)
+        await ctx.send(embed=discord.Embed(
+            color=ctx.author.color,
+            timestamp=ctx.message.created_at,
+            description=random.choice(channels).mention
+        ).set_footer(
+            text=f"Chosen out of {len(channels)} channels"
         ))
 
 
