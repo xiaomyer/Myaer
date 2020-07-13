@@ -62,6 +62,19 @@ class Bedwars(commands.Cog):
             value=f"{(player_json['bedwars']['winstreak']):,d}",
             inline=False
         ).add_field(
+            name=f"__**{core.static.static.arrow_bullet_point} Games Played**__",
+            value=f"{(player_json['bedwars']['games_played']):,d}",
+            inline=False
+        ).add_field(
+            name=f"__**{core.static.static.arrow_bullet_point} Kills**__",
+            value=f"{(player_json['bedwars']['kills']):,d}"
+        ).add_field(
+            name=f"__**{core.static.static.arrow_bullet_point} Deaths**__",
+            value=f"{(player_json['bedwars']['deaths']):,d}"
+        ).add_field(
+            name=f"__**{core.static.static.arrow_bullet_point} KDR**__",
+            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['kills']), ((player_json['bedwars']['deaths'])))}"
+        ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['final_kills']):,d}"
         ).add_field(
@@ -88,6 +101,12 @@ class Bedwars(commands.Cog):
         ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
             value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['wins']), ((player_json['bedwars']['losses'])))}"
+        ).add_field(
+            name=f"__**{core.static.static.arrow_bullet_point} Avg. Beds Broken Per Game**__",
+            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['beds_broken']), ((player_json['bedwars']['games_played'])))}"
+        ).add_field(
+            name=f"__**{core.static.static.arrow_bullet_point} Avg. Final Kills Per Game**__",
+            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['final_kills']), ((player_json['bedwars']['games_played'])))}"
         )
         await ctx.send(embed=player_stats_embed)
 
@@ -3509,29 +3528,26 @@ class Bedwars(commands.Cog):
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}")}'s Winstreaks**""" if (
                 player_json["rank_data"][
                     "rank"]) else f"**{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Winstreaks**",
-            color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
-                    "prestige_color"], 16),  # 16 - Hex value.
-            description=
-            f"""__**{core.static.static.arrow_bullet_point} Overall**__: {player_json['bedwars']['winstreak']}
-__**{core.static.static.arrow_bullet_point} Solo**__: {player_json['bedwars']['solo']['winstreak']}
-__**{core.static.static.arrow_bullet_point} Doubles**__: {player_json['bedwars']['doubles']['winstreak']}
-__**{core.static.static.arrow_bullet_point} Threes**__: {player_json['bedwars']['threes']['winstreak']}
-__**{core.static.static.arrow_bullet_point} Fours**__: {player_json['bedwars']['fours']['winstreak']}
-__**{core.static.static.arrow_bullet_point} 4v4**__: {player_json['bedwars']['four_v_four']['winstreak']}
-__**{core.static.static.arrow_bullet_point} Armed Doubles**__: {player_json['bedwars']['dreams']['armed']['doubles']['winstreak']}
-__**{core.static.static.arrow_bullet_point} Armed Fours**__: {player_json['bedwars']['dreams']['armed']['fours']['winstreak']}
-__**{core.static.static.arrow_bullet_point} Castle**__: {player_json['bedwars']['dreams']['castle']['winstreak']}
-__**{core.static.static.arrow_bullet_point} Lucky Blocks Doubles**__: {player_json['bedwars']['dreams']['lucky_blocks']['doubles']['winstreak']}
-__**{core.static.static.arrow_bullet_point} Lucky Blocks Fours**__: {player_json['bedwars']['dreams']['lucky_blocks']['fours']['winstreak']}
-__**{core.static.static.arrow_bullet_point} Rush Solo**__: {player_json['bedwars']['dreams']['rush']['solo']['winstreak']}
-__**{core.static.static.arrow_bullet_point} Rush Doubles**__: {player_json['bedwars']['dreams']['rush']['doubles']['winstreak']}
-__**{core.static.static.arrow_bullet_point} Rush Fours**__: {player_json['bedwars']['dreams']['rush']['fours']['winstreak']}
-__**{core.static.static.arrow_bullet_point} Ultimate Solo**__: {player_json['bedwars']['dreams']['ultimate']['solo']['winstreak']}
-__**{core.static.static.arrow_bullet_point} Ultimate Doubles**__: {player_json['bedwars']['dreams']['ultimate']['doubles']['winstreak']}
-__**{core.static.static.arrow_bullet_point} Ultimate Fours**__: {player_json['bedwars']['dreams']['ultimate']['fours']['winstreak']}
-__**{core.static.static.arrow_bullet_point} Voidless Doubles**__: {player_json['bedwars']['dreams']['voidless']['doubles']['winstreak']}
-__**{core.static.static.arrow_bullet_point} Voidless Fours**__: {player_json['bedwars']['dreams']['voidless']['fours']['winstreak']}"""
+            color=int((await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16),  # 16 - Hex value.
+            description=f"""```{core.static.static.arrow_bullet_point} Overall: {player_json['bedwars']['winstreak']}
+{core.static.static.arrow_bullet_point} Solo: {player_json['bedwars']['solo']['winstreak']}
+{core.static.static.arrow_bullet_point} Doubles: {player_json['bedwars']['doubles']['winstreak']}
+{core.static.static.arrow_bullet_point} Threes: {player_json['bedwars']['threes']['winstreak']}
+{core.static.static.arrow_bullet_point} Fours: {player_json['bedwars']['fours']['winstreak']}
+{core.static.static.arrow_bullet_point} 4v4: {player_json['bedwars']['four_v_four']['winstreak']}
+{core.static.static.arrow_bullet_point} Armed Doubles: {player_json['bedwars']['dreams']['armed']['doubles']['winstreak']}
+{core.static.static.arrow_bullet_point} Armed Fours: {player_json['bedwars']['dreams']['armed']['fours']['winstreak']}
+{core.static.static.arrow_bullet_point} Castle: {player_json['bedwars']['dreams']['castle']['winstreak']}
+{core.static.static.arrow_bullet_point} Lucky Blocks Doubles: {player_json['bedwars']['dreams']['lucky_blocks']['doubles']['winstreak']}
+{core.static.static.arrow_bullet_point} Lucky Blocks Fours: {player_json['bedwars']['dreams']['lucky_blocks']['fours']['winstreak']}
+{core.static.static.arrow_bullet_point} Rush Solo: {player_json['bedwars']['dreams']['rush']['solo']['winstreak']}
+{core.static.static.arrow_bullet_point} Rush Doubles: {player_json['bedwars']['dreams']['rush']['doubles']['winstreak']}
+{core.static.static.arrow_bullet_point} Rush Fours: {player_json['bedwars']['dreams']['rush']['fours']['winstreak']}
+{core.static.static.arrow_bullet_point} Ultimate Solo: {player_json['bedwars']['dreams']['ultimate']['solo']['winstreak']}
+{core.static.static.arrow_bullet_point} Ultimate Doubles: {player_json['bedwars']['dreams']['ultimate']['doubles']['winstreak']}
+{core.static.static.arrow_bullet_point} Ultimate Fours: {player_json['bedwars']['dreams']['ultimate']['fours']['winstreak']}
+{core.static.static.arrow_bullet_point} Voidless Doubles: {player_json['bedwars']['dreams']['voidless']['doubles']['winstreak']}
+{core.static.static.arrow_bullet_point} Voidless Fours: {player_json['bedwars']['dreams']['voidless']['fours']['winstreak']}```"""
         )
         winstreak_embed.set_thumbnail(
             url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]

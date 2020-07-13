@@ -34,9 +34,15 @@ import core.static.static
 default_message = 730171718353813605
 
 
+async def forceverify_check(ctx):
+    staff_role_object = ctx.guild.get_role(730102195688833096)
+    return True if staff_role_object in ctx.author.roles else False
+
+
 class Inflame(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.staff = 730102195688833096
         self.guild = 730098132527874210
         self.verification_channel = 730104991393513502
         self.guild_member_role = 730099734194290698
@@ -110,7 +116,7 @@ class Inflame(commands.Cog):
             await ctx.author.add_roles(guild_member_role_object)
 
     @commands.command(name="forceverify")
-    @commands.is_owner()
+    @commands.check(forceverify_check)
     async def force_verify(self, ctx, target: discord.Member, ign):
         player_info = await core.minecraft.static.hypixel_name_handler_no_database(ctx, ign, use_cache=False,
                                                                                    get_guild=True)

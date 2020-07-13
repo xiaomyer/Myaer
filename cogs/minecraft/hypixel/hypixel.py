@@ -109,8 +109,8 @@ class Hypixel(commands.Cog):
         friends_string = []
         for friend in player_json["friends"]:
             friends_string.append(
-                f"""{discord.utils.escape_markdown(f"[{str(friend['rank_data']['rank'])}] {str(friend['name'])}" if (friend["rank_data"]["rank"]) else (str(friend["name"])))} - on {datetime.date.fromtimestamp((friend["friended_at"]) / 1000)}""")
-        friends_paginator = menus.MenuPages(source=MinecraftHypixelFriends(friends_string, player_json),
+                f"""{f"[{friend['rank_data']['rank']}] {friend['name']}" if (friend['rank_data']['rank']) else f"{(friend['name'])}"} - on {datetime.date.fromtimestamp((friend['friended_at']) / 1000)}""")
+        friends_paginator = menus.MenuPages(source=MinecraftHypixelFriends(friends_string, ctx, player_json),
                                             clear_reactions_after=True)
         await message.delete()
         await friends_paginator.start(ctx)

@@ -27,18 +27,25 @@ from discord.ext import menus
 
 
 class MinecraftNameHistory(menus.ListPageSource):
-    def __init__(self, data):
+    def __init__(self, data, ctx, player_data):
+        self.ctx = ctx
+        self.player_data = player_data
         super().__init__(data, per_page=15)
 
     async def format_page(self, menu, entries):
+        joined = "\n".join(entries)
         page_embed = discord.Embed(
-            description="\n".join(entries)
+            title=self.player_data["player_formatted_name"],
+            description=f"```{joined}```",
+            color=self.ctx.author.color,
+            timestamp=self.ctx.message.created_at
         )
         return page_embed
 
 
 class MinecraftHypixelFriends(menus.ListPageSource):
-    def __init__(self, data, player_json):
+    def __init__(self, data, ctx, player_json):
+        self.ctx = ctx
         self.player_json = player_json
         self.data = data
         super().__init__(data, per_page=15)
@@ -48,6 +55,7 @@ class MinecraftHypixelFriends(menus.ListPageSource):
         page_embed = discord.Embed(
             title=f"{self.player_json['name']}'s Friends List ({len(self.data)} friends)",
             description=f"```{joined}```",
-            color=int((self.player_json["rank_data"])["color"], 16)  # 16 - hex value
+            color=int((self.player_json["rank_data"])["color"], 16),  # 16 - hex value
+            timestamp=self.ctx.message.created_at
         )
         return page_embed

@@ -81,7 +81,7 @@ class Paintball(commands.Cog):
         else:
             return
         player_kdr_embed = discord.Embed(
-            title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s KDR**""",
+            title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Paintball KDR**""",
             color=int(player_json["rank_data"]["color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
             url=core.minecraft.hypixel.static.static.hypixel_icons["Classic"]

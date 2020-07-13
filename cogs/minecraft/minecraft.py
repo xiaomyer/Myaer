@@ -60,19 +60,18 @@ class Minecraft(commands.Cog):
         if not player_data:
             return
         await ctx.channel.trigger_typing()
-        print(player_data)
         name_history = await core.minecraft.request.get_name_history_uuid(player_data["minecraft_uuid"])
         index = len(name_history) - 1
         name_history_string = []
         for name in name_history:  # the index is only needed because something else has to be done for the first one
             if index == 0:  # First name does not have changedToAt attribute
-                name_history_string.append(f"{discord.utils.escape_markdown(name_history[index][0])}")
+                name_history_string.append(name_history[index][0])
             else:
                 name_history_string.append(
-                    f"{discord.utils.escape_markdown(name_history[index][0])} - *on {datetime.date.fromtimestamp((name_history[index][1]) / 1000)}*")
+                    f"{name_history[index][0]} - on {datetime.date.fromtimestamp((name_history[index][1]) / 1000)}")
             index -= 1
         name_history_paginator = menus.MenuPages(
-            source=MinecraftNameHistory(name_history_string),
+            source=MinecraftNameHistory(name_history_string, ctx, player_data),
             clear_reactions_after=True
         )
         await name_history_paginator.start(ctx)
@@ -87,7 +86,7 @@ class Minecraft(commands.Cog):
             return
         await ctx.channel.trigger_typing()
         player_uuid_embed = discord.Embed(
-            description=f"{player_data['player_formatted_name']}\'s UUID is {player_data['minecraft_uuid']}.",
+            description=f"{player_data['player_formatted_name']}\'s UUID is {player_data['minecraft_uuid']}",
             color=ctx.author.color
         )
         await ctx.send(embed=player_uuid_embed)
@@ -218,7 +217,7 @@ class Minecraft(commands.Cog):
         except NameError:
             not_verified_embed = discord.Embed(
                 name="Not verified",
-                description=f"{target}\'s Minecraft account was not verified.",
+                description=f"{target}\'s Minecraft account was not verified",
                 color=ctx.author.color
             )
             await ctx.send(embed=not_verified_embed)
