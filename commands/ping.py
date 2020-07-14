@@ -34,12 +34,11 @@ class Ping(commands.Cog):
     @commands.max_concurrency(1, per=commands.BucketType.user)
     async def ping(self, ctx):
         ping = self.bot.latency * 1000
-        ping_embed = discord.Embed(
+        await ctx.send(embed=discord.Embed(
             name="Ping",
             description=f"Pong! **{round(ping, 2)}** ms.",
             color=ctx.author.color
-        )
-        await ctx.send(embed=ping_embed)
+        ))
 
 
 def setup(bot):
