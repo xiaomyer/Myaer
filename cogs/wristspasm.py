@@ -79,7 +79,7 @@ class WristSpasm(commands.Cog):
     @wristspasm.command(name="verify")
     @commands.max_concurrency(1, per=commands.BucketType.user)
     @commands.bot_has_guild_permissions(manage_nicknames=True)
-    async def prestige_role(self, ctx, ign, **flags):
+    async def prestige_role(self, ctx, ign):
         player_info = await core.minecraft.static.hypixel_name_handler_no_database(ctx, ign)
         if player_info:
             player_data = player_info["player_data"]
