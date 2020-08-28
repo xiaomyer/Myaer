@@ -44,19 +44,19 @@ class Random(commands.Cog):
             description=f"""```/random member
 /random member --channel
 /random channel
-/random 
 ```"""
         ))
 
     @_random.command(name="member")
     @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def random_member(self, ctx):
+    async def random_member(self, ctx, *args):
+        members = ctx.channel.members if bool(len(args)) and "--channel" in args else ctx.guild.members
         await ctx.send(embed=discord.Embed(
             color=ctx.author.color,
             timestamp=ctx.message.created_at,
-            description=random.choice(ctx.guild.members).mention
+            description=random.choice(members).mention
         ).set_footer(
-            text=f"Chosen out of {ctx.guild.member_count} people"
+            text=f"Chosen out of {len(members)} people"
         ))
 
     @_random.command(name="channel")
