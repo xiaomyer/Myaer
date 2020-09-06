@@ -42,8 +42,8 @@ class Random(commands.Cog):
             color=ctx.author.color,
             timestamp=ctx.message.created_at,
             description=f"""```/random member
-/random member --channel
-/random channel
+/random member [--channel]
+/random channel [--text, --voice]
 ```"""
         ))
 

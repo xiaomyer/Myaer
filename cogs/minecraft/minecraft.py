@@ -43,6 +43,7 @@ class Minecraft(commands.Cog):
     async def minecraft(self, ctx):
         minecraft_commands_embed = discord.Embed(
             title="Minecraft Commands",
+            color=ctx.author.color,
             description=
             """```/mc history
 /mc uuid

@@ -44,7 +44,7 @@ async def get_player_data(uuid, *, use_cache: bool = True, get_guild: bool = Fal
             valid = True if ((not get_guild) and (not get_friends) or (
                     get_friends and player_cache["data"]["friends"]) or (
                                      get_guild and player_cache["data"]["guild_data"])) and (time.time()) - \
-                            player_cache["time"] < 14400 else False  # cached for 5 minutes
+                            player_cache["time"] < (60 * 5) else False  # cached for 5 minutes
         else:
             valid = False
     if valid:
