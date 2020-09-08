@@ -1,2 +1,2 @@
 #!/bin/sh
-pm2 stop bot
+pm2 del bot

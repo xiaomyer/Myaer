@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from core.paginators import Analytics_
+from core.paginators import Analytics_, SessionAnalytics
 
 from discord.ext import commands, menus, tasks
 
@@ -73,7 +73,7 @@ class Analytics(commands.Cog):
     @commands.max_concurrency(1, per=commands.BucketType.user)
     async def session_analytics(self, ctx):
         analytics_paginator = menus.MenuPages(
-            source=Analytics_(format_analytics(self.session), ctx, total_commands(self.session)),
+            source=SessionAnalytics(format_analytics(self.session), ctx, total_commands(self.session)),
             clear_reactions_after=True
         )
         await analytics_paginator.start(ctx)
