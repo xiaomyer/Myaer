@@ -64,7 +64,7 @@ class Analytics(commands.Cog):
     @commands.max_concurrency(1, per=commands.BucketType.user)
     async def analytics(self, ctx):
         analytics_paginator = menus.MenuPages(
-            source=Analytics_(format_analytics(overall_stats), ctx),
+            source=Analytics_(format_analytics(overall_stats), ctx, total_commands(overall_stats)),
             clear_reactions_after=True
         )
         await analytics_paginator.start(ctx)
@@ -73,7 +73,7 @@ class Analytics(commands.Cog):
     @commands.max_concurrency(1, per=commands.BucketType.user)
     async def session_analytics(self, ctx):
         analytics_paginator = menus.MenuPages(
-            source=Analytics_(format_analytics(self.session), ctx),
+            source=Analytics_(format_analytics(self.session), ctx, total_commands(self.session)),
             clear_reactions_after=True
         )
         await analytics_paginator.start(ctx)
@@ -81,6 +81,13 @@ class Analytics(commands.Cog):
 
 def format_analytics(data):
     return [f"{key}: {data[key]}" for key in data]
+
+
+def total_commands(data):
+    total = 0
+    for key in data:
+        total += data[key]
+    return total
 
 
 def setup(bot):

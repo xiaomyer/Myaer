@@ -62,16 +62,19 @@ class MinecraftHypixelFriends(menus.ListPageSource):
 
 
 class Analytics_(menus.ListPageSource):
-    def __init__(self, data, ctx):
+    def __init__(self, data, ctx, total):
         self.ctx = ctx
+        self.total = total
         super().__init__(data, per_page=15)
 
     async def format_page(self, menu, entries):
         joined = "\n".join(entries)
         page_embed = discord.Embed(
-            title="Command Analytics",
+            title=f"Command Analytics (Total of {self.total})",
             description=f"```{joined}```",
             color=self.ctx.author.color,
-            timestamp=self.ctx.message.created_at
+            timestamp=self.ctx.message.created_at,
+        ).set_footer(
+            text="Started tracking on September 9th, 2020"
         )
         return page_embed
