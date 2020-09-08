@@ -59,3 +59,19 @@ class MinecraftHypixelFriends(menus.ListPageSource):
             timestamp=self.ctx.message.created_at
         )
         return page_embed
+
+
+class Analytics_(menus.ListPageSource):
+    def __init__(self, data, ctx):
+        self.ctx = ctx
+        super().__init__(data, per_page=15)
+
+    async def format_page(self, menu, entries):
+        joined = "\n".join(entries)
+        page_embed = discord.Embed(
+            title="Command Analytics",
+            description=f"```{joined}```",
+            color=self.ctx.author.color,
+            timestamp=self.ctx.message.created_at
+        )
+        return page_embed
