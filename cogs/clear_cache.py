@@ -25,7 +25,6 @@ SOFTWARE.
 import core.caches.static
 
 import discord
-import os
 
 from discord.ext import commands
 
