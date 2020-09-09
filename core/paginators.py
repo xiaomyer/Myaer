@@ -75,7 +75,7 @@ class Analytics_(menus.ListPageSource):
             color=self.ctx.author.color,
             timestamp=self.ctx.message.created_at,
         ).set_footer(
-            text="Started tracking on September 7th, 2020"
+            text="Started tracking on September 9th, 2020"
         )
         return page_embed
 
