@@ -775,6 +775,15 @@ async def get_player_data(uuid, *, use_cache: bool = True, get_guild: bool = Fal
                 }
             }
         },
+        "blitz": {
+            "coins": player_json.get("player", {}).get("stats", {}).get("HungerGames", {}).get("coins", 0),
+            "games_played": player_json.get("player", {}).get("stats", {}).get("HungerGames", {}).get("games_played",
+                                                                                                      0),
+            "wins": player_json.get("player", {}).get("stats", {}).get("HungerGames", {}).get("wins", 0),
+            "losses": player_json.get("player", {}).get("stats", {}).get("HungerGames", {}).get("losses", 0),
+            "kills": player_json.get("player", {}).get("stats", {}).get("HungerGames", {}).get("kills", 0),
+            "deaths": player_json.get("player", {}).get("stats", {}).get("HungerGames", {}).get("deaths", 0),
+        },
         "duels": {
             "coins": player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("coins", 0),
             "games_played": player_json.get("player", {}).get("stats", {}).get("Duels", {}).get("games_played_duels",
