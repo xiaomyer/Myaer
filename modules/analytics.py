@@ -80,7 +80,7 @@ class Analytics(commands.Cog):
 
 
 def format_analytics(data):
-    return [f"{key}: {data[key]}" for key in sorted(data)]
+    return [f"{key}: {value}" for key, value in sorted(data.items(), key=lambda k, v: v, reverse=True)]
 
 
 def total_commands(data):
