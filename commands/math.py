@@ -45,7 +45,7 @@ class Math(commands.Cog):
             return await ctx.send(embed=failed_embed)
         answer = discord.Embed(
             title=equation,
-            description=parsed,
+            description=str(parsed),
             color=ctx.author.color,
             timestamp=ctx.message.created_at
         ).set_author(
