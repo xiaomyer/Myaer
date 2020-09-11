@@ -22,17 +22,29 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import json
+from core.paginators import Lyrics
 
-with open("config.json") as config_raw:
-    config_json = json.load(config_raw)
+import discord
+from discord.ext import commands, menus
 
-owner_id = config_json["owner_id"]
-token = config_json["keys"]["token"]
-ksoft_api_key = config_json["keys"]["ksoft"]
-hypixel_api_key = config_json["keys"]["hypixel"]
-status_log_channel = config_json["channels"]["status_log"]
-guilds_log_channel = config_json["channels"]["guilds_log"]
-error_log_channel = config_json["channels"]["error_log"]
-suggestions_channel = config_json["channels"]["suggestions"]
-default_prefix = config_json["prefix"]
+
+class KSoft(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+
+    @commands.command(name="lyrics")
+    @commands.max_concurrency(1, per=commands.BucketType.user)
+    async def lyrics(self, ctx, *, query: str):
+        data = await ctx.bot.ksoft.music.lyrics(query)
+        song = data[0]
+        lyrics_split = song.lyrics.split("\n")
+        lyrics_paginator = menus.MenuPages(
+            source=Lyrics(lyrics_split, ctx, song),
+            clear_reactions_after=True
+        )
+        await lyrics_paginator.start(ctx)
+
+
+def setup(bot):
+    bot.add_cog(KSoft(bot))
+    print("Reloaded cogs.ksoft")

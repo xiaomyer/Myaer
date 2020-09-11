@@ -25,6 +25,7 @@ SOFTWARE.
 import aiohttp
 import asyncio
 import datetime
+import ksoftapi
 import logging
 import os
 import sys
@@ -75,6 +76,7 @@ bot.CREATION_TIME_FORMAT = "%m/%d/%Y - %I:%M:%S %p"
 
 # HTTP client
 bot.http_client = aiohttp.ClientSession()
+bot.ksoft = ksoftapi.Client(core.config.config.ksoft_api_key)
 
 STARTUP_TIME_FORMAT = "%A, %b %d, %Y - %m/%d/%Y - %I:%M:%S %p"
 started = False
