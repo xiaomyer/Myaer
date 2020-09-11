@@ -22,6 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+import aiohttp
 import asyncio
 import datetime
 import logging
@@ -58,6 +59,7 @@ bot = commands.Bot(
     command_prefix=get_prefix,
     owner_id=core.config.config.owner_id,
 )
+# common variables
 bot.admin_permission = discord.Permissions(8)
 bot.client_id = 700133917264445480
 bot.startup_time = datetime.datetime.now()
@@ -66,9 +68,13 @@ bot.user_converter = commands.UserConverter()
 bot.default_prefix = core.config.config.default_prefix
 bot.hypixel_api_key = core.config.config.hypixel_api_key
 
+# API constants
 bot.MC_HEADS_API = "https://mc-heads.net/"
 bot.SURGEPLAY_API = "https://visage.surgeplay.com/"
 bot.CREATION_TIME_FORMAT = "%m/%d/%Y - %I:%M:%S %p"
+
+# HTTP client
+bot.http_client = aiohttp.ClientSession()
 
 STARTUP_TIME_FORMAT = "%A, %b %d, %Y - %m/%d/%Y - %I:%M:%S %p"
 started = False
