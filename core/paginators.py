@@ -106,13 +106,16 @@ class Lyrics(menus.ListPageSource):
     async def format_page(self, menu, entries):
         joined = "\n".join(entries)
         page_embed = discord.Embed(
-            title=f"{self.song.name} - {self.song.artist}",
+            title=self.song.name,
             description=f"```{joined}```",
             color=self.ctx.author.color,
             timestamp=self.ctx.message.created_at,
         ).set_thumbnail(
             url=self.song.album_art
+        ).set_author(
+            name=self.song.artist
         ).set_footer(
-            text=f"on album {self.song.album} ({self.song.album_year[0]})"
+            text="Powered by KSoft.SI",
+            icon_url="https://cdn.ksoft.si/images/Logo1024-W.png"
         )
         return page_embed

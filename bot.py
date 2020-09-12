@@ -37,6 +37,8 @@ from discord.ext import commands
 import core.caches.static
 import core.config.config
 import core.config.guilds
+import core.minecraft.request
+import core.minecraft.hypixel.request
 
 logger = logging.getLogger("discord")
 logger.setLevel(logging.INFO)
@@ -54,6 +56,20 @@ async def get_prefix(bot, message):
     else:
         prefix = core.config.config.default_prefix
     return commands.when_mentioned_or(prefix, "myaer ", "Myaer ")(bot, message)
+
+
+async def start():
+    try:
+        await bot.start(core.config.config.token)
+    except KeyboardInterrupt:
+        await bot.logout()
+
+
+async def stop():
+    await bot.http_client.close()
+    await core.minecraft.request.mojang_request.close()
+    await core.minecraft.hypixel.request.hypixel_request.close()
+    await bot.logout()
 
 
 bot = commands.Bot(
@@ -78,6 +94,9 @@ bot.CREATION_TIME_FORMAT = "%m/%d/%Y - %I:%M:%S %p"
 bot.http_client = aiohttp.ClientSession()
 bot.ksoft = ksoftapi.Client(core.config.config.ksoft_api_key)
 
+# coroutine
+bot.stop = stop
+
 STARTUP_TIME_FORMAT = "%A, %b %d, %Y - %m/%d/%Y - %I:%M:%S %p"
 started = False
 os.environ["JISHAKU_NO_UNDERSCORE"] = "True"
@@ -101,6 +120,7 @@ for extension in extensions:
         error_traceback = "".join(traceback.format_exception(type(e), e, e.__traceback__))
         failed_extensions.append({"extension": extension, "traceback": error_traceback})
 
+
 @bot.event
 async def on_ready():
     global started
@@ -119,9 +139,10 @@ async def on_ready():
         )
         await bot.error_log_channel.send(embed=error_embed)
     await bot.change_presence(activity=discord.Game(name="/help | /suggest"))
-    await bot.status_log_channel.send(f"Logged in at {ready_time.strftime(STARTUP_TIME_FORMAT)} (took {(ready_time - bot.startup_time).total_seconds()} seconds)."
-                                      if not started else
-                                      f"Automatically restarted at {ready_time.strftime(STARTUP_TIME_FORMAT)}")
+    await bot.status_log_channel.send(
+        f"Logged in at {ready_time.strftime(STARTUP_TIME_FORMAT)} (took {(ready_time - bot.startup_time).total_seconds()} seconds)."
+        if not started else
+        f"Automatically restarted at {ready_time.strftime(STARTUP_TIME_FORMAT)}")
     started = False
 
 
@@ -140,15 +161,8 @@ async def on_error(event, *args, **kwargs):
     await bot.error_log_channel.send(embed=error_embed)
 
 
-async def start():
-    try:
-        await bot.start(core.config.config.token)
-    except KeyboardInterrupt:
-        await bot.logout()
-
-
 if __name__ == "__main__":
     try:
         asyncio.get_event_loop().run_until_complete(start())
     except KeyboardInterrupt:
-        asyncio.get_event_loop().run_until_complete(bot.logout())
+        asyncio.get_event_loop().run_until_complete(stop())
