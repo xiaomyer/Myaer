@@ -8,6 +8,8 @@ Myaer is a Discord bot written with discord.py in Python 3.8.2. It is focused ar
 - **/help** - What do you think it is?
 - **/ping** - Shows bot latency
 - **/suggest \<suggestion\>** - Sends a suggestion in my [Discord server](https://inv.wtf/myerfire) for me to see
+### Images (powered by KSoft.SI API)
+- **/image random \<tag\>** - Gets random image based on tag query
 ### Minecraft
 #### General
 **If you are verified, you can omit the \<name\> part and it will default to you**
@@ -43,12 +45,14 @@ Myaer is a Discord bot written with discord.py in Python 3.8.2. It is focused ar
 - **/lb bw finals weekly** - Shows weekly Bedwars final kills leaderboard
 - **/lb bw wins** - Shows overall Bedwars wins leaderboard
 - **/lb bw wins weekly** - Shows weekly Bedwars wins leaderboard
-
+##### Blitz
+**If you are verified, you can omit the \<player\> part and it will default to you**
+- **/blitz \<player\>** - Shows general Blitz stats
+	- per stats calculations coming soon™
 ##### Duels
 **If you are verified, you can omit the \<player\> part and it will default to you**
 - **/duels \<player\>** - Shows general Duels stats
 	- per mode and per stats calculations coming soon™
-
 ##### Paintball
 **If you are verified, you can omit the \<player\> part and it will default to you**
 - **/pb \<player\>** - Shows general Paintball stats
@@ -58,11 +62,13 @@ Myaer is a Discord bot written with discord.py in Python 3.8.2. It is focused ar
 **If you are verified, you can omit the \<player\> part and it will default to you**
 - **/sw \<player\>** - Shows general Skywars stats
   - per stat calculations coming soon™
-##### Wrist Spasm
-*These features are specific to Wrist Spasm*
-- **/spasm verify \<name\>** - Sets your nickname to your Minecraft IGN and gives you a role based on your Bedwars prestige
-  - **/spasm override \<discord_id_or_mention\> \<name\>** - Overrides and reverifies someone (only works if you have staff roles in Wrist Spasm)
-
+### Music
+- **/music play \<song\>** - Plays song (requires you to be in a voice call)
+    - It kind of sucks, but there's not much I can do about it
+- **/music skip** - Skips song if you're the song requester, and triggers a voteskip otherwise
+- **/music queue** - Shows music queue
+- **/music clearqueue** - Clears music queue
+- **/lyrics \<song\>** - Shows song lyrics
 ## Authors
 - **MyerFire** *myer#0001* *https://www.youtube.com/myerfire*
   - Anyone may submit a pull request and it will possibly be implemented
