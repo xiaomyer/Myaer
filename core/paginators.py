@@ -98,9 +98,10 @@ class SessionAnalytics(menus.ListPageSource):
 
 
 class Lyrics(menus.ListPageSource):
-    def __init__(self, data, ctx, song):
+    def __init__(self, data, ctx, song, *, footer_url: str = None):
         self.ctx = ctx
         self.song = song
+        self.footer_url = footer_url
         super().__init__(data, per_page=15)
 
     async def format_page(self, menu, entries):
@@ -116,6 +117,6 @@ class Lyrics(menus.ListPageSource):
             name=self.song.artist
         ).set_footer(
             text="Powered by KSoft.SI",
-            icon_url="https://cdn.ksoft.si/images/Logo1024-W.png"
+            icon_url=self.footer_url
         )
         return page_embed

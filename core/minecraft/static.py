@@ -78,13 +78,6 @@ async def hypixel_name_handler(ctx, args, *, use_cache: bool = True, get_guild: 
         )
         await ctx.send(embed=nameerror_embed)
         return
-    except OverflowError:
-        ratelimit_embed = discord.Embed(
-            name="Ratelimit met",
-            description="API ratelimit has been reached. Please try again later"
-        )
-        await ctx.send(embed=ratelimit_embed)
-        return
     player_info = {
         "player_data": player_data,
         "player_json": player_json
@@ -125,13 +118,6 @@ async def hypixel_name_handler_no_database(ctx, player, *, use_cache: bool = Tru
             color=ctx.author.color
         )
         await ctx.send(embed=nameerror_embed)
-        return
-    except OverflowError:
-        ratelimit_embed = discord.Embed(
-            name="Ratelimit met",
-            description="API ratelimit has been reached. Please try again later"
-        )
-        await ctx.send(embed=ratelimit_embed)
         return
     player_info = {
         "player_data": player_data,

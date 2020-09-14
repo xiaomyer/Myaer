@@ -54,15 +54,11 @@ async def get_player_data(uuid, *, use_cache: bool = True, get_guild: bool = Fal
             player_json = await core.minecraft.hypixel.request.get_player_uuid(uuid)
         except NameError:
             raise NameError("No Hypixel stats")
-        except ratelimit.RateLimitException:
-            raise OverflowError  # idk how to make custom exceptions so this is close enough
     if get_guild:  # only get guild if necessary, because it's another request
         try:
             player_guild_json = await core.minecraft.hypixel.guild.get_guild_data(uuid)
         except NameError:
             player_guild_json = None
-        except ratelimit.RateLimitException:
-            raise ratelimit.RateLimitException
     else:
         player_guild_json = None
     if get_friends:  # only get friends if necessary, because it's another request
@@ -70,8 +66,6 @@ async def get_player_data(uuid, *, use_cache: bool = True, get_guild: bool = Fal
             player_friends_json = await core.minecraft.hypixel.friends.get_friends(uuid)
         except NameError:
             player_friends_json = None
-        except ratelimit.RateLimitException:
-            raise ratelimit.RateLimitException
     else:
         player_friends_json = None
     if get_status:  # only get status if necessary, because it's another request
@@ -79,8 +73,6 @@ async def get_player_data(uuid, *, use_cache: bool = True, get_guild: bool = Fal
             player_status_json = await core.minecraft.hypixel.status.get_status(uuid)
         except NameError:
             player_status_json = None
-        except ratelimit.RateLimitException:
-            raise ratelimit.RateLimitException
     else:
         player_status_json = None
 

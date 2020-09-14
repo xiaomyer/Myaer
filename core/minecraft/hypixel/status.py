@@ -42,8 +42,6 @@ async def get_status(uuid):
         status_json = (await core.minecraft.hypixel.request.get_status_by_uuid(uuid))
     except NameError:
         raise NameError("Invalid UUID")
-    except ratelimit.RateLimitException:
-        raise OverflowError  # idk how to make custom exceptions so this is close enough
 
     status = {
         "online": status_json.get("session", {}).get("online", False),

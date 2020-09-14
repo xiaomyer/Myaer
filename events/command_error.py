@@ -23,6 +23,7 @@ SOFTWARE.
 """
 
 import datetime
+import ratelimit
 import sys
 import traceback
 
@@ -66,13 +67,19 @@ invoked by {ctx.author.mention} `({ctx.author.name}#{ctx.author.discriminator}) 
         # i just want to see how many times there are actual errors
         # and i want to see how many times my cooldowns are met
 
+        if isinstance(error, ratelimit.exception.RateLimitException):
+            return await ctx.send(embed=discord.Embed(
+                color=ctx.author.color,
+                timestamp=ctx.message.created_at,
+                description=f"API ratelimit has been met. Please try again later"
+            ))
+
         if isinstance(error, commands.MaxConcurrencyReached):
-            concurrency_embed = discord.Embed(
+            return await ctx.send(embed=discord.Embed(
                 color=ctx.author.color,
                 timestamp=ctx.message.created_at,
                 description=f"{ctx.author.name}, this command is being ratelimited. Try again in a bit"
-            )
-            return await ctx.send(embed=concurrency_embed)
+            ))
 
         if isinstance(error, commands.CommandOnCooldown):
             cooldown = datetime.timedelta(seconds=error.retry_after)

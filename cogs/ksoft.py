@@ -23,26 +23,73 @@ SOFTWARE.
 """
 
 from core.paginators import Lyrics
+from ratelimit import limits
 
 import discord
+import ksoftapi
 from discord.ext import commands, menus
 
 
 class KSoft(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.logo = "https://cdn.ksoft.si/images/Logo1024-W.png"
 
-    @commands.command(name="lyrics")
+    @commands.command(name="lyrics", aliases=["lyric"])
     @commands.max_concurrency(1, per=commands.BucketType.user)
     async def lyrics(self, ctx, *, query: str):
         data = await ctx.bot.ksoft.music.lyrics(query)
         song = data[0]
         lyrics_split = song.lyrics.split("\n")
         lyrics_paginator = menus.MenuPages(
-            source=Lyrics(lyrics_split, ctx, song),
+            source=Lyrics(lyrics_split, ctx, song, footer_url=self.logo),
             clear_reactions_after=True
         )
         await lyrics_paginator.start(ctx)
+
+    @commands.group(name="images", aliases=["image"], invoke_without_command=True)
+    @commands.max_concurrency(1, per=commands.BucketType.user)
+    async def images(self, ctx):
+        await ctx.send(embed=discord.Embed(
+            title="Image Commands",
+            color=ctx.author.color,
+            timestamp=ctx.message.created_at,
+            description="""```
+/image random <tag> (/image tags for tag list)
+/image meme
+/image cute
+/image wikihow
+/image reddit <subreddit>
+/image tags
+```"""
+        ))
+
+    @images.command(name="random")
+    @commands.max_concurrency(1, per=commands.BucketType.user)
+    async def images_random(self, ctx, *, tag: str):
+        try:
+            image = await get_random_image(ctx, tag)
+            await ctx.send(embed=discord.Embed(
+                color=ctx.author.color,
+                timestamp=ctx.message.created_at,
+                title=tag,
+            ).set_image(
+                url=image.url
+            ).set_footer(
+                text="Powered by KSoft.SI",
+                icon_url=self.logo
+            ))
+        except ksoftapi.errors.APIError:
+            return await ctx.send(embed=discord.Embed(
+                color=ctx.author.color,
+                timestamp=ctx.message.created_at,
+                description="Invalid image tag"
+            ))
+
+
+@limits(calls=4, period=1)
+async def get_random_image(ctx, tag: str, nsfw: bool = False):
+    return await ctx.bot.ksoft.images.random_image(tag, nsfw=nsfw)
 
 
 def setup(bot):
