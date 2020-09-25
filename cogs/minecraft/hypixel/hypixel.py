@@ -42,7 +42,7 @@ class Hypixel(commands.Cog):
 
     @commands.group(name="hypixel", aliases=["hp"], invoke_without_command=True)
     @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def hypixel(self, ctx, *args):
+    async def hypixel(self, ctx: commands.Context, *args):
         player_info = await core.minecraft.static.hypixel_name_handler(ctx, args, get_guild=True, get_status=True)
         if player_info:
             player_data = player_info["player_data"]
@@ -94,7 +94,7 @@ class Hypixel(commands.Cog):
 
     @commands.command(name="friends")
     @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def friends(self, ctx, *args):
+    async def friends(self, ctx: commands.Context, *args):
         await ctx.trigger_typing()
         loading_embed = discord.Embed(
             description="The friends list command may take a very long time depending on whether or not cached data is available. If you end up reading this message, please be patient"

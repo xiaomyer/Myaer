@@ -34,7 +34,7 @@ class ClearCache(commands.Cog):
         self.bot = bot
 
     @commands.group(name="clearcache", aliases=["cc"], invoke_without_command=True)
-    async def clear_cache(self, ctx):
+    async def clear_cache(self, ctx: commands.Context):
         core.caches.static.friends_cache_db.truncate()
         core.caches.static.friends_cache_db_cache.truncate()
         core.caches.static.leaderboards_cache_db.truncate()
@@ -48,7 +48,7 @@ class ClearCache(commands.Cog):
         ))
 
     @clear_cache.command(name="friends", aliases=["friend"])
-    async def clear_cache_friends(self, ctx):
+    async def clear_cache_friends(self, ctx: commands.Context):
         core.caches.static.friends_cache_db.truncate()
         core.caches.static.friends_cache_db_cache.truncate()
         await ctx.send(embed=discord.Embed(
@@ -58,7 +58,7 @@ class ClearCache(commands.Cog):
         ))
 
     @clear_cache.command(name="leaderboards", aliases=["leaderboard"])
-    async def clear_cache_leaderboards(self, ctx):
+    async def clear_cache_leaderboards(self, ctx: commands.Context):
         core.caches.static.leaderboards_cache_db.truncate()
         core.caches.static.leaderboards_cache_db_cache.truncate()
         await ctx.send(embed=discord.Embed(

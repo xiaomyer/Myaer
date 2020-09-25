@@ -21,7 +21,7 @@ async def audio_playing(ctx):
         ))
 
 
-async def in_voice_channel(ctx):
+async def in_voice_channel(ctx: commands.Context):
     """Checks that the command sender is in the same voice channel as the bot."""
     voice = ctx.author.voice
     bot_voice = ctx.guild.voice_client

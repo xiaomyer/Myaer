@@ -34,17 +34,16 @@ class Avatar(commands.Cog):
 
     @commands.command(name="avatar", aliases=["av", "pfp"])
     @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def avatar(self, ctx, target: typing.Union[discord.Member, discord.User, str] = None):
+    async def avatar(self, ctx, target: typing.Union[discord.Member, discord.User, str, None]):
         if isinstance(target, str):
-            no_user_embed = discord.Embed(
+            return await ctx.send(embed=discord.Embed(
                 description=f"User \"{target}\" not found",
                 color=ctx.author.color,
                 timestamp=ctx.message.created_at
-            )
-            return await ctx.send(embed=no_user_embed)
+            ))
         if not target:
             target = ctx.author
-        avatar_embed = discord.Embed(
+        await ctx.send(embed=discord.Embed(
             color=target.color,
             timestamp=ctx.message.created_at,
             description=target.mention
@@ -52,8 +51,7 @@ class Avatar(commands.Cog):
             url=str(target.avatar_url_as(static_format="png", size=2048))
         ).set_author(
             name=f"{target}'s Avatar"
-        )
-        await ctx.send(embed=avatar_embed)
+        ))
 
 
 def setup(bot):

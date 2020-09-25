@@ -38,7 +38,7 @@ class Blitz(commands.Cog):
 
     @commands.group(name="blitz", aliases=["bsg"], invoke_without_command=True)
     @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def blitz(self, ctx, *args):
+    async def blitz(self, ctx: commands.Context, *args):
         player_info = await core.minecraft.static.hypixel_name_handler(ctx, args)
         if player_info:
             player_data = player_info["player_data"]

@@ -62,13 +62,6 @@ Myaer is a Discord bot written with discord.py in Python 3.8.2. It is focused ar
 **If you are verified, you can omit the \<player\> part and it will default to you**
 - **/sw \<player\>** - Shows general Skywars stats
   - per stat calculations coming soon™
-### Music
-- **/music play \<song\>** - Plays song (requires you to be in a voice call)
-    - It kind of sucks, but there's not much I can do about it
-- **/music skip** - Skips song if you're the song requester, and triggers a voteskip otherwise
-- **/music queue** - Shows music queue
-- **/music clearqueue** - Clears music queue
-- **/lyrics \<song\>** - Shows song lyrics
 ## Authors
 - **MyerFire** *myer#0001* *https://www.youtube.com/myerfire*
   - Anyone may submit a pull request and it will possibly be implemented

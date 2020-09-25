@@ -37,7 +37,7 @@ class Guild(commands.Cog):
     @commands.command(name="guild", aliases=["g", "server"])
     @commands.max_concurrency(1, per=commands.BucketType.user)
     async def guild(self, ctx: commands.Context):
-        guild_embed = discord.Embed(
+        await ctx.send(embed=discord.Embed(
             color=ctx.guild.owner.color,
             timestamp=ctx.message.created_at
         ).set_author(
@@ -65,8 +65,7 @@ class Guild(commands.Cog):
             # role doesn't count
             value=f"{await core.static.static.get_role_mentions_string(await core.static.static.get_role_mentions(ctx.guild.roles))}",
             inline=False
-        )
-        await ctx.send(embed=guild_embed)
+        ))
 
 
 def setup(bot):

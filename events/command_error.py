@@ -50,23 +50,6 @@ class CommandError(commands.Cog):
         print("Ignoring exception in command {}:".format(ctx.command), file=sys.stderr)
         traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
 
-        error_traceback = "".join(traceback.format_exception(type(error), error, error.__traceback__))
-        error_embed = discord.Embed(
-            color=ctx.author.color,
-            timestamp=ctx.message.created_at,
-            title=
-            f"""Ignoring exception in command {ctx.command}
-```{ctx.message.content}```""",
-            description=f"""{f'in guild `{ctx.guild.name} ({ctx.guild.id})`' if isinstance(ctx.message.channel, discord.TextChannel) else 'in a DM channel'}
-invoked by {ctx.author.mention} `({ctx.author.name}#{ctx.author.discriminator}) ({ctx.author.id})`
-```{error_traceback}```"""
-        )
-        await ctx.bot.error_log_channel.send(embed=error_embed)
-
-        # myer, you silly goose! why are you putting this before the check for a local error handler?
-        # i just want to see how many times there are actual errors
-        # and i want to see how many times my cooldowns are met
-
         if isinstance(error, ratelimit.exception.RateLimitException):
             return await ctx.send(embed=discord.Embed(
                 color=ctx.author.color,
@@ -132,6 +115,19 @@ If you are having trouble with permissions, giving me the `Administrator` permis
 For more support, join my [Discord Server](https://inv.wtf/myerfire)"""
             )
             return await ctx.author.send(embed=forbidden_embed)
+
+        error_traceback = "".join(traceback.format_exception(type(error), error, error.__traceback__))
+        error_embed = discord.Embed(
+            color=ctx.author.color,
+            timestamp=ctx.message.created_at,
+            title=
+            f"""Ignoring exception in command {ctx.command}
+        ```{ctx.message.content}```""",
+            description=f"""{f'in guild `{ctx.guild.name} ({ctx.guild.id})`' if isinstance(ctx.message.channel, discord.TextChannel) else 'in a DM channel'}
+        invoked by {ctx.author.mention} `({ctx.author.name}#{ctx.author.discriminator}) ({ctx.author.id})`
+        ```{error_traceback}```"""
+        )
+        await ctx.bot.error_log_channel.send(embed=error_embed)
 
 
 def setup(bot):

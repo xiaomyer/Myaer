@@ -38,7 +38,7 @@ class Paintball(commands.Cog):
 
     @commands.group(name="paintball", aliases=["pb"], invoke_without_command=True)
     @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def paintball(self, ctx, *args):
+    async def paintball(self, ctx: commands.Context, *args):
         player_info = await core.minecraft.static.hypixel_name_handler(ctx, args)
         if player_info:
             player_data = player_info["player_data"]
@@ -73,7 +73,7 @@ class Paintball(commands.Cog):
         await ctx.send(embed=player_stats_embed)
 
     @paintball.command(name="kdr")
-    async def kdr(self, ctx, *args):
+    async def kdr(self, ctx: commands.Context, *args):
         player_info = await core.minecraft.static.hypixel_name_handler(ctx, args)
         if player_info:
             player_data = player_info["player_data"]

@@ -37,16 +37,15 @@ class User(commands.Cog):
 
     @commands.command(name="user", aliases=["member", "u"])
     @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def user(self, ctx, *, user: typing.Union[discord.Member, discord.User, str] = None):  # converts to string if
+    async def user(self, ctx, *, user: typing.Union[discord.Member, discord.User, str, None]):  # converts to string if
         # not a Member or User to continue code execution as a makeshift error handler
         # this is so that the argument passed is accessible
         if isinstance(user, str):  # if user is a string, it failed both the Member conversion and the User conversion
-            no_user_embed = discord.Embed(
+            return await ctx.send(embed=discord.Embed(
                 description=f"User \"{user}\" not found",
                 color=ctx.author.color,
                 timestamp=ctx.message.created_at
-            )
-            return await ctx.send(embed=no_user_embed)
+            ))
         if not user:
             user = ctx.author
             color = ctx.author.color

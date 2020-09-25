@@ -33,7 +33,7 @@ class Config(commands.Cog):
 
     @commands.group(name="prefix", invoke_without_command=True)
     @commands.guild_only()
-    async def prefix(self, ctx):
+    async def prefix(self, ctx: commands.Context):
         config = await core.config.guilds.get_config(ctx.guild.id)
         prefix = config.get("prefix", None) if config else None
         prefix_embed = discord.Embed(
@@ -45,7 +45,7 @@ class Config(commands.Cog):
     @prefix.command(name="set")
     @commands.has_guild_permissions(manage_guild=True)
     @commands.guild_only()
-    async def set_prefix(self, ctx, prefix):
+    async def set_prefix(self, ctx: commands.Context, prefix):
         if prefix == self.bot.default_prefix:
             reset_data = await core.config.guilds.reset_key(ctx.guild.id, "prefix")
             if reset_data:
@@ -75,7 +75,7 @@ class Config(commands.Cog):
     @prefix.command(name="reset")
     @commands.has_guild_permissions(manage_guild=True)
     @commands.guild_only()
-    async def reset_prefix(self, ctx):
+    async def reset_prefix(self, ctx: commands.Context):
         reset_data = await core.config.guilds.reset_key(ctx.guild.id, "prefix")
         if reset_data:
             reset_embed = discord.Embed(

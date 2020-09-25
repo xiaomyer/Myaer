@@ -37,7 +37,7 @@ class KSoft(commands.Cog):
 
     @commands.command(name="lyrics", aliases=["lyric"])
     @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def lyrics(self, ctx, *, query: str):
+    async def lyrics(self, ctx: commands.Context, *, query: str):
         data = await ctx.bot.ksoft.music.lyrics(query)
         song = data[0]
         lyrics_split = song.lyrics.split("\n")
@@ -47,44 +47,44 @@ class KSoft(commands.Cog):
         )
         await lyrics_paginator.start(ctx)
 
-    @commands.group(name="images", aliases=["image"], invoke_without_command=True)
-    @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def images(self, ctx):
-        await ctx.send(embed=discord.Embed(
-            title="Image Commands",
-            color=ctx.author.color,
-            timestamp=ctx.message.created_at,
-            description="""```
-/image random <tag> (/image tags for tag list)
-/image meme
-/image cute
-/image wikihow
-/image reddit <subreddit>
-/image tags
-```"""
-        ))
-
-    @images.command(name="random")
-    @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def images_random(self, ctx, *, tag: str):
-        try:
-            image = await get_random_image(ctx, tag)
-            await ctx.send(embed=discord.Embed(
-                color=ctx.author.color,
-                timestamp=ctx.message.created_at,
-                title=tag,
-            ).set_image(
-                url=image.url
-            ).set_footer(
-                text="Powered by KSoft.SI",
-                icon_url=self.logo
-            ))
-        except ksoftapi.errors.APIError:
-            return await ctx.send(embed=discord.Embed(
-                color=ctx.author.color,
-                timestamp=ctx.message.created_at,
-                description="Invalid image tag"
-            ))
+#     @commands.group(name="images", aliases=["image"], invoke_without_command=True)
+#     @commands.max_concurrency(1, per=commands.BucketType.user)
+#     async def images(self, ctx: commands.Context):
+#         await ctx.send(embed=discord.Embed(
+#             title="Image Commands",
+#             color=ctx.author.color,
+#             timestamp=ctx.message.created_at,
+#             description="""```
+# /image random <tag> (/image tags for tag list)
+# /image meme
+# /image cute
+# /image wikihow
+# /image reddit <subreddit>
+# /image tags
+# ```"""
+#         ))
+#
+#     @images.command(name="random")
+#     @commands.max_concurrency(1, per=commands.BucketType.user)
+#     async def images_random(self, ctx, *, tag: str):
+#         try:
+#             image = await get_random_image(ctx, tag)
+#             await ctx.send(embed=discord.Embed(
+#                 color=ctx.author.color,
+#                 timestamp=ctx.message.created_at,
+#                 title=tag,
+#             ).set_image(
+#                 url=image.url
+#             ).set_footer(
+#                 text="Powered by KSoft.SI",
+#                 icon_url=self.logo
+#             ))
+#         except ksoftapi.errors.APIError:
+#             return await ctx.send(embed=discord.Embed(
+#                 color=ctx.author.color,
+#                 timestamp=ctx.message.created_at,
+#                 description="Invalid image tag"
+#             ))
 
 
 @limits(calls=4, period=1)

@@ -36,7 +36,7 @@ class Duels(commands.Cog):
 
     @commands.group(name="duels", invoke_without_command=True)
     @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def duels(self, ctx, *args):
+    async def duels(self, ctx: commands.Context, *args):
         player_info = await core.minecraft.static.hypixel_name_handler(ctx, args)
         if player_info:
             player_data = player_info["player_data"]
@@ -83,7 +83,7 @@ class Duels(commands.Cog):
 
     @duels.command(name="stats")
     @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def duels_stats(self, ctx, *args):
+    async def duels_stats(self, ctx: commands.Context, *args):
         player_info = await core.minecraft.static.hypixel_name_handler(ctx, args)
         if player_info:
             player_data = player_info["player_data"]
@@ -129,7 +129,7 @@ class Duels(commands.Cog):
         await ctx.send(embed=player_stats_embed)
 
     @duels.group(name="bridge", invoke_without_command=True)
-    async def bridge_duels(self, ctx, *args):
+    async def bridge_duels(self, ctx: commands.Context, *args):
         player_info = await core.minecraft.static.hypixel_name_handler(ctx, args)
         if player_info:
             player_data = player_info["player_data"]
@@ -175,7 +175,7 @@ class Duels(commands.Cog):
         await ctx.send(embed=player_bridge_stats_embed)
 
     @duels.command(name="classic")
-    async def classic_duels(self, ctx, *args):
+    async def classic_duels(self, ctx: commands.Context, *args):
         player_info = await core.minecraft.static.hypixel_name_handler(ctx, args)
         if player_info:
             player_data = player_info["player_data"]

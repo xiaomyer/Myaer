@@ -40,7 +40,7 @@ class Minecraft(commands.Cog):
         self.bot = bot
 
     @commands.group(name="minecraft", aliases=["mc"], invoke_without_command=True)
-    async def minecraft(self, ctx):
+    async def minecraft(self, ctx: commands.Context):
         minecraft_commands_embed = discord.Embed(
             title="Minecraft Commands",
             color=ctx.author.color,
@@ -56,7 +56,7 @@ class Minecraft(commands.Cog):
 
     @minecraft.command(name="history", aliases=["names", "namehistory"])
     @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def name_history(self, ctx, *args):
+    async def name_history(self, ctx: commands.Context, *args):
         player_data = await core.minecraft.static.name_handler(ctx, args)
         if not player_data:
             return

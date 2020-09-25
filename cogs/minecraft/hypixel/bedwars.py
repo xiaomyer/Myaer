@@ -38,7 +38,7 @@ class Bedwars(commands.Cog):
 
     @commands.group(name="bedwars", aliases=["bw"], invoke_without_command=True)
     @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def bedwars(self, ctx, *args):
+    async def bedwars(self, ctx: commands.Context, *args):
         player_info = await core.minecraft.static.hypixel_name_handler(ctx, args)
         if player_info:
             player_data = player_info["player_data"]
@@ -111,7 +111,7 @@ class Bedwars(commands.Cog):
         await ctx.send(embed=player_stats_embed)
 
     @bedwars.command(name="stats")  # safety net in case the player"s name is one of the subcommand names
-    async def bedwars_stats(self, ctx, *args):
+    async def bedwars_stats(self, ctx: commands.Context, *args):
         player_info = await core.minecraft.static.hypixel_name_handler(ctx, args)
         if player_info:
             player_data = player_info["player_data"]
@@ -163,7 +163,7 @@ class Bedwars(commands.Cog):
         await ctx.send(embed=player_stats_embed)
 
     @bedwars.command(name="solo", aliases=["1", "solos"])
-    async def solo_bedwars(self, ctx, *args):
+    async def solo_bedwars(self, ctx: commands.Context, *args):
         player_info = await core.minecraft.static.hypixel_name_handler(ctx, args)
         if player_info:
             player_data = player_info["player_data"]
@@ -213,7 +213,7 @@ class Bedwars(commands.Cog):
         await ctx.send(embed=player_solo_stats_embed)
 
     @bedwars.command(name="doubles", aliases=["2", "2s", "double", "twos"])
-    async def doubles_bedwars(self, ctx, *args):
+    async def doubles_bedwars(self, ctx: commands.Context, *args):
         player_info = await core.minecraft.static.hypixel_name_handler(ctx, args)
         if player_info:
             player_data = player_info["player_data"]
