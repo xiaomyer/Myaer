@@ -2881,10 +2881,10 @@ class Bedwars(commands.Cog):
             url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
         ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['trees']['wins']), ((player_json['bedwars']['threes']['losses'])))}"
+            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['threes']['wins']), ((player_json['bedwars']['threes']['losses'])))}"
         ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
-            value=f"{player_json['trees']['wins']}"
+            value=f"{player_json['threes']['wins']}"
         ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['threes']['losses']):,d}"
@@ -2894,11 +2894,11 @@ class Bedwars(commands.Cog):
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} +1 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['trees']['wins']), (player_json['bedwars']['threes']['losses']), 1)} needed",
+            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['threes']['wins']), (player_json['bedwars']['threes']['losses']), 1)} needed",
             inline=False
         ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} +2 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['trees']['wins']), (player_json['bedwars']['threes']['losses']), 2)} needed"
+            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['threes']['wins']), (player_json['bedwars']['threes']['losses']), 2)} needed"
         ).set_footer(
             text=core.static.static.stats_needed_disclaimer
         )
