@@ -1,1 +1,1 @@
-scp -r C:\Users\myerc\OneDrive\Development\Discord\Myaer myer@fire:/home/myer/Myaer
+scp -r C:\Users\myerc\OneDrive\Development\Discord\Myaer myer@myer.wtf:/home/myer/Myaer

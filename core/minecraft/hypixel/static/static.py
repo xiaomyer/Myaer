@@ -188,6 +188,14 @@ async def get_ratio(positive_stat, negative_stat):
         return float("inf") if positive_stat > 0 else 0
 
 
+async def get_ratio_unrounded(positive_stat, negative_stat):
+    try:
+        ratio = positive_stat / negative_stat
+        return ratio
+    except ZeroDivisionError:
+        return float("inf") if positive_stat > 0 else 0
+
+
 async def get_increase_stat(positive_stat, negative_stat, increase):
     # positive_stat is a "good" stat like final_kills
     # negative_stat is a "bad" stat like final_deaths

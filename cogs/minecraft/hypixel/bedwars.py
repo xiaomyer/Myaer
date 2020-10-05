@@ -2764,7 +2764,7 @@ class Bedwars(commands.Cog):
             value=f"{(player_json['bedwars']['losses']):,d}"
         ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} Next 1 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['wins']), (player_json['bedwars']['losses']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['wins']), ((player_json['bedwars']['losses'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['wins'], player_json['bedwars']['losses']))))} needed"
+            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['wins']), (player_json['bedwars']['losses']), (math.trunc(await core.minecraft.hypixel.static.static.get_ratio_unrounded((player_json['bedwars']['wins']), ((player_json['bedwars']['losses'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio_unrounded(player_json['bedwars']['wins'], player_json['bedwars']['losses'])))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
             name=f"__**{core.static.static.arrow_bullet_point} +1 WLR**__",
