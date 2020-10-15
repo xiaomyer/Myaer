@@ -1,0 +1,9 @@
+[
+  {
+    "name": "Myaer",
+    "script": "/home/myer/Myaer/Myaer/bot.py",
+    "exec_interpreter": "/home/myer/Myaer/bin/python",
+    "exec_mode": "fork",
+    "instances": 1
+  }
+]

@@ -3,6 +3,7 @@ __pycache__/
 
 # Secret
 *.json
+!myaer.json
 
 # logs
 discord.log
