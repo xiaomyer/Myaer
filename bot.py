@@ -75,6 +75,8 @@ async def stop():
 bot = commands.Bot(
     command_prefix=get_prefix,
     owner_id=core.config.config.owner_id,
+    allowed_mentions=discord.AllowedMentions(everyone=False),
+    intents=discord.Intents.all()
 )
 # common variables
 bot.admin_permission = discord.Permissions(8)
@@ -123,7 +125,6 @@ for extension in extensions:
 
 @bot.event
 async def on_ready():
-    global started
     bot.owner_user = bot.get_user(bot.owner_id)
     bot.error_log_channel = bot.get_channel(core.config.config.error_log_channel)
     bot.guilds_log_channel = bot.get_channel(core.config.config.guilds_log_channel)
@@ -140,10 +141,7 @@ async def on_ready():
         await bot.error_log_channel.send(embed=error_embed)
     await bot.change_presence(activity=discord.Game(name="/help | /suggest"))
     await bot.status_log_channel.send(
-        f"Logged in at {ready_time.strftime(STARTUP_TIME_FORMAT)} (took {(ready_time - bot.startup_time).total_seconds()} seconds)."
-        if not started else
-        f"Automatically restarted at {ready_time.strftime(STARTUP_TIME_FORMAT)}")
-    started = False
+        f"Logged in at {ready_time.strftime(STARTUP_TIME_FORMAT)} (took {(ready_time - bot.startup_time).total_seconds()} seconds).")
 
 
 @bot.event

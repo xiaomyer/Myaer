@@ -13,6 +13,7 @@ humanize==2.6.0
 idna==2.10
 import-expression==1.1.4
 jishaku==1.19.1.200
+ksoftapi==0.2.4a0
 mathparse==0.1.2
 multidict==4.7.6
 pkg-resources==0.0.0
@@ -23,3 +24,4 @@ ratelimit==2.2.1
 six==1.15.0
 tinydb==4.1.1
 yarl==1.5.1
+youtube-dl==2020.9.6
