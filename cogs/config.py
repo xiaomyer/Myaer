@@ -27,12 +27,27 @@ import discord
 from discord.ext import commands
 
 
+async def check_modonly(ctx):
+    if await ctx.bot.is_owner(ctx.author):
+        return True
+    config = await core.config.guilds.get_config(ctx.guild.id)
+    modonly = config.get("modonly") if config else None
+    if not modonly:
+        return True
+    if not ctx.channel.id in modonly:
+        return True
+    else:
+        return ctx.author.permissions_in(ctx.channel).manage_messages
+
+
 class Config(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        bot.add_check(check_modonly)
 
     @commands.group(name="prefix", invoke_without_command=True)
     @commands.guild_only()
+    @commands.max_concurrency(1, per=commands.BucketType.user)
     async def prefix(self, ctx: commands.Context):
         config = await core.config.guilds.get_config(ctx.guild.id)
         prefix = config.get("prefix", None) if config else None
@@ -45,6 +60,7 @@ class Config(commands.Cog):
     @prefix.command(name="set")
     @commands.has_guild_permissions(manage_guild=True)
     @commands.guild_only()
+    @commands.max_concurrency(1, per=commands.BucketType.user)
     async def set_prefix(self, ctx: commands.Context, prefix):
         if prefix == self.bot.default_prefix:
             reset_data = await core.config.guilds.reset_key(ctx.guild.id, "prefix")
@@ -75,6 +91,7 @@ class Config(commands.Cog):
     @prefix.command(name="reset")
     @commands.has_guild_permissions(manage_guild=True)
     @commands.guild_only()
+    @commands.max_concurrency(1, per=commands.BucketType.user)
     async def reset_prefix(self, ctx: commands.Context):
         reset_data = await core.config.guilds.reset_key(ctx.guild.id, "prefix")
         if reset_data:
@@ -87,6 +104,41 @@ class Config(commands.Cog):
                 description=f"This server's prefix is already the default, `{self.bot.default_prefix}`"
             )
             return await ctx.send(embed=not_set_embed)
+
+    @commands.group(name="modonly", invoke_without_command=True)
+    @commands.guild_only()
+    @commands.has_guild_permissions(manage_guild=True)
+    @commands.max_concurrency(1, per=commands.BucketType.user)
+    async def modonly(self, ctx: commands.Context):
+        config = await core.config.guilds.get_config(ctx.guild.id)
+        modonly = config.get("modonly", None) if config else None
+        return await ctx.send(embed=discord.Embed(
+            color=ctx.author.color,
+            timestamp=ctx.message.created_at,
+            description=f"""The modonly channels in this server are {', '.join([f"<#{channel}>" for channel in modonly])}""" if modonly else "There are no modonly channels in this server"
+        ))
+
+    @modonly.command(name="set")
+    @commands.has_guild_permissions(manage_guild=True)
+    @commands.max_concurrency(1, per=commands.BucketType.user)
+    async def modonly_set(self, ctx: commands.Context, *channels: discord.TextChannel):
+        await core.config.guilds.set_key(ctx.guild.id, "modonly", [channel.id for channel in channels])
+        return await ctx.send(embed=discord.Embed(
+            color=ctx.author.color,
+            timestamp=ctx.message.created_at,
+            description=f"Set the modonly channels in this server to {', '.join([channel.mention for channel in channels])}"
+        ))
+
+    @modonly.command(name="reset")
+    @commands.has_guild_permissions(manage_guild=True)
+    @commands.max_concurrency(1, per=commands.BucketType.user)
+    async def modonly_reset(self, ctx: commands.Context):
+        await core.config.guilds.reset_key(ctx.guild.id, "modonly")
+        return await ctx.send(embed=discord.Embed(
+            color=ctx.author.color,
+            timestamp=ctx.message.created_at,
+            description="Reset this server's modonly channels"
+        ))
 
 
 def setup(bot):

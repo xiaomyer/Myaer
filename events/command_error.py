@@ -43,12 +43,15 @@ class CommandError(commands.Cog):
         if hasattr(ctx.command, "on_error") or hasattr(ctx, "error_handled"):
             return
 
-        ignored = commands.CommandNotFound
+        ignored = (commands.CommandNotFound, commands.CheckFailure)
         if isinstance(error, ignored):
             return
 
         print("Ignoring exception in command {}:".format(ctx.command), file=sys.stderr)
         traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
+
+        if isinstance(error, commands.CheckFailure):
+            return
 
         if isinstance(error, ratelimit.exception.RateLimitException):
             return await ctx.send(embed=discord.Embed(
