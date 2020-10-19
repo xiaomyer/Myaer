@@ -27,6 +27,22 @@ import discord
 from discord.ext import commands
 
 
+footer = "Staff is defined as having Manage Messages. Mod is defined as having Manage Server. Admin is defined as having Administrator."
+
+
+async def check_staffonly(ctx):
+    if await ctx.bot.is_owner(ctx.author):
+        return True
+    config = await core.config.guilds.get_config(ctx.guild.id)
+    staffonly = config.get("staffonly") if config else None
+    if not staffonly:
+        return True
+    if not ctx.channel.id in staffonly:
+        return True
+    else:
+        return ctx.author.permissions_in(ctx.channel).manage_messages
+
+
 async def check_modonly(ctx):
     if await ctx.bot.is_owner(ctx.author):
         return True
@@ -37,13 +53,31 @@ async def check_modonly(ctx):
     if not ctx.channel.id in modonly:
         return True
     else:
-        return ctx.author.permissions_in(ctx.channel).manage_messages
+        return ctx.author.permissions_in(ctx.channel).manage_server
+
+
+async def check_adminonly(ctx):
+    if await ctx.bot.is_owner(ctx.author):
+        return True
+    config = await core.config.guilds.get_config(ctx.guild.id)
+    adminonly = config.get("adminonly") if config else None
+    if not adminonly:
+        return True
+    if not ctx.channel.id in adminonly:
+        return True
+    else:
+        return ctx.author.permissions_in(ctx.channel).administrator
 
 
 class Config(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         bot.add_check(check_modonly)
+        bot.add_check(check_adminonly)
+
+    def cog_unload(self):
+        self.bot.remove_check(check_modonly)
+        self.bot.remove_check(check_adminonly)
 
     @commands.group(name="prefix", invoke_without_command=True)
     @commands.guild_only()
@@ -105,6 +139,47 @@ class Config(commands.Cog):
             )
             return await ctx.send(embed=not_set_embed)
 
+    @commands.group(name="staffonly", invoke_without_command=True)
+    @commands.guild_only()
+    @commands.has_guild_permissions(manage_guild=True)
+    @commands.max_concurrency(1, per=commands.BucketType.user)
+    async def staffonly(self, ctx: commands.Context):
+        config = await core.config.guilds.get_config(ctx.guild.id)
+        staffonly = config.get("staffonly", None) if config else None
+        return await ctx.send(embed=discord.Embed(
+            color=ctx.author.color,
+            timestamp=ctx.message.created_at,
+            description=f"""The staff-only channels in this server are {', '.join([f"<#{channel}>" for channel in staffonly])}""" if staffonly else "There are no staff-only channels in this server"
+        ).set_footer(
+            text="Staff is defined as having Manage Messages. Mod is defined as having Manage Server. Admin is defined as having Administrator."
+        ))
+
+    @staffonly.command(name="set")
+    @commands.has_guild_permissions(manage_guild=True)
+    @commands.max_concurrency(1, per=commands.BucketType.user)
+    async def staffonly_set(self, ctx: commands.Context, *channels: discord.TextChannel):
+        await core.config.guilds.set_key(ctx.guild.id, "staffonly", [channel.id for channel in channels])
+        return await ctx.send(embed=discord.Embed(
+            color=ctx.author.color,
+            timestamp=ctx.message.created_at,
+            description=f"Set the staff-only channels in this server to {', '.join([channel.mention for channel in channels])}"
+        ).set_footer(
+            text=footer
+        ))
+
+    @staffonly.command(name="reset")
+    @commands.has_guild_permissions(manage_guild=True)
+    @commands.max_concurrency(1, per=commands.BucketType.user)
+    async def staffonly_reset(self, ctx: commands.Context):
+        await core.config.guilds.reset_key(ctx.guild.id, "staffonly")
+        return await ctx.send(embed=discord.Embed(
+            color=ctx.author.color,
+            timestamp=ctx.message.created_at,
+            description="Reset this server's mod-only channels"
+        ).set_footer(
+            text=footer
+        ))
+
     @commands.group(name="modonly", invoke_without_command=True)
     @commands.guild_only()
     @commands.has_guild_permissions(manage_guild=True)
@@ -115,7 +190,9 @@ class Config(commands.Cog):
         return await ctx.send(embed=discord.Embed(
             color=ctx.author.color,
             timestamp=ctx.message.created_at,
-            description=f"""The modonly channels in this server are {', '.join([f"<#{channel}>" for channel in modonly])}""" if modonly else "There are no modonly channels in this server"
+            description=f"""The mod-only channels in this server are {', '.join([f"<#{channel}>" for channel in modonly])}""" if modonly else "There are no mod-only channels in this server"
+        ).set_footer(
+            text=footer
         ))
 
     @modonly.command(name="set")
@@ -126,7 +203,9 @@ class Config(commands.Cog):
         return await ctx.send(embed=discord.Embed(
             color=ctx.author.color,
             timestamp=ctx.message.created_at,
-            description=f"Set the modonly channels in this server to {', '.join([channel.mention for channel in channels])}"
+            description=f"Set the mod-only channels in this server to {', '.join([channel.mention for channel in channels])}"
+        ).set_footer(
+            text=footer
         ))
 
     @modonly.command(name="reset")
@@ -137,7 +216,50 @@ class Config(commands.Cog):
         return await ctx.send(embed=discord.Embed(
             color=ctx.author.color,
             timestamp=ctx.message.created_at,
-            description="Reset this server's modonly channels"
+            description="Reset this server's mod-only channels"
+        ).set_footer(
+            text=footer
+        ))
+
+    @commands.group(name="adminonly", invoke_without_command=True)
+    @commands.guild_only()
+    @commands.has_guild_permissions(manage_guild=True)
+    @commands.max_concurrency(1, per=commands.BucketType.user)
+    async def adminonly(self, ctx: commands.Context):
+        config = await core.config.guilds.get_config(ctx.guild.id)
+        adminonly = config.get("adminonly", None) if config else None
+        return await ctx.send(embed=discord.Embed(
+            color=ctx.author.color,
+            timestamp=ctx.message.created_at,
+            description=f"""The adminonly channels in this server are {', '.join([f"<#{channel}>" for channel in adminonly])}""" if adminonly else "There are no admin-only channels in this server"
+        ).set_footer(
+            text=footer
+        ))
+
+    @adminonly.command(name="set")
+    @commands.has_guild_permissions(manage_guild=True)
+    @commands.max_concurrency(1, per=commands.BucketType.user)
+    async def adminonly_set(self, ctx: commands.Context, *channels: discord.TextChannel):
+        await core.config.guilds.set_key(ctx.guild.id, "adminonly", [channel.id for channel in channels])
+        return await ctx.send(embed=discord.Embed(
+            color=ctx.author.color,
+            timestamp=ctx.message.created_at,
+            description=f"Set the admin-only channels in this server to {', '.join([channel.mention for channel in channels])}"
+        ).set_footer(
+            text=footer
+        ))
+
+    @adminonly.command(name="reset")
+    @commands.has_guild_permissions(manage_guild=True)
+    @commands.max_concurrency(1, per=commands.BucketType.user)
+    async def adminonly_reset(self, ctx: commands.Context):
+        await core.config.guilds.reset_key(ctx.guild.id, "adminonly")
+        return await ctx.send(embed=discord.Embed(
+            color=ctx.author.color,
+            timestamp=ctx.message.created_at,
+            description="Reset this server's admin-only channels"
+        ).set_footer(
+            text=footer
         ))
 
 

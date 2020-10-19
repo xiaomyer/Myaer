@@ -36,11 +36,11 @@ class ClearCache(commands.Cog):
     @commands.group(name="clearcache", aliases=["cc"], invoke_without_command=True)
     async def clear_cache(self, ctx: commands.Context):
         core.caches.static.friends_cache_db.truncate()
-        core.caches.static.friends_cache_db_cache.truncate()
+        core.caches.static.friends_cache_db.truncate()
         core.caches.static.leaderboards_cache_db.truncate()
-        core.caches.static.leaderboards_cache_db_cache.truncate()
+        core.caches.static.leaderboards_cache_db.truncate()
         core.caches.static.players_cache_db.truncate()
-        core.caches.static.players_cache_db_cache.truncate()
+        core.caches.static.players_cache_db.truncate()
         await ctx.send(embed=discord.Embed(
             description="Cleared all caches",
             color=ctx.author.color,
@@ -50,7 +50,7 @@ class ClearCache(commands.Cog):
     @clear_cache.command(name="friends", aliases=["friend"])
     async def clear_cache_friends(self, ctx: commands.Context):
         core.caches.static.friends_cache_db.truncate()
-        core.caches.static.friends_cache_db_cache.truncate()
+        core.caches.static.friends_cache_db.truncate()
         await ctx.send(embed=discord.Embed(
             description="Cleared friends cache",
             color=ctx.author.color,
@@ -60,7 +60,7 @@ class ClearCache(commands.Cog):
     @clear_cache.command(name="leaderboards", aliases=["leaderboard"])
     async def clear_cache_leaderboards(self, ctx: commands.Context):
         core.caches.static.leaderboards_cache_db.truncate()
-        core.caches.static.leaderboards_cache_db_cache.truncate()
+        core.caches.static.leaderboards_cache_db.truncate()
         await ctx.send(embed=discord.Embed(
             description="Cleared leaderboards cache",
             color=ctx.author.color,
@@ -70,7 +70,7 @@ class ClearCache(commands.Cog):
     @clear_cache.command(name="players", aliases=["player"])
     async def clear_cache_players(self, ctx):
         core.caches.static.players_cache_db.truncate()
-        core.caches.static.players_cache_db_cache.truncate()
+        core.caches.static.players_cache_db.truncate()
         await ctx.send(embed=discord.Embed(
             description="Cleared players cache",
             color=ctx.author.color,

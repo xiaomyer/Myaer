@@ -54,7 +54,7 @@ from tinydb import Query, where
 
 
 async def find_leaderboards_data(_type):
-    result = core.caches.static.leaderboards_cache_db_cache.search(where("_type") == _type)
+    result = core.caches.static.leaderboards_cache_db.search(where("_type") == _type)
     if result:
         return result[0]
     else:
@@ -63,9 +63,9 @@ async def find_leaderboards_data(_type):
 
 async def save_leaderboards_data(_type, leaderboards):
     Leaderboards = Query()
-    if core.caches.static.leaderboards_cache_db_cache.search(where("_type") == _type):
-        core.caches.static.leaderboards_cache_db_cache.update({"time": time.time(), "leaderboards": leaderboards},
+    if core.caches.static.leaderboards_cache_db.search(where("_type") == _type):
+        core.caches.static.leaderboards_cache_db.update({"time": time.time(), "leaderboards": leaderboards},
                                                               Leaderboards._type == _type)
     else:
-        core.caches.static.leaderboards_cache_db_cache.insert(
+        core.caches.static.leaderboards_cache_db.insert(
             {"_type": _type, "time": time.time(), "leaderboards": leaderboards})

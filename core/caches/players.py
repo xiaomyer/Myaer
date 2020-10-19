@@ -30,7 +30,7 @@ import core.caches.static
 
 
 async def find_player_data(uuid):
-    result = core.caches.static.players_cache_db_cache.search(where("uuid") == uuid)
+    result = core.caches.static.players_cache_db.search(where("uuid") == uuid)
     if result:
         return result[0]
     else:
@@ -39,11 +39,11 @@ async def find_player_data(uuid):
 
 async def save_player_data(uuid, player_data):
     Players = Query()
-    if core.caches.static.players_cache_db_cache.search(where("uuid") == uuid):
-        core.caches.static.players_cache_db_cache.update({"time": time.time(), "data": player_data},
+    if core.caches.static.players_cache_db.search(where("uuid") == uuid):
+        core.caches.static.players_cache_db.update({"time": time.time(), "data": player_data},
                                                          Players.uuid == uuid)
-    elif core.caches.static.players_cache_db_cache.search(where("data") == player_data):
-        core.caches.static.players_cache_db_cache.remove(Players.data == player_data)
-        core.caches.static.players_cache_db_cache.insert({"uuid": uuid, "time": time.time(), "data": player_data})
+    elif core.caches.static.players_cache_db.search(where("data") == player_data):
+        core.caches.static.players_cache_db.remove(Players.data == player_data)
+        core.caches.static.players_cache_db.insert({"uuid": uuid, "time": time.time(), "data": player_data})
     else:
-        core.caches.static.players_cache_db_cache.insert({"uuid": uuid, "time": time.time(), "data": player_data})
+        core.caches.static.players_cache_db.insert({"uuid": uuid, "time": time.time(), "data": player_data})

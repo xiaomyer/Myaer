@@ -25,16 +25,7 @@ SOFTWARE.
 from tinydb import TinyDB
 
 friends_cache_db = TinyDB("core/caches/friends.json")
-friends_cache_db_cache = friends_cache_db
-
 leaderboards_cache_db = TinyDB("core/caches/leaderboards.json")
-leaderboards_cache_db_cache = leaderboards_cache_db
-
 players_cache_db = TinyDB("core/caches/players.json")
-players_cache_db_cache = players_cache_db
-
 guilds_db = TinyDB("core/config/guilds.json")
-guilds_db_cache = guilds_db
-
 users_db = TinyDB("core/config/users.json")
-users_db_cache = users_db

@@ -50,9 +50,6 @@ class CommandError(commands.Cog):
         print("Ignoring exception in command {}:".format(ctx.command), file=sys.stderr)
         traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
 
-        if isinstance(error, commands.CheckFailure):
-            return
-
         if isinstance(error, ratelimit.exception.RateLimitException):
             return await ctx.send(embed=discord.Embed(
                 color=ctx.author.color,

@@ -30,7 +30,7 @@ import core.caches.static
 
 
 async def find_friends_data(uuid):
-    result = core.caches.static.friends_cache_db_cache.search(where("uuid") == uuid)
+    result = core.caches.static.friends_cache_db.search(where("uuid") == uuid)
     if result:
         return result[0]
     else:
@@ -39,11 +39,11 @@ async def find_friends_data(uuid):
 
 async def save_friends_data(uuid, friends):
     Friends = Query()
-    if core.caches.static.friends_cache_db_cache.search(where("uuid") == uuid):
-        core.caches.static.friends_cache_db_cache.update({"time": time.time(), "friends": friends},
+    if core.caches.static.friends_cache_db.search(where("uuid") == uuid):
+        core.caches.static.friends_cache_db.update({"time": time.time(), "friends": friends},
                                                          Friends.uuid == uuid)
-    elif core.caches.static.friends_cache_db_cache.search(where("friends") == friends):
-        core.caches.static.friends_cache_db_cache.remove(Friends.friends == friends)
-        core.caches.static.friends_cache_db_cache.insert({"uuid": uuid, "time": time.time(), "friends": friends})
+    elif core.caches.static.friends_cache_db.search(where("friends") == friends):
+        core.caches.static.friends_cache_db.remove(Friends.friends == friends)
+        core.caches.static.friends_cache_db.insert({"uuid": uuid, "time": time.time(), "friends": friends})
     else:
-        core.caches.static.friends_cache_db_cache.insert({"uuid": uuid, "time": time.time(), "friends": friends})
+        core.caches.static.friends_cache_db.insert({"uuid": uuid, "time": time.time(), "friends": friends})

@@ -30,7 +30,7 @@ from core.exceptions import HypixelDiscordNotMatching, NoHypixelDiscord
 
 
 async def get_config(user_id):
-    result = core.caches.static.users_db_cache.search(where("user_id") == user_id)
+    result = core.caches.static.users_db.search(where("user_id") == user_id)
     if result:
         return result[0]
     else:
@@ -39,11 +39,11 @@ async def get_config(user_id):
 
 async def set_key(user_id, key, data):
     Users = Query()
-    result = core.caches.static.users_db_cache.search(where("user_id") == user_id)
+    result = core.caches.static.users_db.search(where("user_id") == user_id)
     if result:
-        core.caches.static.users_db_cache.update({f"{key}": data}, Users.user_id == user_id)
+        core.caches.static.users_db.update({f"{key}": data}, Users.user_id == user_id)
     else:
-        core.caches.static.users_db_cache.insert({"user_id": user_id, f"{key}": data})
+        core.caches.static.users_db.insert({"user_id": user_id, f"{key}": data})
 
 
 async def minecraft_verify(user_id, discord_name, minecraft_uuid, hypixel_discord):
@@ -51,36 +51,36 @@ async def minecraft_verify(user_id, discord_name, minecraft_uuid, hypixel_discor
     if (discord_name != hypixel_discord) and (hypixel_discord is not None):
         raise HypixelDiscordNotMatching
     elif discord_name == hypixel_discord:
-        if core.caches.static.users_db_cache.search(where("user_id") == user_id):
-            core.caches.static.users_db_cache.update({"minecraft_uuid": minecraft_uuid}, Users.user_id == user_id)
-        elif core.caches.static.users_db_cache.search(where("minecraft_uuid") == minecraft_uuid):
-            core.caches.static.users_db_cache.update(delete("minecraft_uuid"), Users.user_id == user_id)
-            core.caches.static.users_db_cache.insert({"user_id": user_id, "minecraft_uuid": minecraft_uuid})
+        if core.caches.static.users_db.search(where("user_id") == user_id):
+            core.caches.static.users_db.update({"minecraft_uuid": minecraft_uuid}, Users.user_id == user_id)
+        elif core.caches.static.users_db.search(where("minecraft_uuid") == minecraft_uuid):
+            core.caches.static.users_db.update(delete("minecraft_uuid"), Users.user_id == user_id)
+            core.caches.static.users_db.insert({"user_id": user_id, "minecraft_uuid": minecraft_uuid})
         else:
-            core.caches.static.users_db_cache.insert({"user_id": user_id, "minecraft_uuid": minecraft_uuid})
+            core.caches.static.users_db.insert({"user_id": user_id, "minecraft_uuid": minecraft_uuid})
     else:
         raise NoHypixelDiscord
 
 
 async def minecraft_force_verify(user_id, minecraft_uuid):
     Users = Query()
-    if core.caches.static.users_db_cache.search(where("user_id") == user_id):
-        core.caches.static.users_db_cache.update({"minecraft_uuid": minecraft_uuid}, Users.user_id == user_id)
-    elif core.caches.static.users_db_cache.search(where("minecraft_uuid") == minecraft_uuid):
-        core.caches.static.users_db_cache.update(delete("minecraft_uuid"), Users.user_id == (
-            core.caches.static.users_db_cache.search(where("minecraft_uuid") == minecraft_uuid))[0]["minecraft_uuid"])
-        core.caches.static.users_db_cache.insert({"user_id": user_id, "minecraft_uuid": minecraft_uuid})
+    if core.caches.static.users_db.search(where("user_id") == user_id):
+        core.caches.static.users_db.update({"minecraft_uuid": minecraft_uuid}, Users.user_id == user_id)
+    elif core.caches.static.users_db.search(where("minecraft_uuid") == minecraft_uuid):
+        core.caches.static.users_db.update(delete("minecraft_uuid"), Users.user_id == (
+            core.caches.static.users_db.search(where("minecraft_uuid") == minecraft_uuid))[0]["minecraft_uuid"])
+        core.caches.static.users_db.insert({"user_id": user_id, "minecraft_uuid": minecraft_uuid})
     else:
-        core.caches.static.users_db_cache.insert({"user_id": user_id, "minecraft_uuid": minecraft_uuid})
+        core.caches.static.users_db.insert({"user_id": user_id, "minecraft_uuid": minecraft_uuid})
 
 
 async def reset_key(user_id, key):
     Users = Query()
-    result = core.caches.static.users_db_cache.search(where("user_id") == user_id)
+    result = core.caches.static.users_db.search(where("user_id") == user_id)
     if result:
         saved_data = result if result[0].get(f"{key}", None) else None
         if saved_data:
-            core.caches.static.users_db_cache.update(delete(f"{key}"), Users.user_id == user_id)
+            core.caches.static.users_db.update(delete(f"{key}"), Users.user_id == user_id)
             return saved_data[0] if saved_data[0].get(f"{key}", None) else None
         else:
             return None
