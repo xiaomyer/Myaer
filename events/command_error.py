@@ -43,7 +43,10 @@ class CommandError(commands.Cog):
         if hasattr(ctx.command, "on_error") or hasattr(ctx, "error_handled"):
             return
 
-        ignored = (commands.CommandNotFound, commands.CheckFailure)
+        ignored = (commands.CommandNotFound,
+                   commands.CheckFailure
+                   )
+
         if isinstance(error, ignored):
             return
 
@@ -105,7 +108,7 @@ class CommandError(commands.Cog):
             return await ctx.send(embed=bot_permissions_needed_embed)
 
         if isinstance(error, discord.Forbidden):
-            forbidden_embed = discord.Embed(
+            return await ctx.author.send(embed=discord.Embed(
                 color=ctx.author.color,
                 timestamp=ctx.message.created_at,
                 description=f"""I do not have enough permissions in `{ctx.guild.name}`'s {ctx.channel.mention} channel (or the entire server).
@@ -113,8 +116,16 @@ The base permissions I require are `Read Messages`, `Send Messages`, `Attach Fil
 (moderation commands may require more permissions)
 If you are having trouble with permissions, giving me the `Administrator` permission will solve any and all problems.
 For more support, join my [Discord Server](https://inv.wtf/myerfire)"""
-            )
-            return await ctx.author.send(embed=forbidden_embed)
+            ))
+
+        await ctx.send(embed=discord.Embed(
+            color=ctx.author.color,
+            timestamp=ctx.message.created_at,
+            description=f"**{error.__class__.__name__}**: {error}"
+        ).set_author(
+            name="Join the support server for help",
+            url="https://myer.wtf/discord"
+        ))
 
         error_traceback = "".join(traceback.format_exception(type(error), error, error.__traceback__))
         error_embed = discord.Embed(

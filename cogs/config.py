@@ -27,7 +27,9 @@ import discord
 from discord.ext import commands
 
 
-footer = "Staff is defined as having Manage Messages. Mod is defined as having Manage Server. Admin is defined as having Administrator."
+footer = """Staff is defined as having Manage Messages. 
+Mod is defined as having Manage Server. 
+Admin is defined as having Administrator."""
 
 
 async def check_staffonly(ctx):
@@ -74,10 +76,12 @@ class Config(commands.Cog):
         self.bot = bot
         bot.add_check(check_modonly)
         bot.add_check(check_adminonly)
+        bot.add_check(check_staffonly)
 
     def cog_unload(self):
         self.bot.remove_check(check_modonly)
         self.bot.remove_check(check_adminonly)
+        self.bot.remove_check(check_staffonly)
 
     @commands.group(name="prefix", invoke_without_command=True)
     @commands.guild_only()
@@ -231,7 +235,7 @@ class Config(commands.Cog):
         return await ctx.send(embed=discord.Embed(
             color=ctx.author.color,
             timestamp=ctx.message.created_at,
-            description=f"""The adminonly channels in this server are {', '.join([f"<#{channel}>" for channel in adminonly])}""" if adminonly else "There are no admin-only channels in this server"
+            description=f"""The admin-only channels in this server are {', '.join([f"<#{channel}>" for channel in adminonly])}""" if adminonly else "There are no admin-only channels in this server"
         ).set_footer(
             text=footer
         ))
@@ -244,7 +248,7 @@ class Config(commands.Cog):
         return await ctx.send(embed=discord.Embed(
             color=ctx.author.color,
             timestamp=ctx.message.created_at,
-            description=f"Set the admin-only channels in this server to {', '.join([channel.mention for channel in channels])}"
+            description=f"Set the admin-only channels in this server to {', '.join([channel.mention for channel in channels])} "
         ).set_footer(
             text=footer
         ))
