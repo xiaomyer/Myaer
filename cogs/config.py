@@ -55,7 +55,7 @@ async def check_modonly(ctx):
     if not ctx.channel.id in modonly:
         return True
     else:
-        return ctx.author.permissions_in(ctx.channel).manage_server
+        return ctx.author.permissions_in(ctx.channel).manage_guild
 
 
 async def check_adminonly(ctx):
