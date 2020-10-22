@@ -35,7 +35,6 @@ class Starboard(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.star = "⭐"
-        self.starboarded = {}
 
     async def amount_of_stars(self, reaction):
         return [reaction_.count for reaction_ in reaction.message.reactions if reaction_.emoji == self.star][0]
@@ -45,33 +44,37 @@ class Starboard(commands.Cog):
         if reaction.emoji != self.star or not reaction.message.guild: return
         config = await core.config.guilds.get_config(reaction.message.guild.id)
         starboard = config.get("starboard")
+        starboarded = config.get("starboarded", {})
         if not starboard: return
         starboard_channel = self.bot.get_channel(starboard)
-        if self.starboarded.get(reaction.message.guild.id, {}).get(reaction.message.id):
-            starboard_message = self.starboarded.get(reaction.message.guild.id).get(reaction.message.id)
+        if starboarded.get(str(reaction.message.id)): # i really don't understand why tinydb refuses to save the key
+            # as an int
+            starboard_message = starboarded.get(str(reaction.message.id)) # i really don't understand why tinydb
+            # refuses to save the key as an int
             return await (await starboard_channel.fetch_message(starboard_message)).edit(content=f"{await self.amount_of_stars(reaction)} {self.star}")
         message = await starboard_channel.send(f"{await self.amount_of_stars(reaction)} {self.star}", embed=discord.Embed(
             color=user.color,
             timestamp=datetime.datetime.now(),
             description=reaction.message.content
         ).set_author(
-            name=f"{reaction.message.author}",
-            icon_url=reaction.message.author.avatar_url_as(static_format="png", size=2048)
+            name=f"{reaction.message.author} (click to jump to message)",
+            icon_url=reaction.message.author.avatar_url_as(static_format="png", size=2048),
+            url=reaction.message.jump_url
         ))
-        if self.starboarded.get(reaction.message.guild.id):
-            self.starboarded[reaction.message.guild.id][reaction.message.id] = message.id
-        else:
-            self.starboarded[reaction.message.guild.id] = {reaction.message.id: message.id}
+        starboarded[reaction.message.id] = message.id
+        await core.config.guilds.set_key(reaction.message.guild.id, "starboarded", starboarded)
 
     @commands.Cog.listener()
     async def on_reaction_remove(self, reaction, user):
         if reaction.emoji != self.star or not reaction.message.guild: return
         config = await core.config.guilds.get_config(reaction.message.guild.id)
         starboard = config.get("starboard")
+        starboarded = config.get("starboarded", {})
         if not starboard: return
         starboard_channel = self.bot.get_channel(starboard)
-        if not self.starboarded.get(reaction.message.guild.id): return
-        starboard_message = self.starboarded.get(reaction.message.guild.id).get(reaction.message.id)
+        if not starboarded: return
+        starboard_message = starboarded.get(str(reaction.message.id))   # i really don't understand why tinydb
+        # refuses to save the key as an int
         if not starboard_message: return
         starboard_message = await starboard_channel.fetch_message(starboard_message)
         if self.star not in [reaction_.emoji for reaction_ in reaction.message.reactions]:
