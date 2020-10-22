@@ -26,7 +26,6 @@ import core.config.guilds
 import discord
 from discord.ext import commands
 
-
 footer = """Staff is defined as having Manage Messages. 
 Mod is defined as having Manage Server. 
 Admin is defined as having Administrator."""
@@ -89,11 +88,10 @@ class Config(commands.Cog):
     async def prefix(self, ctx: commands.Context):
         config = await core.config.guilds.get_config(ctx.guild.id)
         prefix = config.get("prefix", None) if config else None
-        prefix_embed = discord.Embed(
+        return await ctx.send(embed=discord.Embed(
             name="Prefix",
             description=f"This server's current prefix is `{prefix}`" if prefix else f"This server is using the default prefix, `{self.bot.default_prefix}`"
-        )
-        return await ctx.send(embed=prefix_embed)
+        ))
 
     @prefix.command(name="set")
     @commands.has_guild_permissions(manage_guild=True)
@@ -103,28 +101,24 @@ class Config(commands.Cog):
         if prefix == self.bot.default_prefix:
             reset_data = await core.config.guilds.reset_key(ctx.guild.id, "prefix")
             if reset_data:
-                reset_embed = discord.Embed(
+                await ctx.send(embed=discord.Embed(
                     description=f"Reset this server's prefix from `{reset_data['prefix']}` to `{self.bot.default_prefix}`"
-                )
-                await ctx.send(embed=reset_embed)
+                ))
             else:
-                not_set_embed = discord.Embed(
+                return await ctx.send(embed=discord.Embed(
                     description=f"This server's prefix is already the default, `{self.bot.default_prefix}`"
-                )
-                return await ctx.send(embed=not_set_embed)
+                ))
         elif len(prefix) < 10:
             await core.config.guilds.set_key(ctx.guild.id, "prefix", prefix)
-            set_embed = discord.Embed(
+            return await ctx.send(embed=discord.Embed(
                 name="Set prefix",
                 description=f"Set this server's prefix to `{prefix}`"
-            )
-            return await ctx.send(embed=set_embed)
+            ))
         else:
-            too_long_embed = discord.Embed(
+            return await ctx.send(embed=discord.Embed(
                 name="Too long",
                 description="Prefixes should not be that long. Try a shorter one"
-            )
-            return await ctx.send(embed=too_long_embed)
+            ))
 
     @prefix.command(name="reset")
     @commands.has_guild_permissions(manage_guild=True)
@@ -133,15 +127,13 @@ class Config(commands.Cog):
     async def reset_prefix(self, ctx: commands.Context):
         reset_data = await core.config.guilds.reset_key(ctx.guild.id, "prefix")
         if reset_data:
-            reset_embed = discord.Embed(
+            return await ctx.send(embed=discord.Embed(
                 description=f"Reset this server's prefix from `{reset_data['prefix']}` to `{self.bot.default_prefix}`"
-            )
-            return await ctx.send(embed=reset_embed)
+            ))
         else:
-            not_set_embed = discord.Embed(
+            return await ctx.send(embed=discord.Embed(
                 description=f"This server's prefix is already the default, `{self.bot.default_prefix}`"
-            )
-            return await ctx.send(embed=not_set_embed)
+            ))
 
     @commands.group(name="staffonly", invoke_without_command=True)
     @commands.guild_only()
@@ -264,6 +256,29 @@ class Config(commands.Cog):
             description="Reset this server's admin-only channels"
         ).set_footer(
             text=footer
+        ))
+
+    @commands.group(name="starboard", invoke_without_command=True)
+    @commands.has_guild_permissions(manage_guild=True)
+    @commands.max_concurrency(1, per=commands.BucketType.user)
+    async def starboard(self, ctx: commands.Context):
+        config = await core.config.guilds.get_config(ctx.guild.id)
+        starboard = config.get("starboard")
+        return await ctx.send(embed=discord.Embed(
+            color=ctx.author.color,
+            timestamp=ctx.message.created_at,
+            description=f"The starboard for this server is <#{starboard}>" if starboard else "There is no starboard set for this server"
+        ))
+
+    @starboard.command(name="set")
+    @commands.has_guild_permissions(manage_guild=True)
+    @commands.max_concurrency(1, per=commands.BucketType.user)
+    async def starboard_set(self, ctx: commands.Context, channel: discord.TextChannel):
+        await core.config.guilds.set_key(ctx.guild.id, "starboard", channel.id)
+        return await ctx.send(embed=discord.Embed(
+            color=ctx.author.color,
+            timestamp=ctx.message.created_at,
+            description=f"Set the starboard channel to {channel.mention}"
         ))
 
 

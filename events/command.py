@@ -59,4 +59,4 @@ class OnCommand(commands.Cog):
 
 def setup(bot):
     bot.add_cog(OnCommand(bot))
-    print("Reloaded events.on_command")
+    print("Reloaded events.command")
