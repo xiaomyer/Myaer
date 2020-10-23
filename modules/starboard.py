@@ -53,6 +53,7 @@ class Starboard(commands.Cog):
     async def on_reaction_add(self, reaction, user):
         if reaction.emoji != self.star or not reaction.message.guild: return
         config = await core.config.guilds.get_config(reaction.message.guild.id)
+        if not config: return
         starboard = config.get("starboard")
         starboarded = config.get("starboarded", {})
         if not starboard: return
@@ -84,6 +85,7 @@ class Starboard(commands.Cog):
     async def on_reaction_remove(self, reaction, user):
         if reaction.emoji != self.star or not reaction.message.guild: return
         config = await core.config.guilds.get_config(reaction.message.guild.id)
+        if not config: return
         starboard = config.get("starboard")
         starboarded = config.get("starboarded", {})
         if not starboard: return
@@ -95,7 +97,8 @@ class Starboard(commands.Cog):
         try:
             starboard_message = await starboard_channel.fetch_message(starboard_message)
         except discord.NotFound:
-            return
+            starboarded.pop(str(reaction.message.id))
+            return await core.config.guilds.set_key(reaction.message.guild.id, "starboarded", starboarded)
         if self.star not in [reaction_.emoji for reaction_ in reaction.message.reactions]:
             starboarded.pop(str(reaction.message.id))
             await core.config.guilds.set_key(reaction.message.guild.id, "starboarded", starboarded)

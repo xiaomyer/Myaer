@@ -29,8 +29,9 @@ with open("config.json") as config_raw:
 
 owner_id = config_json["owner_id"]
 token = config_json["keys"]["token"]
-ksoft_api_key = config_json["keys"]["ksoft"]
+genius_access_token = config_json["keys"]["genius"]
 hypixel_api_key = config_json["keys"]["hypixel"]
+ksoft_api_key = config_json["keys"]["ksoft"]
 status_log_channel = config_json["channels"]["status_log"]
 guilds_log_channel = config_json["channels"]["guilds_log"]
 error_log_channel = config_json["channels"]["error_log"]
