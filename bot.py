@@ -27,7 +27,6 @@ import asyncio
 import datetime
 import ksoftapi
 import logging
-import lyricsgenius
 import os
 import sys
 import traceback
