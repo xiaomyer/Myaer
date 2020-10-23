@@ -22,14 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import math
-
 import discord
 from discord.ext import commands
 
-import core.minecraft.hypixel.static.static
+import core.minecraft.hypixel.static
 import core.minecraft.static
-import core.static.static
+import core.static
 
 
 class Blitz(commands.Cog):
@@ -47,25 +45,25 @@ class Blitz(commands.Cog):
             return
         await ctx.send(embed=discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Blitz Stats**""",
-            color=int((await core.minecraft.hypixel.static.static.get_skywars_prestige_data(
+            color=int((await core.minecraft.hypixel.static.get_skywars_prestige_data(
                 player_json["skywars"]["level_data"]["level"]))["prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["BlitzSurvivalGames"]
+            url=core.minecraft.hypixel.static.hypixel_icons["BlitzSurvivalGames"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Coins**__",
+            name=f"__**{core.static.arrow_bullet_point} Coins**__",
             value=f"{(player_json['blitz']['coins']):,d}",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Kills**__",
             value=f"{(player_json['blitz']['kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Deaths**__",
             value=f"{(player_json['blitz']['deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} KDR**__",
-            value=f"{(await core.minecraft.hypixel.static.static.get_ratio((player_json['blitz']['kills']), (player_json['blitz']['deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} KDR**__",
+            value=f"{(await core.minecraft.hypixel.static.get_ratio((player_json['blitz']['kills']), (player_json['blitz']['deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
+            name=f"__**{core.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['blitz']['wins']):,d}",
             inline=False
         ))

@@ -29,7 +29,7 @@ import psutil
 import discord
 from discord.ext import commands
 
-import core.static.static
+import core.static
 
 
 class Stats(commands.Cog):
@@ -55,27 +55,27 @@ class Stats(commands.Cog):
         ).set_footer(
             text="Made by MyerFire"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Owner**__",
+            name=f"__**{core.static.arrow_bullet_point} Owner**__",
             value=f"{ctx.bot.owner_user.mention} (myer#0001) [{ctx.bot.owner_id}]",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Uptime**__",
+            name=f"__**{core.static.arrow_bullet_point} Uptime**__",
             value=f"{humanfriendly.format_timespan(datetime.datetime.now() - ctx.bot.startup_time)}",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Physical Memory**__",
+            name=f"__**{core.static.arrow_bullet_point} Physical Memory**__",
             value=f"{humanize.naturalsize(memory_info.rss)}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Virtual Memory**__",
+            name=f"__**{core.static.arrow_bullet_point} Virtual Memory**__",
             value=f"{humanize.naturalsize(memory_info.vms)}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Unique Memory**__",
+            name=f"__**{core.static.arrow_bullet_point} Unique Memory**__",
             value=f"{humanize.naturalsize(memory_info.uss)}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Users**__",
+            name=f"__**{core.static.arrow_bullet_point} Users**__",
             value=f"{len(ctx.bot.users):,d}",
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Guilds**__",
+            name=f"__**{core.static.arrow_bullet_point} Guilds**__",
             value=f"{len(ctx.bot.guilds):,d}"
         )
         await ctx.send(embed=stats_embed)

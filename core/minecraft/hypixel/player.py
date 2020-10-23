@@ -24,13 +24,11 @@ SOFTWARE.
 
 import time
 
-import ratelimit
-
 import core.caches.players
 import core.minecraft.hypixel.friends
 import core.minecraft.hypixel.guild
 import core.minecraft.hypixel.request
-import core.minecraft.hypixel.static.static
+import core.minecraft.hypixel.static
 import core.minecraft.hypixel.status
 
 
@@ -78,19 +76,19 @@ async def get_player_data(uuid, *, use_cache: bool = True, get_guild: bool = Fal
 
     player = {  # This thing is pretty torture
         "name": player_json.get("player", {}).get("displayname", ""),
-        "level_data": (await core.minecraft.hypixel.static.static.get_network_level_data(
+        "level_data": (await core.minecraft.hypixel.static.get_network_level_data(
             player_json.get("player", {}).get("networkExp", 0))),
         "karma": player_json.get("player", {}).get("karma", 0),
         "achievement_points": player_json.get("player", {}).get("achievementPoints", 0),
         "rank_data": (
-            await core.minecraft.hypixel.static.static.get_rank_data((player_json.get("player", {}).get("rank", None)),
-                                                                     (player_json.get("player", {}).get("prefix",
+            await core.minecraft.hypixel.static.get_rank_data((player_json.get("player", {}).get("rank", None)),
+                                                              (player_json.get("player", {}).get("prefix",
                                                                                                         None)), (
                                                                          player_json.get("player", {}).get(
                                                                              "monthlyPackageRank", None)), (
                                                                          player_json.get("player", {}).get(
                                                                              "newPackageRank", None)),
-                                                                     (player_json.get("packageRank", None)))),
+                                                              (player_json.get("packageRank", None)))),
         "guild_data": player_guild_json,
         "friends": player_friends_json,
         "status": player_status_json,
@@ -1033,7 +1031,7 @@ async def get_player_data(uuid, *, use_cache: bool = True, get_guild: bool = Fal
             "shots_fired": player_json.get("player", {}).get("stats", {}).get("Paintball", {}).get("shots_fired", 0)
         },
         "skywars": {
-            "level_data": (await core.minecraft.hypixel.static.static.get_skywars_level_data_from_experience(
+            "level_data": (await core.minecraft.hypixel.static.get_skywars_level_data_from_experience(
                 (player_json.get("player", {}).get("stats", {}).get("SkyWars", {}).get("skywars_experience", 0)))),
             "coins": player_json.get("player", {}).get("stats", {}).get("SkyWars", {}).get("coins", 0),
             "tokens": player_json.get("player", {}).get("stats", {}).get("SkyWars", {}).get("cosmetic_tokens", 0),

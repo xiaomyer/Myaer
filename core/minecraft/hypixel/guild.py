@@ -23,7 +23,7 @@ SOFTWARE.
 """
 
 import core.minecraft.hypixel.request
-import core.minecraft.hypixel.static.static
+import core.minecraft.hypixel.static
 
 tag_colors = {
     "DARK_GREEN": "00AA00",
@@ -38,7 +38,7 @@ async def get_guild_data(uuid):
         raise NameError("Not in a guild")
     guild = {
         "name": guild_json.get("guild", {}).get("name", ""),
-        "level_data": (await core.minecraft.hypixel.static.static.get_guild_level_data(
+        "level_data": (await core.minecraft.hypixel.static.get_guild_level_data(
             (guild_json.get("guild", {}).get("exp", 0)))),
         "color": tag_colors.get((guild_json.get("guild", {}).get("tagColor", "")), None),
         "tag": guild_json.get("guild", {}).get("tag", "")

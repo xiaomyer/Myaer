@@ -29,8 +29,8 @@ from discord.ext import commands
 
 import core.caches.leaderboards
 import core.minecraft.hypixel.leaderboards
-import core.minecraft.hypixel.static.static
-import core.static.static
+import core.minecraft.hypixel.static
+import core.static
 
 
 class Leaderboards(commands.Cog):
@@ -72,7 +72,7 @@ class Leaderboards(commands.Cog):
             for player in (leaderboards_json["bedwars"]["level"]):
                 player_json = await core.minecraft.hypixel.player.get_player_data(player)
                 bedwars_level_leaderboard_string.append(
-                    f"""#{index + 1} - {f"[{player_json['bedwars']['star']}{core.static.static.star}] [{player_json['rank_data']['rank']}] {player_json['name']}" if player_json["rank_data"]["rank"] else f"[{player_json['bedwars']['star']}{core.static.static.star} {player_json['name']}]"} - {(await core.minecraft.hypixel.static.static.get_ratio(player_json["bedwars"]["final_kills"], player_json["bedwars"]["final_deaths"]))} FKDR""", )
+                    f"""#{index + 1} - {f"[{player_json['bedwars']['star']}{core.static.star}] [{player_json['rank_data']['rank']}] {player_json['name']}" if player_json["rank_data"]["rank"] else f"[{player_json['bedwars']['star']}{core.static.star} {player_json['name']}]"} - {(await core.minecraft.hypixel.static.get_ratio(player_json["bedwars"]["final_kills"], player_json["bedwars"]["final_deaths"]))} FKDR""", )
                 index += 1
         await core.caches.leaderboards.save_leaderboards_data("bedwars_level", bedwars_level_leaderboard_string)
         joined_string = "\n".join(bedwars_level_leaderboard_string)
@@ -99,7 +99,7 @@ class Leaderboards(commands.Cog):
             for player in (leaderboards_json["bedwars"]["wins"]["overall"]):
                 player_json = await core.minecraft.hypixel.player.get_player_data(player)
                 bedwars_overall_wins_leaderboard_string.append(
-                    f"""#{index + 1} - {f"[{player_json['bedwars']['star']}{core.static.static.star}] [{player_json['rank_data']['rank']}] {player_json['name']}" if player_json["rank_data"]["rank"] else f"[{player_json['bedwars']['star']}{core.static.static.star} {player_json['name']}]"} - {player_json['bedwars']['wins']} wins""")
+                    f"""#{index + 1} - {f"[{player_json['bedwars']['star']}{core.static.star}] [{player_json['rank_data']['rank']}] {player_json['name']}" if player_json["rank_data"]["rank"] else f"[{player_json['bedwars']['star']}{core.static.star} {player_json['name']}]"} - {player_json['bedwars']['wins']} wins""")
                 index += 1
         await core.caches.leaderboards.save_leaderboards_data("bedwars_wins", bedwars_overall_wins_leaderboard_string)
         joined_string = "\n".join(bedwars_overall_wins_leaderboard_string)
@@ -125,7 +125,7 @@ class Leaderboards(commands.Cog):
             for player in (leaderboards_json["bedwars"]["wins"]["overall"]):
                 player_json = await core.minecraft.hypixel.player.get_player_data(player)
                 bedwars_weekly_wins_leaderboard_string.append(
-                    f"""{f"[{player_json['bedwars']['star']}{core.static.static.star}] [{player_json['rank_data']['rank']}] {player_json['name']}" if player_json["rank_data"]["rank"] else f"[{player_json['bedwars']['star']}{core.static.static.star} {player_json['name']}]"} - {player_json['bedwars']['wins'] - player_json['bedwars']['four_v_four']['wins']} non 4v4 wins""")
+                    f"""{f"[{player_json['bedwars']['star']}{core.static.star}] [{player_json['rank_data']['rank']}] {player_json['name']}" if player_json["rank_data"]["rank"] else f"[{player_json['bedwars']['star']}{core.static.star} {player_json['name']}]"} - {player_json['bedwars']['wins'] - player_json['bedwars']['four_v_four']['wins']} non 4v4 wins""")
         bedwars_weekly_wins_leaderboard_string.sort(key=lambda s: int((s.split(" "))[-4]), reverse=True)  # it's the fourth one
         # as seen two lines above
         bedwars_weekly_wins_leaderboard_string = [f"#{index + 1} - {position}" for index, position in enumerate(bedwars_weekly_wins_leaderboard_string)]
@@ -155,7 +155,7 @@ class Leaderboards(commands.Cog):
             for player in (leaderboards_json["bedwars"]["wins"]["weekly"]):
                 player_json = await core.minecraft.hypixel.player.get_player_data(player)
                 bedwars_weekly_wins_leaderboard_string.append(
-                    f"""#{index + 1} - {f"[{player_json['bedwars']['star']}{core.static.static.star}] [{player_json['rank_data']['rank']}] {player_json['name']}" if player_json["rank_data"]["rank"] else f"[{player_json['bedwars']['star']}{core.static.static.star}] {player_json['name']}"}""")
+                    f"""#{index + 1} - {f"[{player_json['bedwars']['star']}{core.static.star}] [{player_json['rank_data']['rank']}] {player_json['name']}" if player_json["rank_data"]["rank"] else f"[{player_json['bedwars']['star']}{core.static.star}] {player_json['name']}"}""")
                 index += 1
         await core.caches.leaderboards.save_leaderboards_data("bedwars_weekly_wins",
                                                               bedwars_weekly_wins_leaderboard_string)
@@ -183,7 +183,7 @@ class Leaderboards(commands.Cog):
             for player in (leaderboards_json["bedwars"]["finals"]["overall"]):
                 player_json = await core.minecraft.hypixel.player.get_player_data(player)
                 bedwars_overall_finals_leaderboard_string.append(
-                    f"""#{index + 1} - {f"[{player_json['bedwars']['star']}{core.static.static.star}] [{player_json['rank_data']['rank']}] {player_json['name']}" if player_json["rank_data"]["rank"] else f"[{player_json['bedwars']['star']}{core.static.static.star} {player_json['name']}]"} - {player_json['bedwars']['final_kills']} finals""")
+                    f"""#{index + 1} - {f"[{player_json['bedwars']['star']}{core.static.star}] [{player_json['rank_data']['rank']}] {player_json['name']}" if player_json["rank_data"]["rank"] else f"[{player_json['bedwars']['star']}{core.static.star} {player_json['name']}]"} - {player_json['bedwars']['final_kills']} finals""")
                 index += 1
         await core.caches.leaderboards.save_leaderboards_data("bedwars_finals",
                                                               bedwars_overall_finals_leaderboard_string)
@@ -211,7 +211,7 @@ class Leaderboards(commands.Cog):
             for player in (leaderboards_json["bedwars"]["finals"]["weekly"]):
                 player_json = await core.minecraft.hypixel.player.get_player_data(player)
                 bedwars_weekly_finals_leaderboard_string.append(
-                    f"""#{index + 1} - {f"[{player_json['bedwars']['star']}{core.static.static.star}] [{player_json['rank_data']['rank']}] {player_json['name']}" if player_json["rank_data"]["rank"] else f"[{player_json['bedwars']['star']}{core.static.static.star} {player_json['name']}]"}""")
+                    f"""#{index + 1} - {f"[{player_json['bedwars']['star']}{core.static.star}] [{player_json['rank_data']['rank']}] {player_json['name']}" if player_json["rank_data"]["rank"] else f"[{player_json['bedwars']['star']}{core.static.star} {player_json['name']}]"}""")
                 index += 1
         await core.caches.leaderboards.save_leaderboards_data("bedwars_weekly_finals",
                                                               bedwars_weekly_finals_leaderboard_string)

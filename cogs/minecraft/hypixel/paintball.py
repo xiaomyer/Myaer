@@ -27,9 +27,9 @@ import math
 import discord
 from discord.ext import commands
 
-import core.minecraft.hypixel.static.static
+import core.minecraft.hypixel.static
 import core.minecraft.static
-import core.static.static
+import core.static
 
 
 class Paintball(commands.Cog):
@@ -49,25 +49,25 @@ class Paintball(commands.Cog):
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Paintball Stats**""",
             color=int(player_json["rank_data"]["color"], 16)  # 16 - hex value
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Classic"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Classic"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Coins**__",
+            name=f"__**{core.static.arrow_bullet_point} Coins**__",
             value=f"{(player_json['paintball']['coins']):,d}",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Kills**__",
             value=f"{(player_json['paintball']['kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Deaths**__",
             value=f"{(player_json['paintball']['deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} KDR**__",
-            value=f"{(await core.minecraft.hypixel.static.static.get_ratio((player_json['paintball']['kills']), (player_json['paintball']['deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} KDR**__",
+            value=f"{(await core.minecraft.hypixel.static.get_ratio((player_json['paintball']['kills']), (player_json['paintball']['deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
+            name=f"__**{core.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['paintball']['wins']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Shots Fired**__",
+            name=f"__**{core.static.arrow_bullet_point} Shots Fired**__",
             value=f"{(player_json['paintball']['shots_fired']):,d}"
         )
         await ctx.send(embed=player_stats_embed)
@@ -84,29 +84,29 @@ class Paintball(commands.Cog):
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Paintball KDR**""",
             color=int(player_json["rank_data"]["color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Classic"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Classic"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} KDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['paintball']['kills']), ((player_json['paintball']['deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} KDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['paintball']['kills']), ((player_json['paintball']['deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Kills**__",
             value=f"{(player_json['paintball']['kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Deaths**__",
             value=f"{(player_json['paintball']['deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 KDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['paintball']['kills']), (player_json['paintball']['deaths']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['paintball']['kills']), ((player_json['paintball']['deaths'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['paintball']['kills'], player_json['paintball']['deaths']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 KDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['paintball']['kills']), (player_json['paintball']['deaths']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['paintball']['kills']), ((player_json['paintball']['deaths'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['paintball']['kills'], player_json['paintball']['deaths']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 KDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['paintball']['kills']), (player_json['paintball']['deaths']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 KDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['paintball']['kills']), (player_json['paintball']['deaths']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 KDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['paintball']['kills']), (player_json['paintball']['deaths']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 KDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['paintball']['kills']), (player_json['paintball']['deaths']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_kdr_embed)
 

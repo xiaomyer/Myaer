@@ -39,11 +39,11 @@ class OnGuildRemove(commands.Cog):
             title=f"**Left Guild {discord.utils.escape_markdown(f'{guild.name}')}**"
         )
         guild_remove_embed.add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} ID**__",
+            name=f"__**{core.static.arrow_bullet_point} ID**__",
             value=f"{guild.id}"
         )
         guild_remove_embed.add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Members**__",
+            name=f"__**{core.static.arrow_bullet_point} Members**__",
             value=f"{(len(guild.members)):,d}"
         )
         guild_remove_embed.set_thumbnail(

@@ -27,7 +27,7 @@ import time
 
 import core.caches.friends
 import core.minecraft.hypixel.request
-import core.minecraft.hypixel.static.static
+import core.minecraft.hypixel.static
 import core.minecraft.request
 
 
@@ -50,7 +50,7 @@ async def get_friends(uuid):
         player_uuid = player["uuidSender"] if player["uuidSender"] != uuid else player["uuidReceiver"]
         try:
             player_profile = await core.minecraft.hypixel.player.get_player_data(
-                player_uuid) if player_uuid != core.minecraft.hypixel.static.static.master_control else {
+                player_uuid) if player_uuid != core.minecraft.hypixel.static.master_control else {
                 "name": "MasterControl", "rank_data": {"rank": "MCP",
                                                        "color": "AA0000"}}  # technoblade has the account MasterControl friended, and that account is a hypixel alt that isn't in the api
             friends.append(
@@ -60,7 +60,7 @@ async def get_friends(uuid):
             await asyncio.sleep(60)
             try:
                 player_profile = await core.minecraft.hypixel.player.get_player_data(
-                    player_uuid) if player_uuid != core.minecraft.hypixel.static.static.master_control else {
+                    player_uuid) if player_uuid != core.minecraft.hypixel.static.master_control else {
                     "name": "MasterControl", "rank_data": {"rank": "MCP",
                                                            "color": "AA0000"}}  # technoblade has the account MasterControl friended, and that account is a hypixel alt that isn't in the api
                 friends.append(

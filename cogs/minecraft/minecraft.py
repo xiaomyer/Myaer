@@ -31,7 +31,7 @@ import core.config.users
 from core.exceptions import HypixelDiscordNotMatching, NoHypixelDiscord
 import core.minecraft.request
 import core.minecraft.static
-import core.static.static
+import core.static
 from core.paginators import MinecraftNameHistory
 
 

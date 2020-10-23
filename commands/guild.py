@@ -27,7 +27,7 @@ import discord
 import humanfriendly
 from discord.ext import commands
 
-import core.static.static
+import core.static
 
 
 class Guild(commands.Cog):
@@ -44,26 +44,26 @@ class Guild(commands.Cog):
             name=f"{ctx.guild.name} ({ctx.guild.id})",
             icon_url=str(ctx.guild.icon_url_as(static_format="png", size=2048))
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Owner**__",
+            name=f"__**{core.static.arrow_bullet_point} Owner**__",
             value=f"{ctx.guild.owner.mention} ({ctx.guild.owner.id})"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Creation Date**__",
+            name=f"__**{core.static.arrow_bullet_point} Creation Date**__",
             value=f"{ctx.guild.created_at.strftime(ctx.bot.CREATION_TIME_FORMAT)} ({humanfriendly.format_timespan(datetime.datetime.now() - ctx.guild.created_at)} ago)",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Channels ({len(await core.static.static.get_pure_channels(ctx.guild.channels))})**__",
+            name=f"__**{core.static.arrow_bullet_point} Channels ({len(await core.static.get_pure_channels(ctx.guild.channels))})**__",
             value=f"({len(ctx.guild.text_channels)} text and {len(ctx.guild.voice_channels)} voice)",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Members**__",
+            name=f"__**{core.static.arrow_bullet_point} Members**__",
             value=f"{ctx.guild.member_count:,d}",
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Emoji**__",
+            name=f"__**{core.static.arrow_bullet_point} Emoji**__",
             value=f"{len(ctx.guild.emojis):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Roles ({(len(ctx.guild.roles) - 1):,d})**__",  # @everyone
+            name=f"__**{core.static.arrow_bullet_point} Roles ({(len(ctx.guild.roles) - 1):,d})**__",  # @everyone
             # role doesn't count
-            value=f"{await core.static.static.get_role_mentions_string(await core.static.static.get_role_mentions(ctx.guild.roles))}",
+            value=f"{await core.static.get_role_mentions_string(await core.static.get_role_mentions(ctx.guild.roles))}",
             inline=False
         ))
 

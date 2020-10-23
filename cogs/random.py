@@ -27,7 +27,7 @@ import random
 import discord
 from discord.ext import commands
 
-import core.static.static
+import core.static
 
 
 class Random(commands.Cog):
@@ -68,9 +68,9 @@ class Random(commands.Cog):
             elif "--voice" in args:
                 channels = ctx.guild.voice_channels
             else:
-                channels = await core.static.static.get_pure_channels(ctx.guild.channels)
+                channels = await core.static.get_pure_channels(ctx.guild.channels)
         else:
-            channels = await core.static.static.get_pure_channels(ctx.guild.channels)
+            channels = await core.static.get_pure_channels(ctx.guild.channels)
         await ctx.send(embed=discord.Embed(
             color=ctx.author.color,
             timestamp=ctx.message.created_at,

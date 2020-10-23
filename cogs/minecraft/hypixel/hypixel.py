@@ -29,10 +29,10 @@ import discord
 import humanfriendly
 from discord.ext import commands, menus
 
-import core.minecraft.hypixel.static.static
+import core.minecraft.hypixel.static
 import core.minecraft.hypixel.status
 import core.minecraft.static
-import core.static.static
+import core.static
 from core.paginators import MinecraftHypixelFriends
 
 
@@ -54,30 +54,30 @@ class Hypixel(commands.Cog):
             color=int((player_json["rank_data"])["color"], 16)  # 16 - hex value
         )
         player_info_embed.set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Main"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Main"]
         )
         player_info_embed.set_footer(
             text="Session data may not be 100% accurate as the data is cached. Use /session for 100% accurate data",
             icon_url=f"{self.bot.MC_HEADS_API}avatar/{player_data['minecraft_uuid']}/100"
         )
         player_info_embed.add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Level**__",
+            name=f"__**{core.static.arrow_bullet_point} Level**__",
             value=f"{player_json['level_data']['level']} ({player_json['level_data']['percentage']}% to {math.trunc((player_json['level_data']['level']) + 1)})"
         )
         player_info_embed.add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Karma**__",
+            name=f"__**{core.static.arrow_bullet_point} Karma**__",
             value=f"{(player_json['karma']):,d}"
         )
         player_info_embed.add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Achievement Points**__",
+            name=f"__**{core.static.arrow_bullet_point} Achievement Points**__",
             value=f"{(player_json['achievement_points']):,d}"
         )
         player_info_embed.add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} First Login**__",
+            name=f"__**{core.static.arrow_bullet_point} First Login**__",
             value=f"{datetime.date.fromtimestamp((player_json['login_times']['first']) / 1000)}"
         )
         player_info_embed.add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Last Login**__",
+            name=f"__**{core.static.arrow_bullet_point} Last Login**__",
             value=
             f"""{datetime.date.fromtimestamp((player_json['login_times']['last']) / 1000)}
 ({(humanfriendly.format_timespan(((datetime.datetime.now()) - (datetime.datetime.fromtimestamp((player_json['login_times']['last']) / 1000))), max_units=2))} ago)
@@ -85,7 +85,7 @@ class Hypixel(commands.Cog):
         )
         if player_json["guild_data"]:  # checks if player is in a guild
             player_info_embed.add_field(
-                name=f"__**{core.static.static.arrow_bullet_point} Guild**__",
+                name=f"__**{core.static.arrow_bullet_point} Guild**__",
                 value=f"""{discord.utils.escape_markdown(f"{player_json['guild_data']['name']} [{player_json['guild_data']['tag']}]" if player_json["guild_data"]["tag"] else f"{player_json['guild_data']['name']}")}""",
                 # checks if player's guild has a tag
                 inline=False
@@ -154,7 +154,7 @@ class Hypixel(commands.Cog):
             color=int((guild_json['color']), 16) if guild_json['color'] else ctx.author.color
         )
         player_guild_embed.add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Level**__",
+            name=f"__**{core.static.arrow_bullet_point} Level**__",
             value=f"{guild_json['level_data']['level']} ({guild_json['level_data']['percentage']}% to {math.trunc((guild_json['level_data']['level'])) + 1})"
         )
         await ctx.send(embed=player_guild_embed)

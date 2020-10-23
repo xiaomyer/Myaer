@@ -27,9 +27,9 @@ import math
 import discord
 from discord.ext import commands
 
-import core.minecraft.hypixel.static.static
+import core.minecraft.hypixel.static
 import core.minecraft.static
-import core.static.static
+import core.static
 
 
 class Bedwars(commands.Cog):
@@ -49,64 +49,64 @@ class Bedwars(commands.Cog):
         player_stats_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Bedwars Stats**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Level**__",
-            value=f"{player_json['bedwars']['star']} {core.static.static.star} ({(await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json['bedwars']['star']))['prestige']} Prestige)",
+            name=f"__**{core.static.arrow_bullet_point} Level**__",
+            value=f"{player_json['bedwars']['star']} {core.static.star} ({(await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json['bedwars']['star']))['prestige']} Prestige)",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Winstreak**__",
+            name=f"__**{core.static.arrow_bullet_point} Winstreak**__",
             value=f"{(player_json['bedwars']['winstreak']):,d}",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Games Played**__",
+            name=f"__**{core.static.arrow_bullet_point} Games Played**__",
             value=f"{(player_json['bedwars']['games_played']):,d}",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Kills**__",
             value=f"{(player_json['bedwars']['kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Deaths**__",
             value=f"{(player_json['bedwars']['deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} KDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['kills']), ((player_json['bedwars']['deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} KDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['kills']), ((player_json['bedwars']['deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['final_kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['final_deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['final_kills']), ((player_json['bedwars']['final_deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['final_kills']), ((player_json['bedwars']['final_deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['beds_broken']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['beds_lost']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['beds_broken']), ((player_json['bedwars']['beds_lost'])))}"
+            name=f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['beds_broken']), ((player_json['bedwars']['beds_lost'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
+            name=f"__**{core.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['bedwars']['wins']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
+            name=f"__**{core.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['losses']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['wins']), ((player_json['bedwars']['losses'])))}"
+            name=f"__**{core.static.arrow_bullet_point} WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['wins']), ((player_json['bedwars']['losses'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Avg. Beds Broken Per Game**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['beds_broken']), ((player_json['bedwars']['games_played'])))}"
+            name=f"__**{core.static.arrow_bullet_point} Avg. Beds Broken Per Game**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['beds_broken']), ((player_json['bedwars']['games_played'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Avg. Final Kills Per Game**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['final_kills']), ((player_json['bedwars']['games_played'])))}"
+            name=f"__**{core.static.arrow_bullet_point} Avg. Final Kills Per Game**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['final_kills']), ((player_json['bedwars']['games_played'])))}"
         )
         await ctx.send(embed=player_stats_embed)
 
@@ -121,44 +121,44 @@ class Bedwars(commands.Cog):
         await ctx.channel.trigger_typing()
         player_stats_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Bedwars Stats**""",
-            color=int((await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16)  # 16 - Hex value.
+            color=int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Level**__",
-            value=f"{player_json['bedwars']['star']} {core.static.static.star} ({(await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json['bedwars']['star']))['prestige']} Prestige)",
+            name=f"__**{core.static.arrow_bullet_point} Level**__",
+            value=f"{player_json['bedwars']['star']} {core.static.star} ({(await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json['bedwars']['star']))['prestige']} Prestige)",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Winstreak**__",
+            name=f"__**{core.static.arrow_bullet_point} Winstreak**__",
             value=f"{(player_json['bedwars']['winstreak']):,d}",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['final_kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['final_deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['final_kills']), ((player_json['bedwars']['final_deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['final_kills']), ((player_json['bedwars']['final_deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['beds_broken']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['beds_lost']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['beds_broken']), ((player_json['bedwars']['beds_lost'])))}"
+            name=f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['beds_broken']), ((player_json['bedwars']['beds_lost'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
+            name=f"__**{core.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['bedwars']['wins']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
+            name=f"__**{core.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['losses']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['wins']), ((player_json['bedwars']['losses'])))}"
+            name=f"__**{core.static.arrow_bullet_point} WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['wins']), ((player_json['bedwars']['losses'])))}"
         )
         await ctx.send(embed=player_stats_embed)
 
@@ -174,41 +174,41 @@ class Bedwars(commands.Cog):
         player_solo_stats_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Solo Bedwars Stats**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Winstreak**__",
+            name=f"__**{core.static.arrow_bullet_point} Winstreak**__",
             value=f"{(player_json['bedwars']['solo']['winstreak']):,d}",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['solo']['final_kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['solo']['final_deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['solo']['final_kills']), ((player_json['bedwars']['solo']['final_deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['solo']['final_kills']), ((player_json['bedwars']['solo']['final_deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['solo']['beds_broken']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['solo']['beds_lost']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['solo']['beds_broken']), ((player_json['bedwars']['solo']['beds_lost'])))}"
+            name=f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['solo']['beds_broken']), ((player_json['bedwars']['solo']['beds_lost'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
+            name=f"__**{core.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['bedwars']['solo']['wins']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
+            name=f"__**{core.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['solo']['losses']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['solo']['wins']), ((player_json['bedwars']['solo']['losses'])))}"
+            name=f"__**{core.static.arrow_bullet_point} WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['solo']['wins']), ((player_json['bedwars']['solo']['losses'])))}"
         )
         await ctx.send(embed=player_solo_stats_embed)
 
@@ -224,41 +224,41 @@ class Bedwars(commands.Cog):
         player_doubles_stats_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Doubles Bedwars Stats**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Winstreak**__",
+            name=f"__**{core.static.arrow_bullet_point} Winstreak**__",
             value=f"{(player_json['bedwars']['doubles']['winstreak']):,d}",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['doubles']['final_kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['doubles']['final_deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['doubles']['final_kills']), ((player_json['bedwars']['doubles']['final_deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['doubles']['final_kills']), ((player_json['bedwars']['doubles']['final_deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['doubles']['beds_broken']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['doubles']['beds_lost']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['doubles']['beds_broken']), ((player_json['bedwars']['doubles']['beds_lost'])))}"
+            name=f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['doubles']['beds_broken']), ((player_json['bedwars']['doubles']['beds_lost'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
+            name=f"__**{core.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['bedwars']['doubles']['wins']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
+            name=f"__**{core.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['doubles']['losses']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['doubles']['wins']), ((player_json['bedwars']['doubles']['losses'])))}"
+            name=f"__**{core.static.arrow_bullet_point} WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['doubles']['wins']), ((player_json['bedwars']['doubles']['losses'])))}"
         )
         await ctx.send(embed=player_doubles_stats_embed)
 
@@ -274,41 +274,41 @@ class Bedwars(commands.Cog):
         player_threes_stats_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Threes Bedwars Stats**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Winstreak**__",
+            name=f"__**{core.static.arrow_bullet_point} Winstreak**__",
             value=f"{(player_json['bedwars']['threes']['winstreak']):,d}",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['threes']['final_kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['threes']['final_deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['threes']['final_kills']), ((player_json['bedwars']['threes']['final_deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['threes']['final_kills']), ((player_json['bedwars']['threes']['final_deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['threes']['beds_broken']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['threes']['beds_lost']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['threes']['beds_broken']), ((player_json['bedwars']['threes']['beds_lost'])))}"
+            name=f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['threes']['beds_broken']), ((player_json['bedwars']['threes']['beds_lost'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
+            name=f"__**{core.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['bedwars']['threes']['wins']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
+            name=f"__**{core.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['threes']['losses']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['threes']['wins']), ((player_json['bedwars']['threes']['losses'])))}"
+            name=f"__**{core.static.arrow_bullet_point} WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['threes']['wins']), ((player_json['bedwars']['threes']['losses'])))}"
         )
         await ctx.send(embed=player_threes_stats_embed)
 
@@ -324,41 +324,41 @@ class Bedwars(commands.Cog):
         player_fours_stats_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Fours Bedwars Stats**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Winstreak**__",
+            name=f"__**{core.static.arrow_bullet_point} Winstreak**__",
             value=f"{(player_json['bedwars']['fours']['winstreak']):,d}",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['fours']['final_kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['fours']['final_deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['fours']['final_kills']), ((player_json['bedwars']['fours']['final_deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['fours']['final_kills']), ((player_json['bedwars']['fours']['final_deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['fours']['beds_broken']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['fours']['beds_lost']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['fours']['beds_broken']), ((player_json['bedwars']['fours']['beds_lost'])))}"
+            name=f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['fours']['beds_broken']), ((player_json['bedwars']['fours']['beds_lost'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
+            name=f"__**{core.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['bedwars']['fours']['wins']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
+            name=f"__**{core.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['fours']['losses']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['fours']['wins']), ((player_json['bedwars']['fours']['losses'])))}"
+            name=f"__**{core.static.arrow_bullet_point} WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['fours']['wins']), ((player_json['bedwars']['fours']['losses'])))}"
         )
         await ctx.send(embed=player_fours_stats_embed)
 
@@ -374,41 +374,41 @@ class Bedwars(commands.Cog):
         player_four_v_four_stats_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s 4v4 Bedwars Stats**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Winstreak**__",
+            name=f"__**{core.static.arrow_bullet_point} Winstreak**__",
             value=f"{(player_json['bedwars']['four_v_four']['winstreak']):,d}",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['four_v_four']['final_kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['four_v_four']['final_deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['four_v_four']['final_kills']), ((player_json['bedwars']['four_v_four']['final_deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['four_v_four']['final_kills']), ((player_json['bedwars']['four_v_four']['final_deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['four_v_four']['beds_broken']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['four_v_four']['beds_lost']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['four_v_four']['beds_broken']), ((player_json['bedwars']['four_v_four']['beds_lost'])))}"
+            name=f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['four_v_four']['beds_broken']), ((player_json['bedwars']['four_v_four']['beds_lost'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
+            name=f"__**{core.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['bedwars']['four_v_four']['wins']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
+            name=f"__**{core.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['four_v_four']['losses']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['four_v_four']['wins']), ((player_json['bedwars']['four_v_four']['losses'])))}"
+            name=f"__**{core.static.arrow_bullet_point} WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['four_v_four']['wins']), ((player_json['bedwars']['four_v_four']['losses'])))}"
         )
         await ctx.send(embed=player_four_v_four_stats_embed)
 
@@ -430,41 +430,41 @@ class Bedwars(commands.Cog):
         player_armed_doubles_stats_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Armed Doubles Bedwars Stats**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Winstreak**__",
+            name=f"__**{core.static.arrow_bullet_point} Winstreak**__",
             value=f"{(player_json['bedwars']['dreams']['armed']['doubles']['winstreak']):,d}",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['dreams']['armed']['doubles']['final_kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['dreams']['armed']['doubles']['final_deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['armed']['doubles']['final_kills']), ((player_json['bedwars']['dreams']['armed']['doubles']['final_deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['armed']['doubles']['final_kills']), ((player_json['bedwars']['dreams']['armed']['doubles']['final_deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['dreams']['armed']['doubles']['beds_broken']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['dreams']['armed']['doubles']['beds_lost']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['armed']['doubles']['beds_broken']), ((player_json['bedwars']['dreams']['armed']['doubles']['beds_lost'])))}"
+            name=f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['armed']['doubles']['beds_broken']), ((player_json['bedwars']['dreams']['armed']['doubles']['beds_lost'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
+            name=f"__**{core.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['bedwars']['dreams']['armed']['doubles']['wins']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
+            name=f"__**{core.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['dreams']['armed']['doubles']['losses']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['armed']['doubles']['wins']), ((player_json['bedwars']['dreams']['armed']['doubles']['losses'])))}"
+            name=f"__**{core.static.arrow_bullet_point} WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['armed']['doubles']['wins']), ((player_json['bedwars']['dreams']['armed']['doubles']['losses'])))}"
         )
         await ctx.send(embed=player_armed_doubles_stats_embed)
 
@@ -480,41 +480,41 @@ class Bedwars(commands.Cog):
         player_armed_fours_stats_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Armed Fours Bedwars Stats**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Winstreak**__",
+            name=f"__**{core.static.arrow_bullet_point} Winstreak**__",
             value=f"{(player_json['bedwars']['dreams']['armed']['fours']['winstreak']):,d}",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['dreams']['armed']['fours']['final_kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['dreams']['armed']['fours']['final_deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['armed']['fours']['final_kills']), ((player_json['bedwars']['dreams']['armed']['fours']['final_deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['armed']['fours']['final_kills']), ((player_json['bedwars']['dreams']['armed']['fours']['final_deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['dreams']['armed']['fours']['beds_broken']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['dreams']['armed']['fours']['beds_lost']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['armed']['fours']['beds_broken']), ((player_json['bedwars']['dreams']['armed']['fours']['beds_lost'])))}"
+            name=f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['armed']['fours']['beds_broken']), ((player_json['bedwars']['dreams']['armed']['fours']['beds_lost'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
+            name=f"__**{core.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['bedwars']['dreams']['armed']['fours']['wins']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
+            name=f"__**{core.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['dreams']['armed']['fours']['losses']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['armed']['fours']['wins']), ((player_json['bedwars']['dreams']['armed']['fours']['losses'])))}"
+            name=f"__**{core.static.arrow_bullet_point} WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['armed']['fours']['wins']), ((player_json['bedwars']['dreams']['armed']['fours']['losses'])))}"
         )
         await ctx.send(embed=player_armed_fours_stats_embed)
 
@@ -531,41 +531,41 @@ class Bedwars(commands.Cog):
         player_castle_stats_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Castle Bedwars Stats**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Winstreak**__",
+            name=f"__**{core.static.arrow_bullet_point} Winstreak**__",
             value=f"{(player_json['bedwars']['dreams']['castle']['winstreak']):,d}",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['dreams']['castle']['final_kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['dreams']['castle']['final_deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['castle']['final_kills']), ((player_json['bedwars']['dreams']['castle']['final_deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['castle']['final_kills']), ((player_json['bedwars']['dreams']['castle']['final_deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['dreams']['castle']['beds_broken']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['dreams']['castle']['beds_lost']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['castle']['beds_broken']), ((player_json['bedwars']['dreams']['castle']['beds_lost'])))}"
+            name=f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['castle']['beds_broken']), ((player_json['bedwars']['dreams']['castle']['beds_lost'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
+            name=f"__**{core.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['bedwars']['dreams']['castle']['wins']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
+            name=f"__**{core.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['dreams']['castle']['losses']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['castle']['wins']), ((player_json['bedwars']['dreams']['castle']['losses'])))}"
+            name=f"__**{core.static.arrow_bullet_point} WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['castle']['wins']), ((player_json['bedwars']['dreams']['castle']['losses'])))}"
         )
         await ctx.send(embed=player_castle_stats_embed)
 
@@ -587,41 +587,41 @@ class Bedwars(commands.Cog):
         player_luckyblocks_doubles_stats_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Luckyblocks Doubles Bedwars Stats**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Winstreak**__",
+            name=f"__**{core.static.arrow_bullet_point} Winstreak**__",
             value=f"{(player_json['bedwars']['dreams']['lucky_blocks']['doubles']['winstreak']):,d}",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['dreams']['lucky_blocks']['doubles']['final_kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['dreams']['lucky_blocks']['doubles']['final_deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['final_kills']), ((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['final_deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['final_kills']), ((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['final_deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_broken']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_lost']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_broken']), ((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_lost'])))}"
+            name=f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_broken']), ((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_lost'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
+            name=f"__**{core.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['bedwars']['dreams']['lucky_blocks']['doubles']['wins']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
+            name=f"__**{core.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['dreams']['lucky_blocks']['doubles']['losses']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['wins']), ((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['losses'])))}"
+            name=f"__**{core.static.arrow_bullet_point} WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['wins']), ((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['losses'])))}"
         )
         await ctx.send(embed=player_luckyblocks_doubles_stats_embed)
 
@@ -638,41 +638,41 @@ class Bedwars(commands.Cog):
         player_luckyblocks_fours_stats_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Luckyblocks Fours Bedwars Stats**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Winstreak**__",
+            name=f"__**{core.static.arrow_bullet_point} Winstreak**__",
             value=f"{(player_json['bedwars']['dreams']['lucky_blocks']['fours']['winstreak']):,d}",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['dreams']['lucky_blocks']['fours']['final_kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['dreams']['lucky_blocks']['fours']['final_deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['lucky_blocks']['fours']['final_kills']), ((player_json['bedwars']['dreams']['lucky_blocks']['fours']['final_deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['lucky_blocks']['fours']['final_kills']), ((player_json['bedwars']['dreams']['lucky_blocks']['fours']['final_deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['dreams']['lucky_blocks']['fours']['beds_broken']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['dreams']['lucky_blocks']['fours']['beds_lost']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['lucky_blocks']['fours']['beds_broken']), ((player_json['bedwars']['dreams']['lucky_blocks']['fours']['beds_lost'])))}"
+            name=f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['lucky_blocks']['fours']['beds_broken']), ((player_json['bedwars']['dreams']['lucky_blocks']['fours']['beds_lost'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
+            name=f"__**{core.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['bedwars']['dreams']['lucky_blocks']['fours']['wins']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
+            name=f"__**{core.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['dreams']['lucky_blocks']['fours']['losses']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['lucky_blocks']['fours']['wins']), ((player_json['bedwars']['dreams']['lucky_blocks']['fours']['losses'])))}"
+            name=f"__**{core.static.arrow_bullet_point} WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['lucky_blocks']['fours']['wins']), ((player_json['bedwars']['dreams']['lucky_blocks']['fours']['losses'])))}"
         )
         await ctx.send(embed=player_luckyblocks_fours_stats_embed)
 
@@ -693,41 +693,41 @@ class Bedwars(commands.Cog):
         player_rush_solo_stats_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Rush Solo Bedwars Stats**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Winstreak**__",
+            name=f"__**{core.static.arrow_bullet_point} Winstreak**__",
             value=f"{(player_json['bedwars']['dreams']['rush']['solo']['winstreak']):,d}",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['dreams']['rush']['solo']['final_kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['dreams']['rush']['solo']['final_deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['rush']['solo']['final_kills']), ((player_json['bedwars']['dreams']['rush']['solo']['final_deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['rush']['solo']['final_kills']), ((player_json['bedwars']['dreams']['rush']['solo']['final_deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['dreams']['rush']['solo']['beds_broken']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['dreams']['rush']['solo']['beds_lost']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['rush']['solo']['beds_broken']), ((player_json['bedwars']['dreams']['rush']['solo']['beds_lost'])))}"
+            name=f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['rush']['solo']['beds_broken']), ((player_json['bedwars']['dreams']['rush']['solo']['beds_lost'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
+            name=f"__**{core.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['bedwars']['dreams']['rush']['solo']['wins']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
+            name=f"__**{core.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['dreams']['rush']['solo']['losses']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['rush']['solo']['wins']), ((player_json['bedwars']['dreams']['rush']['solo']['losses'])))}"
+            name=f"__**{core.static.arrow_bullet_point} WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['rush']['solo']['wins']), ((player_json['bedwars']['dreams']['rush']['solo']['losses'])))}"
         )
         await ctx.send(embed=player_rush_solo_stats_embed)
 
@@ -743,41 +743,41 @@ class Bedwars(commands.Cog):
         player_rush_doubles_stats_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Rush Doubles Bedwars Stats**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Winstreak**__",
+            name=f"__**{core.static.arrow_bullet_point} Winstreak**__",
             value=f"{(player_json['bedwars']['dreams']['rush']['doubles']['winstreak']):,d}",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['dreams']['rush']['doubles']['final_kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['dreams']['rush']['doubles']['final_deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['rush']['doubles']['final_kills']), ((player_json['bedwars']['dreams']['rush']['doubles']['final_deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['rush']['doubles']['final_kills']), ((player_json['bedwars']['dreams']['rush']['doubles']['final_deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['dreams']['rush']['doubles']['beds_broken']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['dreams']['rush']['doubles']['beds_lost']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['rush']['doubles']['beds_broken']), ((player_json['bedwars']['dreams']['rush']['doubles']['beds_lost'])))}"
+            name=f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['rush']['doubles']['beds_broken']), ((player_json['bedwars']['dreams']['rush']['doubles']['beds_lost'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
+            name=f"__**{core.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['bedwars']['dreams']['rush']['doubles']['wins']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
+            name=f"__**{core.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['dreams']['rush']['doubles']['losses']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['rush']['doubles']['wins']), ((player_json['bedwars']['dreams']['rush']['doubles']['losses'])))}"
+            name=f"__**{core.static.arrow_bullet_point} WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['rush']['doubles']['wins']), ((player_json['bedwars']['dreams']['rush']['doubles']['losses'])))}"
         )
         await ctx.send(embed=player_rush_doubles_stats_embed)
 
@@ -793,41 +793,41 @@ class Bedwars(commands.Cog):
         player_rush_fours_stats_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Rush Fours Bedwars Stats**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Winstreak**__",
+            name=f"__**{core.static.arrow_bullet_point} Winstreak**__",
             value=f"{(player_json['bedwars']['dreams']['rush']['fours']['winstreak']):,d}",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['dreams']['rush']['fours']['final_kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['dreams']['rush']['fours']['final_deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['rush']['fours']['final_kills']), ((player_json['bedwars']['dreams']['rush']['fours']['final_deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['rush']['fours']['final_kills']), ((player_json['bedwars']['dreams']['rush']['fours']['final_deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['dreams']['rush']['fours']['beds_broken']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['dreams']['rush']['fours']['beds_lost']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['rush']['fours']['beds_broken']), ((player_json['bedwars']['dreams']['rush']['fours']['beds_lost'])))}"
+            name=f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['rush']['fours']['beds_broken']), ((player_json['bedwars']['dreams']['rush']['fours']['beds_lost'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
+            name=f"__**{core.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['bedwars']['dreams']['rush']['fours']['wins']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
+            name=f"__**{core.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['dreams']['rush']['fours']['losses']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['rush']['fours']['wins']), ((player_json['bedwars']['dreams']['rush']['fours']['losses'])))}"
+            name=f"__**{core.static.arrow_bullet_point} WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['rush']['fours']['wins']), ((player_json['bedwars']['dreams']['rush']['fours']['losses'])))}"
         )
         await ctx.send(embed=player_rush_fours_stats_embed)
 
@@ -849,41 +849,41 @@ class Bedwars(commands.Cog):
         player_ultimate_solo_stats_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Ultimate Solo Bedwars Stats**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Winstreak**__",
+            name=f"__**{core.static.arrow_bullet_point} Winstreak**__",
             value=f"{(player_json['bedwars']['dreams']['ultimate']['solo']['winstreak']):,d}",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['dreams']['ultimate']['solo']['final_kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['dreams']['ultimate']['solo']['final_deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['solo']['final_kills']), ((player_json['bedwars']['dreams']['ultimate']['solo']['final_deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['solo']['final_kills']), ((player_json['bedwars']['dreams']['ultimate']['solo']['final_deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['dreams']['ultimate']['solo']['beds_broken']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['dreams']['ultimate']['solo']['beds_lost']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['solo']['beds_broken']), ((player_json['bedwars']['dreams']['ultimate']['solo']['beds_lost'])))}"
+            name=f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['solo']['beds_broken']), ((player_json['bedwars']['dreams']['ultimate']['solo']['beds_lost'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
+            name=f"__**{core.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['bedwars']['dreams']['ultimate']['solo']['wins']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
+            name=f"__**{core.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['dreams']['ultimate']['solo']['losses']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['solo']['wins']), ((player_json['bedwars']['dreams']['ultimate']['solo']['losses'])))}"
+            name=f"__**{core.static.arrow_bullet_point} WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['solo']['wins']), ((player_json['bedwars']['dreams']['ultimate']['solo']['losses'])))}"
         )
         await ctx.send(embed=player_ultimate_solo_stats_embed)
 
@@ -900,41 +900,41 @@ class Bedwars(commands.Cog):
         player_ultimate_doubles_stats_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Ultimate Doubles Bedwars Stats**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Winstreak**__",
+            name=f"__**{core.static.arrow_bullet_point} Winstreak**__",
             value=f"{(player_json['bedwars']['dreams']['ultimate']['doubles']['winstreak']):,d}",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['dreams']['ultimate']['doubles']['final_kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['dreams']['ultimate']['doubles']['final_deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['doubles']['final_kills']), ((player_json['bedwars']['dreams']['ultimate']['doubles']['final_deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['doubles']['final_kills']), ((player_json['bedwars']['dreams']['ultimate']['doubles']['final_deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['dreams']['ultimate']['doubles']['beds_broken']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['dreams']['ultimate']['doubles']['beds_lost']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['doubles']['beds_broken']), ((player_json['bedwars']['dreams']['ultimate']['doubles']['beds_lost'])))}"
+            name=f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['doubles']['beds_broken']), ((player_json['bedwars']['dreams']['ultimate']['doubles']['beds_lost'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
+            name=f"__**{core.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['bedwars']['dreams']['ultimate']['doubles']['wins']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
+            name=f"__**{core.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['dreams']['ultimate']['doubles']['losses']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['doubles']['wins']), ((player_json['bedwars']['dreams']['ultimate']['doubles']['losses'])))}"
+            name=f"__**{core.static.arrow_bullet_point} WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['doubles']['wins']), ((player_json['bedwars']['dreams']['ultimate']['doubles']['losses'])))}"
         )
         await ctx.send(embed=player_ultimate_doubles_stats_embed)
 
@@ -951,41 +951,41 @@ class Bedwars(commands.Cog):
         player_ultimate_fours_stats_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Ultimate Fours Bedwars Stats**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Winstreak**__",
+            name=f"__**{core.static.arrow_bullet_point} Winstreak**__",
             value=f"{(player_json['bedwars']['dreams']['ultimate']['fours']['winstreak']):,d}",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['dreams']['ultimate']['fours']['final_kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['dreams']['ultimate']['fours']['final_deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['fours']['final_kills']), ((player_json['bedwars']['dreams']['ultimate']['fours']['final_deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['fours']['final_kills']), ((player_json['bedwars']['dreams']['ultimate']['fours']['final_deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['dreams']['ultimate']['fours']['beds_broken']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['dreams']['ultimate']['fours']['beds_lost']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['fours']['beds_broken']), ((player_json['bedwars']['dreams']['ultimate']['fours']['beds_lost'])))}"
+            name=f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['fours']['beds_broken']), ((player_json['bedwars']['dreams']['ultimate']['fours']['beds_lost'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
+            name=f"__**{core.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['bedwars']['dreams']['ultimate']['fours']['wins']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
+            name=f"__**{core.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['dreams']['ultimate']['fours']['losses']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['fours']['wins']), ((player_json['bedwars']['dreams']['ultimate']['fours']['losses'])))}"
+            name=f"__**{core.static.arrow_bullet_point} WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['fours']['wins']), ((player_json['bedwars']['dreams']['ultimate']['fours']['losses'])))}"
         )
         await ctx.send(embed=player_ultimate_fours_stats_embed)
 
@@ -1007,41 +1007,41 @@ class Bedwars(commands.Cog):
         player_voidless_doubles_stats_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Voidless Doubles Bedwars Stats**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Winstreak**__",
+            name=f"__**{core.static.arrow_bullet_point} Winstreak**__",
             value=f"{(player_json['bedwars']['dreams']['voidless']['doubles']['winstreak']):,d}",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['dreams']['voidless']['doubles']['final_kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['dreams']['voidless']['doubles']['final_deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['voidless']['doubles']['final_kills']), ((player_json['bedwars']['dreams']['voidless']['doubles']['final_deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['voidless']['doubles']['final_kills']), ((player_json['bedwars']['dreams']['voidless']['doubles']['final_deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['dreams']['voidless']['doubles']['beds_broken']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['dreams']['voidless']['doubles']['beds_lost']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['voidless']['doubles']['beds_broken']), ((player_json['bedwars']['dreams']['voidless']['doubles']['beds_lost'])))}"
+            name=f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['voidless']['doubles']['beds_broken']), ((player_json['bedwars']['dreams']['voidless']['doubles']['beds_lost'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
+            name=f"__**{core.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['bedwars']['dreams']['voidless']['doubles']['wins']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
+            name=f"__**{core.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['dreams']['voidless']['doubles']['losses']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['voidless']['doubles']['wins']), ((player_json['bedwars']['dreams']['voidless']['doubles']['losses'])))}"
+            name=f"__**{core.static.arrow_bullet_point} WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['voidless']['doubles']['wins']), ((player_json['bedwars']['dreams']['voidless']['doubles']['losses'])))}"
         )
         await ctx.send(embed=player_voidless_doubles_stats_embed)
 
@@ -1058,41 +1058,41 @@ class Bedwars(commands.Cog):
         player_voidless_fours_stats_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Voidless Fours Bedwars Stats**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Winstreak**__",
+            name=f"__**{core.static.arrow_bullet_point} Winstreak**__",
             value=f"{(player_json['bedwars']['dreams']['voidless']['fours']['winstreak']):,d}",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['dreams']['voidless']['fours']['final_kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['dreams']['voidless']['fours']['final_deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['voidless']['fours']['final_kills']), ((player_json['bedwars']['dreams']['voidless']['fours']['final_deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['voidless']['fours']['final_kills']), ((player_json['bedwars']['dreams']['voidless']['fours']['final_deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['dreams']['voidless']['fours']['beds_broken']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['dreams']['voidless']['fours']['beds_lost']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['voidless']['fours']['beds_broken']), ((player_json['bedwars']['dreams']['voidless']['fours']['beds_lost'])))}"
+            name=f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['voidless']['fours']['beds_broken']), ((player_json['bedwars']['dreams']['voidless']['fours']['beds_lost'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
+            name=f"__**{core.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['bedwars']['dreams']['voidless']['fours']['wins']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
+            name=f"__**{core.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['dreams']['voidless']['fours']['losses']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['voidless']['fours']['wins']), ((player_json['bedwars']['dreams']['voidless']['fours']['losses'])))}"
+            name=f"__**{core.static.arrow_bullet_point} WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['voidless']['fours']['wins']), ((player_json['bedwars']['dreams']['voidless']['fours']['losses'])))}"
         )
         await ctx.send(embed=player_voidless_fours_stats_embed)
 
@@ -1109,32 +1109,32 @@ class Bedwars(commands.Cog):
         player_fkdr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s FKDR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['final_kills']), ((player_json['bedwars']['final_deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['final_kills']), ((player_json['bedwars']['final_deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['final_kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['final_deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['final_kills']), (player_json['bedwars']['final_deaths']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['final_kills']), ((player_json['bedwars']['final_deaths'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['final_kills'], player_json['bedwars']['final_deaths']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['final_kills']), (player_json['bedwars']['final_deaths']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['final_kills']), ((player_json['bedwars']['final_deaths'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['final_kills'], player_json['bedwars']['final_deaths']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['final_kills']), (player_json['bedwars']['final_deaths']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['final_kills']), (player_json['bedwars']['final_deaths']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['final_kills']), (player_json['bedwars']['final_deaths']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['final_kills']), (player_json['bedwars']['final_deaths']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_fkdr_embed)
 
@@ -1151,32 +1151,32 @@ class Bedwars(commands.Cog):
         player_solo_fkdr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Solo FKDR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['solo']['final_kills']), ((player_json['bedwars']['solo']['final_deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['solo']['final_kills']), ((player_json['bedwars']['solo']['final_deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['solo']['final_kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['solo']['final_deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['solo']['final_kills']), (player_json['bedwars']['solo']['final_deaths']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['solo']['final_kills']), ((player_json['bedwars']['solo']['final_deaths'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['solo']['final_kills'], player_json['bedwars']['solo']['final_deaths']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['solo']['final_kills']), (player_json['bedwars']['solo']['final_deaths']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['solo']['final_kills']), ((player_json['bedwars']['solo']['final_deaths'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['solo']['final_kills'], player_json['bedwars']['solo']['final_deaths']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['solo']['final_kills']), (player_json['bedwars']['solo']['final_deaths']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['solo']['final_kills']), (player_json['bedwars']['solo']['final_deaths']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['solo']['final_kills']), (player_json['bedwars']['solo']['final_deaths']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['solo']['final_kills']), (player_json['bedwars']['solo']['final_deaths']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_solo_fkdr_embed)
 
@@ -1193,32 +1193,32 @@ class Bedwars(commands.Cog):
         player_doubles_fkdr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Doubles FKDR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['doubles']['final_kills']), ((player_json['bedwars']['doubles']['final_deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['doubles']['final_kills']), ((player_json['bedwars']['doubles']['final_deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['doubles']['final_kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['doubles']['final_deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['doubles']['final_kills']), (player_json['bedwars']['doubles']['final_deaths']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['doubles']['final_kills']), ((player_json['bedwars']['doubles']['final_deaths'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['doubles']['final_kills'], player_json['bedwars']['doubles']['final_deaths']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['doubles']['final_kills']), (player_json['bedwars']['doubles']['final_deaths']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['doubles']['final_kills']), ((player_json['bedwars']['doubles']['final_deaths'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['doubles']['final_kills'], player_json['bedwars']['doubles']['final_deaths']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['doubles']['final_kills']), (player_json['bedwars']['doubles']['final_deaths']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['doubles']['final_kills']), (player_json['bedwars']['doubles']['final_deaths']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['doubles']['final_kills']), (player_json['bedwars']['doubles']['final_deaths']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['doubles']['final_kills']), (player_json['bedwars']['doubles']['final_deaths']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_doubles_fkdr_embed)
 
@@ -1235,32 +1235,32 @@ class Bedwars(commands.Cog):
         player_threes_fkdr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Threes FKDR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['threes']['final_kills']), ((player_json['bedwars']['threes']['final_deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['threes']['final_kills']), ((player_json['bedwars']['threes']['final_deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['threes']['final_kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['threes']['final_deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['threes']['final_kills']), (player_json['bedwars']['threes']['final_deaths']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['threes']['final_kills']), ((player_json['bedwars']['threes']['final_deaths'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['threes']['final_kills'], player_json['bedwars']['threes']['final_deaths']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['threes']['final_kills']), (player_json['bedwars']['threes']['final_deaths']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['threes']['final_kills']), ((player_json['bedwars']['threes']['final_deaths'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['threes']['final_kills'], player_json['bedwars']['threes']['final_deaths']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['threes']['final_kills']), (player_json['bedwars']['threes']['final_deaths']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['threes']['final_kills']), (player_json['bedwars']['threes']['final_deaths']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['threes']['final_kills']), (player_json['bedwars']['threes']['final_deaths']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['threes']['final_kills']), (player_json['bedwars']['threes']['final_deaths']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_threes_fkdr_embed)
 
@@ -1277,32 +1277,32 @@ class Bedwars(commands.Cog):
         player_fours_fkdr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Fours FKDR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['fours']['final_kills']), ((player_json['bedwars']['fours']['final_deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['fours']['final_kills']), ((player_json['bedwars']['fours']['final_deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['fours']['final_kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['fours']['final_deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['fours']['final_kills']), (player_json['bedwars']['fours']['final_deaths']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['fours']['final_kills']), ((player_json['bedwars']['fours']['final_deaths'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['fours']['final_kills'], player_json['bedwars']['fours']['final_deaths']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['fours']['final_kills']), (player_json['bedwars']['fours']['final_deaths']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['fours']['final_kills']), ((player_json['bedwars']['fours']['final_deaths'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['fours']['final_kills'], player_json['bedwars']['fours']['final_deaths']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['fours']['final_kills']), (player_json['bedwars']['fours']['final_deaths']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['fours']['final_kills']), (player_json['bedwars']['fours']['final_deaths']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['fours']['final_kills']), (player_json['bedwars']['fours']['final_deaths']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['fours']['final_kills']), (player_json['bedwars']['fours']['final_deaths']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_fours_fkdr_embed)
 
@@ -1319,32 +1319,32 @@ class Bedwars(commands.Cog):
         player_four_v_four_fkdr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s 4v4 FKDR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['four_v_four']['final_kills']), ((player_json['bedwars']['four_v_four']['final_deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['four_v_four']['final_kills']), ((player_json['bedwars']['four_v_four']['final_deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['four_v_four']['final_kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['four_v_four']['final_deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['four_v_four']['final_kills']), (player_json['bedwars']['four_v_four']['final_deaths']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['four_v_four']['final_kills']), ((player_json['bedwars']['four_v_four']['final_deaths'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['four_v_four']['final_kills'], player_json['bedwars']['four_v_four']['final_deaths']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['four_v_four']['final_kills']), (player_json['bedwars']['four_v_four']['final_deaths']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['four_v_four']['final_kills']), ((player_json['bedwars']['four_v_four']['final_deaths'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['four_v_four']['final_kills'], player_json['bedwars']['four_v_four']['final_deaths']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['four_v_four']['final_kills']), (player_json['bedwars']['four_v_four']['final_deaths']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['four_v_four']['final_kills']), (player_json['bedwars']['four_v_four']['final_deaths']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['four_v_four']['final_kills']), (player_json['bedwars']['four_v_four']['final_deaths']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['four_v_four']['final_kills']), (player_json['bedwars']['four_v_four']['final_deaths']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_four_v_four_fkdr_embed)
 
@@ -1364,32 +1364,32 @@ class Bedwars(commands.Cog):
         player_armed_doubles_fkdr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Armed Doubles FKDR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['armed']['doubles']['final_kills']), ((player_json['bedwars']['dreams']['armed']['doubles']['final_deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['armed']['doubles']['final_kills']), ((player_json['bedwars']['dreams']['armed']['doubles']['final_deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['dreams']['armed']['doubles']['final_kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['dreams']['armed']['doubles']['final_deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['armed']['doubles']['final_kills']), (player_json['bedwars']['dreams']['armed']['doubles']['final_deaths']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['armed']['doubles']['final_kills']), ((player_json['bedwars']['dreams']['armed']['doubles']['final_deaths'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['dreams']['armed']['doubles']['final_kills'], player_json['bedwars']['dreams']['armed']['doubles']['final_deaths']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['armed']['doubles']['final_kills']), (player_json['bedwars']['dreams']['armed']['doubles']['final_deaths']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['armed']['doubles']['final_kills']), ((player_json['bedwars']['dreams']['armed']['doubles']['final_deaths'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['dreams']['armed']['doubles']['final_kills'], player_json['bedwars']['dreams']['armed']['doubles']['final_deaths']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['armed']['doubles']['final_kills']), (player_json['bedwars']['dreams']['armed']['doubles']['final_deaths']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['armed']['doubles']['final_kills']), (player_json['bedwars']['dreams']['armed']['doubles']['final_deaths']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['armed']['doubles']['final_kills']), (player_json['bedwars']['dreams']['armed']['doubles']['final_deaths']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['armed']['doubles']['final_kills']), (player_json['bedwars']['dreams']['armed']['doubles']['final_deaths']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_armed_doubles_fkdr_embed)
 
@@ -1405,32 +1405,32 @@ class Bedwars(commands.Cog):
         player_armed_fours_fkdr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Armed Fours FKDR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['armed']['fours']['final_kills']), ((player_json['bedwars']['dreams']['armed']['fours']['final_deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['armed']['fours']['final_kills']), ((player_json['bedwars']['dreams']['armed']['fours']['final_deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['dreams']['armed']['fours']['final_kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['dreams']['armed']['fours']['final_deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['armed']['fours']['final_kills']), (player_json['bedwars']['dreams']['armed']['fours']['final_deaths']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['armed']['fours']['final_kills']), ((player_json['bedwars']['dreams']['armed']['fours']['final_deaths'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['dreams']['armed']['fours']['final_kills'], player_json['bedwars']['dreams']['armed']['fours']['final_deaths']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['armed']['fours']['final_kills']), (player_json['bedwars']['dreams']['armed']['fours']['final_deaths']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['armed']['fours']['final_kills']), ((player_json['bedwars']['dreams']['armed']['fours']['final_deaths'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['dreams']['armed']['fours']['final_kills'], player_json['bedwars']['dreams']['armed']['fours']['final_deaths']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['armed']['fours']['final_kills']), (player_json['bedwars']['dreams']['armed']['fours']['final_deaths']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['armed']['fours']['final_kills']), (player_json['bedwars']['dreams']['armed']['fours']['final_deaths']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['armed']['fours']['final_kills']), (player_json['bedwars']['dreams']['armed']['fours']['final_deaths']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['armed']['fours']['final_kills']), (player_json['bedwars']['dreams']['armed']['fours']['final_deaths']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_armed_fours_fkdr_embed)
 
@@ -1447,32 +1447,32 @@ class Bedwars(commands.Cog):
         player_castle_fkdr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Castle FKDR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['castle']['final_kills']), ((player_json['bedwars']['dreams']['castle']['final_deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['castle']['final_kills']), ((player_json['bedwars']['dreams']['castle']['final_deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['dreams']['castle']['final_kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['dreams']['castle']['final_deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['castle']['final_kills']), (player_json['bedwars']['dreams']['castle']['final_deaths']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['castle']['final_kills']), ((player_json['bedwars']['dreams']['castle']['final_deaths'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['dreams']['castle']['final_kills'], player_json['bedwars']['dreams']['castle']['final_deaths']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['castle']['final_kills']), (player_json['bedwars']['dreams']['castle']['final_deaths']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['castle']['final_kills']), ((player_json['bedwars']['dreams']['castle']['final_deaths'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['dreams']['castle']['final_kills'], player_json['bedwars']['dreams']['castle']['final_deaths']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['castle']['final_kills']), (player_json['bedwars']['dreams']['castle']['final_deaths']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['castle']['final_kills']), (player_json['bedwars']['dreams']['castle']['final_deaths']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['castle']['final_kills']), (player_json['bedwars']['dreams']['castle']['final_deaths']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['castle']['final_kills']), (player_json['bedwars']['dreams']['castle']['final_deaths']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_castle_fkdr_embed)
 
@@ -1494,32 +1494,32 @@ class Bedwars(commands.Cog):
         player_luckyblocks_doubles_fkdr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Luckyblocks Doubles FKDR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['final_kills']), ((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['final_deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['final_kills']), ((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['final_deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['dreams']['lucky_blocks']['doubles']['final_kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['dreams']['lucky_blocks']['doubles']['final_deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['final_kills']), (player_json['bedwars']['dreams']['lucky_blocks']['doubles']['final_deaths']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['final_kills']), ((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['final_deaths'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['dreams']['lucky_blocks']['doubles']['final_kills'], player_json['bedwars']['dreams']['lucky_blocks']['doubles']['final_deaths']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['final_kills']), (player_json['bedwars']['dreams']['lucky_blocks']['doubles']['final_deaths']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['final_kills']), ((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['final_deaths'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['dreams']['lucky_blocks']['doubles']['final_kills'], player_json['bedwars']['dreams']['lucky_blocks']['doubles']['final_deaths']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['final_kills']), (player_json['bedwars']['dreams']['lucky_blocks']['doubles']['final_deaths']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['final_kills']), (player_json['bedwars']['dreams']['lucky_blocks']['doubles']['final_deaths']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['final_kills']), (player_json['bedwars']['dreams']['lucky_blocks']['doubles']['final_deaths']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['final_kills']), (player_json['bedwars']['dreams']['lucky_blocks']['doubles']['final_deaths']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_luckyblocks_doubles_fkdr_embed)
 
@@ -1536,32 +1536,32 @@ class Bedwars(commands.Cog):
         player_luckyblocks_fours_fkdr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Luckyblocks fours FKDR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['lucky_blocks']['fours']['final_kills']), ((player_json['bedwars']['dreams']['lucky_blocks']['fours']['final_deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['lucky_blocks']['fours']['final_kills']), ((player_json['bedwars']['dreams']['lucky_blocks']['fours']['final_deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['dreams']['lucky_blocks']['fours']['final_kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['dreams']['lucky_blocks']['fours']['final_deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['lucky_blocks']['fours']['final_kills']), (player_json['bedwars']['dreams']['lucky_blocks']['fours']['final_deaths']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['lucky_blocks']['fours']['final_kills']), ((player_json['bedwars']['dreams']['lucky_blocks']['fours']['final_deaths'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['dreams']['lucky_blocks']['fours']['final_kills'], player_json['bedwars']['dreams']['lucky_blocks']['fours']['final_deaths']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['lucky_blocks']['fours']['final_kills']), (player_json['bedwars']['dreams']['lucky_blocks']['fours']['final_deaths']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['lucky_blocks']['fours']['final_kills']), ((player_json['bedwars']['dreams']['lucky_blocks']['fours']['final_deaths'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['dreams']['lucky_blocks']['fours']['final_kills'], player_json['bedwars']['dreams']['lucky_blocks']['fours']['final_deaths']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['lucky_blocks']['fours']['final_kills']), (player_json['bedwars']['dreams']['lucky_blocks']['fours']['final_deaths']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['lucky_blocks']['fours']['final_kills']), (player_json['bedwars']['dreams']['lucky_blocks']['fours']['final_deaths']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['lucky_blocks']['fours']['final_kills']), (player_json['bedwars']['dreams']['lucky_blocks']['fours']['final_deaths']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['lucky_blocks']['fours']['final_kills']), (player_json['bedwars']['dreams']['lucky_blocks']['fours']['final_deaths']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_luckyblocks_fours_fkdr_embed)
 
@@ -1583,32 +1583,32 @@ class Bedwars(commands.Cog):
         player_rush_solo_fkdr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Rush Solo FKDR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['rush']['solo']['final_kills']), ((player_json['bedwars']['dreams']['rush']['solo']['final_deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['rush']['solo']['final_kills']), ((player_json['bedwars']['dreams']['rush']['solo']['final_deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['dreams']['rush']['solo']['final_kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['dreams']['rush']['solo']['final_deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['solo']['final_kills']), (player_json['bedwars']['dreams']['rush']['solo']['final_deaths']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['rush']['solo']['final_kills']), ((player_json['bedwars']['dreams']['rush']['solo']['final_deaths'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['dreams']['rush']['solo']['final_kills'], player_json['bedwars']['dreams']['rush']['solo']['final_deaths']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['solo']['final_kills']), (player_json['bedwars']['dreams']['rush']['solo']['final_deaths']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['rush']['solo']['final_kills']), ((player_json['bedwars']['dreams']['rush']['solo']['final_deaths'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['dreams']['rush']['solo']['final_kills'], player_json['bedwars']['dreams']['rush']['solo']['final_deaths']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['solo']['final_kills']), (player_json['bedwars']['dreams']['rush']['solo']['final_deaths']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['solo']['final_kills']), (player_json['bedwars']['dreams']['rush']['solo']['final_deaths']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['solo']['final_kills']), (player_json['bedwars']['dreams']['rush']['solo']['final_deaths']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['solo']['final_kills']), (player_json['bedwars']['dreams']['rush']['solo']['final_deaths']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_rush_solo_fkdr_embed)
 
@@ -1625,32 +1625,32 @@ class Bedwars(commands.Cog):
         player_rush_doubles_fkdr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Rush doubles FKDR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['rush']['doubles']['final_kills']), ((player_json['bedwars']['dreams']['rush']['doubles']['final_deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['rush']['doubles']['final_kills']), ((player_json['bedwars']['dreams']['rush']['doubles']['final_deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['dreams']['rush']['doubles']['final_kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['doubles']['final_kills']), (player_json['bedwars']['dreams']['rush']['doubles']['final_deaths']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['rush']['doubles']['final_kills']), ((player_json['bedwars']['dreams']['rush']['doubles']['final_deaths'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['dreams']['rush']['doubles']['final_kills'], player_json['bedwars']['dreams']['rush']['doubles']['final_deaths']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['doubles']['final_kills']), (player_json['bedwars']['dreams']['rush']['doubles']['final_deaths']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['rush']['doubles']['final_kills']), ((player_json['bedwars']['dreams']['rush']['doubles']['final_deaths'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['dreams']['rush']['doubles']['final_kills'], player_json['bedwars']['dreams']['rush']['doubles']['final_deaths']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['dreams']['rush']['doubles']['final_deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['doubles']['final_kills']), (player_json['bedwars']['dreams']['rush']['doubles']['final_deaths']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['doubles']['final_kills']), (player_json['bedwars']['dreams']['rush']['doubles']['final_deaths']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['doubles']['final_kills']), (player_json['bedwars']['dreams']['rush']['doubles']['final_deaths']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['doubles']['final_kills']), (player_json['bedwars']['dreams']['rush']['doubles']['final_deaths']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_rush_doubles_fkdr_embed)
 
@@ -1667,32 +1667,32 @@ class Bedwars(commands.Cog):
         player_rush_fours_fkdr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Rush Fours FKDR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['rush']['fours']['final_kills']), ((player_json['bedwars']['dreams']['rush']['fours']['final_deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['rush']['fours']['final_kills']), ((player_json['bedwars']['dreams']['rush']['fours']['final_deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['dreams']['rush']['fours']['final_kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['dreams']['rush']['fours']['final_deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['fours']['final_kills']), (player_json['bedwars']['dreams']['rush']['fours']['final_deaths']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['rush']['fours']['final_kills']), ((player_json['bedwars']['dreams']['rush']['fours']['final_deaths'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['dreams']['rush']['fours']['final_kills'], player_json['bedwars']['dreams']['rush']['fours']['final_deaths']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['fours']['final_kills']), (player_json['bedwars']['dreams']['rush']['fours']['final_deaths']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['rush']['fours']['final_kills']), ((player_json['bedwars']['dreams']['rush']['fours']['final_deaths'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['dreams']['rush']['fours']['final_kills'], player_json['bedwars']['dreams']['rush']['fours']['final_deaths']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['fours']['final_kills']), (player_json['bedwars']['dreams']['rush']['fours']['final_deaths']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['fours']['final_kills']), (player_json['bedwars']['dreams']['rush']['fours']['final_deaths']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['fours']['final_kills']), (player_json['bedwars']['dreams']['rush']['fours']['final_deaths']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['fours']['final_kills']), (player_json['bedwars']['dreams']['rush']['fours']['final_deaths']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_rush_fours_fkdr_embed)
 
@@ -1714,32 +1714,32 @@ class Bedwars(commands.Cog):
         player_ultimate_solo_fkdr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Ultimate Solo FKDR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['solo']['final_kills']), ((player_json['bedwars']['dreams']['ultimate']['solo']['final_deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['solo']['final_kills']), ((player_json['bedwars']['dreams']['ultimate']['solo']['final_deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['dreams']['ultimate']['solo']['final_kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['dreams']['ultimate']['solo']['final_deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['solo']['final_kills']), (player_json['bedwars']['dreams']['ultimate']['solo']['final_deaths']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['solo']['final_kills']), ((player_json['bedwars']['dreams']['ultimate']['solo']['final_deaths'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['dreams']['ultimate']['solo']['final_kills'], player_json['bedwars']['dreams']['ultimate']['solo']['final_deaths']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['solo']['final_kills']), (player_json['bedwars']['dreams']['ultimate']['solo']['final_deaths']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['solo']['final_kills']), ((player_json['bedwars']['dreams']['ultimate']['solo']['final_deaths'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['dreams']['ultimate']['solo']['final_kills'], player_json['bedwars']['dreams']['ultimate']['solo']['final_deaths']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['solo']['final_kills']), (player_json['bedwars']['dreams']['ultimate']['solo']['final_deaths']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['solo']['final_kills']), (player_json['bedwars']['dreams']['ultimate']['solo']['final_deaths']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['solo']['final_kills']), (player_json['bedwars']['dreams']['ultimate']['solo']['final_deaths']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['solo']['final_kills']), (player_json['bedwars']['dreams']['ultimate']['solo']['final_deaths']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_ultimate_solo_fkdr_embed)
 
@@ -1756,32 +1756,32 @@ class Bedwars(commands.Cog):
         player_ultimate_doubles_fkdr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Ultimate Doubles FKDR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['doubles']['final_kills']), ((player_json['bedwars']['dreams']['ultimate']['doubles']['final_deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['doubles']['final_kills']), ((player_json['bedwars']['dreams']['ultimate']['doubles']['final_deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['dreams']['ultimate']['doubles']['final_kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['dreams']['ultimate']['doubles']['final_deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['doubles']['final_kills']), (player_json['bedwars']['dreams']['ultimate']['doubles']['final_deaths']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['doubles']['final_kills']), ((player_json['bedwars']['dreams']['ultimate']['doubles']['final_deaths'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['dreams']['ultimate']['doubles']['final_kills'], player_json['bedwars']['dreams']['ultimate']['doubles']['final_deaths']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['doubles']['final_kills']), (player_json['bedwars']['dreams']['ultimate']['doubles']['final_deaths']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['doubles']['final_kills']), ((player_json['bedwars']['dreams']['ultimate']['doubles']['final_deaths'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['dreams']['ultimate']['doubles']['final_kills'], player_json['bedwars']['dreams']['ultimate']['doubles']['final_deaths']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['doubles']['final_kills']), (player_json['bedwars']['dreams']['ultimate']['doubles']['final_deaths']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['doubles']['final_kills']), (player_json['bedwars']['dreams']['ultimate']['doubles']['final_deaths']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['doubles']['final_kills']), (player_json['bedwars']['dreams']['ultimate']['doubles']['final_deaths']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['doubles']['final_kills']), (player_json['bedwars']['dreams']['ultimate']['doubles']['final_deaths']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_ultimate_doubles_fkdr_embed)
 
@@ -1798,32 +1798,32 @@ class Bedwars(commands.Cog):
         player_ultimate_fours_fkdr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Ultimate Fours FKDR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['fours']['final_kills']), ((player_json['bedwars']['dreams']['ultimate']['fours']['final_deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['fours']['final_kills']), ((player_json['bedwars']['dreams']['ultimate']['fours']['final_deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['dreams']['ultimate']['fours']['final_kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['dreams']['ultimate']['fours']['final_deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['fours']['final_kills']), (player_json['bedwars']['dreams']['ultimate']['fours']['final_deaths']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['fours']['final_kills']), ((player_json['bedwars']['dreams']['ultimate']['fours']['final_deaths'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['dreams']['ultimate']['fours']['final_kills'], player_json['bedwars']['dreams']['ultimate']['fours']['final_deaths']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['fours']['final_kills']), (player_json['bedwars']['dreams']['ultimate']['fours']['final_deaths']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['fours']['final_kills']), ((player_json['bedwars']['dreams']['ultimate']['fours']['final_deaths'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['dreams']['ultimate']['fours']['final_kills'], player_json['bedwars']['dreams']['ultimate']['fours']['final_deaths']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['fours']['final_kills']), (player_json['bedwars']['dreams']['ultimate']['fours']['final_deaths']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['fours']['final_kills']), (player_json['bedwars']['dreams']['ultimate']['fours']['final_deaths']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['fours']['final_kills']), (player_json['bedwars']['dreams']['ultimate']['fours']['final_deaths']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['fours']['final_kills']), (player_json['bedwars']['dreams']['ultimate']['fours']['final_deaths']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_ultimate_fours_fkdr_embed)
 
@@ -1845,32 +1845,32 @@ class Bedwars(commands.Cog):
         player_voidless_doubles_fkdr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Voidless Doubles FKDR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['voidless']['doubles']['final_kills']), ((player_json['bedwars']['dreams']['voidless']['doubles']['final_deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['voidless']['doubles']['final_kills']), ((player_json['bedwars']['dreams']['voidless']['doubles']['final_deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['dreams']['voidless']['doubles']['final_kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['dreams']['voidless']['doubles']['final_deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['doubles']['final_kills']), (player_json['bedwars']['dreams']['voidless']['doubles']['final_deaths']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['voidless']['doubles']['final_kills']), ((player_json['bedwars']['dreams']['voidless']['doubles']['final_deaths'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['dreams']['voidless']['doubles']['final_kills'], player_json['bedwars']['dreams']['voidless']['doubles']['final_deaths']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['doubles']['final_kills']), (player_json['bedwars']['dreams']['voidless']['doubles']['final_deaths']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['voidless']['doubles']['final_kills']), ((player_json['bedwars']['dreams']['voidless']['doubles']['final_deaths'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['dreams']['voidless']['doubles']['final_kills'], player_json['bedwars']['dreams']['voidless']['doubles']['final_deaths']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['doubles']['final_kills']), (player_json['bedwars']['dreams']['voidless']['doubles']['final_deaths']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['doubles']['final_kills']), (player_json['bedwars']['dreams']['voidless']['doubles']['final_deaths']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['doubles']['final_kills']), (player_json['bedwars']['dreams']['voidless']['doubles']['final_deaths']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['doubles']['final_kills']), (player_json['bedwars']['dreams']['voidless']['doubles']['final_deaths']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_voidless_doubles_fkdr_embed)
 
@@ -1887,32 +1887,32 @@ class Bedwars(commands.Cog):
         player_voidless_fours_fkdr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Voidless Fours FKDR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['voidless']['fours']['final_kills']), ((player_json['bedwars']['dreams']['voidless']['fours']['final_deaths'])))}"
+            name=f"__**{core.static.arrow_bullet_point} FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['voidless']['fours']['final_kills']), ((player_json['bedwars']['dreams']['voidless']['fours']['final_deaths'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Kills**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Kills**__",
             value=f"{(player_json['bedwars']['dreams']['voidless']['fours']['final_kills']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Final Deaths**__",
+            name=f"__**{core.static.arrow_bullet_point} Final Deaths**__",
             value=f"{(player_json['bedwars']['dreams']['voidless']['fours']['final_deaths']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['fours']['final_kills']), (player_json['bedwars']['dreams']['voidless']['fours']['final_deaths']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['voidless']['fours']['final_kills']), ((player_json['bedwars']['dreams']['voidless']['fours']['final_deaths'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['dreams']['voidless']['fours']['final_kills'], player_json['bedwars']['dreams']['voidless']['fours']['final_deaths']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['fours']['final_kills']), (player_json['bedwars']['dreams']['voidless']['fours']['final_deaths']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['voidless']['fours']['final_kills']), ((player_json['bedwars']['dreams']['voidless']['fours']['final_deaths'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['dreams']['voidless']['fours']['final_kills'], player_json['bedwars']['dreams']['voidless']['fours']['final_deaths']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['fours']['final_kills']), (player_json['bedwars']['dreams']['voidless']['fours']['final_deaths']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['fours']['final_kills']), (player_json['bedwars']['dreams']['voidless']['fours']['final_deaths']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 FKDR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['fours']['final_kills']), (player_json['bedwars']['dreams']['voidless']['fours']['final_deaths']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 FKDR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['fours']['final_kills']), (player_json['bedwars']['dreams']['voidless']['fours']['final_deaths']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_voidless_fours_fkdr_embed)
 
@@ -1929,32 +1929,32 @@ class Bedwars(commands.Cog):
         player_bblr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s BBLR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['beds_broken']), ((player_json['bedwars']['beds_lost'])))}"
+            name=f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['beds_broken']), ((player_json['bedwars']['beds_lost'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['beds_broken']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['beds_lost']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['beds_broken']), (player_json['bedwars']['beds_lost']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['beds_broken']), ((player_json['bedwars']['beds_lost'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['beds_broken'], player_json['bedwars']['beds_lost']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['beds_broken']), (player_json['bedwars']['beds_lost']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['beds_broken']), ((player_json['bedwars']['beds_lost'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['beds_broken'], player_json['bedwars']['beds_lost']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['beds_broken']), (player_json['bedwars']['beds_lost']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['beds_broken']), (player_json['bedwars']['beds_lost']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['beds_broken']), (player_json['bedwars']['beds_lost']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['beds_broken']), (player_json['bedwars']['beds_lost']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_bblr_embed)
 
@@ -1971,32 +1971,32 @@ class Bedwars(commands.Cog):
         player_solo_bblr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Solo BBLR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['solo']['beds_broken']), ((player_json['bedwars']['solo']['beds_lost'])))}"
+            name=f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['solo']['beds_broken']), ((player_json['bedwars']['solo']['beds_lost'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['solo']['beds_broken']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['solo']['beds_lost']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['solo']['beds_broken']), (player_json['bedwars']['solo']['beds_lost']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['solo']['beds_broken']), ((player_json['bedwars']['solo']['beds_lost'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['solo']['beds_broken'], player_json['bedwars']['solo']['beds_lost']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['solo']['beds_broken']), (player_json['bedwars']['solo']['beds_lost']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['solo']['beds_broken']), ((player_json['bedwars']['solo']['beds_lost'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['solo']['beds_broken'], player_json['bedwars']['solo']['beds_lost']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['solo']['beds_broken']), (player_json['bedwars']['solo']['beds_lost']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['solo']['beds_broken']), (player_json['bedwars']['solo']['beds_lost']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['solo']['beds_broken']), (player_json['bedwars']['solo']['beds_lost']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['solo']['beds_broken']), (player_json['bedwars']['solo']['beds_lost']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_solo_bblr_embed)
 
@@ -2013,32 +2013,32 @@ class Bedwars(commands.Cog):
         player_doubles_bblr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Doubles BBLR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['doubles']['beds_broken']), ((player_json['bedwars']['doubles']['beds_lost'])))}"
+            name=f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['doubles']['beds_broken']), ((player_json['bedwars']['doubles']['beds_lost'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['doubles']['beds_broken']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['doubles']['beds_lost']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['doubles']['beds_broken']), (player_json['bedwars']['doubles']['beds_lost']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['doubles']['beds_broken']), ((player_json['bedwars']['doubles']['beds_lost'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['doubles']['beds_broken'], player_json['bedwars']['doubles']['beds_lost']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['doubles']['beds_broken']), (player_json['bedwars']['doubles']['beds_lost']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['doubles']['beds_broken']), ((player_json['bedwars']['doubles']['beds_lost'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['doubles']['beds_broken'], player_json['bedwars']['doubles']['beds_lost']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['doubles']['beds_broken']), (player_json['bedwars']['doubles']['beds_lost']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['doubles']['beds_broken']), (player_json['bedwars']['doubles']['beds_lost']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['doubles']['beds_broken']), (player_json['bedwars']['doubles']['beds_lost']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['doubles']['beds_broken']), (player_json['bedwars']['doubles']['beds_lost']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_doubles_bblr_embed)
 
@@ -2055,32 +2055,32 @@ class Bedwars(commands.Cog):
         player_threes_bblr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Threes BBLR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['threes']['beds_broken']), ((player_json['bedwars']['threes']['beds_lost'])))}"
+            name=f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['threes']['beds_broken']), ((player_json['bedwars']['threes']['beds_lost'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['threes']['beds_broken']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['threes']['beds_lost']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['threes']['beds_broken']), (player_json['bedwars']['threes']['beds_lost']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['threes']['beds_broken']), ((player_json['bedwars']['threes']['beds_lost'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['threes']['beds_broken'], player_json['bedwars']['threes']['beds_lost']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['threes']['beds_broken']), (player_json['bedwars']['threes']['beds_lost']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['threes']['beds_broken']), ((player_json['bedwars']['threes']['beds_lost'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['threes']['beds_broken'], player_json['bedwars']['threes']['beds_lost']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['threes']['beds_broken']), (player_json['bedwars']['threes']['beds_lost']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['threes']['beds_broken']), (player_json['bedwars']['threes']['beds_lost']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['threes']['beds_broken']), (player_json['bedwars']['threes']['beds_lost']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['threes']['beds_broken']), (player_json['bedwars']['threes']['beds_lost']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_threes_bblr_embed)
 
@@ -2097,32 +2097,32 @@ class Bedwars(commands.Cog):
         player_fours_bblr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Fours BBLR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['fours']['beds_broken']), ((player_json['bedwars']['fours']['beds_lost'])))}"
+            name=f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['fours']['beds_broken']), ((player_json['bedwars']['fours']['beds_lost'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['fours']['beds_broken']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['fours']['beds_lost']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['fours']['beds_broken']), (player_json['bedwars']['fours']['beds_lost']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['fours']['beds_broken']), ((player_json['bedwars']['fours']['beds_lost'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['fours']['beds_broken'], player_json['bedwars']['fours']['beds_lost']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['fours']['beds_broken']), (player_json['bedwars']['fours']['beds_lost']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['fours']['beds_broken']), ((player_json['bedwars']['fours']['beds_lost'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['fours']['beds_broken'], player_json['bedwars']['fours']['beds_lost']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['fours']['beds_broken']), (player_json['bedwars']['fours']['beds_lost']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['fours']['beds_broken']), (player_json['bedwars']['fours']['beds_lost']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['fours']['beds_broken']), (player_json['bedwars']['fours']['beds_lost']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['fours']['beds_broken']), (player_json['bedwars']['fours']['beds_lost']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_fours_bblr_embed)
 
@@ -2139,32 +2139,32 @@ class Bedwars(commands.Cog):
         player_four_v_four_bblr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s 4v4 BBLR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['four_v_four']['beds_broken']), ((player_json['bedwars']['four_v_four']['beds_lost'])))}"
+            name=f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['four_v_four']['beds_broken']), ((player_json['bedwars']['four_v_four']['beds_lost'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['four_v_four']['beds_broken']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['four_v_four']['beds_lost']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['four_v_four']['beds_broken']), (player_json['bedwars']['four_v_four']['beds_lost']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['four_v_four']['beds_broken']), ((player_json['bedwars']['four_v_four']['beds_lost'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['four_v_four']['beds_broken'], player_json['bedwars']['four_v_four']['beds_lost']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['four_v_four']['beds_broken']), (player_json['bedwars']['four_v_four']['beds_lost']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['four_v_four']['beds_broken']), ((player_json['bedwars']['four_v_four']['beds_lost'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['four_v_four']['beds_broken'], player_json['bedwars']['four_v_four']['beds_lost']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['four_v_four']['beds_broken']), (player_json['bedwars']['four_v_four']['beds_lost']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['four_v_four']['beds_broken']), (player_json['bedwars']['four_v_four']['beds_lost']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['four_v_four']['beds_broken']), (player_json['bedwars']['four_v_four']['beds_lost']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['four_v_four']['beds_broken']), (player_json['bedwars']['four_v_four']['beds_lost']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_four_v_four_bblr_embed)
 
@@ -2184,32 +2184,32 @@ class Bedwars(commands.Cog):
         player_armed_doubles_bblr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Armed Doubles BBLR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['armed']['doubles']['beds_broken']), ((player_json['bedwars']['dreams']['armed']['doubles']['beds_lost'])))}"
+            name=f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['armed']['doubles']['beds_broken']), ((player_json['bedwars']['dreams']['armed']['doubles']['beds_lost'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['dreams']['armed']['doubles']['beds_broken']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['dreams']['armed']['doubles']['beds_lost']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['armed']['doubles']['beds_broken']), (player_json['bedwars']['dreams']['armed']['doubles']['beds_lost']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['armed']['doubles']['beds_broken']), ((player_json['bedwars']['dreams']['armed']['doubles']['beds_lost'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['dreams']['armed']['doubles']['beds_broken'], player_json['bedwars']['dreams']['armed']['doubles']['beds_lost']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['armed']['doubles']['beds_broken']), (player_json['bedwars']['dreams']['armed']['doubles']['beds_lost']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['armed']['doubles']['beds_broken']), ((player_json['bedwars']['dreams']['armed']['doubles']['beds_lost'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['dreams']['armed']['doubles']['beds_broken'], player_json['bedwars']['dreams']['armed']['doubles']['beds_lost']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['armed']['doubles']['beds_broken']), (player_json['bedwars']['dreams']['armed']['doubles']['beds_lost']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['armed']['doubles']['beds_broken']), (player_json['bedwars']['dreams']['armed']['doubles']['beds_lost']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['armed']['doubles']['beds_broken']), (player_json['bedwars']['dreams']['armed']['doubles']['beds_lost']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['armed']['doubles']['beds_broken']), (player_json['bedwars']['dreams']['armed']['doubles']['beds_lost']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_armed_doubles_bblr_embed)
 
@@ -2225,32 +2225,32 @@ class Bedwars(commands.Cog):
         player_armed_fours_bblr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Armed Fours BBLR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['armed']['fours']['beds_broken']), ((player_json['bedwars']['dreams']['armed']['fours']['beds_lost'])))}"
+            name=f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['armed']['fours']['beds_broken']), ((player_json['bedwars']['dreams']['armed']['fours']['beds_lost'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['dreams']['armed']['fours']['beds_broken']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['dreams']['armed']['fours']['beds_lost']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['armed']['fours']['beds_broken']), (player_json['bedwars']['dreams']['armed']['fours']['beds_lost']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['armed']['fours']['beds_broken']), ((player_json['bedwars']['dreams']['armed']['fours']['beds_lost'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['dreams']['armed']['fours']['beds_broken'], player_json['bedwars']['dreams']['armed']['fours']['beds_lost']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['armed']['fours']['beds_broken']), (player_json['bedwars']['dreams']['armed']['fours']['beds_lost']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['armed']['fours']['beds_broken']), ((player_json['bedwars']['dreams']['armed']['fours']['beds_lost'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['dreams']['armed']['fours']['beds_broken'], player_json['bedwars']['dreams']['armed']['fours']['beds_lost']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['armed']['fours']['beds_broken']), (player_json['bedwars']['dreams']['armed']['fours']['beds_lost']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['armed']['fours']['beds_broken']), (player_json['bedwars']['dreams']['armed']['fours']['beds_lost']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['armed']['fours']['beds_broken']), (player_json['bedwars']['dreams']['armed']['fours']['beds_lost']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['armed']['fours']['beds_broken']), (player_json['bedwars']['dreams']['armed']['fours']['beds_lost']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_armed_fours_bblr_embed)
 
@@ -2267,32 +2267,32 @@ class Bedwars(commands.Cog):
         player_castle_bblr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Castle BBLR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['castle']['beds_broken']), ((player_json['bedwars']['dreams']['castle']['beds_lost'])))}"
+            name=f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['castle']['beds_broken']), ((player_json['bedwars']['dreams']['castle']['beds_lost'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['dreams']['castle']['beds_broken']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['dreams']['castle']['beds_lost']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['armed']['doubles']['beds_broken']), (player_json['bedwars']['dreams']['armed']['doubles']['beds_lost']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['armed']['doubles']['beds_broken']), ((player_json['bedwars']['dreams']['armed']['doubles']['beds_lost'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['dreams']['castle']['beds_broken'], player_json['bedwars']['dreams']['armed']['doubles']['beds_lost']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['armed']['doubles']['beds_broken']), (player_json['bedwars']['dreams']['armed']['doubles']['beds_lost']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['armed']['doubles']['beds_broken']), ((player_json['bedwars']['dreams']['armed']['doubles']['beds_lost'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['dreams']['castle']['beds_broken'], player_json['bedwars']['dreams']['armed']['doubles']['beds_lost']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['castle']['beds_broken']), (player_json['bedwars']['dreams']['castle']['beds_lost']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['castle']['beds_broken']), (player_json['bedwars']['dreams']['castle']['beds_lost']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['castle']['beds_broken']), (player_json['bedwars']['dreams']['castle']['beds_lost']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['castle']['beds_broken']), (player_json['bedwars']['dreams']['castle']['beds_lost']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_castle_bblr_embed)
 
@@ -2314,32 +2314,32 @@ class Bedwars(commands.Cog):
         player_luckyblocks_doubles_bblr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Luckyblocks Doubles BBLR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_broken']), ((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_lost'])))}"
+            name=f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_broken']), ((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_lost'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_broken']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_lost']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_broken']), (player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_lost']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_broken']), ((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_lost'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_broken'], player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_lost']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_broken']), (player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_lost']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_broken']), ((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_lost'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_broken'], player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_lost']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_broken']), (player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_lost']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_broken']), (player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_lost']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_broken']), (player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_lost']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_broken']), (player_json['bedwars']['dreams']['lucky_blocks']['doubles']['beds_lost']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_luckyblocks_doubles_bblr_embed)
 
@@ -2356,32 +2356,32 @@ class Bedwars(commands.Cog):
         player_luckyblocks_fours_bblr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Luckyblocks fours BBLR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['lucky_blocks']['fours']['beds_broken']), ((player_json['bedwars']['dreams']['lucky_blocks']['fours']['beds_lost'])))}"
+            name=f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['lucky_blocks']['fours']['beds_broken']), ((player_json['bedwars']['dreams']['lucky_blocks']['fours']['beds_lost'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['dreams']['lucky_blocks']['fours']['beds_broken']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['dreams']['lucky_blocks']['fours']['beds_lost']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['lucky_blocks']['fours']['beds_broken']), (player_json['bedwars']['dreams']['lucky_blocks']['fours']['beds_lost']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['lucky_blocks']['fours']['beds_broken']), ((player_json['bedwars']['dreams']['lucky_blocks']['fours']['beds_lost'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['dreams']['lucky_blocks']['fours']['beds_broken'], player_json['bedwars']['dreams']['lucky_blocks']['fours']['beds_lost']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['lucky_blocks']['fours']['beds_broken']), (player_json['bedwars']['dreams']['lucky_blocks']['fours']['beds_lost']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['lucky_blocks']['fours']['beds_broken']), ((player_json['bedwars']['dreams']['lucky_blocks']['fours']['beds_lost'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['dreams']['lucky_blocks']['fours']['beds_broken'], player_json['bedwars']['dreams']['lucky_blocks']['fours']['beds_lost']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['lucky_blocks']['fours']['beds_broken']), (player_json['bedwars']['dreams']['lucky_blocks']['fours']['beds_lost']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['lucky_blocks']['fours']['beds_broken']), (player_json['bedwars']['dreams']['lucky_blocks']['fours']['beds_lost']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['lucky_blocks']['fours']['beds_broken']), (player_json['bedwars']['dreams']['lucky_blocks']['fours']['beds_lost']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['lucky_blocks']['fours']['beds_broken']), (player_json['bedwars']['dreams']['lucky_blocks']['fours']['beds_lost']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_luckyblocks_fours_bblr_embed)
 
@@ -2403,32 +2403,32 @@ class Bedwars(commands.Cog):
         player_rush_solo_bblr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Rush Solo BBLR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['rush']['solo']['beds_broken']), ((player_json['bedwars']['dreams']['rush']['solo']['beds_lost'])))}"
+            name=f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['rush']['solo']['beds_broken']), ((player_json['bedwars']['dreams']['rush']['solo']['beds_lost'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['dreams']['rush']['solo']['beds_broken']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['dreams']['rush']['solo']['beds_lost']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['solo']['beds_broken']), (player_json['bedwars']['dreams']['rush']['solo']['beds_lost']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['rush']['solo']['beds_broken']), ((player_json['bedwars']['dreams']['rush']['solo']['beds_lost'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['dreams']['rush']['solo']['beds_broken'], player_json['bedwars']['dreams']['rush']['solo']['beds_lost']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['solo']['beds_broken']), (player_json['bedwars']['dreams']['rush']['solo']['beds_lost']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['rush']['solo']['beds_broken']), ((player_json['bedwars']['dreams']['rush']['solo']['beds_lost'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['dreams']['rush']['solo']['beds_broken'], player_json['bedwars']['dreams']['rush']['solo']['beds_lost']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['solo']['beds_broken']), (player_json['bedwars']['dreams']['rush']['solo']['beds_lost']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['solo']['beds_broken']), (player_json['bedwars']['dreams']['rush']['solo']['beds_lost']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['solo']['beds_broken']), (player_json['bedwars']['dreams']['rush']['solo']['beds_lost']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['solo']['beds_broken']), (player_json['bedwars']['dreams']['rush']['solo']['beds_lost']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_rush_solo_bblr_embed)
 
@@ -2445,32 +2445,32 @@ class Bedwars(commands.Cog):
         player_rush_doubles_bblr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Rush doubles BBLR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['rush']['doubles']['beds_broken']), ((player_json['bedwars']['dreams']['rush']['doubles']['beds_lost'])))}"
+            name=f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['rush']['doubles']['beds_broken']), ((player_json['bedwars']['dreams']['rush']['doubles']['beds_lost'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['dreams']['rush']['doubles']['beds_broken']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['dreams']['rush']['doubles']['beds_lost']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['doubles']['beds_broken']), (player_json['bedwars']['dreams']['rush']['doubles']['beds_lost']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['rush']['doubles']['beds_broken']), ((player_json['bedwars']['dreams']['rush']['doubles']['beds_lost'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['dreams']['rush']['doubles']['beds_broken'], player_json['bedwars']['dreams']['rush']['doubles']['beds_lost']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['doubles']['beds_broken']), (player_json['bedwars']['dreams']['rush']['doubles']['beds_lost']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['rush']['doubles']['beds_broken']), ((player_json['bedwars']['dreams']['rush']['doubles']['beds_lost'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['dreams']['rush']['doubles']['beds_broken'], player_json['bedwars']['dreams']['rush']['doubles']['beds_lost']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['doubles']['beds_broken']), (player_json['bedwars']['dreams']['rush']['doubles']['beds_lost']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['doubles']['beds_broken']), (player_json['bedwars']['dreams']['rush']['doubles']['beds_lost']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['doubles']['beds_broken']), (player_json['bedwars']['dreams']['rush']['doubles']['beds_lost']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['doubles']['beds_broken']), (player_json['bedwars']['dreams']['rush']['doubles']['beds_lost']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_rush_doubles_bblr_embed)
 
@@ -2487,32 +2487,32 @@ class Bedwars(commands.Cog):
         player_rush_fours_bblr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Rush Fours BBLR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['rush']['fours']['beds_broken']), ((player_json['bedwars']['dreams']['rush']['fours']['beds_lost'])))}"
+            name=f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['rush']['fours']['beds_broken']), ((player_json['bedwars']['dreams']['rush']['fours']['beds_lost'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['dreams']['rush']['fours']['beds_broken']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['dreams']['rush']['fours']['beds_lost']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['fours']['beds_broken']), (player_json['bedwars']['dreams']['rush']['fours']['beds_lost']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['rush']['fours']['beds_broken']), ((player_json['bedwars']['dreams']['rush']['fours']['beds_lost'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['dreams']['rush']['fours']['beds_broken'], player_json['bedwars']['dreams']['rush']['fours']['beds_lost']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['fours']['beds_broken']), (player_json['bedwars']['dreams']['rush']['fours']['beds_lost']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['rush']['fours']['beds_broken']), ((player_json['bedwars']['dreams']['rush']['fours']['beds_lost'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['dreams']['rush']['fours']['beds_broken'], player_json['bedwars']['dreams']['rush']['fours']['beds_lost']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['fours']['beds_broken']), (player_json['bedwars']['dreams']['rush']['fours']['beds_lost']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['fours']['beds_broken']), (player_json['bedwars']['dreams']['rush']['fours']['beds_lost']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['fours']['beds_broken']), (player_json['bedwars']['dreams']['rush']['fours']['beds_lost']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['fours']['beds_broken']), (player_json['bedwars']['dreams']['rush']['fours']['beds_lost']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_rush_fours_bblr_embed)
 
@@ -2534,32 +2534,32 @@ class Bedwars(commands.Cog):
         player_ultimate_solo_bblr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Ultimate Solo BBLR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['solo']['beds_broken']), ((player_json['bedwars']['dreams']['ultimate']['solo']['beds_lost'])))}"
+            name=f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['solo']['beds_broken']), ((player_json['bedwars']['dreams']['ultimate']['solo']['beds_lost'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['dreams']['ultimate']['solo']['beds_broken']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['dreams']['ultimate']['solo']['beds_lost']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['solo']['beds_broken']), (player_json['bedwars']['dreams']['ultimate']['solo']['beds_lost']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['solo']['beds_broken']), ((player_json['bedwars']['dreams']['ultimate']['solo']['beds_lost'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['dreams']['ultimate']['solo']['beds_broken'], player_json['bedwars']['dreams']['ultimate']['solo']['beds_lost']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['solo']['beds_broken']), (player_json['bedwars']['dreams']['ultimate']['solo']['beds_lost']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['solo']['beds_broken']), ((player_json['bedwars']['dreams']['ultimate']['solo']['beds_lost'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['dreams']['ultimate']['solo']['beds_broken'], player_json['bedwars']['dreams']['ultimate']['solo']['beds_lost']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['solo']['beds_broken']), (player_json['bedwars']['dreams']['ultimate']['solo']['beds_lost']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['solo']['beds_broken']), (player_json['bedwars']['dreams']['ultimate']['solo']['beds_lost']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['solo']['beds_broken']), (player_json['bedwars']['dreams']['ultimate']['solo']['beds_lost']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['solo']['beds_broken']), (player_json['bedwars']['dreams']['ultimate']['solo']['beds_lost']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_ultimate_solo_bblr_embed)
 
@@ -2576,32 +2576,32 @@ class Bedwars(commands.Cog):
         player_ultimate_doubles_bblr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Ultimate Doubles BBLR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['doubles']['beds_broken']), ((player_json['bedwars']['dreams']['ultimate']['doubles']['beds_lost'])))}"
+            name=f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['doubles']['beds_broken']), ((player_json['bedwars']['dreams']['ultimate']['doubles']['beds_lost'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['dreams']['ultimate']['doubles']['beds_broken']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['dreams']['ultimate']['doubles']['beds_lost']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['doubles']['beds_broken']), (player_json['bedwars']['dreams']['ultimate']['doubles']['beds_lost']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['doubles']['beds_broken']), ((player_json['bedwars']['dreams']['ultimate']['doubles']['beds_lost'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['dreams']['ultimate']['doubles']['beds_broken'], player_json['bedwars']['dreams']['ultimate']['doubles']['beds_lost']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['doubles']['beds_broken']), (player_json['bedwars']['dreams']['ultimate']['doubles']['beds_lost']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['doubles']['beds_broken']), ((player_json['bedwars']['dreams']['ultimate']['doubles']['beds_lost'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['dreams']['ultimate']['doubles']['beds_broken'], player_json['bedwars']['dreams']['ultimate']['doubles']['beds_lost']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['doubles']['beds_broken']), (player_json['bedwars']['dreams']['ultimate']['doubles']['beds_lost']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['doubles']['beds_broken']), (player_json['bedwars']['dreams']['ultimate']['doubles']['beds_lost']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['doubles']['beds_broken']), (player_json['bedwars']['dreams']['ultimate']['doubles']['beds_lost']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['doubles']['beds_broken']), (player_json['bedwars']['dreams']['ultimate']['doubles']['beds_lost']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_ultimate_doubles_bblr_embed)
 
@@ -2618,32 +2618,32 @@ class Bedwars(commands.Cog):
         player_ultimate_fours_bblr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Ultimate Fours BBLR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['fours']['beds_broken']), ((player_json['bedwars']['dreams']['ultimate']['fours']['beds_lost'])))}"
+            name=f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['fours']['beds_broken']), ((player_json['bedwars']['dreams']['ultimate']['fours']['beds_lost'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['dreams']['ultimate']['fours']['beds_broken']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['dreams']['ultimate']['fours']['beds_lost']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['fours']['beds_broken']), (player_json['bedwars']['dreams']['ultimate']['fours']['beds_lost']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['fours']['beds_broken']), ((player_json['bedwars']['dreams']['ultimate']['fours']['beds_lost'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['dreams']['ultimate']['fours']['beds_broken'], player_json['bedwars']['dreams']['ultimate']['fours']['beds_lost']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['fours']['beds_broken']), (player_json['bedwars']['dreams']['ultimate']['fours']['beds_lost']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['fours']['beds_broken']), ((player_json['bedwars']['dreams']['ultimate']['fours']['beds_lost'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['dreams']['ultimate']['fours']['beds_broken'], player_json['bedwars']['dreams']['ultimate']['fours']['beds_lost']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['fours']['beds_broken']), (player_json['bedwars']['dreams']['ultimate']['fours']['beds_lost']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['fours']['beds_broken']), (player_json['bedwars']['dreams']['ultimate']['fours']['beds_lost']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['fours']['beds_broken']), (player_json['bedwars']['dreams']['ultimate']['fours']['beds_lost']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['fours']['beds_broken']), (player_json['bedwars']['dreams']['ultimate']['fours']['beds_lost']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_ultimate_fours_bblr_embed)
 
@@ -2665,32 +2665,32 @@ class Bedwars(commands.Cog):
         player_voidless_doubles_bblr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Voidless Doubles BBLR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['voidless']['doubles']['beds_broken']), ((player_json['bedwars']['dreams']['voidless']['doubles']['beds_lost'])))}"
+            name=f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['voidless']['doubles']['beds_broken']), ((player_json['bedwars']['dreams']['voidless']['doubles']['beds_lost'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['dreams']['voidless']['doubles']['beds_broken']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['dreams']['voidless']['doubles']['beds_lost']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['doubles']['beds_broken']), (player_json['bedwars']['dreams']['voidless']['doubles']['beds_lost']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['voidless']['doubles']['beds_broken']), ((player_json['bedwars']['dreams']['voidless']['doubles']['beds_lost'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['dreams']['voidless']['doubles']['beds_broken'], player_json['bedwars']['dreams']['voidless']['doubles']['beds_lost']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['doubles']['beds_broken']), (player_json['bedwars']['dreams']['voidless']['doubles']['beds_lost']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['voidless']['doubles']['beds_broken']), ((player_json['bedwars']['dreams']['voidless']['doubles']['beds_lost'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['dreams']['voidless']['doubles']['beds_broken'], player_json['bedwars']['dreams']['voidless']['doubles']['beds_lost']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['doubles']['beds_broken']), (player_json['bedwars']['dreams']['voidless']['doubles']['beds_lost']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['doubles']['beds_broken']), (player_json['bedwars']['dreams']['voidless']['doubles']['beds_lost']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['doubles']['beds_broken']), (player_json['bedwars']['dreams']['voidless']['doubles']['beds_lost']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['doubles']['beds_broken']), (player_json['bedwars']['dreams']['voidless']['doubles']['beds_lost']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_voidless_doubles_bblr_embed)
 
@@ -2707,32 +2707,32 @@ class Bedwars(commands.Cog):
         player_voidless_fours_bblr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Voidless Fours BBLR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['voidless']['fours']['beds_broken']), ((player_json['bedwars']['dreams']['voidless']['fours']['beds_lost'])))}"
+            name=f"__**{core.static.arrow_bullet_point} BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['voidless']['fours']['beds_broken']), ((player_json['bedwars']['dreams']['voidless']['fours']['beds_lost'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Broken**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Broken**__",
             value=f"{(player_json['bedwars']['dreams']['voidless']['fours']['beds_broken']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Beds Lost**__",
+            name=f"__**{core.static.arrow_bullet_point} Beds Lost**__",
             value=f"{(player_json['bedwars']['dreams']['voidless']['fours']['beds_lost']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['fours']['beds_broken']), (player_json['bedwars']['dreams']['voidless']['fours']['beds_lost']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['voidless']['fours']['beds_broken']), ((player_json['bedwars']['dreams']['voidless']['fours']['beds_lost'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['dreams']['voidless']['fours']['beds_broken'], player_json['bedwars']['dreams']['voidless']['fours']['beds_lost']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['fours']['beds_broken']), (player_json['bedwars']['dreams']['voidless']['fours']['beds_lost']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['voidless']['fours']['beds_broken']), ((player_json['bedwars']['dreams']['voidless']['fours']['beds_lost'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['dreams']['voidless']['fours']['beds_broken'], player_json['bedwars']['dreams']['voidless']['fours']['beds_lost']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['fours']['beds_broken']), (player_json['bedwars']['dreams']['voidless']['fours']['beds_lost']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['fours']['beds_broken']), (player_json['bedwars']['dreams']['voidless']['fours']['beds_lost']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 BBLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['fours']['beds_broken']), (player_json['bedwars']['dreams']['voidless']['fours']['beds_lost']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 BBLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['fours']['beds_broken']), (player_json['bedwars']['dreams']['voidless']['fours']['beds_lost']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_voidless_fours_bblr_embed)
 
@@ -2749,32 +2749,32 @@ class Bedwars(commands.Cog):
         player_wlr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s WLR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['wins']), ((player_json['bedwars']['losses'])))}"
+            name=f"__**{core.static.arrow_bullet_point} WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['wins']), ((player_json['bedwars']['losses'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
+            name=f"__**{core.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['bedwars']['wins']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
+            name=f"__**{core.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['losses']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['wins']), (player_json['bedwars']['losses']), (math.trunc(await core.minecraft.hypixel.static.static.get_ratio_unrounded((player_json['bedwars']['wins']), ((player_json['bedwars']['losses'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio_unrounded(player_json['bedwars']['wins'], player_json['bedwars']['losses'])))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['wins']), (player_json['bedwars']['losses']), (math.trunc(await core.minecraft.hypixel.static.get_ratio_unrounded((player_json['bedwars']['wins']), ((player_json['bedwars']['losses'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio_unrounded(player_json['bedwars']['wins'], player_json['bedwars']['losses'])))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['wins']), (player_json['bedwars']['losses']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['wins']), (player_json['bedwars']['losses']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['wins']), (player_json['bedwars']['losses']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['wins']), (player_json['bedwars']['losses']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_wlr_embed)
 
@@ -2791,32 +2791,32 @@ class Bedwars(commands.Cog):
         player_solo_wlr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Solo WLR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['solo']['wins']), ((player_json['bedwars']['solo']['losses'])))}"
+            name=f"__**{core.static.arrow_bullet_point} WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['solo']['wins']), ((player_json['bedwars']['solo']['losses'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
+            name=f"__**{core.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['bedwars']['solo']['wins']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
+            name=f"__**{core.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['solo']['losses']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['solo']['wins']), (player_json['bedwars']['solo']['losses']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['solo']['wins']), ((player_json['bedwars']['solo']['losses'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['solo']['wins'], player_json['bedwars']['solo']['losses']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['solo']['wins']), (player_json['bedwars']['solo']['losses']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['solo']['wins']), ((player_json['bedwars']['solo']['losses'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['solo']['wins'], player_json['bedwars']['solo']['losses']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['solo']['wins']), (player_json['bedwars']['solo']['losses']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['solo']['wins']), (player_json['bedwars']['solo']['losses']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['solo']['wins']), (player_json['bedwars']['solo']['losses']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['solo']['wins']), (player_json['bedwars']['solo']['losses']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_solo_wlr_embed)
 
@@ -2833,32 +2833,32 @@ class Bedwars(commands.Cog):
         player_doubles_wlr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Doubles WLR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['doubles']['wins']), ((player_json['bedwars']['doubles']['losses'])))}"
+            name=f"__**{core.static.arrow_bullet_point} WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['doubles']['wins']), ((player_json['bedwars']['doubles']['losses'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
+            name=f"__**{core.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['bedwars']['doubles']['wins']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
+            name=f"__**{core.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['doubles']['losses']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['doubles']['wins']), (player_json['bedwars']['doubles']['losses']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['doubles']['wins']), ((player_json['bedwars']['doubles']['losses'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['doubles']['wins'], player_json['bedwars']['doubles']['losses']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['doubles']['wins']), (player_json['bedwars']['doubles']['losses']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['doubles']['wins']), ((player_json['bedwars']['doubles']['losses'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['doubles']['wins'], player_json['bedwars']['doubles']['losses']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['doubles']['wins']), (player_json['bedwars']['doubles']['losses']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['doubles']['wins']), (player_json['bedwars']['doubles']['losses']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['doubles']['wins']), (player_json['bedwars']['doubles']['losses']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['doubles']['wins']), (player_json['bedwars']['doubles']['losses']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_doubles_wlr_embed)
 
@@ -2875,32 +2875,32 @@ class Bedwars(commands.Cog):
         player_threes_wlr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Threes WLR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['threes']['wins']), ((player_json['bedwars']['threes']['losses'])))}"
+            name=f"__**{core.static.arrow_bullet_point} WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['threes']['wins']), ((player_json['bedwars']['threes']['losses'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
+            name=f"__**{core.static.arrow_bullet_point} Wins**__",
             value=f"{player_json['threes']['wins']}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
+            name=f"__**{core.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['threes']['losses']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['threes']['wins']), (player_json['bedwars']['threes']['losses']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['threes']['wins']), ((player_json['bedwars']['threes']['losses'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['threes']['wins'], player_json['bedwars']['threes']['losses']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['threes']['wins']), (player_json['bedwars']['threes']['losses']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['threes']['wins']), ((player_json['bedwars']['threes']['losses'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['threes']['wins'], player_json['bedwars']['threes']['losses']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['threes']['wins']), (player_json['bedwars']['threes']['losses']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['threes']['wins']), (player_json['bedwars']['threes']['losses']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['threes']['wins']), (player_json['bedwars']['threes']['losses']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['threes']['wins']), (player_json['bedwars']['threes']['losses']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_threes_wlr_embed)
 
@@ -2917,32 +2917,32 @@ class Bedwars(commands.Cog):
         player_fours_wlr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Fours WLR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['fours']['wins']), ((player_json['bedwars']['fours']['losses'])))}"
+            name=f"__**{core.static.arrow_bullet_point} WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['fours']['wins']), ((player_json['bedwars']['fours']['losses'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
+            name=f"__**{core.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['bedwars']['fours']['wins']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
+            name=f"__**{core.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['fours']['losses']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['fours']['wins']), (player_json['bedwars']['fours']['losses']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['fours']['wins']), ((player_json['bedwars']['fours']['losses'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['fours']['wins'], player_json['bedwars']['fours']['losses']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['fours']['wins']), (player_json['bedwars']['fours']['losses']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['fours']['wins']), ((player_json['bedwars']['fours']['losses'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['fours']['wins'], player_json['bedwars']['fours']['losses']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['fours']['wins']), (player_json['bedwars']['fours']['losses']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['fours']['wins']), (player_json['bedwars']['fours']['losses']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['fours']['wins']), (player_json['bedwars']['fours']['losses']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['fours']['wins']), (player_json['bedwars']['fours']['losses']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_fours_wlr_embed)
 
@@ -2959,32 +2959,32 @@ class Bedwars(commands.Cog):
         player_four_v_four_wlr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s 4v4 WLR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['four_v_four']['wins']), ((player_json['bedwars']['four_v_four']['losses'])))}"
+            name=f"__**{core.static.arrow_bullet_point} WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['four_v_four']['wins']), ((player_json['bedwars']['four_v_four']['losses'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
+            name=f"__**{core.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['bedwars']['four_v_four']['wins']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
+            name=f"__**{core.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['four_v_four']['losses']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['four_v_four']['wins']), (player_json['bedwars']['four_v_four']['losses']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['four_v_four']['wins']), ((player_json['bedwars']['four_v_four']['losses'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['four_v_four']['wins'], player_json['bedwars']['four_v_four']['losses']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['four_v_four']['wins']), (player_json['bedwars']['four_v_four']['losses']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['four_v_four']['wins']), ((player_json['bedwars']['four_v_four']['losses'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['four_v_four']['wins'], player_json['bedwars']['four_v_four']['losses']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['four_v_four']['wins']), (player_json['bedwars']['four_v_four']['losses']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['four_v_four']['wins']), (player_json['bedwars']['four_v_four']['losses']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['four_v_four']['wins']), (player_json['bedwars']['four_v_four']['losses']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['four_v_four']['wins']), (player_json['bedwars']['four_v_four']['losses']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_four_v_four_wlr_embed)
 
@@ -3004,32 +3004,32 @@ class Bedwars(commands.Cog):
         player_armed_doubles_wlr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Armed Doubles WLR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['armed']['doubles']['wins']), ((player_json['bedwars']['dreams']['armed']['doubles']['losses'])))}"
+            name=f"__**{core.static.arrow_bullet_point} WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['armed']['doubles']['wins']), ((player_json['bedwars']['dreams']['armed']['doubles']['losses'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
+            name=f"__**{core.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['bedwars']['dreams']['armed']['doubles']['wins']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
+            name=f"__**{core.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['dreams']['armed']['doubles']['losses']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['armed']['doubles']['wins']), (player_json['bedwars']['dreams']['armed']['doubles']['losses']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['armed']['doubles']['wins']), ((player_json['bedwars']['dreams']['armed']['doubles']['losses'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['dreams']['armed']['doubles']['wins'], player_json['bedwars']['dreams']['armed']['doubles']['losses']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['armed']['doubles']['wins']), (player_json['bedwars']['dreams']['armed']['doubles']['losses']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['armed']['doubles']['wins']), ((player_json['bedwars']['dreams']['armed']['doubles']['losses'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['dreams']['armed']['doubles']['wins'], player_json['bedwars']['dreams']['armed']['doubles']['losses']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['armed']['doubles']['wins']), (player_json['bedwars']['dreams']['armed']['doubles']['losses']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['armed']['doubles']['wins']), (player_json['bedwars']['dreams']['armed']['doubles']['losses']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['armed']['doubles']['wins']), (player_json['bedwars']['dreams']['armed']['doubles']['losses']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['armed']['doubles']['wins']), (player_json['bedwars']['dreams']['armed']['doubles']['losses']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_armed_doubles_wlr_embed)
 
@@ -3045,32 +3045,32 @@ class Bedwars(commands.Cog):
         player_armed_fours_wlr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Armed Fours WLR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['armed']['fours']['wins']), ((player_json['bedwars']['dreams']['armed']['fours']['losses'])))}"
+            name=f"__**{core.static.arrow_bullet_point} WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['armed']['fours']['wins']), ((player_json['bedwars']['dreams']['armed']['fours']['losses'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
+            name=f"__**{core.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['bedwars']['dreams']['armed']['fours']['wins']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
+            name=f"__**{core.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['dreams']['armed']['fours']['losses']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['armed']['fours']['wins']), (player_json['bedwars']['dreams']['armed']['fours']['losses']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['armed']['fours']['wins']), ((player_json['bedwars']['dreams']['armed']['fours']['losses'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['dreams']['armed']['fours']['wins'], player_json['bedwars']['dreams']['armed']['fours']['losses']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['armed']['fours']['wins']), (player_json['bedwars']['dreams']['armed']['fours']['losses']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['armed']['fours']['wins']), ((player_json['bedwars']['dreams']['armed']['fours']['losses'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['dreams']['armed']['fours']['wins'], player_json['bedwars']['dreams']['armed']['fours']['losses']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['armed']['fours']['wins']), (player_json['bedwars']['dreams']['armed']['fours']['losses']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['armed']['fours']['wins']), (player_json['bedwars']['dreams']['armed']['fours']['losses']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['armed']['fours']['wins']), (player_json['bedwars']['dreams']['armed']['fours']['losses']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['armed']['fours']['wins']), (player_json['bedwars']['dreams']['armed']['fours']['losses']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_armed_fours_wlr_embed)
 
@@ -3087,32 +3087,32 @@ class Bedwars(commands.Cog):
         player_castle_wlr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Castle WLR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['castle']['wins']), ((player_json['bedwars']['dreams']['castle']['losses'])))}"
+            name=f"__**{core.static.arrow_bullet_point} WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['castle']['wins']), ((player_json['bedwars']['dreams']['castle']['losses'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
+            name=f"__**{core.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['bedwars']['dreams']['castle']['wins']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
+            name=f"__**{core.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['dreams']['castle']['losses']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['castle']['wins']), (player_json['bedwars']['dreams']['castle']['losses']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['castle']['wins']), ((player_json['bedwars']['dreams']['castle']['losses'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['dreams']['castle']['wins'], player_json['bedwars']['dreams']['castle']['losses']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['castle']['wins']), (player_json['bedwars']['dreams']['castle']['losses']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['castle']['wins']), ((player_json['bedwars']['dreams']['castle']['losses'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['dreams']['castle']['wins'], player_json['bedwars']['dreams']['castle']['losses']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['castle']['wins']), (player_json['bedwars']['dreams']['castle']['losses']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['castle']['wins']), (player_json['bedwars']['dreams']['castle']['losses']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['castle']['wins']), (player_json['bedwars']['dreams']['castle']['losses']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['castle']['wins']), (player_json['bedwars']['dreams']['castle']['losses']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_castle_wlr_embed)
 
@@ -3134,32 +3134,32 @@ class Bedwars(commands.Cog):
         player_luckyblocks_doubles_wlr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Luckyblocks Doubles WLR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['wins']), ((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['losses'])))}"
+            name=f"__**{core.static.arrow_bullet_point} WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['wins']), ((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['losses'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
+            name=f"__**{core.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['bedwars']['dreams']['lucky_blocks']['doubles']['wins']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
+            name=f"__**{core.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['dreams']['lucky_blocks']['doubles']['losses']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['wins']), (player_json['bedwars']['dreams']['lucky_blocks']['doubles']['losses']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['wins']), ((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['losses'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['dreams']['lucky_blocks']['doubles']['wins'], player_json['bedwars']['dreams']['lucky_blocks']['doubles']['losses']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['wins']), (player_json['bedwars']['dreams']['lucky_blocks']['doubles']['losses']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['wins']), ((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['losses'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['dreams']['lucky_blocks']['doubles']['wins'], player_json['bedwars']['dreams']['lucky_blocks']['doubles']['losses']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['wins']), (player_json['bedwars']['dreams']['lucky_blocks']['doubles']['losses']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['wins']), (player_json['bedwars']['dreams']['lucky_blocks']['doubles']['losses']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['wins']), (player_json['bedwars']['dreams']['lucky_blocks']['doubles']['losses']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['lucky_blocks']['doubles']['wins']), (player_json['bedwars']['dreams']['lucky_blocks']['doubles']['losses']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_luckyblocks_doubles_wlr_embed)
 
@@ -3181,32 +3181,32 @@ class Bedwars(commands.Cog):
         player_rush_solo_wlr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Rush Solo WLR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['rush']['solo']['wins']), ((player_json['bedwars']['dreams']['rush']['solo']['losses'])))}"
+            name=f"__**{core.static.arrow_bullet_point} WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['rush']['solo']['wins']), ((player_json['bedwars']['dreams']['rush']['solo']['losses'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
+            name=f"__**{core.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['bedwars']['dreams']['rush']['solo']['wins']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
+            name=f"__**{core.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['dreams']['rush']['solo']['losses']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['solo']['wins']), (player_json['bedwars']['dreams']['rush']['solo']['losses']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['rush']['solo']['wins']), ((player_json['bedwars']['dreams']['rush']['solo']['losses'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['dreams']['rush']['solo']['wins'], player_json['bedwars']['dreams']['rush']['solo']['losses']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['solo']['wins']), (player_json['bedwars']['dreams']['rush']['solo']['losses']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['rush']['solo']['wins']), ((player_json['bedwars']['dreams']['rush']['solo']['losses'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['dreams']['rush']['solo']['wins'], player_json['bedwars']['dreams']['rush']['solo']['losses']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['solo']['wins']), (player_json['bedwars']['dreams']['rush']['solo']['losses']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['solo']['wins']), (player_json['bedwars']['dreams']['rush']['solo']['losses']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['solo']['wins']), (player_json['bedwars']['dreams']['rush']['solo']['losses']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['solo']['wins']), (player_json['bedwars']['dreams']['rush']['solo']['losses']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_rush_solo_wlr_embed)
 
@@ -3223,32 +3223,32 @@ class Bedwars(commands.Cog):
         player_rush_doubles_wlr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Rush Doubles WLR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['rush']['doubles']['wins']), ((player_json['bedwars']['dreams']['rush']['doubles']['losses'])))}"
+            name=f"__**{core.static.arrow_bullet_point} WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['rush']['doubles']['wins']), ((player_json['bedwars']['dreams']['rush']['doubles']['losses'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
+            name=f"__**{core.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['bedwars']['dreams']['rush']['doubles']['wins']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
+            name=f"__**{core.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['dreams']['rush']['doubles']['losses']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['doubles']['wins']), (player_json['bedwars']['dreams']['rush']['doubles']['losses']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['rush']['doubles']['wins']), ((player_json['bedwars']['dreams']['rush']['doubles']['losses'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['dreams']['rush']['doubles']['wins'], player_json['bedwars']['dreams']['rush']['doubles']['losses']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['doubles']['wins']), (player_json['bedwars']['dreams']['rush']['doubles']['losses']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['rush']['doubles']['wins']), ((player_json['bedwars']['dreams']['rush']['doubles']['losses'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['dreams']['rush']['doubles']['wins'], player_json['bedwars']['dreams']['rush']['doubles']['losses']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['doubles']['wins']), (player_json['bedwars']['dreams']['rush']['doubles']['losses']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['doubles']['wins']), (player_json['bedwars']['dreams']['rush']['doubles']['losses']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['doubles']['wins']), (player_json['bedwars']['dreams']['rush']['doubles']['losses']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['doubles']['wins']), (player_json['bedwars']['dreams']['rush']['doubles']['losses']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_rush_doubles_wlr_embed)
 
@@ -3265,32 +3265,32 @@ class Bedwars(commands.Cog):
         player_rush_fours_wlr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Rush Fours WLR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['rush']['fours']['wins']), ((player_json['bedwars']['dreams']['rush']['fours']['losses'])))}"
+            name=f"__**{core.static.arrow_bullet_point} WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['rush']['fours']['wins']), ((player_json['bedwars']['dreams']['rush']['fours']['losses'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
+            name=f"__**{core.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['bedwars']['dreams']['rush']['fours']['wins']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
+            name=f"__**{core.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['dreams']['rush']['fours']['losses']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['fours']['wins']), (player_json['bedwars']['dreams']['rush']['fours']['losses']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['rush']['fours']['wins']), ((player_json['bedwars']['dreams']['rush']['fours']['losses'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['dreams']['rush']['fours']['wins'], player_json['bedwars']['dreams']['rush']['fours']['losses']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['fours']['wins']), (player_json['bedwars']['dreams']['rush']['fours']['losses']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['rush']['fours']['wins']), ((player_json['bedwars']['dreams']['rush']['fours']['losses'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['dreams']['rush']['fours']['wins'], player_json['bedwars']['dreams']['rush']['fours']['losses']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['fours']['wins']), (player_json['bedwars']['dreams']['rush']['fours']['losses']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['fours']['wins']), (player_json['bedwars']['dreams']['rush']['fours']['losses']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['fours']['wins']), (player_json['bedwars']['dreams']['rush']['fours']['losses']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['rush']['fours']['wins']), (player_json['bedwars']['dreams']['rush']['fours']['losses']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_rush_fours_wlr_embed)
 
@@ -3312,32 +3312,32 @@ class Bedwars(commands.Cog):
         player_ultimate_solo_wlr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Ultimate Solo WLR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['solo']['wins']), ((player_json['bedwars']['dreams']['ultimate']['solo']['losses'])))}"
+            name=f"__**{core.static.arrow_bullet_point} WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['solo']['wins']), ((player_json['bedwars']['dreams']['ultimate']['solo']['losses'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
+            name=f"__**{core.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['bedwars']['dreams']['ultimate']['solo']['wins']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
+            name=f"__**{core.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['dreams']['ultimate']['solo']['losses']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['solo']['wins']), (player_json['bedwars']['dreams']['ultimate']['solo']['losses']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['solo']['wins']), ((player_json['bedwars']['dreams']['ultimate']['solo']['losses'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['dreams']['ultimate']['solo']['wins'], player_json['bedwars']['dreams']['ultimate']['solo']['losses']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['solo']['wins']), (player_json['bedwars']['dreams']['ultimate']['solo']['losses']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['solo']['wins']), ((player_json['bedwars']['dreams']['ultimate']['solo']['losses'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['dreams']['ultimate']['solo']['wins'], player_json['bedwars']['dreams']['ultimate']['solo']['losses']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['solo']['wins']), (player_json['bedwars']['dreams']['ultimate']['solo']['losses']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['solo']['wins']), (player_json['bedwars']['dreams']['ultimate']['solo']['losses']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['solo']['wins']), (player_json['bedwars']['dreams']['ultimate']['solo']['losses']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['solo']['wins']), (player_json['bedwars']['dreams']['ultimate']['solo']['losses']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_ultimate_solo_wlr_embed)
 
@@ -3354,32 +3354,32 @@ class Bedwars(commands.Cog):
         player_ultimate_doubles_wlr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Ultimate Doubles WLR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['doubles']['wins']), ((player_json['bedwars']['dreams']['ultimate']['doubles']['losses'])))}"
+            name=f"__**{core.static.arrow_bullet_point} WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['doubles']['wins']), ((player_json['bedwars']['dreams']['ultimate']['doubles']['losses'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
+            name=f"__**{core.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['bedwars']['dreams']['ultimate']['doubles']['wins']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
+            name=f"__**{core.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['dreams']['ultimate']['doubles']['losses']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['doubles']['wins']), (player_json['bedwars']['dreams']['ultimate']['doubles']['losses']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['doubles']['wins']), ((player_json['bedwars']['dreams']['ultimate']['doubles']['losses'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['dreams']['ultimate']['doubles']['wins'], player_json['bedwars']['dreams']['ultimate']['doubles']['losses']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['doubles']['wins']), (player_json['bedwars']['dreams']['ultimate']['doubles']['losses']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['doubles']['wins']), ((player_json['bedwars']['dreams']['ultimate']['doubles']['losses'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['dreams']['ultimate']['doubles']['wins'], player_json['bedwars']['dreams']['ultimate']['doubles']['losses']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['doubles']['wins']), (player_json['bedwars']['dreams']['ultimate']['doubles']['losses']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['doubles']['wins']), (player_json['bedwars']['dreams']['ultimate']['doubles']['losses']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['doubles']['wins']), (player_json['bedwars']['dreams']['ultimate']['doubles']['losses']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['doubles']['wins']), (player_json['bedwars']['dreams']['ultimate']['doubles']['losses']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_ultimate_doubles_wlr_embed)
 
@@ -3396,32 +3396,32 @@ class Bedwars(commands.Cog):
         player_ultimate_fours_wlr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Ultimate Fours WLR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['fours']['wins']), ((player_json['bedwars']['dreams']['ultimate']['fours']['losses'])))}"
+            name=f"__**{core.static.arrow_bullet_point} WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['fours']['wins']), ((player_json['bedwars']['dreams']['ultimate']['fours']['losses'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
+            name=f"__**{core.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['bedwars']['dreams']['ultimate']['fours']['wins']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
+            name=f"__**{core.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['dreams']['ultimate']['fours']['losses']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['fours']['wins']), (player_json['bedwars']['dreams']['ultimate']['fours']['losses']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['fours']['wins']), ((player_json['bedwars']['dreams']['ultimate']['fours']['losses'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['dreams']['ultimate']['fours']['wins'], player_json['bedwars']['dreams']['ultimate']['fours']['losses']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['fours']['wins']), (player_json['bedwars']['dreams']['ultimate']['fours']['losses']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['ultimate']['fours']['wins']), ((player_json['bedwars']['dreams']['ultimate']['fours']['losses'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['dreams']['ultimate']['fours']['wins'], player_json['bedwars']['dreams']['ultimate']['fours']['losses']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['fours']['wins']), (player_json['bedwars']['dreams']['ultimate']['fours']['losses']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['fours']['wins']), (player_json['bedwars']['dreams']['ultimate']['fours']['losses']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['fours']['wins']), (player_json['bedwars']['dreams']['ultimate']['fours']['losses']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['ultimate']['fours']['wins']), (player_json['bedwars']['dreams']['ultimate']['fours']['losses']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_ultimate_fours_wlr_embed)
 
@@ -3443,32 +3443,32 @@ class Bedwars(commands.Cog):
         player_voidless_doubles_wlr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Voidless Doubles WLR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['voidless']['doubles']['wins']), ((player_json['bedwars']['dreams']['voidless']['doubles']['losses'])))}"
+            name=f"__**{core.static.arrow_bullet_point} WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['voidless']['doubles']['wins']), ((player_json['bedwars']['dreams']['voidless']['doubles']['losses'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
+            name=f"__**{core.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['bedwars']['dreams']['voidless']['doubles']['wins']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
+            name=f"__**{core.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['dreams']['voidless']['doubles']['losses']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['doubles']['wins']), (player_json['bedwars']['dreams']['voidless']['doubles']['losses']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['voidless']['doubles']['wins']), ((player_json['bedwars']['dreams']['voidless']['doubles']['losses'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['dreams']['voidless']['doubles']['wins'], player_json['bedwars']['dreams']['voidless']['doubles']['losses']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['doubles']['wins']), (player_json['bedwars']['dreams']['voidless']['doubles']['losses']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['voidless']['doubles']['wins']), ((player_json['bedwars']['dreams']['voidless']['doubles']['losses'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['dreams']['voidless']['doubles']['wins'], player_json['bedwars']['dreams']['voidless']['doubles']['losses']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['doubles']['wins']), (player_json['bedwars']['dreams']['voidless']['doubles']['losses']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['doubles']['wins']), (player_json['bedwars']['dreams']['voidless']['doubles']['losses']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['doubles']['wins']), (player_json['bedwars']['dreams']['voidless']['doubles']['losses']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['doubles']['wins']), (player_json['bedwars']['dreams']['voidless']['doubles']['losses']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_voidless_doubles_wlr_embed)
 
@@ -3485,32 +3485,32 @@ class Bedwars(commands.Cog):
         player_voidless_fours_wlr_embed = discord.Embed(
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Voidless Fours WLR**""",
             color=int(
-                (await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
+                (await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))[
                     "prestige_color"], 16)  # 16 - Hex value.
         ).set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['voidless']['fours']['wins']), ((player_json['bedwars']['dreams']['voidless']['fours']['losses'])))}"
+            name=f"__**{core.static.arrow_bullet_point} WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['voidless']['fours']['wins']), ((player_json['bedwars']['dreams']['voidless']['fours']['losses'])))}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Wins**__",
+            name=f"__**{core.static.arrow_bullet_point} Wins**__",
             value=f"{(player_json['bedwars']['dreams']['voidless']['fours']['wins']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Losses**__",
+            name=f"__**{core.static.arrow_bullet_point} Losses**__",
             value=f"{(player_json['bedwars']['dreams']['voidless']['fours']['losses']):,d}"
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} Next 1 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['fours']['wins']), (player_json['bedwars']['dreams']['voidless']['fours']['losses']), ((math.trunc(await core.minecraft.hypixel.static.static.get_ratio((player_json['bedwars']['dreams']['voidless']['fours']['wins']), ((player_json['bedwars']['dreams']['voidless']['fours']['losses'])))) + 1) - (await core.minecraft.hypixel.static.static.get_ratio(player_json['bedwars']['dreams']['voidless']['fours']['wins'], player_json['bedwars']['dreams']['voidless']['fours']['losses']))))} needed"
+            name=f"__**{core.static.arrow_bullet_point} Next 1 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['fours']['wins']), (player_json['bedwars']['dreams']['voidless']['fours']['losses']), ((math.trunc(await core.minecraft.hypixel.static.get_ratio((player_json['bedwars']['dreams']['voidless']['fours']['wins']), ((player_json['bedwars']['dreams']['voidless']['fours']['losses'])))) + 1) - (await core.minecraft.hypixel.static.get_ratio(player_json['bedwars']['dreams']['voidless']['fours']['wins'], player_json['bedwars']['dreams']['voidless']['fours']['losses']))))} needed"
             # don't ask, cause i don't know either; this is for the next integer value
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +1 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['fours']['wins']), (player_json['bedwars']['dreams']['voidless']['fours']['losses']), 1)} needed",
+            name=f"__**{core.static.arrow_bullet_point} +1 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['fours']['wins']), (player_json['bedwars']['dreams']['voidless']['fours']['losses']), 1)} needed",
             inline=False
         ).add_field(
-            name=f"__**{core.static.static.arrow_bullet_point} +2 WLR**__",
-            value=f"{await core.minecraft.hypixel.static.static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['fours']['wins']), (player_json['bedwars']['dreams']['voidless']['fours']['losses']), 2)} needed"
+            name=f"__**{core.static.arrow_bullet_point} +2 WLR**__",
+            value=f"{await core.minecraft.hypixel.static.get_increase_stat((player_json['bedwars']['dreams']['voidless']['fours']['wins']), (player_json['bedwars']['dreams']['voidless']['fours']['losses']), 2)} needed"
         ).set_footer(
-            text=core.static.static.stats_needed_disclaimer
+            text=core.static.stats_needed_disclaimer
         )
         await ctx.send(embed=player_voidless_fours_wlr_embed)
 
@@ -3528,29 +3528,29 @@ class Bedwars(commands.Cog):
             title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}")}'s Winstreaks**""" if (
                 player_json["rank_data"][
                     "rank"]) else f"**{discord.utils.escape_markdown(player_data['player_formatted_name'])}'s Winstreaks**",
-            color=int((await core.minecraft.hypixel.static.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16),  # 16 - Hex value.
-            description=f"""```{core.static.static.arrow_bullet_point} Overall: {player_json['bedwars']['winstreak']}
-{core.static.static.arrow_bullet_point} Solo: {player_json['bedwars']['solo']['winstreak']}
-{core.static.static.arrow_bullet_point} Doubles: {player_json['bedwars']['doubles']['winstreak']}
-{core.static.static.arrow_bullet_point} Threes: {player_json['bedwars']['threes']['winstreak']}
-{core.static.static.arrow_bullet_point} Fours: {player_json['bedwars']['fours']['winstreak']}
-{core.static.static.arrow_bullet_point} 4v4: {player_json['bedwars']['four_v_four']['winstreak']}
-{core.static.static.arrow_bullet_point} Armed Doubles: {player_json['bedwars']['dreams']['armed']['doubles']['winstreak']}
-{core.static.static.arrow_bullet_point} Armed Fours: {player_json['bedwars']['dreams']['armed']['fours']['winstreak']}
-{core.static.static.arrow_bullet_point} Castle: {player_json['bedwars']['dreams']['castle']['winstreak']}
-{core.static.static.arrow_bullet_point} Lucky Blocks Doubles: {player_json['bedwars']['dreams']['lucky_blocks']['doubles']['winstreak']}
-{core.static.static.arrow_bullet_point} Lucky Blocks Fours: {player_json['bedwars']['dreams']['lucky_blocks']['fours']['winstreak']}
-{core.static.static.arrow_bullet_point} Rush Solo: {player_json['bedwars']['dreams']['rush']['solo']['winstreak']}
-{core.static.static.arrow_bullet_point} Rush Doubles: {player_json['bedwars']['dreams']['rush']['doubles']['winstreak']}
-{core.static.static.arrow_bullet_point} Rush Fours: {player_json['bedwars']['dreams']['rush']['fours']['winstreak']}
-{core.static.static.arrow_bullet_point} Ultimate Solo: {player_json['bedwars']['dreams']['ultimate']['solo']['winstreak']}
-{core.static.static.arrow_bullet_point} Ultimate Doubles: {player_json['bedwars']['dreams']['ultimate']['doubles']['winstreak']}
-{core.static.static.arrow_bullet_point} Ultimate Fours: {player_json['bedwars']['dreams']['ultimate']['fours']['winstreak']}
-{core.static.static.arrow_bullet_point} Voidless Doubles: {player_json['bedwars']['dreams']['voidless']['doubles']['winstreak']}
-{core.static.static.arrow_bullet_point} Voidless Fours: {player_json['bedwars']['dreams']['voidless']['fours']['winstreak']}```"""
+            color=int((await core.minecraft.hypixel.static.get_bedwars_prestige_data(player_json["bedwars"]["star"]))["prestige_color"], 16),  # 16 - Hex value.
+            description=f"""```{core.static.arrow_bullet_point} Overall: {player_json['bedwars']['winstreak']}
+{core.static.arrow_bullet_point} Solo: {player_json['bedwars']['solo']['winstreak']}
+{core.static.arrow_bullet_point} Doubles: {player_json['bedwars']['doubles']['winstreak']}
+{core.static.arrow_bullet_point} Threes: {player_json['bedwars']['threes']['winstreak']}
+{core.static.arrow_bullet_point} Fours: {player_json['bedwars']['fours']['winstreak']}
+{core.static.arrow_bullet_point} 4v4: {player_json['bedwars']['four_v_four']['winstreak']}
+{core.static.arrow_bullet_point} Armed Doubles: {player_json['bedwars']['dreams']['armed']['doubles']['winstreak']}
+{core.static.arrow_bullet_point} Armed Fours: {player_json['bedwars']['dreams']['armed']['fours']['winstreak']}
+{core.static.arrow_bullet_point} Castle: {player_json['bedwars']['dreams']['castle']['winstreak']}
+{core.static.arrow_bullet_point} Lucky Blocks Doubles: {player_json['bedwars']['dreams']['lucky_blocks']['doubles']['winstreak']}
+{core.static.arrow_bullet_point} Lucky Blocks Fours: {player_json['bedwars']['dreams']['lucky_blocks']['fours']['winstreak']}
+{core.static.arrow_bullet_point} Rush Solo: {player_json['bedwars']['dreams']['rush']['solo']['winstreak']}
+{core.static.arrow_bullet_point} Rush Doubles: {player_json['bedwars']['dreams']['rush']['doubles']['winstreak']}
+{core.static.arrow_bullet_point} Rush Fours: {player_json['bedwars']['dreams']['rush']['fours']['winstreak']}
+{core.static.arrow_bullet_point} Ultimate Solo: {player_json['bedwars']['dreams']['ultimate']['solo']['winstreak']}
+{core.static.arrow_bullet_point} Ultimate Doubles: {player_json['bedwars']['dreams']['ultimate']['doubles']['winstreak']}
+{core.static.arrow_bullet_point} Ultimate Fours: {player_json['bedwars']['dreams']['ultimate']['fours']['winstreak']}
+{core.static.arrow_bullet_point} Voidless Doubles: {player_json['bedwars']['dreams']['voidless']['doubles']['winstreak']}
+{core.static.arrow_bullet_point} Voidless Fours: {player_json['bedwars']['dreams']['voidless']['fours']['winstreak']}```"""
         )
         winstreak_embed.set_thumbnail(
-            url=core.minecraft.hypixel.static.static.hypixel_icons["Bedwars"]
+            url=core.minecraft.hypixel.static.hypixel_icons["Bedwars"]
         )
         await ctx.send(embed=winstreak_embed)
 

@@ -28,7 +28,7 @@ import discord
 from discord.ext import commands
 
 import core.config.guilds
-import core.static.static
+import core.static
 
 
 class Starboard(commands.Cog):
