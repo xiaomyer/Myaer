@@ -93,7 +93,7 @@ bot.SURGEPLAY_API = "https://visage.surgeplay.com/"
 bot.CREATION_TIME_FORMAT = "%m/%d/%Y - %I:%M:%S %p"
 
 # HTTP client
-bot.http = aiohttp.ClientSession()
+bot.http_client = aiohttp.ClientSession()
 bot.ksoft = ksoftapi.Client(core.config.config.ksoft_api_key)
 
 # coroutine
