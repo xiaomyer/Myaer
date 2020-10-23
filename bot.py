@@ -66,7 +66,7 @@ async def start():
 
 
 async def stop():
-    await bot.http_client.close()
+    await bot.http.close()
     await core.minecraft.request.mojang_request.close()
     await core.minecraft.hypixel.request.hypixel_request.close()
     await bot.logout()
@@ -93,7 +93,7 @@ bot.SURGEPLAY_API = "https://visage.surgeplay.com/"
 bot.CREATION_TIME_FORMAT = "%m/%d/%Y - %I:%M:%S %p"
 
 # HTTP client
-bot.http_client = aiohttp.ClientSession()
+bot.http = aiohttp.ClientSession()
 bot.ksoft = ksoftapi.Client(core.config.config.ksoft_api_key)
 
 # coroutine
