@@ -91,27 +91,27 @@ rank_colors = {
 }
 
 hypixel_icons = {  # Hypixel icons
-    "Main": "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/main.png",
-    "Arcade": "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/arcade.png",
-    "Bedwars": "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/bedwars.png",
-    "BlitzSurvivalGames": "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/blitz_survival_games.png",
-    "BuildBattle": "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/build_battle.png",
-    "Classic": "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/classic.png",
-    "CrazyWalls": "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/crazy_walls.png",
-    "CVC": "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/cvc.png",
-    "Duels": "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/duels.png",
-    "Housing": "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/housing.png",
-    "MegaWalls": "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/mega_walls.png",
-    "MurderMystery": "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/murder_mystery.png",
-    "Pit": "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/pit.png",
-    "Prototype": "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/prototype.png",
-    "Skyblock": "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/skyblock.png",
-    "Skywars": "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/skywars.png",
-    "SmashHeroes": "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/",
-    "TNT": "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/tnt.png",
-    "UHC": "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/uhc_champions",
+    "Main": "https://static.myer.wtf/hypixel/main.png",
+    "Arcade": "https://static.myer.wtf/hypixel/arcade.png",
+    "Bedwars": "https://static.myer.wtf/hypixel/bedwars.png",
+    "BlitzSurvivalGames": "https://static.myer.wtf/hypixel/blitz_survival_games.png",
+    "BuildBattle": "https://static.myer.wtf/hypixel/build_battle.png",
+    "Classic": "https://static.myer.wtf/hypixel/classic.png",
+    "CrazyWalls": "https://static.myer.wtf/hypixel/crazy_walls.png",
+    "CVC": "https://static.myer.wtf/hypixel/cvc.png",
+    "Duels": "https://static.myer.wtf/hypixel/duels.png",
+    "Housing": "https://static.myer.wtf/hypixel/housing.png",
+    "MegaWalls": "https://static.myer.wtf/hypixel/mega_walls.png",
+    "MurderMystery": "https://static.myer.wtf/hypixel/murder_mystery.png",
+    "Pit": "https://static.myer.wtf/hypixel/pit.png",
+    "Prototype": "https://static.myer.wtf/hypixel/prototype.png",
+    "Skyblock": "https://static.myer.wtf/hypixel/skyblock.png",
+    "Skywars": "https://static.myer.wtf/hypixel/skywars.png",
+    "SmashHeroes": "https://static.myer.wtf/hypixel/",
+    "TNT": "https://static.myer.wtf/hypixel/tnt.png",
+    "UHC": "https://static.myer.wtf/hypixel/uhc_champions",
     # UHC Champions is the only thing resembling UHC on Hypixel
-    "Warlords": "https://raw.githubusercontent.com/MyerFire/Myaer/master/core/minecraft/hypixel/static/warlords.png"
+    "Warlords": "https://static.myer.wtf/hypixel/warlords.png"
 }
 
 
