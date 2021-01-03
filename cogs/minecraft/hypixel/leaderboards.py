@@ -22,204 +22,98 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import time
-
+from discord.ext import commands, menus
 import discord
-from discord.ext import commands
-
-import core.caches.leaderboards
-import core.minecraft.hypixel.leaderboards
-import core.minecraft.hypixel.static
-import core.static
 
 
 class Leaderboards(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.group(name="leaderboards", aliases=["lb", "leaderboard"], invoke_without_command=True)
-    @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def leaderboards(self, ctx: commands.Context):
-        leaderboard_types_embed = discord.Embed(
-            title="Leaderboards",
-            description=
-            """```/lb bw (star)
-/lb bw wins
-/lb bw wins weekly
-/lb bw finals
-/lb bw finals weekly```
-            """
-        )
-        await ctx.send(embed=leaderboard_types_embed)
+    @commands.command(aliases=["lb"])
+    async def leaderboards(self, ctx):
+        leaderboards = LeaderboardsMenu(ctx)
+        await leaderboards.start(ctx)
 
-    # Bedwars
 
-    @leaderboards.group(name="bedwars", aliases=["bw"], invoke_without_command=True)
-    @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def bedwars(self, ctx: commands.Context):
-        await ctx.channel.trigger_typing()
-        leaderboards_cache = await core.caches.leaderboards.find_leaderboards_data("bedwars_level")
-        if leaderboards_cache:
-            valid = True if (time.time()) - leaderboards_cache["time"] < 86400 else False
-        else:
-            valid = False
-        if valid:
-            bedwars_level_leaderboard_string = leaderboards_cache["leaderboards"]
-        else:
-            leaderboards_json = await core.minecraft.hypixel.leaderboards.get_leaderboards()
-            index = 0
-            bedwars_level_leaderboard_string = []
-            for player in (leaderboards_json["bedwars"]["level"]):
-                player_json = await core.minecraft.hypixel.player.get_player_data(player)
-                bedwars_level_leaderboard_string.append(
-                    f"""#{index + 1} - {f"[{player_json['bedwars']['star']}{core.static.star}] [{player_json['rank_data']['rank']}] {player_json['name']}" if player_json["rank_data"]["rank"] else f"[{player_json['bedwars']['star']}{core.static.star} {player_json['name']}]"} - {(await core.minecraft.hypixel.static.get_ratio(player_json["bedwars"]["final_kills"], player_json["bedwars"]["final_deaths"]))} FKDR""", )
-                index += 1
-        await core.caches.leaderboards.save_leaderboards_data("bedwars_level", bedwars_level_leaderboard_string)
-        joined_string = "\n".join(bedwars_level_leaderboard_string)
-        bedwars_level_leaderboard_embed = discord.Embed(
-            description=f"```{joined_string}```"
+class LeaderboardsMenu(menus.Menu):
+    def __init__(self, ctx_):
+        super().__init__(timeout=300.0)
+        self.ctx_ = ctx_
+        self.index = 0
+        self.display = None
+        self.loading = discord.Embed(
+            color=self.ctx_.author.color,
+            description="Loading..."
         )
-        await ctx.send(embed=bedwars_level_leaderboard_embed)
 
-    @bedwars.group(name="wins", aliases=["win"], invoke_without_command=True)
-    @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def bedwars_wins(self, ctx: commands.Context):
-        await ctx.channel.trigger_typing()
-        leaderboards_cache = await core.caches.leaderboards.find_leaderboards_data("bedwars_wins")
-        if leaderboards_cache:
-            valid = True if (time.time()) - leaderboards_cache["time"] < 86400 else False
+    def increment_index(self):
+        if abs(self.index + 1) > len(self.display) - 1:
+            self.index = 0  # loop back
         else:
-            valid = False
-        if valid:
-            bedwars_overall_wins_leaderboard_string = leaderboards_cache["leaderboards"]
-        else:
-            leaderboards_json = await core.minecraft.hypixel.leaderboards.get_leaderboards()
-            index = 0
-            bedwars_overall_wins_leaderboard_string = []
-            for player in (leaderboards_json["bedwars"]["wins"]["overall"]):
-                player_json = await core.minecraft.hypixel.player.get_player_data(player)
-                bedwars_overall_wins_leaderboard_string.append(
-                    f"""#{index + 1} - {f"[{player_json['bedwars']['star']}{core.static.star}] [{player_json['rank_data']['rank']}] {player_json['name']}" if player_json["rank_data"]["rank"] else f"[{player_json['bedwars']['star']}{core.static.star} {player_json['name']}]"} - {player_json['bedwars']['wins']} wins""")
-                index += 1
-        await core.caches.leaderboards.save_leaderboards_data("bedwars_wins", bedwars_overall_wins_leaderboard_string)
-        joined_string = "\n".join(bedwars_overall_wins_leaderboard_string)
-        bedwars_overall_wins_leaderboard_embed = discord.Embed(
-            description=f"```{joined_string}```"
-        )
-        await ctx.send(embed=bedwars_overall_wins_leaderboard_embed)
+            self.index += 1
 
-    @bedwars_wins.command(name="real")
-    @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def bedwars_real_wins(self, ctx):
-        await ctx.channel.trigger_typing()
-        leaderboards_cache = await core.caches.leaderboards.find_leaderboards_data("bedwars_real_wins")
-        if leaderboards_cache:
-            valid = True if (time.time()) - leaderboards_cache["time"] < 86400 else False
+    def decrement_index(self):
+        if abs(self.index - 1) > len(self.display) - 1:
+            self.index = 0  # loop back
         else:
-            valid = False
-        if valid:
-            bedwars_weekly_wins_leaderboard_string = leaderboards_cache["leaderboards"]
-        else:
-            leaderboards_json = await core.minecraft.hypixel.leaderboards.get_leaderboards()
-            bedwars_weekly_wins_leaderboard_string = []
-            for player in (leaderboards_json["bedwars"]["wins"]["overall"]):
-                player_json = await core.minecraft.hypixel.player.get_player_data(player)
-                bedwars_weekly_wins_leaderboard_string.append(
-                    f"""{f"[{player_json['bedwars']['star']}{core.static.star}] [{player_json['rank_data']['rank']}] {player_json['name']}" if player_json["rank_data"]["rank"] else f"[{player_json['bedwars']['star']}{core.static.star} {player_json['name']}]"} - {player_json['bedwars']['wins'] - player_json['bedwars']['four_v_four']['wins']} non 4v4 wins""")
-        bedwars_weekly_wins_leaderboard_string.sort(key=lambda s: int((s.split(" "))[-4]), reverse=True)  # it's the fourth one
-        # as seen two lines above
-        bedwars_weekly_wins_leaderboard_string = [f"#{index + 1} - {position}" for index, position in enumerate(bedwars_weekly_wins_leaderboard_string)]
-        await core.caches.leaderboards.save_leaderboards_data("bedwars_real_wins",
-                                                              bedwars_weekly_wins_leaderboard_string)
-        joined_string = "\n".join(bedwars_weekly_wins_leaderboard_string)
-        bedwars_weekly_wins_leaderboard_embed = discord.Embed(
-            description=f"```{joined_string}```"
-        )
-        await ctx.send(embed=bedwars_weekly_wins_leaderboard_embed)
+            self.index -= 1
 
-    @bedwars_wins.command(name="weekly")
-    @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def bedwars_weekly_wins(self, ctx):
-        await ctx.channel.trigger_typing()
-        leaderboards_cache = await core.caches.leaderboards.find_leaderboards_data("bedwars_weekly_wins")
-        if leaderboards_cache:
-            valid = True if (time.time()) - leaderboards_cache["time"] < 86400 else False
-        else:
-            valid = False
-        if valid:
-            bedwars_weekly_wins_leaderboard_string = leaderboards_cache["leaderboards"]
-        else:
-            leaderboards_json = await core.minecraft.hypixel.leaderboards.get_leaderboards()
-            index = 0
-            bedwars_weekly_wins_leaderboard_string = []
-            for player in (leaderboards_json["bedwars"]["wins"]["weekly"]):
-                player_json = await core.minecraft.hypixel.player.get_player_data(player)
-                bedwars_weekly_wins_leaderboard_string.append(
-                    f"""#{index + 1} - {f"[{player_json['bedwars']['star']}{core.static.star}] [{player_json['rank_data']['rank']}] {player_json['name']}" if player_json["rank_data"]["rank"] else f"[{player_json['bedwars']['star']}{core.static.star}] {player_json['name']}"}""")
-                index += 1
-        await core.caches.leaderboards.save_leaderboards_data("bedwars_weekly_wins",
-                                                              bedwars_weekly_wins_leaderboard_string)
-        joined_string = "\n".join(bedwars_weekly_wins_leaderboard_string)
-        bedwars_weekly_wins_leaderboard_embed = discord.Embed(
-            description=f"```{joined_string}```"
-        )
-        await ctx.send(embed=bedwars_weekly_wins_leaderboard_embed)
+    async def send_initial_message(self, ctx, channel):
+        return await channel.send(embed=discord.Embed(
+            color=self.ctx.author.color,
+            description="React with the game that you want to see the leaderboards for"
+        ))
 
-    @bedwars.group(name="finals", aliases=["final"], invoke_without_command=True)
-    @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def bedwars_finals(self, ctx):
-        await ctx.channel.trigger_typing()
-        leaderboards_cache = await core.caches.leaderboards.find_leaderboards_data("bedwars_finals")
-        if leaderboards_cache:
-            valid = True if (time.time()) - leaderboards_cache["time"] < 86400 else False
-        else:
-            valid = False
-        if valid:
-            bedwars_overall_finals_leaderboard_string = leaderboards_cache["leaderboards"]
-        else:
-            leaderboards_json = await core.minecraft.hypixel.leaderboards.get_leaderboards()
-            index = 0
-            bedwars_overall_finals_leaderboard_string = []
-            for player in (leaderboards_json["bedwars"]["finals"]["overall"]):
-                player_json = await core.minecraft.hypixel.player.get_player_data(player)
-                bedwars_overall_finals_leaderboard_string.append(
-                    f"""#{index + 1} - {f"[{player_json['bedwars']['star']}{core.static.star}] [{player_json['rank_data']['rank']}] {player_json['name']}" if player_json["rank_data"]["rank"] else f"[{player_json['bedwars']['star']}{core.static.star} {player_json['name']}]"} - {player_json['bedwars']['final_kills']} finals""")
-                index += 1
-        await core.caches.leaderboards.save_leaderboards_data("bedwars_finals",
-                                                              bedwars_overall_finals_leaderboard_string)
-        joined_string = "\n".join(bedwars_overall_finals_leaderboard_string)
-        bedwars_overall_finals_leaderboard_embed = discord.Embed(
-            description=f"```{joined_string}```"
-        )
-        await ctx.send(embed=bedwars_overall_finals_leaderboard_embed)
+    @menus.button("\u2B05")
+    async def on_arrow_backwards(self, payload):
+        self.decrement_index()
+        return await self.message.edit(embed=self.display[self.index])
 
-    @bedwars_finals.command(name="weekly")
-    @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def bedwars_weekly_finals(self, ctx):
-        await ctx.channel.trigger_typing()
-        leaderboards_cache = await core.caches.leaderboards.find_leaderboards_data("bedwars_weekly_finals")
-        if leaderboards_cache:
-            valid = True if (time.time()) - leaderboards_cache["time"] < 86400 else False
-        else:
-            valid = False
-        if valid:
-            bedwars_weekly_finals_leaderboard_string = leaderboards_cache["leaderboards"]
-        else:
-            leaderboards_json = await core.minecraft.hypixel.leaderboards.get_leaderboards()
-            index = 0
-            bedwars_weekly_finals_leaderboard_string = []
-            for player in (leaderboards_json["bedwars"]["finals"]["weekly"]):
-                player_json = await core.minecraft.hypixel.player.get_player_data(player)
-                bedwars_weekly_finals_leaderboard_string.append(
-                    f"""#{index + 1} - {f"[{player_json['bedwars']['star']}{core.static.star}] [{player_json['rank_data']['rank']}] {player_json['name']}" if player_json["rank_data"]["rank"] else f"[{player_json['bedwars']['star']}{core.static.star} {player_json['name']}]"}""")
-                index += 1
-        await core.caches.leaderboards.save_leaderboards_data("bedwars_weekly_finals",
-                                                              bedwars_weekly_finals_leaderboard_string)
-        joined_string = "\n".join(bedwars_weekly_finals_leaderboard_string)
-        bedwars_weekly_finals_leaderboard_embed = discord.Embed(
-            description=f"```{joined_string}```"
+    @menus.button("\u23F9")
+    async def on_stop(self, payload):
+        self.stop()
+
+    @menus.button("\u27A1")
+    async def on_arrow_forward(self, payload):
+        self.increment_index()
+        return await self.message.edit(embed=self.display[self.index])
+
+    @menus.button("<:bedwars:795042441824698398>")
+    async def bedwars(self, payload):
+        await self.message.edit(embed=self.loading)
+        leaderboards = await self.ctx_.bot.hypixel.hypixel.leaderboards.get()
+        self.display = (
+            await get_bedwars_leaderboard_embed(self.ctx_, leaderboards.bedwars.stars),
+            await get_bedwars_leaderboard_embed(self.ctx_, leaderboards.bedwars.finals.overall),
+            await get_bedwars_leaderboard_embed(self.ctx_, leaderboards.bedwars.finals.weekly),
+            await get_bedwars_leaderboard_embed(self.ctx_, leaderboards.bedwars.wins.overall),
+            await get_bedwars_leaderboard_embed(self.ctx_, leaderboards.bedwars.wins.weekly),
         )
-        await ctx.send(embed=bedwars_weekly_finals_leaderboard_embed)
+        await self.message.edit(embed=self.display[self.index])
+
+
+async def get_bedwars_leaderboard_embed(ctx, leaderboard):
+    players = await ctx.bot.hypixel.leaderboards.get_players(leaderboard)
+    players = [get_bedwars_leaderboard_entry_string(ctx, leaderboard, player) for player in players]
+    return discord.Embed(
+        color=ctx.author.color,
+        description="```" + "\n".join(players) + "```"
+    ).set_footer(
+        text=str(leaderboard)
+    )
+
+
+def get_bedwars_leaderboard_entry_string(ctx, leaderboard, player):
+    string = (
+        f"[{player.bedwars.prestige.star}{ctx.bot.static.star}] [{player.rank.name}] {player.name}"
+        if bool(player.rank) else
+        f"[{player.bedwars.prestige.star}{ctx.bot.static.star}] {player.name}")
+    if str(leaderboard) == "Overall Wins":
+        string = f"{string} - {player.bedwars.wins.wins} wins"
+    elif str(leaderboard) == "Overall Final Kills":
+        string = f"{string} - {player.bedwars.finals.kills} finals"
+    return string
 
 
 def setup(bot):

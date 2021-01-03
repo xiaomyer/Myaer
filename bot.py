@@ -1,107 +1,42 @@
-"""
-MIT License
-
-Copyright (c) 2020 MyerFire
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-"""
-
-import aiohttp
+from config import Config
+from core.hypixel import Hypixel_
+from data.data import Data
+from data.objects import Static
+from discord.ext import commands
 import asyncio
 import datetime
-import ksoftapi
-import logging
+import discord
+import hypixelaPY
 import os
 import sys
 import traceback
 
-import discord
-from discord.ext import commands
-
-import core.caches.static
-import core.config.config
-import core.config.guilds
-import core.minecraft.request
-import core.minecraft.hypixel.request
-
-logger = logging.getLogger("discord")
-logger.setLevel(logging.INFO)
-handler = logging.FileHandler(filename="discord.log", encoding="utf-8", mode="w")
-handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
-logger.addHandler(handler)
+config = Config()
+data = Data()
+os.environ["JISHAKU_NO_UNDERSCORE"] = "True"
 
 
 async def get_prefix(bot, message):
     if isinstance(message.channel, discord.DMChannel):
-        return commands.when_mentioned_or(core.config.config.default_prefix, "myaer", "Myaer")(bot, message)
-    guild_config = await core.config.guilds.get_config(message.guild.id)
-    if guild_config:
-        prefix = guild_config["prefix"] if guild_config.get("prefix", None) else core.config.config.default_prefix
-    else:
-        prefix = core.config.config.default_prefix
+        return commands.when_mentioned_or(config.default_prefix, "myaer ", "Myaer ")(bot, message)
+    prefix = config.default_prefix
+    guild = data.guilds.get(message.guild.id)
+    if guild and guild.prefix:
+        prefix = guild.prefix
     return commands.when_mentioned_or(prefix, "myaer ", "Myaer ")(bot, message)
-
-
-async def start():
-    try:
-        await bot.start(core.config.config.token)
-    except KeyboardInterrupt:
-        await bot.logout()
-
-
-async def stop():
-    await bot.http.close()
-    await core.minecraft.request.mojang_request.close()
-    await core.minecraft.hypixel.request.hypixel_request.close()
-    await bot.logout()
 
 
 bot = commands.Bot(
     command_prefix=get_prefix,
-    owner_id=core.config.config.owner_id,
+    owner_id=config.owner,
     allowed_mentions=discord.AllowedMentions(everyone=False),
     intents=discord.Intents.all()
 )
-# common variables
-bot.admin_permission = discord.Permissions(8)
-bot.client_id = 700133917264445480
-bot.startup_time = datetime.datetime.now()
-bot.member_converter = commands.MemberConverter()
-bot.user_converter = commands.UserConverter()
-bot.default_prefix = core.config.config.default_prefix
-bot.hypixel_api_key = core.config.config.hypixel_api_key
-
-# API constants
-bot.MC_HEADS_API = "https://mc-heads.net/"
-bot.SURGEPLAY_API = "https://visage.surgeplay.com/"
-bot.CREATION_TIME_FORMAT = "%m/%d/%Y - %I:%M:%S %p"
-
-# HTTP client
-bot.http_client = aiohttp.ClientSession()
-bot.ksoft = ksoftapi.Client(core.config.config.ksoft_api_key)
-
-# coroutine
-bot.stop = stop
-
-STARTUP_TIME_FORMAT = "%A, %b %d, %Y - %m/%d/%Y - %I:%M:%S %p"
-started = False
-os.environ["JISHAKU_NO_UNDERSCORE"] = "True"
+bot.static = Static()
+bot.config = config
+bot.data = data
+bot.hypixel = Hypixel_(bot, config.keys.hypixel)
+bot.mojang = hypixelaPY.Mojang()
 
 extensions = [os.path.join(dp, f) for dp, dn, fn in os.walk("cogs") for f in fn] + \
              [os.path.join(dp, f) for dp, dn, fn in os.walk("commands") for f in fn] + \
@@ -125,23 +60,17 @@ for extension in extensions:
 
 @bot.event
 async def on_ready():
-    bot.owner_user = bot.get_user(bot.owner_id)
-    bot.error_log_channel = bot.get_channel(core.config.config.error_log_channel)
-    bot.guilds_log_channel = bot.get_channel(core.config.config.guilds_log_channel)
-    bot.status_log_channel = bot.get_channel(core.config.config.status_log_channel)
-    bot.suggestions_channel = bot.get_channel(core.config.config.suggestions_channel)
-
+    bot.config.get_owner(bot)
+    bot.config.channels.get(bot)
     ready_time = datetime.datetime.now()
-    print(f"Connection with Discord established at {ready_time.strftime(STARTUP_TIME_FORMAT)}")
+    print(f"Connection with Discord established at {ready_time.strftime(bot.static.STARTUP_TIME_FORMAT)}")
     for failed_extension in failed_extensions:
-        error_embed = discord.Embed(
+        await bot.config.channels.error.send(embed=discord.Embed(
             title=f"Failed to load extension {failed_extension['extension']}",
             description=f"```{failed_extension['traceback']}```"
-        )
-        await bot.error_log_channel.send(embed=error_embed)
-    await bot.change_presence(activity=discord.Game(name="/help | /suggest"))
-    await bot.status_log_channel.send(
-        f"Logged in at {ready_time.strftime(STARTUP_TIME_FORMAT)} (took {(ready_time - bot.startup_time).total_seconds()} seconds).")
+        ))
+    await bot.change_presence(activity=discord.Game(name="Major Update Released! Join https://myer.wtf/discord for information."))
+    await bot.config.channels.status.send(f"Logged in at {ready_time.strftime(bot.static.STARTUP_TIME_FORMAT)} (took {(ready_time - bot.static.startup_time).total_seconds()} seconds).")
 
 
 @bot.event
@@ -154,9 +83,20 @@ async def on_error(event, *args, **kwargs):
         description=f"```{error_traceback}```"
     )
     error_embed.set_footer(
-        text=datetime.datetime.now().strftime(STARTUP_TIME_FORMAT)
+        text=datetime.datetime.now().strftime(bot.static.STARTUP_TIME_FORMAT)
     )
-    await bot.error_log_channel.send(embed=error_embed)
+    await bot.config.channels.error.send(embed=error_embed)
+
+
+async def start():
+    try:
+        await bot.start(config.token)
+    except KeyboardInterrupt:
+        await bot.logout()
+
+
+async def stop():
+    await bot.logout()
 
 
 if __name__ == "__main__":

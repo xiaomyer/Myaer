@@ -23,15 +23,5 @@ SOFTWARE.
 """
 
 
-# possibly raised during input parsing/database lookups
-class NotVerified(Exception):
-    pass
-
-
-# possibly raised during verification
-class HypixelDiscordNotMatching(Exception):
-    pass
-
-
-class NoHypixelDiscord(Exception):
+class NoMinecraftUUID(Exception):
     pass

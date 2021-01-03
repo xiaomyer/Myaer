@@ -22,68 +22,128 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import math
-
+from discord.ext import commands, menus
 import discord
-from discord.ext import commands
-
-import core.minecraft.hypixel.static
-import core.minecraft.static
-import core.static
+import math
 
 
 class Skywars(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.group(name="skywars", aliases=["sw"], invoke_without_command=True)
-    @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def skywars(self, ctx: commands.Context, *args):
-        player_info = await core.minecraft.static.hypixel_name_handler(ctx, args)
-        if player_info:
-            player_data = player_info["player_data"]
-            player_json = player_info["player_json"]
-        else:
-            return
-        player_stats_embed = discord.Embed(
-            title=f"""**{discord.utils.escape_markdown(f"[{player_json['rank_data']['rank']}] {player_data['player_formatted_name']}" if player_json["rank_data"]["rank"] else player_data["player_formatted_name"])}'s Skywars Stats**""",
-            color=int((await core.minecraft.hypixel.static.get_skywars_prestige_data(
-                player_json["skywars"]["level_data"]["level"]))["prestige_color"], 16)  # 16 - Hex value.
-        ).set_thumbnail(
-            url=core.minecraft.hypixel.static.hypixel_icons["Skywars"]
-        ).add_field(
-            name=f"__**{core.static.arrow_bullet_point} Level**__",
-            value=f"{player_json['skywars']['level_data']['level']} {core.static.star} ({player_json['skywars']['level_data']['percentage']}% to {math.trunc((player_json['skywars']['level_data']['level']) + 1)}) [{(await core.minecraft.hypixel.static.get_skywars_prestige_data(player_json['skywars']['level_data']['level']))['prestige']} Prestige]",
-            inline=False
-        ).add_field(
-            name=f"__**{core.static.arrow_bullet_point} Coins**__",
-            value=f"{(player_json['skywars']['coins']):,d}"
-        ).add_field(
-            name=f"__**{core.static.arrow_bullet_point} Tokens**__",
-            value=f"{(player_json['skywars']['tokens']):,d}"
-        ).add_field(
-            name=f"__**{core.static.arrow_bullet_point} Souls**__",
-            value=f"{(player_json['skywars']['souls']):,d}"
-        ).add_field(
-            name=f"__**{core.static.arrow_bullet_point} Kills**__",
-            value=f"{(player_json['skywars']['kills']):,d}"
-        ).add_field(
-            name=f"__**{core.static.arrow_bullet_point} Deaths**__",
-            value=f"{(player_json['skywars']['deaths']):,d}"
-        ).add_field(
-            name=f"__**{core.static.arrow_bullet_point} KDR**__",
-            value=f"{(await core.minecraft.hypixel.static.get_ratio((player_json['skywars']['kills']), (player_json['skywars']['deaths'])))}"
-        ).add_field(
-            name=f"__**{core.static.arrow_bullet_point} Wins**__",
-            value=f"{(player_json['skywars']['wins']):,d}"
-        ).add_field(
-            name=f"__**{core.static.arrow_bullet_point} Losses**__",
-            value=f"{(player_json['skywars']['losses']):,d}"
-        ).add_field(
-            name=f"__**{core.static.arrow_bullet_point} WLR**__",
-            value=f"{(await core.minecraft.hypixel.static.get_ratio((player_json['skywars']['wins']), (player_json['skywars']['losses'])))}"
+    @commands.group(aliases=["sw"], invoke_without_command=True)
+    async def skywars(self, ctx, input_=None):
+        player = await ctx.bot.hypixel.player.get(ctx=ctx, input_=input_)
+        stats = (
+            self.get_stats_embed(player),
         )
-        await ctx.send(embed=player_stats_embed)
+        wlr = (
+            self.get_wlr_embed(player),
+        )
+        stats = SkywarsMenu(stats, wlr)
+        await stats.start(ctx)
+
+    def get_stats_embed(self, player, mode=None):
+        if not mode:
+            mode = player.skywars  # overall stats
+        return discord.Embed(
+            color=player.skywars.prestige.color,
+            title=f"[{player.skywars.prestige.star}{self.bot.static.star}] [{player.rank.name}] {discord.utils.escape_markdown(player.name)}",
+            description=f"Winstreak: {mode.winstreak}\n"
+                        f"Games Played: {mode.games_played}"
+        ).add_field(
+            name="Kills",
+            value=mode.kills.kills
+        ).add_field(
+            name="Deaths",
+            value=mode.kills.deaths
+        ).add_field(
+            name="K/D",
+            value=mode.kills.ratio
+        ).add_field(
+            name="Wins",
+            value=mode.wins.wins
+        ).add_field(
+            name="Losses",
+            value=mode.wins.losses
+        ).add_field(
+            name="W/L",
+            value=mode.wins.ratio
+        ).set_footer(
+            text=str(mode)
+        )
+
+    def get_wlr_embed(self, player, mode=None):
+        if not mode:
+            mode = player.skywars  # overall
+        return discord.Embed(
+            color=player.skywars.prestige.color,
+            title=f"[{player.skywars.prestige.star}{self.bot.star}] [{player.rank.name}] {discord.utils.escape_markdown(player.name)}",
+        ).add_field(
+            name="Wins",
+            value=mode.wins.wins
+        ).add_field(
+            name="Losses",
+            value=mode.wins.losses
+        ).add_field(
+            name="W/L",
+            value=mode.wins.ratio
+        ).add_field(
+            name=f"To {math.trunc(mode.wins.ratio + 1)} WLR",
+            value=f"{mode.wins.increase()} needed"
+        ).set_footer(
+            text=f"{mode} WLR"
+        )
+
+
+class SkywarsMenu(menus.Menu):
+    def __init__(self, stats, wlr):
+        super().__init__(timeout=300.0)
+        self.stats = stats
+        self.wlr = wlr
+        self.index = 0
+        self.display = stats  # default display mode is stats
+
+    def increment_index(self):
+        if abs(self.index + 1) > len(self.display) - 1:
+            self.index = 0  # loop back
+        else:
+            self.index += 1
+
+    def decrement_index(self):
+        if abs(self.index - 1) > len(self.display) - 1:
+            self.index = 0  # loop back
+        else:
+            self.index -= 1
+
+    async def send_initial_message(self, ctx, channel):
+        return await channel.send(embed=self.display[self.index])
+
+    @menus.button("\u2B05")
+    async def on_arrow_backwards(self, payload):
+        self.decrement_index()
+        return await self.message.edit(embed=self.display[self.index])
+
+    @menus.button("\u23F9")
+    async def on_stop(self, payload):
+        self.stop()
+
+    @menus.button("\u27A1")
+    async def on_arrow_forward(self, payload):
+        self.increment_index()
+        return await self.message.edit(embed=self.display[self.index])
+
+    @menus.button("<:stats:795017651277135883>")
+    async def on_stats(self, payload):
+        self.display = self.stats
+        return await self.message.edit(embed=self.display[self.index])
+
+    # TODO: KD
+
+    @menus.button("<:wlr:795017651726450758>")
+    async def on_wlr(self, payload):
+        self.display = self.wlr
+        return await self.message.edit(embed=self.display[self.index])
 
 
 def setup(bot):

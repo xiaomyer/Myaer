@@ -30,7 +30,7 @@ class Help(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name="help")
+    @commands.command()
     @commands.max_concurrency(1, per=commands.BucketType.user)
     async def help(self, ctx):
         help_embed = discord.Embed(
@@ -40,7 +40,7 @@ class Help(commands.Cog):
 [GitHub](https://github.com/MyerFire/Myaer)
 [Support/Info (My Discord Server)](https://inv.wtf/myerfire)
 [Vote](https://discord.boats/bot/700133917264445480)
-[Invite Me]({discord.utils.oauth_url(ctx.bot.client_id, permissions=ctx.bot.admin_permission)})""",
+[Invite Me]({discord.utils.oauth_url(ctx.me.id, permissions=ctx.bot.static.admin)})""",
             color=ctx.author.color,
             timestamp=ctx.message.created_at
         ).set_author(

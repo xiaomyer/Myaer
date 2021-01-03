@@ -1,17 +1,4 @@
-# Cache files
 __pycache__/
-
-# Secret
+*.pyc
 *.json
-
-# logs
-discord.log
-
-# backups
-backup/
-
-# pm2
-node_modules/
-
-# pycharm goes brr
 .idea/
