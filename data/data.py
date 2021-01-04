@@ -23,79 +23,48 @@ SOFTWARE.
 """
 
 from .objects import UserConfig, GuildConfig
-from tinydb import TinyDB, Query, where
+from tinydb import TinyDB, where
 from tinydb.operations import delete
 
 
 class Data:
     def __init__(self):
-        self.guilds = Guilds()
-        self.users = Users()
+        self.guilds = DataEntry("data/guilds.json", "guild_id", GuildConfig)
+        self.users = DataEntry("data/users.json", "user_id", UserConfig)
 
 
-class Guilds:
-    def __init__(self):
-        self.data = TinyDB("data/guilds.json")
+class DataEntry:
+    def __init__(self, data, id_string, construct):
+        self.data = TinyDB(data)
+        self.id_string = id_string
+        self.construct = construct
         self.cache = {}
 
     def get(self, id_):
         if config := self.cache.get(id_): return config
-        data = self.data.search(where("guild_id") == id_)
-        if data: config = GuildConfig(data[0])
+        data = self.data.search(where(self.id_string) == id_)
+        if data: config = self.construct(data[0])
         self.cache[id_] = config
-        return GuildConfig(data[0]) if data else None
+        return config if data else None
 
     def set(self, id_, key, value):
-        result = self.data.search(where("guild_id") == id_)
+        result = self.data.search(where(self.id_string) == id_)
         if result:
-            self.data.update({key: value}, where("guild_id") == id_)
+            self.data.update({key: value}, where(self.id_string) == id_)
+            if self.cache.get(id_):
+                self.cache.pop(id_)
         else:
-            self.data.insert({"guild_id": id_, key: value})
-        self.cache.pop(id_)
+            self.data.insert({self.id_string: id_, key: value})
 
     def delete(self, id_, key):
-        query = Query()
-        result = self.data.search(where("guild_id") == id_)
+        result = self.data.search(where(self.id_string) == id_)
         if not result:
             return
         saved = result[0].get(key)
         if saved:
-            self.data.update(delete(key), query.guild_id == id_)
-            self.cache.pop(id_)
-            return saved  # return what was deleted
-        else:
-            return
-
-
-class Users:
-    def __init__(self):
-        self.data = TinyDB("data/users.json")
-        self.cache = {}
-
-    def get(self, id_):
-        if config := self.cache.get(id_): return config
-        data = self.data.search(where("user_id") == id_)
-        if data: config = UserConfig(data[0])
-        self.cache[id_] = config
-        return UserConfig(data[0]) if data else None
-
-    def set(self, id_, key, value):
-        result = self.data.search(where("user_id") == id_)
-        if result:
-            self.data.update({key: value}, where("user_id") == id_)
-        else:
-            self.data.insert({"user_id": id_, key: value})
-        self.cache.pop(id_)
-
-    def delete(self, id_, key):
-        query = Query()
-        result = self.data.search(where("user_id") == id_)
-        if not result:
-            return
-        saved = result[0].get(key)
-        if saved:
-            self.data.update(delete(key), query.user_id == id_)
-            self.cache.pop(id_)
+            self.data.update(delete(key), where(self.id_string) == id_)
+            if self.cache.get(id_):
+                self.cache.pop(id_)
             return saved  # return what was deleted
         else:
             return

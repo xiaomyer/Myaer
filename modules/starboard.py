@@ -30,6 +30,8 @@ class Starboard(commands.Cog):
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
         if reaction.emoji != self.star or not reaction.message.guild: return
+        guild = self.bot.data.guilds.get(reaction.message.guild.id)
+        if not guild: return
         starboard = self.bot.data.guilds.get(reaction.message.guild.id).starboard
         if not starboard: return
         starboard = self.bot.get_channel(starboard)
@@ -56,6 +58,8 @@ class Starboard(commands.Cog):
     @commands.Cog.listener()
     async def on_reaction_remove(self, reaction, user):
         if reaction.emoji != self.star or not reaction.message.guild: return
+        guild = self.bot.data.guilds.get(reaction.message.guild.id)
+        if not guild: return
         starboard = self.bot.data.guilds.get(reaction.message.guild.id).starboard
         if not starboard: return
         if message := self.starboarded.get(reaction.message.id):
