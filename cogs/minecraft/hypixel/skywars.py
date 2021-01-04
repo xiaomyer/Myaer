@@ -24,7 +24,6 @@ SOFTWARE.
 
 from discord.ext import commands, menus
 import discord
-import math
 
 
 class Skywars(commands.Cog):
@@ -32,6 +31,7 @@ class Skywars(commands.Cog):
         self.bot = bot
 
     @commands.group(aliases=["sw"], invoke_without_command=True)
+    @commands.max_concurrency(1, per=commands.BucketType.user)
     async def skywars(self, ctx, input_=None):
         player = await ctx.bot.hypixel.player.get(ctx=ctx, input_=input_)
         stats = (
@@ -50,25 +50,25 @@ class Skywars(commands.Cog):
             color=player.skywars.prestige.color,
             title=f"[{player.skywars.prestige.star}{self.bot.static.star}] [{player.rank.name}] {discord.utils.escape_markdown(player.name)}",
             description=f"Winstreak: {mode.winstreak}\n"
-                        f"Games Played: {mode.games_played}"
+                        f"Games Played: {mode.games_played:,d}"
         ).add_field(
             name="Kills",
-            value=mode.kills.kills
+            value=f"{mode.kills.kills:,d}"
         ).add_field(
             name="Deaths",
-            value=mode.kills.deaths
+            value=f"{mode.kills.deaths:,d}"
         ).add_field(
             name="K/D",
-            value=mode.kills.ratio
+            value=mode.kills.ratio.ratio
         ).add_field(
             name="Wins",
-            value=mode.wins.wins
+            value=f"{mode.wins.wins:,d}"
         ).add_field(
             name="Losses",
-            value=mode.wins.losses
+            value=f"{mode.wins.losses:,d}"
         ).add_field(
             name="W/L",
-            value=mode.wins.ratio
+            value=mode.wins.ratio.ratio
         ).set_footer(
             text=str(mode)
         )
@@ -78,19 +78,19 @@ class Skywars(commands.Cog):
             mode = player.skywars  # overall
         return discord.Embed(
             color=player.skywars.prestige.color,
-            title=f"[{player.skywars.prestige.star}{self.bot.star}] [{player.rank.name}] {discord.utils.escape_markdown(player.name)}",
+            title=f"[{player.skywars.prestige.star}{self.bot.static.star}] [{player.rank.name}] {discord.utils.escape_markdown(player.name)}",
         ).add_field(
             name="Wins",
-            value=mode.wins.wins
+            value=f"{mode.wins.wins:,d}"
         ).add_field(
             name="Losses",
-            value=mode.wins.losses
+            value=f"{mode.wins.losses:,d}"
         ).add_field(
             name="W/L",
-            value=mode.wins.ratio
+            value=mode.wins.ratio.ratio
         ).add_field(
-            name=f"To {math.trunc(mode.wins.ratio + 1)} WLR",
-            value=f"{mode.wins.increase()} needed"
+            name=f"To {mode.wins.ratio.next} WLR",
+            value=f"{mode.wins.ratio.increase():,d} needed"
         ).set_footer(
             text=f"{mode} WLR"
         )

@@ -1,7 +1,7 @@
 from config import Config
 from core.hypixel import Hypixel_
 from data.data import Data
-from data.objects import Static
+from core.static import Static
 from discord.ext import commands
 import asyncio
 import datetime
@@ -17,7 +17,7 @@ os.environ["JISHAKU_NO_UNDERSCORE"] = "True"
 
 
 async def get_prefix(bot, message):
-    if isinstance(message.channel, discord.DMChannel):
+    if isinstance(message.channel, discord.DMChannel) or not message.guild:
         return commands.when_mentioned_or(config.default_prefix, "myaer ", "Myaer ")(bot, message)
     prefix = config.default_prefix
     guild = data.guilds.get(message.guild.id)

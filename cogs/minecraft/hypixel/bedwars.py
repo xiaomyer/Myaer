@@ -32,6 +32,7 @@ class Bedwars(commands.Cog):
         self.bot = bot
 
     @commands.group(aliases=["bw"], invoke_without_command=True)
+    @commands.max_concurrency(1, per=commands.BucketType.user)
     async def bedwars(self, ctx, input_=None):
         player = await ctx.bot.hypixel.player.get(ctx=ctx, input_=input_)
         stats = (
@@ -75,35 +76,44 @@ class Bedwars(commands.Cog):
         return discord.Embed(
             color=player.bedwars.prestige.color,
             title=f"[{player.bedwars.prestige.star}{self.bot.static.star}] [{player.rank.name}] {discord.utils.escape_markdown(player.name)}",
-            description=f"Winstreak: {mode.winstreak}\n"
-                        f"Games Played: {mode.games_played}"
+            description=f"Winstreak: {mode.winstreak:,d}\n"
+                        f"Games Played: {mode.games_played:,d}"
         ).add_field(
             name="Kills",
-            value=mode.kills.kills
+            value=f"{mode.kills.kills:,d}"
         ).add_field(
             name="Deaths",
-            value=mode.kills.deaths
+            value=f"{mode.kills.deaths:,d}"
         ).add_field(
             name="K/D",
-            value=mode.kills.ratio
+            value=mode.kills.ratio.ratio
         ).add_field(
             name="Final Kills",
-            value=mode.finals.kills
+            value=f"{mode.finals.kills:,d}"
         ).add_field(
             name="Final Deaths",
-            value=mode.finals.deaths
+            value=f"{mode.finals.deaths:,d}"
         ).add_field(
             name="FK/FD",
-            value=mode.finals.ratio
+            value=mode.finals.ratio.ratio
+        ).add_field(
+            name="Beds Broken",
+            value=f"{mode.beds.broken:,d}"
+        ).add_field(
+            name="Beds Lost",
+            value=f"{mode.beds.lost:,d}"
+        ).add_field(
+            name="BB/BL",
+            value=mode.beds.ratio.ratio
         ).add_field(
             name="Wins",
-            value=mode.wins.wins
+            value=f"{mode.wins.wins:,d}"
         ).add_field(
             name="Losses",
-            value=mode.wins.losses
+            value=f"{mode.wins.losses:,d}"
         ).add_field(
             name="W/L",
-            value=mode.wins.ratio
+            value=mode.wins.ratio.ratio
         ).set_footer(
             text=str(mode)
         )
@@ -116,16 +126,16 @@ class Bedwars(commands.Cog):
             title=f"[{player.bedwars.prestige.star}{self.bot.static.star}] [{player.rank.name}] {discord.utils.escape_markdown(player.name)}",
         ).add_field(
             name="Final Kills",
-            value=mode.finals.kills
+            value=f"{mode.finals.kills:,d}"
         ).add_field(
             name="Final Deaths",
-            value=mode.finals.deaths
+            value=f"{mode.finals.deaths:,d}"
         ).add_field(
             name="FK/FD",
-            value=mode.finals.ratio
+            value=mode.finals.ratio.ratio
         ).add_field(
-            name=f"To {math.trunc(mode.finals.ratio + 1)} FKDR",
-            value=f"{mode.finals.increase()} needed"
+            name=f"To {mode.finals.ratio.next} FKDR",
+            value=f"{mode.finals.ratio.increase():,d} needed"
         ).set_footer(
             text=f"{mode} FKDR"
         )
@@ -138,16 +148,16 @@ class Bedwars(commands.Cog):
             title=f"[{player.bedwars.prestige.star}{self.bot.static.star}] [{player.rank.name}] {discord.utils.escape_markdown(player.name)}",
         ).add_field(
             name="Wins",
-            value=mode.wins.wins
+            value=f"{mode.wins.wins:,d}"
         ).add_field(
             name="Losses",
-            value=mode.wins.losses
+            value=f"{mode.wins.losses:,d}"
         ).add_field(
             name="W/L",
-            value=mode.wins.ratio
+            value=mode.wins.ratio.ratio
         ).add_field(
-            name=f"To {math.trunc(mode.wins.ratio + 1)} WLR",
-            value=f"{mode.wins.increase()} needed"
+            name=f"To {mode.wins.ratio.next} WLR",
+            value=f"{mode.wins.ratio.increase():,d} needed"
         ).set_footer(
             text=f"{mode} WLR"
         )
@@ -160,16 +170,16 @@ class Bedwars(commands.Cog):
             title=f"[{player.bedwars.prestige.star}{self.bot.static.star}] [{player.rank.name}] {discord.utils.escape_markdown(player.name)}",
         ).add_field(
             name="Beds Broken",
-            value=mode.beds.broken
+            value=f"{mode.beds.broken:,d}"
         ).add_field(
             name="Beds Lost",
-            value=mode.beds.lost
+            value=f"{mode.beds.lost:,d}"
         ).add_field(
             name="BB/BL",
-            value=mode.beds.ratio
+            value=mode.beds.ratio.ratio
         ).add_field(
-            name=f"To {math.trunc(mode.beds.ratio + 1)} BBLR",
-            value=f"{mode.beds.increase()} needed"
+            name=f"To {mode.beds.ratio.next} BBLR",
+            value=f"{mode.beds.ratio.increase():,d} needed"
         ).set_footer(
             text=f"{mode} BBLR"
         )

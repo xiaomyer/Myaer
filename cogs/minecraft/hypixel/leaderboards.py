@@ -31,6 +31,7 @@ class Leaderboards(commands.Cog):
         self.bot = bot
 
     @commands.command(aliases=["lb"])
+    @commands.max_concurrency(1, per=commands.BucketType.user)
     async def leaderboards(self, ctx):
         leaderboards = LeaderboardsMenu(ctx)
         await leaderboards.start(ctx)
