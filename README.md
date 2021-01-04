@@ -1,5 +1,6 @@
 # Myaer - Hypixel Stats Bot
-[My Discord Server](https://myer.wtf/discord) • [Bot Invite Link](https//myer.wtf/bot)
+[Bot Invite Link](https//myer.wtf/bot)
+[![widget](https://inv.wtf/widget/myerfire)](https://myer.wtf/discord)
 
 Maintained by [Myer (also known as myerfire, MyerFire)](https://github.com/myerfire)
 - [YouTube](https://myer.wtf/youtube)
