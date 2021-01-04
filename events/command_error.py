@@ -28,6 +28,7 @@ import traceback
 
 import discord
 from discord.ext import commands
+from core.exceptions import NoMinecraftUUID
 
 
 class CommandError(commands.Cog):
@@ -50,6 +51,9 @@ class CommandError(commands.Cog):
         if isinstance(error, hypixelaPY.NoPlayerFoundError):
             return await ctx.send(
                 embed=ctx.bot.static.embed(ctx, f"\"{error.input_}\" is not a valid Minecraft account"))
+        elif isinstance(error, NoMinecraftUUID):
+            return await ctx.send(
+                embed=ctx.bot.static.embed(ctx, f"You are not verified! `/mc verify <ign>`"))
         elif isinstance(error, commands.MaxConcurrencyReached):
             return await ctx.send(
                 embed=ctx.bot.static.embed(ctx, f"{ctx.author.mention}, you are sending commands too fast"))
@@ -74,13 +78,12 @@ class CommandError(commands.Cog):
                 and `Embed Links`. (moderation commands may require more permissions) If you are having trouble with 
                 permissions, giving me the `Administrator` permission will solve any and all problems. For more 
                 support, join my [Discord Server](https://myer.wtf/discord)"""))
-
         await ctx.send(embed=discord.Embed(
             color=ctx.author.color,
             timestamp=ctx.message.created_at,
             description=f"**{error.__class__.__name__}**: {error}"
         ).set_author(
-            name="Join the support server for help",
+            name="Join my Discord server for help",
             url="https://myer.wtf/discord"
         ))
 
