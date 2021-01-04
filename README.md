@@ -6,7 +6,7 @@ Maintained by [Myer (also known as myerfire, MyerFire)](https://github.com/myerf
 - [Twitter](https://myer.wtf/twitter)
 - myer#0001 on Discord
 ## Commands
-[x/y/z] means x, y, or z would be a valid command name
+[x/y/z] means replacing [x/y/z] with x, y, or z would result in a valid command name
 - /help - ur mom
 - /avatar - Shows your Discord avatar
     - aka: /av
