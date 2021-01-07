@@ -1,7 +1,7 @@
 """
 MIT License
 
-Copyright (c) 2020 MyerFire
+Copyright (c) 2020 myerfire
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -36,9 +36,13 @@ class Duels(commands.Cog):
         player = await ctx.bot.hypixel.player.get(ctx=ctx, input_=input_)
         stats = (
             self.get_stats_embed(player),
+            self.get_stats_embed(player, mode=player.duels.bow),
+            self.get_stats_embed(player, mode=player.duels.classic)
         )
         wlr = (
             self.get_wlr_embed(player),
+            self.get_wlr_embed(player, mode=player.duels.bow),
+            self.get_wlr_embed(player, mode=player.duels.classic)
         )
         stats = DuelsMenu(stats, wlr)
         await stats.start(ctx)
@@ -47,7 +51,7 @@ class Duels(commands.Cog):
         if not mode:
             mode = player.duels  # overall stats
         return discord.Embed(
-            title=f"[{player.rank.name}] {discord.utils.escape_markdown(player.name)}",
+            title=player.display,
             description=f"Winstreak: {mode.winstreak}\n"
                         f"Games Played: {mode.games_played:,d}"
         ).add_field(
@@ -76,7 +80,7 @@ class Duels(commands.Cog):
         if not mode:
             mode = player.duels  # overall
         return discord.Embed(
-            title=f"[{player.rank.name}] {discord.utils.escape_markdown(player.name)}",
+            title=player.display
         ).add_field(
             name="Wins",
             value=f"{mode.wins.wins:,d}"

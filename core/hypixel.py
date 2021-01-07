@@ -1,7 +1,7 @@
 """
 MIT License
 
-Copyright (c) 2020 MyerFire
+Copyright (c) 2020 myerfire
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,6 @@ SOFTWARE.
 from discord.ext import commands
 from .exceptions import NoMinecraftUUID
 import hypixelaPY
-import discord
 import time
 
 
@@ -36,6 +35,7 @@ class Hypixel_:  # wrapper around the hypixel api library i'm using
         self.hypixel = hypixelaPY.Hypixel(api)
         self.bot = bot
         self.player = Player(self.bot, self.hypixel)
+        self.guild = Guild(self.bot, self.hypixel)
         self.leaderboards = Leaderboards(self.bot, self.hypixel)
 
 
@@ -84,3 +84,15 @@ class Leaderboards:
             players = await leaderboard.get_players()
             self.cache[str(leaderboard)] = players, time.time()
         return players
+
+
+class Guild:
+    def __init__(self, bot, hypixel):
+        self.bot = bot
+        self.hypixel = hypixel
+
+    async def get(self, *, name: str = "", uuid: str = "", input_: str = ""):
+        try:
+            return await self.hypixel.guild.get(name=name, uuid=uuid, input_=input_)
+        except hypixelaPY.NoGuildFoundError:  # this is easier for my purposes
+            return None

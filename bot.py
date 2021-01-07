@@ -70,7 +70,13 @@ async def on_ready():
             description=f"```{failed_extension['traceback']}```"
         ))
     await bot.change_presence(activity=discord.Game(name="Major Update Released! Join https://myer.wtf/discord for information."))
-    await bot.config.channels.status.send(f"Logged in at {ready_time.strftime(bot.static.STARTUP_TIME_FORMAT)} (took {(ready_time - bot.static.startup_time).total_seconds()} seconds).")
+    await bot.config.channels.status.send(embed=discord.Embed(
+        title="Bot Startup Event",
+        color=discord.Color.green(),
+        timestamp=ready_time
+    ).set_footer(
+        text=f"Took f
+    ))
 
 
 @bot.event

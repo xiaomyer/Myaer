@@ -1,10 +1,12 @@
 # Myaer - Hypixel Stats Bot
-[My Discord Server](https://myer.wtf/discord) • [Bot Invite Link](https//myer.wtf/bot)
+[![widget](https://inv.wtf/widget/myerfire)](https://myer.wtf/discord)
+
+[Bot Invite Link](https//myer.wtf/bot)
 
 Maintained by [Myer (also known as myerfire, MyerFire)](https://github.com/myerfire)
 - [YouTube](https://myer.wtf/youtube)
 - [Twitter](https://myer.wtf/twitter)
-- myer#0001 on Discord
+- `myer#0001` on Discord
 ## Commands
 [x/y/z] means replacing [x/y/z] with x, y, or z would result in a valid command name
 - /help - ur mom

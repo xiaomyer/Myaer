@@ -1,7 +1,7 @@
 """
 MIT License
 
-Copyright (c) 2020 MyerFire
+Copyright (c) 2020 myerfire
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -48,7 +48,7 @@ class Skywars(commands.Cog):
             mode = player.skywars  # overall stats
         return discord.Embed(
             color=player.skywars.prestige.color,
-            title=f"[{player.skywars.prestige.star}{self.bot.static.star}] [{player.rank.name}] {discord.utils.escape_markdown(player.name)}",
+            title=f"[{player.skywars.prestige.star}{self.bot.static.star}] {player.display}",
             description=f"Winstreak: {mode.winstreak}\n"
                         f"Games Played: {mode.games_played:,d}"
         ).add_field(
@@ -78,7 +78,7 @@ class Skywars(commands.Cog):
             mode = player.skywars  # overall
         return discord.Embed(
             color=player.skywars.prestige.color,
-            title=f"[{player.skywars.prestige.star}{self.bot.static.star}] [{player.rank.name}] {discord.utils.escape_markdown(player.name)}",
+            title=f"[{player.skywars.prestige.star}{self.bot.static.star}] {player.display}",
         ).add_field(
             name="Wins",
             value=f"{mode.wins.wins:,d}"

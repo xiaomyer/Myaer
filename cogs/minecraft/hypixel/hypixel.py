@@ -1,7 +1,7 @@
 """
 MIT License
 
-Copyright (c) 2020 MyerFire
+Copyright (c) 2020 myerfire
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -35,7 +35,8 @@ class Hypixel(commands.Cog):
     @commands.max_concurrency(1, per=commands.BucketType.user)
     async def hypixel(self, ctx, input_=None):
         player = await ctx.bot.hypixel.player.get(ctx=ctx, input_=input_)
-        await ctx.send(embed=discord.Embed(
+        guild = await ctx.bot.hypixel.guild.get(uuid=player.uuid)
+        embed = discord.Embed(
             color=player.rank.color,
             title=f"[{player.rank.name}] {player.name}"
         ).add_field(
@@ -55,7 +56,19 @@ class Hypixel(commands.Cog):
             name="Last Login",
             value=f"{player.logins.last.strftime(ctx.bot.static.CREATION_TIME_FORMAT)}\n"
                   f"{humanfriendly.format_timespan(ctx.bot.static.time() - player.logins.last)}"
-        ))
+        ).set_footer(
+            text="Avatar",
+            icon_url=ctx.bot.static.crafthead.avatar(player.uuid)
+        )
+        if guild:
+            embed.add_field(
+                name="Guild",
+                value=f"{guild.display}\n"
+                      f"Level: {guild.level.level}\n"
+                      f"Members: {guild.members.count}",
+                inline=False
+            )
+        await ctx.send(embed=embed)
 
 
 def setup(bot):

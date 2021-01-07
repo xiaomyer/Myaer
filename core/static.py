@@ -1,7 +1,7 @@
 """
 MIT License
 
-Copyright (c) 2020 MyerFire
+Copyright (c) 2020 myerfire
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -36,13 +36,27 @@ class Static:
         self.admin = discord.Permissions(8)
         self.STARTUP_TIME_FORMAT = "%A, %b %d, %Y - %m/%d/%Y - %I:%M:%S %p"
         self.CREATION_TIME_FORMAT = "%m/%d/%Y - %I:%M:%S %p"
+        self.crafthead = Crafthead()
 
     def time(self):
         return datetime.now()
 
-    def embed(self, ctx, description):  # common embed template i use is color=ctx.author.color, timestamp=ctx.message.created_at, description=message
+    def embed(self, ctx, description):
+        # common embed template i use is color=ctx.author.color, timestamp=ctx.message.created_at, description=message
         return discord.Embed(
             color=ctx.author.color,
             timestamp=ctx.message.created_at,
             description=description
         )
+
+
+class Crafthead:
+    def __init__(self):
+        self.CRAFTHEAD = "https://crafthead.net"
+
+    def avatar(self, input_):
+        return f"{self.CRAFTHEAD}/helm/{input_}.png"
+        # helm returns regular avatar + helm and only avatar if the player no helm
+
+    def skin(self, input_):
+        return f"{self.CRAFTHEAD}/skin/{input_}.png"

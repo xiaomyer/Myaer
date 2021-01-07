@@ -1,7 +1,7 @@
 """
 MIT License
 
-Copyright (c) 2020 MyerFire
+Copyright (c) 2020 myerfire
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -70,12 +70,19 @@ class Bedwars(commands.Cog):
         stats = BedwarsMenu(stats, fkdr, bblr, wlr)
         await stats.start(ctx)
 
+    def get_needed_string(self, ratio):
+        increase = ratio.increase()
+        if increase == float("inf"):
+            return f"{increase} needed"
+        else:
+            return f"{increase:,d} needed"
+
     def get_stats_embed(self, player, mode=None):
         if not mode:
             mode = player.bedwars  # overall stats
         return discord.Embed(
             color=player.bedwars.prestige.color,
-            title=f"[{player.bedwars.prestige.star}{self.bot.static.star}] [{player.rank.name}] {discord.utils.escape_markdown(player.name)}",
+            title=f"[{player.bedwars.prestige.star}{self.bot.static.star}] {player.display}",
             description=f"Winstreak: {mode.winstreak:,d}\n"
                         f"Games Played: {mode.games_played:,d}"
         ).add_field(
@@ -123,7 +130,7 @@ class Bedwars(commands.Cog):
             mode = player.bedwars  # overall
         return discord.Embed(
             color=player.bedwars.prestige.color,
-            title=f"[{player.bedwars.prestige.star}{self.bot.static.star}] [{player.rank.name}] {discord.utils.escape_markdown(player.name)}",
+            title=f"[{player.bedwars.prestige.star}{self.bot.static.star}] {player.display}",
         ).add_field(
             name="Final Kills",
             value=f"{mode.finals.kills:,d}"
@@ -135,7 +142,7 @@ class Bedwars(commands.Cog):
             value=mode.finals.ratio.ratio
         ).add_field(
             name=f"To {mode.finals.ratio.next} FKDR",
-            value=f"{mode.finals.ratio.increase():,d} needed"
+            value=self.get_needed_string(mode.finals.ratio)
         ).set_footer(
             text=f"{mode} FKDR"
         )
@@ -145,7 +152,7 @@ class Bedwars(commands.Cog):
             mode = player.bedwars  # overall
         return discord.Embed(
             color=player.bedwars.prestige.color,
-            title=f"[{player.bedwars.prestige.star}{self.bot.static.star}] [{player.rank.name}] {discord.utils.escape_markdown(player.name)}",
+            title=f"[{player.bedwars.prestige.star}{self.bot.static.star}] {player.display}",
         ).add_field(
             name="Wins",
             value=f"{mode.wins.wins:,d}"
@@ -157,7 +164,7 @@ class Bedwars(commands.Cog):
             value=mode.wins.ratio.ratio
         ).add_field(
             name=f"To {mode.wins.ratio.next} WLR",
-            value=f"{mode.wins.ratio.increase():,d} needed"
+            value=self.get_needed_string(mode.wins.ratio)
         ).set_footer(
             text=f"{mode} WLR"
         )
@@ -167,7 +174,7 @@ class Bedwars(commands.Cog):
             mode = player.bedwars  # overall
         return discord.Embed(
             color=player.bedwars.prestige.color,
-            title=f"[{player.bedwars.prestige.star}{self.bot.static.star}] [{player.rank.name}] {discord.utils.escape_markdown(player.name)}",
+            title=f"[{player.bedwars.prestige.star}{self.bot.static.star}] {player.display}",
         ).add_field(
             name="Beds Broken",
             value=f"{mode.beds.broken:,d}"
@@ -179,7 +186,7 @@ class Bedwars(commands.Cog):
             value=mode.beds.ratio.ratio
         ).add_field(
             name=f"To {mode.beds.ratio.next} BBLR",
-            value=f"{mode.beds.ratio.increase():,d} needed"
+            value=self.get_needed_string(mode.beds.ratio)
         ).set_footer(
             text=f"{mode} BBLR"
         )

@@ -1,7 +1,7 @@
 """
 MIT License
 
-Copyright (c) 2020 MyerFire
+Copyright (c) 2020 myerfire
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -33,10 +33,10 @@ class Help(commands.Cog):
     @commands.command()
     @commands.max_concurrency(1, per=commands.BucketType.user)
     async def help(self, ctx):
-        help_embed = discord.Embed(
+        await ctx.send(embed=discord.Embed(
             name="Help",
             description=f"""Here is some information about me
-[Commands](https://github.com/MyerFire/Myaer#command-list)
+[Commands](https://github.com/MyerFire/Myaer#commands)
 [GitHub](https://github.com/MyerFire/Myaer)
 [Support/Info (My Discord Server)](https://inv.wtf/myerfire)
 [Vote](https://discord.boats/bot/700133917264445480)
@@ -47,12 +47,12 @@ class Help(commands.Cog):
             name="Help",
             icon_url=str(ctx.me.avatar_url_as(static_format="png", size=2048))
         ).set_footer(
-            text="Made by MyerFire"
-        )
-        await ctx.send(embed=help_embed)
+            text="Made by Myer"
+        ))
 
 
 def setup(bot):
     bot.remove_command("help")
+    print("Unloaded default help command")
     bot.add_cog(Help(bot))
     print("Reloaded commands.help")
