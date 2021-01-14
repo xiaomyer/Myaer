@@ -31,7 +31,17 @@ class GuildConfig:
         self.staffonly = data.get("staffonly")
         self.adminonly = data.get("adminonly")
 
+    @staticmethod
+    def default():
+        print("Returned default GuildConfig")
+        return GuildConfig({})
+
 
 class UserConfig:
     def __init__(self, data):
         self.minecraft_uuid = data.get("minecraft_uuid")
+
+    @staticmethod
+    def default():
+        print("Returned default UserConfig")
+        return UserConfig({})

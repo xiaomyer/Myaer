@@ -21,10 +21,7 @@ os.environ["JISHAKU_NO_UNDERSCORE"] = "True"
 async def get_prefix(bot, message):
     if isinstance(message.channel, discord.DMChannel) or not message.guild:
         return commands.when_mentioned_or(config.default_prefix, "myaer ", "Myaer ")(bot, message)
-    prefix = config.default_prefix
-    guild = data.guilds.get(message.guild.id)
-    if guild and guild.prefix:
-        prefix = guild.prefix
+    prefix = config.default_prefix or data.guilds.get(message.guild.id).prefix
     return commands.when_mentioned_or(prefix, "myaer ", "Myaer ")(bot, message)
 
 
@@ -72,8 +69,7 @@ async def on_ready():
             title=f"Failed to load extension {failed_extension['extension']}",
             description=f"```{failed_extension['traceback']}```"
         ))
-    await bot.change_presence(activity=discord.Game(name="Major Update Released! Join https://myer.wtf/discord for "
-                                                         "information."))
+    await bot.change_presence(activity=discord.Game(name=f"in {len(bot.guilds)} guilds"))
     await bot.config.channels.status.send(embed=discord.Embed(
         title="Bot Startup",
         color=discord.Color.green(),

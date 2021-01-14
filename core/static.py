@@ -38,10 +38,12 @@ class Static:
         self.CREATION_TIME_FORMAT = "%m/%d/%Y - %I:%M:%S %p"
         self.crafthead = Crafthead()
 
-    def time(self):
+    @staticmethod
+    def time():
         return datetime.now()
 
-    def embed(self, ctx, description):
+    @staticmethod
+    def embed(ctx, description):
         # common embed template i use is color=ctx.author.color, timestamp=ctx.message.created_at, description=message
         return discord.Embed(
             color=ctx.author.color,

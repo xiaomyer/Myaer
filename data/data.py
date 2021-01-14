@@ -30,7 +30,9 @@ from tinydb.operations import delete
 class Data:
     def __init__(self):
         self.guilds = DataEntry("data/guilds.json", "guild_id", GuildConfig)
+        print("Initialized guild configurations")
         self.users = DataEntry("data/users.json", "user_id", UserConfig)
+        print("Initialized user configurations")
 
 
 class DataEntry:
@@ -45,16 +47,21 @@ class DataEntry:
         data = self.data.search(where(self.id_string) == id_)
         if data: config = self.construct(data[0])
         self.cache[id_] = config
-        return config if data else None
+        print(f"Saved guild configuration for guild {id_} to cache")
+        return config if data else self.construct.default()
 
     def set(self, id_, key, value):
         result = self.data.search(where(self.id_string) == id_)
         if result:
             self.data.update({key: value}, where(self.id_string) == id_)
+            print(f"Updated guild configuration for guild {id_}:", f"{key} = {value}")
             if self.cache.get(id_):
                 self.cache.pop(id_)
+                print(f"Removed guild configuration for guild {id_} from cache")
         else:
             self.data.insert({self.id_string: id_, key: value})
+            print(f"Updated guild configuration for guild {id_}")
+            print(f"Updated guild configuration for guild {id_}:", f"{key} = {value}")
 
     def delete(self, id_, key):
         result = self.data.search(where(self.id_string) == id_)
@@ -63,8 +70,10 @@ class DataEntry:
         saved = result[0].get(key)
         if saved:
             self.data.update(delete(key), where(self.id_string) == id_)
+            print(f"Updated guild configuration for guild {id_}:", f"Deleted {key}")
             if self.cache.get(id_):
                 self.cache.pop(id_)
+                print(f"Removed guild configuration for guild {id_} from cache")
             return saved  # return what was deleted
         else:
             return

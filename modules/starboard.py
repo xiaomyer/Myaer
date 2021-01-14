@@ -31,7 +31,7 @@ import datetime
 class Starboard(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.image_files = [".jpg", ".png", ".gif"]
+        self.media_files = [".jpg", ".png", ".gif"]
         self.star = "⭐"
         self.starboarded = {}
 
@@ -42,8 +42,8 @@ class Starboard(commands.Cog):
                 count = reaction_.count
         return count
 
-    def image_parser(self, message):
-        for file_type in self.image_files:
+    def media_parser(self, message):
+        for file_type in self.media_files:
             for word in message.content.split(" "):
                 if file_type in word:
                     return word
@@ -54,15 +54,13 @@ class Starboard(commands.Cog):
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
         if reaction.emoji != self.star or not reaction.message.guild: return
-        guild = self.bot.data.guilds.get(reaction.message.guild.id)
-        if not guild: return
         starboard = self.bot.data.guilds.get(reaction.message.guild.id).starboard
         if not starboard: return
         starboard = self.bot.get_channel(starboard)
         if message := self.starboarded.get(reaction.message.id):
             return await message.edit(content=f"{self.stars_count(reaction)} {self.star}")
         else:
-            image = self.image_parser(reaction.message)
+            image = self.media_parser(reaction.message)
             embed = discord.Embed(
                 color=reaction.message.author.color,
                 timestamp=datetime.datetime.now(),
@@ -82,8 +80,6 @@ class Starboard(commands.Cog):
     @commands.Cog.listener()
     async def on_reaction_remove(self, reaction, user):
         if reaction.emoji != self.star or not reaction.message.guild: return
-        guild = self.bot.data.guilds.get(reaction.message.guild.id)
-        if not guild: return
         starboard = self.bot.data.guilds.get(reaction.message.guild.id).starboard
         if not starboard: return
         if message := self.starboarded.get(reaction.message.id):
