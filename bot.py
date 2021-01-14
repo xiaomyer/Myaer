@@ -3,13 +3,10 @@ from core.hypixel import Hypixel_
 from data.data import Data
 from core.static import Static
 from discord.ext import commands
-from datetime import datetime
 import asyncio
 import discord
 import hypixelaPY
-import humanfriendly
 import os
-import pytz
 import sys
 import traceback
 
@@ -66,7 +63,7 @@ async def on_error(event, *args, **kwargs):
     await bot.config.channels.error.send(embed=discord.Embed(
         title="Exception",
         description=f"```{error_traceback}```",
-        timestamp=datetime.utcnow()
+        timestamp=bot.static.time()
     ))
 
 

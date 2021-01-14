@@ -28,25 +28,22 @@ from discord.ext import commands
 
 async def check_staffonly(ctx):
     if await ctx.bot.is_owner(ctx.author): return True
-    guild = ctx.bot.data.guilds.get(ctx.guild.id)
-    if not guild: return True
-    elif not guild.staffonly or not ctx.channel.id in guild.staffonly: return True
+    staffonly = ctx.bot.data.guilds.get(ctx.guild.id).staffonly
+    if not staffonly or not ctx.channel.id in staffonly: return True
     else: return ctx.author.permissions_in(ctx.channel).manage_messages
 
 
 async def check_modonly(ctx):
     if await ctx.bot.is_owner(ctx.author): return True
-    guild = ctx.bot.data.guilds.get(ctx.guild.id)
-    if not guild: return True
-    elif not guild.modonly or not ctx.channel.id in guild.modonly: return True
+    modonly = ctx.bot.data.guilds.get(ctx.guild.id).modonly
+    if not modonly or not ctx.channel.id in modonly: return True
     else: return ctx.author.permissions_in(ctx.channel).manage_guild
 
 
 async def check_adminonly(ctx):
     if await ctx.bot.is_owner(ctx.author): return True
-    guild = ctx.bot.data.guilds.get(ctx.guild.id)
-    if not guild: return True
-    elif not guild.adminonly or not ctx.channel.id in guild.adminonly: return True
+    adminonly = ctx.bot.data.guilds.get(ctx.guild.id).adminonly
+    if not adminonly or not ctx.channel.id in adminonly: return True
     else: return ctx.author.permissions_in(ctx.channel).administrator
 
 
@@ -66,11 +63,7 @@ class Config(commands.Cog):
     @commands.guild_only()
     @commands.max_concurrency(1, per=commands.BucketType.user)
     async def prefix(self, ctx: commands.Context):
-        guild = ctx.bot.data.guilds.get(ctx.guild.id)
-        if not guild:
-            prefix = None
-        else:
-            prefix = guild.prefix
+        prefix = ctx.bot.data.guilds.get(ctx.guild.id).prefix
         return await ctx.send(embed=ctx.bot.static.embed(ctx, f"This server's current prefix is `{prefix}`" if prefix else f"This server is using the default prefix, `{self.bot.config.default_prefix}`"))
 
     @prefix.command(name="set")

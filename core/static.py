@@ -22,16 +22,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from discord.ext import commands
 from datetime import datetime
+
 import discord
+from discord.ext import commands
 
 
 class Static:
     def __init__(self):
         self.arrow = "➤"
         self.star = "✫"
-        self.startup_time = datetime.utcnow()
+        self.startup_time = self.time()
         self.user_converter = commands.UserConverter()
         self.admin = discord.Permissions(8)
         self.STARTUP_TIME_FORMAT = "%A, %b %d, %Y - %m/%d/%Y - %I:%M:%S %p"
@@ -40,7 +41,7 @@ class Static:
 
     @staticmethod
     def time():
-        return datetime.now()
+        return datetime.utcnow()
 
     @staticmethod
     def embed(ctx, description):

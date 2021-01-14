@@ -31,7 +31,7 @@ import datetime
 class Starboard(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.media_files = [".jpg", ".png", ".gif"]
+        self.image_files = [".jpg", ".png", ".gif"]
         self.star = "⭐"
         self.starboarded = {}
 
@@ -42,8 +42,8 @@ class Starboard(commands.Cog):
                 count = reaction_.count
         return count
 
-    def media_parser(self, message):
-        for file_type in self.media_files:
+    def image_parser(self, message):
+        for file_type in self.image_files:
             for word in message.content.split(" "):
                 if file_type in word:
                     return word
@@ -60,7 +60,7 @@ class Starboard(commands.Cog):
         if message := self.starboarded.get(reaction.message.id):
             return await message.edit(content=f"{self.stars_count(reaction)} {self.star}")
         else:
-            image = self.media_parser(reaction.message)
+            image = self.image_parser(reaction.message)
             embed = discord.Embed(
                 color=reaction.message.author.color,
                 timestamp=datetime.datetime.now(),
