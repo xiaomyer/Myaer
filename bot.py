@@ -45,38 +45,17 @@ extensions = [os.path.join(dp, f) for dp, dn, fn in os.walk("cogs") for f in fn]
 for file in extensions[:]:
     if not file.endswith(".py") and file != "jishaku":  # jishaku cog is a special case
         extensions.remove(file)
-failed_extensions = []
+bot.static.failed_extensions = []
 
 for extension in extensions:
     try:
         bot.load_extension(((extension.replace("/", "."))[:-3]) if extension.endswith(".py") else extension)
+        # i. don't. want. to. talk. about. it.
     except Exception as e:
         exception = '{}: {}'.format(type(e).__name__, e)
         print("Failed to load extension {}\n{}".format(extension, exception))
         error_traceback = "".join(traceback.format_exception(type(e), e, e.__traceback__))
-        failed_extensions.append({"extension": extension, "traceback": error_traceback})
-
-
-@bot.event
-async def on_ready():
-    bot.config.get_owner(bot)
-    bot.config.channels.get(bot)
-    ready_time = datetime.utcnow()
-    ready_time_est = pytz.utc.localize(ready_time).astimezone(pytz.timezone("America/New_York"))
-    print(f"Connection with Discord established at {ready_time_est.strftime('%A, %b %d, %Y - %m/%d/%Y - %I:%M:%S %p')}")
-    for failed_extension in failed_extensions:
-        await bot.config.channels.error.send(embed=discord.Embed(
-            title=f"Failed to load extension {failed_extension['extension']}",
-            description=f"```{failed_extension['traceback']}```"
-        ))
-    await bot.change_presence(activity=discord.Game(name=f"in {len(bot.guilds)} guilds"))
-    await bot.config.channels.status.send(embed=discord.Embed(
-        title="Bot Startup",
-        color=discord.Color.green(),
-        timestamp=ready_time
-    ).set_footer(
-        text=f"Took {humanfriendly.format_timespan(ready_time - bot.static.startup_time)}"
-    ))
+        bot.static.failed_extensions.append((extension, error_traceback))
 
 
 @bot.event
