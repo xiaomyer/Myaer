@@ -31,7 +31,7 @@ class Static:
     def __init__(self):
         self.arrow = "➤"
         self.star = "✫"
-        self.startup_time = datetime.now()
+        self.startup_time = datetime.utcnow()
         self.user_converter = commands.UserConverter()
         self.admin = discord.Permissions(8)
         self.STARTUP_TIME_FORMAT = "%A, %b %d, %Y - %m/%d/%Y - %I:%M:%S %p"

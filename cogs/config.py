@@ -66,8 +66,12 @@ class Config(commands.Cog):
     @commands.guild_only()
     @commands.max_concurrency(1, per=commands.BucketType.user)
     async def prefix(self, ctx: commands.Context):
-        prefix = ctx.bot.data.guilds.get(ctx.guild.id).prefix
-        return await ctx.send(embed=ctx.bot.static.embed(ctx, f"This server's current prefix is `{prefix}`" if prefix else f"This server is using the default prefix, `{self.bot.default_prefix}`"))
+        guild = ctx.bot.data.guilds.get(ctx.guild.id)
+        if not guild:
+            prefix = None
+        else:
+            prefix = guild.prefix
+        return await ctx.send(embed=ctx.bot.static.embed(ctx, f"This server's current prefix is `{prefix}`" if prefix else f"This server is using the default prefix, `{self.bot.config.default_prefix}`"))
 
     @prefix.command(name="set")
     @commands.has_guild_permissions(manage_guild=True)

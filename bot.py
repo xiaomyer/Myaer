@@ -3,11 +3,13 @@ from core.hypixel import Hypixel_
 from data.data import Data
 from core.static import Static
 from discord.ext import commands
+from datetime import datetime
 import asyncio
-import datetime
 import discord
 import hypixelaPY
+import humanfriendly
 import os
+import pytz
 import sys
 import traceback
 
@@ -62,20 +64,22 @@ for extension in extensions:
 async def on_ready():
     bot.config.get_owner(bot)
     bot.config.channels.get(bot)
-    ready_time = datetime.datetime.now()
-    print(f"Connection with Discord established at {ready_time.strftime(bot.static.STARTUP_TIME_FORMAT)}")
+    ready_time = datetime.utcnow()
+    ready_time_est = pytz.utc.localize(ready_time).astimezone(pytz.timezone("America/New_York"))
+    print(f"Connection with Discord established at {ready_time_est.strftime('%A, %b %d, %Y - %m/%d/%Y - %I:%M:%S %p')}")
     for failed_extension in failed_extensions:
         await bot.config.channels.error.send(embed=discord.Embed(
             title=f"Failed to load extension {failed_extension['extension']}",
             description=f"```{failed_extension['traceback']}```"
         ))
-    await bot.change_presence(activity=discord.Game(name="Major Update Released! Join https://myer.wtf/discord for information."))
+    await bot.change_presence(activity=discord.Game(name="Major Update Released! Join https://myer.wtf/discord for "
+                                                         "information."))
     await bot.config.channels.status.send(embed=discord.Embed(
-        title="Bot Startup Event",
+        title="Bot Startup",
         color=discord.Color.green(),
         timestamp=ready_time
     ).set_footer(
-        text=f"Took f
+        text=f"Took {humanfriendly.format_timespan(ready_time - bot.static.startup_time)}"
     ))
 
 
@@ -84,14 +88,11 @@ async def on_error(event, *args, **kwargs):
     error = sys.exc_info()
     error_traceback = "".join(traceback.format_exception(error[0], error[1], error[2]))
     print(error_traceback)
-    error_embed = discord.Embed(
+    await bot.config.channels.error.send(embed=discord.Embed(
         title="Exception",
-        description=f"```{error_traceback}```"
-    )
-    error_embed.set_footer(
-        text=datetime.datetime.now().strftime(bot.static.STARTUP_TIME_FORMAT)
-    )
-    await bot.config.channels.error.send(embed=error_embed)
+        description=f"```{error_traceback}```",
+        timestamp=datetime.utcnow()
+    ))
 
 
 async def start():
