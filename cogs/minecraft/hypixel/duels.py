@@ -34,17 +34,23 @@ class Duels(commands.Cog):
     @commands.max_concurrency(1, per=commands.BucketType.user)
     async def duels(self, ctx, input_=None):
         player = await ctx.bot.hypixel.player.get(ctx=ctx, input_=input_)
+        # these need to have the same number of indexes
         stats = (
             self.get_stats_embed(player),
             self.get_stats_embed(player, mode=player.duels.bow),
             self.get_stats_embed(player, mode=player.duels.classic)
+        )
+        kdr = (
+            self.get_kdr_embed(player),
+            self.get_kdr_embed(player, mode=player.duels.bow),
+            self.get_kdr_embed(player, mode=player.duels.classic)
         )
         wlr = (
             self.get_wlr_embed(player),
             self.get_wlr_embed(player, mode=player.duels.bow),
             self.get_wlr_embed(player, mode=player.duels.classic)
         )
-        stats = DuelsMenu(stats, wlr)
+        stats = DuelsMenu(stats, kdr, wlr)
         await stats.start(ctx)
 
     @staticmethod
@@ -78,6 +84,28 @@ class Duels(commands.Cog):
         )
 
     @staticmethod
+    def get_kdr_embed(player, mode=None):
+        if not mode:
+            mode = player.duels  # overall
+        return discord.Embed(
+            title=player.display
+        ).add_field(
+            name="Kills",
+            value=f"{mode.kills.kills:,d}"
+        ).add_field(
+            name="Deaths",
+            value=f"{mode.kills.deaths:,d}"
+        ).add_field(
+            name="K/D",
+            value=mode.kills.ratio.ratio
+        ).add_field(
+            name=f"To {mode.kills.ratio.next} KDR",
+            value=f"{mode.kills.ratio.increase():,d} needed"
+        ).set_footer(
+            text=f"{mode} KDR"
+        )
+
+    @staticmethod
     def get_wlr_embed(player, mode=None):
         if not mode:
             mode = player.duels  # overall
@@ -101,9 +129,10 @@ class Duels(commands.Cog):
 
 
 class DuelsMenu(menus.Menu):
-    def __init__(self, stats, wlr):
+    def __init__(self, stats, kdr, wlr):
         super().__init__(timeout=300.0)
         self.stats = stats
+        self.kdr = kdr
         self.wlr = wlr
         self.index = 0
         self.display = stats  # default display mode is stats
@@ -142,7 +171,10 @@ class DuelsMenu(menus.Menu):
         self.display = self.stats
         return await self.message.edit(embed=self.display[self.index])
 
-    # TODO: KD
+    @menus.button("<:kdr:802191344377528401>")
+    async def on_kdr(self, payload):
+        self.display = self.kdr
+        return await self.message.edit(embed=self.display[self.index])
 
     @menus.button("<:wlr:795017651726450758>")
     async def on_wlr(self, payload):
