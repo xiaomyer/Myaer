@@ -36,12 +36,8 @@ class Avatar(commands.Cog):
     @commands.max_concurrency(1, per=commands.BucketType.user)
     async def avatar(self, ctx, target: typing.Union[discord.Member, discord.User, str, None]):
         if isinstance(target, str):
-            return await ctx.send(embed=discord.Embed(
-                description=f"User \"{target}\" not found",
-                color=ctx.author.color,
-                timestamp=ctx.message.created_at
-            ))
-        if not target:
+            return await ctx.send(embed=ctx.bot.static.embed(ctx, f"User {target} not found"))
+        elif not target:
             target = ctx.author
         await ctx.send(embed=discord.Embed(
             color=target.color,

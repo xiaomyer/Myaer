@@ -28,7 +28,8 @@ import hypixelaPY
 import time
 
 
-class Hypixel_:  # wrapper around the hypixel api library i'm using
+class Hypixel_:
+    # wrapper around the hypixel api library i'm using
     # that also happens to be mine
     # basically this includes a bunch of bot specific features and caching
     def __init__(self, bot, api: str):

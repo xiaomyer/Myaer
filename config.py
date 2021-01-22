@@ -17,12 +17,12 @@ class Config:
 
 class Channels:
     def __init__(self, channels):
-        self.error = channels["error"]
+        self.events = channels["events"]
         self.status = channels["status"]
         self.guilds = channels["guilds"]
 
     def get(self, bot):
-        self.error = bot.get_channel(self.error)
+        self.events = bot.get_channel(self.events)
         self.status = bot.get_channel(self.status)
         self.guilds = bot.get_channel(self.guilds)
 

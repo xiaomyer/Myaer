@@ -47,7 +47,8 @@ class Duels(commands.Cog):
         stats = DuelsMenu(stats, wlr)
         await stats.start(ctx)
 
-    def get_stats_embed(self, player, mode=None):
+    @staticmethod
+    def get_stats_embed(player, mode=None):
         if not mode:
             mode = player.duels  # overall stats
         return discord.Embed(
@@ -76,7 +77,8 @@ class Duels(commands.Cog):
             text=str(mode)
         )
 
-    def get_wlr_embed(self, player, mode=None):
+    @staticmethod
+    def get_wlr_embed(player, mode=None):
         if not mode:
             mode = player.duels  # overall
         return discord.Embed(

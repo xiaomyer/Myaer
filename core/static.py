@@ -32,6 +32,7 @@ class Static:
     def __init__(self):
         self.arrow = "➤"
         self.star = "✫"
+        self.separator = "------------------------------"
         self.startup_time = self.time()
         self.user_converter = commands.UserConverter()
         self.admin = discord.Permissions(8)

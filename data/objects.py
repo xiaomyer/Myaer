@@ -33,7 +33,6 @@ class GuildConfig:
 
     @staticmethod
     def default():
-        print("Returned default GuildConfig")
         return GuildConfig({})
 
 
@@ -43,5 +42,4 @@ class UserConfig:
 
     @staticmethod
     def default():
-        print("Returned default UserConfig")
         return UserConfig({})

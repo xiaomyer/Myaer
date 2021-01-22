@@ -71,33 +71,33 @@ class CommandError(commands.Cog):
             return await ctx.send(embed=ctx.bot.static.embed(ctx, f"I am missing the`{', '.join(error.missing_perms)}` "
                                                                   f"permission(s)"))
         elif isinstance(error, discord.Forbidden):
-            return await ctx.send(embed=ctx.bot.static.embed(
+            return await ctx.author.send(embed=ctx.bot.static.embed(
                 ctx,
                 f"""I do not have enough permissions in `{ctx.guild.name}`'s {ctx.channel.mention} channel (or the 
                 entire server). The base permissions I require are `Read Messages`, `Send Messages`, `Attach Files`, 
                 and `Embed Links`. (moderation commands may require more permissions) If you are having trouble with 
                 permissions, giving me the `Administrator` permission will solve any and all problems. For more 
                 support, join my [Discord Server](https://myer.wtf/discord)"""))
+
+        error_traceback = "".join(traceback.format_exception(type(error), error, error.__traceback__))
         await ctx.send(embed=discord.Embed(
             color=ctx.author.color,
             timestamp=ctx.message.created_at,
-            description=f"**{error.__class__.__name__}**: {error}"
+            description=f"```{error_traceback}```"
         ).set_author(
             name="Join my Discord server for help",
             url="https://myer.wtf/discord"
         ))
 
-        error_traceback = "".join(traceback.format_exception(type(error), error, error.__traceback__))
-        await ctx.bot.config.channels.error.send(embed=discord.Embed(
+        await ctx.bot.config.channels.events.send(embed=discord.Embed(
             color=ctx.author.color,
             timestamp=ctx.message.created_at,
-            title=
-            f"""Ignoring exception in command {ctx.command}
-        ```{ctx.message.content}```""",
-            description=f"""{f'in guild `{ctx.guild.name} ({ctx.guild.id})`' if isinstance(ctx.message.channel, discord.TextChannel) else 'in a DM channel'} 
-        invoked by {ctx.author.mention} `({ctx.author.name}#{ctx.author.discriminator}) ({ctx.author.id})`
-        ```{error_traceback}```"""
-        ))
+            title=f"Ignoring exception in command {ctx.command}\n"
+                  f"`{ctx.message.content}`",
+            description=(f"in guild `{ctx.guild.name} ({ctx.guild.id})`\n"
+                         if isinstance(ctx.message.channel, discord.TextChannel) else
+                         "in a DM channel\n") + f"invoked by {ctx.author.mention} ({ctx.author}) [{ctx.author.id}]\n"
+                                                f"```{error_traceback}```"))
         print("Ignoring exception in command {}:".format(ctx.command), file=sys.stderr)
         traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
 

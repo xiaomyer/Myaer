@@ -29,6 +29,7 @@ from tinydb.operations import delete
 
 class Data:
     def __init__(self):
+        print("------------------------------")
         self.guilds = DataEntry("data/guilds.json", "guild_id", GuildConfig)
         print("Initialized guild configurations")
         self.users = DataEntry("data/users.json", "user_id", UserConfig)
@@ -43,37 +44,70 @@ class DataEntry:
         self.cache = {}
 
     def get(self, id_):
-        if config := self.cache.get(id_): return config
+        print("------------------------------")
+        print(f"Attempting configuration get for object {self.id_string}\n"
+              f"ID: {id_}")
+        if config := self.cache.get(id_):
+            print(f"Returning configuration from cache")
+            return config
         data = self.data.search(where(self.id_string) == id_)
         if data: config = self.construct(data[0])
         self.cache[id_] = config
-        print(f"Saved guild configuration for guild {id_} to cache")
+        print(f"Saved configuration to cache")
+        print("Successfully got configuration" if data else
+              "Failed to get configuration\n"
+              "Configuration does not exist\n"
+              "Returned default configuration")
+        return config if data else self.construct.default()
+
+    def get_silent(self, id_):  # same as above but no logging because this is called every message and way too spammy
+        if config := self.cache.get(id_):
+            return config
+        data = self.data.search(where(self.id_string) == id_)
+        if data: config = self.construct(data[0])
+        self.cache[id_] = config
         return config if data else self.construct.default()
 
     def set(self, id_, key, value):
+        print("------------------------------")
+        print(f"Attempting configuration set for object {self.id_string}\n"
+              f"ID: {id_}\n"
+              f"Key: {key}\n"
+              f"Value: {value}")
         result = self.data.search(where(self.id_string) == id_)
         if result:
             self.data.update({key: value}, where(self.id_string) == id_)
-            print(f"Updated guild configuration for guild {id_}:", f"{key} = {value}")
+            print("Updated configuration")
             if self.cache.get(id_):
                 self.cache.pop(id_)
-                print(f"Removed guild configuration for guild {id_} from cache")
+                print(f"Removed configuration from cache")
         else:
             self.data.insert({self.id_string: id_, key: value})
-            print(f"Updated guild configuration for guild {id_}")
-            print(f"Updated guild configuration for guild {id_}:", f"{key} = {value}")
+            if self.cache.get(id_):
+                self.cache.pop(id_)
+                print(f"Removed configuration from cache")
+            print("Created configuration")
+            print("Updated configuration")
 
     def delete(self, id_, key):
+        print("------------------------------")
+        print(f"Attempting configuration key delete for object {self.id_string}\n"
+              f"ID: {id_}\n"
+              f"Key: {key}")
         result = self.data.search(where(self.id_string) == id_)
         if not result:
+            print("Failed to delete key in configuration\n"
+                  "Configuration does not exist")
             return
         saved = result[0].get(key)
         if saved:
             self.data.update(delete(key), where(self.id_string) == id_)
-            print(f"Updated guild configuration for guild {id_}:", f"Deleted {key}")
+            print("Deleted key of configuration for object")
             if self.cache.get(id_):
                 self.cache.pop(id_)
-                print(f"Removed guild configuration for guild {id_} from cache")
+                print(f"Removed configuration from cache")
             return saved  # return what was deleted
         else:
+            print("Failed to delete key in configuration\n"
+                  "Key in configuration does not exist")
             return

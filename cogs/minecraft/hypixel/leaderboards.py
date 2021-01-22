@@ -61,10 +61,7 @@ class LeaderboardsMenu(menus.Menu):
             self.index -= 1
 
     async def send_initial_message(self, ctx, channel):
-        return await channel.send(embed=discord.Embed(
-            color=self.ctx.author.color,
-            description="React with the game that you want to see the leaderboards for"
-        ))
+        return await channel.send(embed=ctx.bot.static.embed(self.ctx_, "Leaderboards Game Selector"))
 
     @menus.button("\u2B05")
     async def on_arrow_backwards(self, payload):

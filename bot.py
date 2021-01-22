@@ -18,7 +18,7 @@ os.environ["JISHAKU_NO_UNDERSCORE"] = "True"
 async def get_prefix(bot, message):
     if isinstance(message.channel, discord.DMChannel) or not message.guild:
         return commands.when_mentioned_or(config.default_prefix, "myaer ", "Myaer ")(bot, message)
-    prefix = config.default_prefix or data.guilds.get(message.guild.id).prefix
+    prefix = data.guilds.get_silent(message.guild.id).prefix or config.default_prefix
     return commands.when_mentioned_or(prefix, "myaer ", "Myaer ")(bot, message)
 
 
@@ -38,9 +38,9 @@ extensions = [os.path.join(dp, f) for dp, dn, fn in os.walk("cogs") for f in fn]
              [os.path.join(dp, f) for dp, dn, fn in os.walk("commands") for f in fn] + \
              [os.path.join(dp, f) for dp, dn, fn in os.walk("modules") for f in fn] + \
              [os.path.join(dp, f) for dp, dn, fn in os.walk("events") for f in fn] + \
-             ["jishaku"]
+             ["jishaku", "initialize"]
 for file in extensions[:]:
-    if not file.endswith(".py") and file != "jishaku":  # jishaku cog is a special case
+    if not file.endswith(".py") and file not in ["jishaku", "initialize"]:  # jishaku cog is a special case
         extensions.remove(file)
 bot.static.failed_extensions = []
 
@@ -60,7 +60,7 @@ async def on_error(event, *args, **kwargs):
     error = sys.exc_info()
     error_traceback = "".join(traceback.format_exception(error[0], error[1], error[2]))
     print(error_traceback)
-    await bot.config.channels.error.send(embed=discord.Embed(
+    await bot.config.channels.events.send(embed=discord.Embed(
         title="Exception",
         description=f"```{error_traceback}```",
         timestamp=bot.static.time()

@@ -38,30 +38,57 @@ class Minecraft(commands.Cog):
     @minecraft.command()
     @commands.max_concurrency(1, per=commands.BucketType.user)
     async def verify(self, ctx: commands.Context, input_: str):
+        print(ctx.bot.static.separator)
+        print(f"Attempting Minecraft account verification for user {ctx.author})\n"
+              f"ID: {ctx.author.id}\n"
+              f"Input: {input_}")
         player = await ctx.bot.hypixel.hypixel.player.get(input_=input_)
         if str(ctx.author) != player.social.discord:
+            print(f"Failed Minecraft account verification\n"
+                  f"Hypixel Discord name of the given Minecraft account was not the same as the user's discord\n"
+                  f"Hypixel Discord name: {player.social.discord}")
             return await ctx.send(embed=ctx.bot.static.embed(ctx, "Set your Discord name and tag on Hypixel first"))
+        print("Successfully verified Minecraft account")
         ctx.bot.data.users.set(ctx.author.id, "minecraft_uuid", player.uuid)
         return await ctx.send(embed=ctx.bot.static.embed(ctx, f"Verified your Minecraft account as `{player.name}`"))
 
     @minecraft.command()
     @commands.max_concurrency(1, per=commands.BucketType.user)
     async def unverify(self, ctx: commands.Context):
+        print(ctx.bot.static.separator)
+        print(f"Attempting Minecraft account unverification for user {ctx.author}\n"
+              f"ID: {ctx.author.id}")
         reset = ctx.bot.data.users.delete(ctx.author.id, "minecraft_uuid")
+        print(f"Unverified Minecraft account\n"
+              f"Minecraft UUID: {reset}" if reset else
+              f"Failed to unverify Minecraft account\n"
+              f"User was not verified")
         return await ctx.send(embed=ctx.bot.static.embed(ctx, f"{'Unverified your Minecraft account' if reset else 'Your Minecraft account was not verified'}"))
 
     @minecraft.command()
     @commands.is_owner()
     @commands.max_concurrency(1, per=commands.BucketType.user)
     async def forceverify(self, ctx: commands.Context, user: discord.User, input_: str):
+        print(ctx.bot.static.separator)
+        print(f"Attempting Minecraft account verification for user {user})\n"
+              f"ID: {user.id}\n"
+              f"Input: {input_}")
         player = await ctx.bot.hypixel.hypixel.player.get(input_=input_)
+        print("Successfully verified Minecraft account")
         ctx.bot.data.users.set(user.id, "minecraft_uuid", player.uuid)
         return await ctx.send(embed=ctx.bot.static.embed(ctx, f"Verified {user.mention}'s Minecraft account as `{player.name}`"))
 
     @minecraft.command()
     @commands.max_concurrency(1, per=commands.BucketType.user)
     async def forceunverify(self, ctx: commands.Context, user: discord.User):
+        print(ctx.bot.static.separator)
+        print(f"Attempting Minecraft account unverification for user {user}\n"
+              f"ID: {user.id}")
         reset = ctx.bot.data.users.delete(user.id, "minecraft_uuid")
+        print(f"Unverified Minecraft account\n"
+              f"Minecraft UUID: {reset.minecraft_uuid} (this has been reset)" if reset else
+              f"Failed to unverify Minecraft account\n"
+              f"User was not verified")
         return await ctx.send(embed=ctx.bot.static.embed(ctx,
                                                          f"""{f"Unverified {user.mention}'s Minecraft account" if reset else f"{user.mention}'s Minecraft account was not verified"}"""))
 
