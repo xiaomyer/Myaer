@@ -31,7 +31,6 @@ bot = commands.Bot(
 bot.static = Static()
 bot.config = config
 bot.data = data
-bot.hypixel = Hypixel_(bot, config.keys.hypixel)
 bot.mojang = hypixelaPY.Mojang()
 
 extensions = [os.path.join(dp, f) for dp, dn, fn in os.walk("cogs") for f in fn] + \
@@ -69,6 +68,7 @@ async def on_error(event, *args, **kwargs):
 
 async def start():
     try:
+        bot.hypixel = await Hypixel_(bot, config.keys.hypixel)
         await bot.start(config.token)
     except KeyboardInterrupt:
         await bot.logout()

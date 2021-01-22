@@ -28,13 +28,22 @@ import hypixelaPY
 import time
 
 
-class Hypixel_:
+async def Hypixel_(bot, api: str):
+    client = HypixelClient_(bot)
+    await client._init_client(api)
+    return client
+
+
+
+class HypixelClient_:
     # wrapper around the hypixel api library i'm using
     # that also happens to be mine
     # basically this includes a bunch of bot specific features and caching
-    def __init__(self, bot, api: str):
-        self.hypixel = hypixelaPY.Hypixel(api)
+    def __init__(self, bot):
         self.bot = bot
+
+    async def _init_client(self, api: str):
+        self.hypixel = await hypixelaPY.Hypixel(api)
         self.player = Player(self.bot, self.hypixel)
         self.guild = Guild(self.bot, self.hypixel)
         self.leaderboards = Leaderboards(self.bot, self.hypixel)
