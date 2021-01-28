@@ -49,7 +49,7 @@ class LastFMClient_:
             if bool(username):
                 if user := await self.bot.static.try_user_convert(self.bot, ctx, username):
                     if user.mentioned_in(ctx.message):
-                        username = self.bot.data.users.get(username.id).lastfm
+                        username = self.bot.data.users.get(user.id).lastfm
                 if username.isdigit():
                     user = int(username)
                     if bool(self.bot.get_user(user)):

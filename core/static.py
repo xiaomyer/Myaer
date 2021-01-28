@@ -25,7 +25,7 @@ SOFTWARE.
 from datetime import datetime
 
 import discord
-from discord.ext import commands
+from discord.ext import commands, menus
 
 
 class Static:
@@ -39,6 +39,7 @@ class Static:
         self.STARTUP_TIME_FORMAT = "%A, %b %d, %Y - %m/%d/%Y - %I:%M:%S %p"
         self.CREATION_TIME_FORMAT = "%m/%d/%Y - %I:%M:%S %p"
         self.crafthead = Crafthead()
+        self.paginators = Paginators()
 
     @staticmethod
     def time():
@@ -71,3 +72,47 @@ class Crafthead:
 
     def skin(self, input_):
         return f"{self.CRAFTHEAD}/skin/{input_}.png"
+
+
+class Paginators:
+    def __init__(self):
+        self.regular = Paginator
+        self.codeblock = CodeblockPaginator
+
+
+class Paginator(menus.ListPageSource):
+    def __init__(self, data, ctx, title, footer):
+        self.ctx = ctx
+        self.title = title
+        self.footer = footer
+        super().__init__(data, per_page=15)
+
+    async def format_page(self, menu, entries):
+        joined = "\n".join(entries)
+        return discord.Embed(
+            title=self.title,
+            description=f"{joined}",
+            color=self.ctx.author.color,
+            timestamp=self.ctx.message.created_at
+        ).set_footer(
+            text=self.footer
+        )
+
+
+class CodeblockPaginator(menus.ListPageSource):
+    def __init__(self, data, ctx, title, footer):
+        self.ctx = ctx
+        self.title = title
+        self.footer = footer
+        super().__init__(data, per_page=15)
+
+    async def format_page(self, menu, entries):
+        joined = "\n".join(entries)
+        return discord.Embed(
+            title=self.title,
+            description=f"```{joined}```",
+            color=self.ctx.author.color,
+            timestamp=self.ctx.message.created_at
+        ).set_footer(
+            text=self.footer
+        )

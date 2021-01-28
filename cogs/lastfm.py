@@ -44,12 +44,12 @@ class LastFM(commands.Cog):
     @lastfm.command()
     async def recent(self, ctx, username=None):
         username = await ctx.bot.lastfm.get_username(ctx=ctx, username=username)
-        tracks = await ctx.bot.lastfm.client.user.get_recent_tracks(user=username)
-        names = [f"{track.artist.name} - " 
-                 f"{track.name} - "
-                 f"{'now playing' if track.playing else f'{humanfriendly.format_timespan(ctx.bot.static.time() - track.played)} ago'}"
-                 for track in tracks.items]
-        await menus.MenuPages(source=RecentTracksPaginator(names, ctx, username),
+        recent = await ctx.bot.lastfm.client.user.get_recent_tracks(user=username)
+        tracks = [f"{track.artist.name} - "
+                  f"{track.name} - "
+                  f"{'now playing' if track.playing else f'{humanfriendly.format_timespan(ctx.bot.static.time() - track.played)} ago'}"
+                  for track in recent.items]
+        await menus.MenuPages(source=ctx.bot.static.paginators.codeblock(tracks, ctx, f"{username}'s Recent Tracks", "Recently played"),
                               clear_reactions_after=True
                               ).start(ctx)
 
@@ -71,21 +71,20 @@ class LastFM(commands.Cog):
         else:
             await ctx.send(embed=ctx.bot.static.embed(ctx, description="Not currently playing anything"))
 
-
-class RecentTracksPaginator(menus.ListPageSource):
-    def __init__(self, data, ctx, username):
-        self.ctx = ctx
-        self.username = username
-        super().__init__(data, per_page=15)
-
-    async def format_page(self, menu, entries):
-        joined = "\n".join(entries)
-        return discord.Embed(
-            title=f"{self.username}'s Recent Tracks",
-            description=f"```{joined}```",
-            color=self.ctx.author.color,
-            timestamp=self.ctx.message.created_at
-        )
+    @lastfm.command(aliases=["servernp"])
+    async def servernow(self, ctx):
+        usernames = []
+        for member in ctx.guild.members:
+            if lastfm := ctx.bot.data.users.get(member.id).lastfm:
+                usernames.append((member, lastfm))
+        tracks = []
+        for member, user in usernames:
+            recent = await ctx.bot.lastfm.client.user.get_recent_tracks(user=user)
+            now = recent.items[0] if recent.items[0].playing else None
+            if now:
+                tracks.append(f"{member.mention}: `{now.artist.name} - {now.name}`")
+        await menus.MenuPages(source=ctx.bot.static.paginators.regular(tracks, ctx, f"{ctx.guild}'s Now Playing", "Server now playing")).start(
+            ctx)
 
 
 def setup(bot):
