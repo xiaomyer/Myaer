@@ -13,7 +13,6 @@ hypixelaPY==1.2.4
 idna==3.1
 import-expression==1.1.4
 jishaku==1.20.0.220
-lastfm-py==0.0.1
 lastfmpy==0.0.7
 multidict==5.1.0
 psutil==5.8.0
