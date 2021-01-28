@@ -25,7 +25,7 @@ Maintained by [Myer (also known as myerfire, MyerFire)](https://github.com/myerf
   - Mod is defined as having manage server
   - Admin is defined as having administrator
 - /[staff/mod/admin]only set `channels` - Sets settings for who can run commands in certain channels
-- [staff/mod/admin]only reset - Resets settings for who can run commands in certain channels
+- /[staff/mod/admin]only reset - Resets settings for who can run commands in certain channels
 ### Minecraft
 - /mc verify `ign` - Saves your Minecraft profile for use with future commands. If you are verified, any commands other than this one that require ign as an input will no longer require ign
 - /mc unverify - Removes your Minecraft profile from the database

@@ -22,37 +22,38 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import discord
-from discord.ext import commands
+from .exceptions import NoLastFMUsername
+import lastfmpy
 
 
-class Help(commands.Cog):
+async def LastFM_(bot, api: str):
+    client = LastFMClient_(bot)
+    await client._init_client(api)
+    return client
+
+
+class LastFMClient_:
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
-    @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def help(self, ctx):
-        await ctx.send(embed=discord.Embed(
-            name="Help",
-            description=f"""Here is some information about me
-[Commands](https://github.com/MyerFire/Myaer#commands)
-[GitHub](https://github.com/MyerFire/Myaer)
-[Support/Info (My Discord Server)](https://inv.wtf/myerfire)
-[Vote](https://discord.boats/bot/700133917264445480)
-[Invite Me]({discord.utils.oauth_url(ctx.me.id, permissions=ctx.bot.static.admin)})""",
-            color=ctx.author.color,
-            timestamp=ctx.message.created_at
-        ).set_author(
-            name="Help",
-            icon_url=str(ctx.me.avatar_url_as(static_format="png", size=2048))
-        ).set_footer(
-            text="Made by Myer"
-        ))
+    async def _init_client(self, api: str):
+        self.client = await lastfmpy.LastFM(api)
 
-
-def setup(bot):
-    bot.remove_command("help")
-    print("Unloaded default help command")
-    bot.add_cog(Help(bot))
-    print("Reloaded commands.help")
+    async def get_username(self, *, ctx=None, username=None):
+        if not bool(username):
+            if username := self.bot.data.users.get(ctx.author.id):
+                username = username.lastfm
+            else:
+                username = None
+        else:
+            if bool(username):
+                if user := await self.bot.static.try_user_convert(self.bot, ctx, username):
+                    if user.mentioned_in(ctx.message):
+                        username = self.bot.data.users.get(username.id).lastfm
+                if username.isdigit():
+                    user = int(username)
+                    if bool(self.bot.get_user(user)):
+                        username = self.bot.data.users.get(user).lastfm
+        if not bool(username):
+            raise NoLastFMUsername
+        return username

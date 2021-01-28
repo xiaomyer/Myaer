@@ -1,7 +1,7 @@
 """
 MIT License
 
-Copyright (c) 2020 myerfire
+Copyright (c) 2020 Myer
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -34,7 +34,6 @@ async def Hypixel_(bot, api: str):
     return client
 
 
-
 class HypixelClient_:
     # wrapper around the hypixel api library i'm using
     # that also happens to be mine
@@ -62,7 +61,7 @@ class Player:
                 uuid = None
         else:
             if bool(input_):
-                if user := await self.try_user_convert(ctx, input_):
+                if user := await self.bot.static.try_user_convert(self.bot, ctx, input_):
                     if user.mentioned_in(ctx.message):
                         uuid = self.bot.data.users.get(user.id).minecraft_uuid
                 if input_.isdigit():
@@ -73,12 +72,6 @@ class Player:
             # no inputs, then the user was not in the database
             raise NoMinecraftUUID
         return await self.hypixel.player.get(input_=input_, uuid=uuid, name=name)
-
-    async def try_user_convert(self, ctx, input_):
-        try:
-            return await self.bot.static.user_converter.convert(ctx, input_)
-        except commands.UserNotFound:
-            return
 
 
 class Leaderboards:

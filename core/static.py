@@ -1,7 +1,7 @@
 """
 MIT License
 
-Copyright (c) 2020 myerfire
+Copyright (c) 2020 Myer
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -52,6 +52,13 @@ class Static:
             timestamp=ctx.message.created_at,
             description=description
         )
+
+    @staticmethod
+    async def try_user_convert(bot, ctx, input_):
+        try:
+            return await bot.static.user_converter.convert(ctx, input_)
+        except commands.UserNotFound:
+            return
 
 
 class Crafthead:

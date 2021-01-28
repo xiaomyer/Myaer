@@ -1,7 +1,7 @@
 """
 MIT License
 
-Copyright (c) 2020 myerfire
+Copyright (c) 2020 Myer
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -23,12 +23,13 @@ SOFTWARE.
 """
 
 import hypixelaPY
+import lastfmpy
 import sys
 import traceback
 
 import discord
 from discord.ext import commands
-from core.exceptions import NoMinecraftUUID
+from core.exceptions import NoMinecraftUUID, NoLastFMUsername
 
 
 class CommandError(commands.Cog):
@@ -38,22 +39,25 @@ class CommandError(commands.Cog):
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
         error = getattr(error, "original", error)
-
         if hasattr(ctx.command, "on_error"):
             return
-
         ignored = (commands.CommandNotFound,
                    commands.CheckFailure
                    )
         if isinstance(error, ignored):
             return
-
         if isinstance(error, hypixelaPY.NoPlayerFoundError):
             return await ctx.send(
                 embed=ctx.bot.static.embed(ctx, f"\"{error.input_}\" is not a valid Minecraft account"))
         elif isinstance(error, NoMinecraftUUID):
             return await ctx.send(
                 embed=ctx.bot.static.embed(ctx, f"You are not verified! `/mc verify <ign>`"))
+        elif isinstance(error, NoLastFMUsername):
+            return await ctx.send(
+                embed=ctx.bot.static.embed(ctx, f"You are not verified! `/fm set <username>`"))
+        elif isinstance(error, lastfmpy.RatelimitExceededError) or isinstance(error, lastfmpy.InvalidInputError):
+            return await ctx.send(
+                embed=ctx.bot.static.embed(ctx, error.message))
         elif isinstance(error, commands.MaxConcurrencyReached):
             return await ctx.send(
                 embed=ctx.bot.static.embed(ctx, f"{ctx.author.mention}, you are sending commands too fast"))

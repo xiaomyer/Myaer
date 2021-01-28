@@ -1,7 +1,7 @@
 """
 MIT License
 
-Copyright (c) 2020 myerfire
+Copyright (c) 2020 Myer
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -39,6 +39,7 @@ class GuildConfig:
 class UserConfig:
     def __init__(self, data):
         self.minecraft_uuid = data.get("minecraft_uuid")
+        self.lastfm = data.get("lastfm")
 
     @staticmethod
     def default():

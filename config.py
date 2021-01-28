@@ -32,3 +32,4 @@ class Keys:
         self.hypixel = keys["hypixel"]
         self.ksoft = keys["ksoft"]
         self.genius = keys["genius"]
+        self.lastfm = keys["lastfm"]

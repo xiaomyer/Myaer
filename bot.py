@@ -3,6 +3,7 @@ from core.hypixel import Hypixel_
 from data.data import Data
 from core.static import Static
 from discord.ext import commands
+from core.lastfm import LastFM_
 import asyncio
 import discord
 import hypixelaPY
@@ -69,6 +70,7 @@ async def on_error(event, *args, **kwargs):
 async def start():
     try:
         bot.hypixel = await Hypixel_(bot, config.keys.hypixel)
+        bot.lastfm = await LastFM_(bot, config.keys.lastfm)
         await bot.start(config.token)
     except KeyboardInterrupt:
         await bot.logout()
