@@ -22,14 +22,20 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+import aiohttp
 import humanfriendly
+import io
 import discord
+from bs4 import BeautifulSoup
 from discord.ext import commands, menus
+from PIL import Image
 
 
 class LastFM(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.image_default = 900
+        self.image_default_size = 900, 900
 
     @commands.group(aliases=["fm"])
     async def lastfm(self, ctx):
@@ -49,9 +55,10 @@ class LastFM(commands.Cog):
                   f"{track.name} | "
                   f"{'(now playing)' if track.playing else f'({humanfriendly.format_timespan(ctx.bot.static.time() - track.played, max_units=2)} ago)'}`"
                   for track in recent.items]
-        await menus.MenuPages(source=ctx.bot.static.paginators.regular(tracks, ctx, f"{username}'s Recent Tracks", "Recently played"),
-                              clear_reactions_after=True
-                              ).start(ctx)
+        await menus.MenuPages(
+            source=ctx.bot.static.paginators.regular(tracks, ctx, f"{username}'s Recent Tracks", "Recently played"),
+            clear_reactions_after=True
+            ).start(ctx)
 
     @lastfm.command(aliases=["np"])
     async def now(self, ctx, username=None):
@@ -85,8 +92,60 @@ class LastFM(commands.Cog):
                 tracks.append(f"{member.mention}: `{now.artist.name} - {now.name}`")
         if not tracks:
             return await ctx.send(embed=ctx.bot.static.embed(ctx, f"No one in {ctx.guild} is listening to anything"))
-        await menus.MenuPages(source=ctx.bot.static.paginators.regular(tracks, ctx, f"{ctx.guild}'s Now Playing", "Server now playing")).start(
+        await menus.MenuPages(source=ctx.bot.static.paginators.regular(tracks, ctx, f"{ctx.guild}'s Now Playing",
+                                                                       "Server now playing")).start(
             ctx)
+
+    @lastfm.command()
+    async def chart(self, ctx, username=None, per=3):
+        await ctx.trigger_typing()
+        username = await ctx.bot.lastfm.get_username(ctx=ctx, username=username)
+        chart = await ctx.bot.lastfm.client.user.get_weekly_album_chart(username)
+        images = await self.get_image_pil(await self.scrape_images(chart.items[:per ** 2]))
+        # per ** 2 is the maximum amount of images that could be displayed
+        final = self.image_to_bytes(self.merge_images(images, per=per))
+        await ctx.send(file=discord.File(final, filename="chart.png"))
+
+    @staticmethod
+    async def scrape_images(albums: list) -> list:
+        urls = []
+        async with aiohttp.ClientSession() as session:
+            for album in albums:
+                html = await session.get(album.url)
+                html = BeautifulSoup(await html.read(), "html.parser")
+                urls.append(html.find("meta", property="og:image")["content"])
+        return urls
+
+    @staticmethod
+    async def get_image_pil(images: list) -> list:
+        async with aiohttp.ClientSession() as session:
+            images = [Image.open(io.BytesIO(await (await session.get(image)).read())) for image in images]
+        return images
+
+    def merge_images(self, images: list, per: int = 3) -> Image:
+        final = Image.new("RGB", size=self.image_default_size)
+        x = 0
+        y = 0
+        for image in images:
+            image = image.resize((self.image_default // per, self.image_default // per))
+            final.paste(image, (x, y))
+            if x == self.image_default or x + self.image_default // per == self.image_default:
+                x = 0
+            else:
+                x += self.image_default // per
+                continue
+            if y == self.image_default or y + self.image_default // per == self.image_default:
+                y = 0
+            else:
+                y += self.image_default // per
+        return final
+
+    @staticmethod
+    def image_to_bytes(image: Image) -> io.BytesIO:
+        image_bytes = io.BytesIO()
+        image.save(image_bytes, format="png")
+        image_bytes.seek(0)
+        return image_bytes
 
 
 def setup(bot):
