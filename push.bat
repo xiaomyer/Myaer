@@ -1,1 +1,1 @@
-scp -r C:\Users\myerc\OneDrive\Development\Discord\Myaer myer@myer.wtf:/home/myer/Myaer
+ssh wsl -p 2222 "rsync -avzhe ssh /mnt/c/Users/myerc/OneDrive/Development/Discord/Myaer myer.wtf:/home/myer/Myaer"

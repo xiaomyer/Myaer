@@ -36,6 +36,8 @@ class LastFM(commands.Cog):
         self.bot = bot
         self.image_default = 900
         self.image_default_size = 900, 900
+        self.url_cache = {}
+        self.image_cache = {}
 
     @commands.group(aliases=["fm"])
     async def lastfm(self, ctx):
@@ -97,30 +99,45 @@ class LastFM(commands.Cog):
             ctx)
 
     @lastfm.command()
-    async def chart(self, ctx, username=None, per=3):
+    async def chart(self, ctx, first=None, second=3):
+        # first and second argument, if a number is in the first argument then take it as the per value
+        # otherwise, take first argument as username and second argument as the per value
         await ctx.trigger_typing()
-        username = await ctx.bot.lastfm.get_username(ctx=ctx, username=username)
-        chart = await ctx.bot.lastfm.client.user.get_weekly_album_chart(username)
-        images = await self.get_image_pil(await self.scrape_images(chart.items[:per ** 2]))
+        if bool(first) and first.isdigit():
+            second = int(first)
+            first = None
+        first = await ctx.bot.lastfm.get_username(ctx=ctx, username=first)
+        chart = await ctx.bot.lastfm.client.user.get_weekly_album_chart(first)
+        images = await self.get_image_pil(await self.scrape_images(chart.items[:second ** 2]))
         # per ** 2 is the maximum amount of images that could be displayed
-        final = self.image_to_bytes(self.merge_images(images, per=per))
+        final = self.image_to_bytes(self.merge_images(images, per=second))
         await ctx.send(file=discord.File(final, filename="chart.png"))
 
-    @staticmethod
-    async def scrape_images(albums: list) -> list:
+    async def scrape_images(self, albums: list) -> list:
         urls = []
         async with aiohttp.ClientSession() as session:
             for album in albums:
-                html = await session.get(album.url)
-                html = BeautifulSoup(await html.read(), "html.parser")
-                urls.append(html.find("meta", property="og:image")["content"])
+                if url := self.url_cache.get(album.url):
+                    urls.append(url)
+                else:
+                    html = await session.get(album.url)
+                    html = BeautifulSoup(await html.read(), "html.parser")
+                    url = html.find("meta", property="og:image")["content"]
+                    self.url_cache[album.url] = html.find("meta", property="og:image")["content"]
+                    urls.append(url)
         return urls
 
-    @staticmethod
-    async def get_image_pil(images: list) -> list:
+    async def get_image_pil(self, images: list) -> list:
+        files = []
         async with aiohttp.ClientSession() as session:
-            images = [Image.open(io.BytesIO(await (await session.get(image)).read())) for image in images]
-        return images
+            for image in images:
+                if file := self.image_cache.get(image):
+                    files.append(file)
+                else:
+                    file = Image.open(io.BytesIO(await (await session.get(image)).read()))
+                    files.append(file)
+                    self.image_cache[image] = file
+        return files
 
     def merge_images(self, images: list, per: int = 3) -> Image:
         final = Image.new("RGB", size=self.image_default_size)
