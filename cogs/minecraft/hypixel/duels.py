@@ -29,6 +29,7 @@ from discord.ext import commands, menus
 class Duels(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.icon = "https://static.myer.wtf/hypixel/duels.png"
 
     @commands.group(invoke_without_command=True)
     @commands.max_concurrency(1, per=commands.BucketType.user)
@@ -53,8 +54,7 @@ class Duels(commands.Cog):
         stats = DuelsMenu(stats, kdr, wlr)
         await stats.start(ctx)
 
-    @staticmethod
-    def get_stats_embed(player, mode=None):
+    def get_stats_embed(self, player, mode=None):
         if not mode:
             mode = player.duels  # overall stats
         return discord.Embed(
@@ -79,12 +79,12 @@ class Duels(commands.Cog):
         ).add_field(
             name="W/L",
             value=mode.wins.ratio.ratio
-        ).set_footer(
-            text=str(mode)
+        ).set_author(
+            name=f"Currently Viewing {mode}",
+            icon_url=self.icon
         )
 
-    @staticmethod
-    def get_kdr_embed(player, mode=None):
+    def get_kdr_embed(self, player, mode=None):
         if not mode:
             mode = player.duels  # overall
         return discord.Embed(
@@ -101,12 +101,12 @@ class Duels(commands.Cog):
         ).add_field(
             name=f"To {mode.kills.ratio.next} KDR",
             value=f"{mode.kills.ratio.increase():,d} needed"
-        ).set_footer(
-            text=f"{mode} KDR"
+        ).set_author(
+            name=f"Currently Viewing {mode} KDR",
+            icon_url=self.icon
         )
 
-    @staticmethod
-    def get_wlr_embed(player, mode=None):
+    def get_wlr_embed(self, player, mode=None):
         if not mode:
             mode = player.duels  # overall
         return discord.Embed(
@@ -123,8 +123,9 @@ class Duels(commands.Cog):
         ).add_field(
             name=f"To {mode.wins.ratio.next} WLR",
             value=f"{mode.wins.ratio.increase():,d} needed"
-        ).set_footer(
-            text=f"{mode} WLR"
+        ).set_author(
+            name=f"Currently Viewing {mode} WLR",
+            icon_url=self.icon
         )
 
 

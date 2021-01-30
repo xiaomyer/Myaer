@@ -29,6 +29,7 @@ from discord.ext import commands, menus
 class Bedwars(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.icon = "https://static.myer.wtf/hypixel/bedwars.png"
 
     @commands.group(aliases=["bw"], invoke_without_command=True)
     @commands.max_concurrency(1, per=commands.BucketType.user)
@@ -70,7 +71,8 @@ class Bedwars(commands.Cog):
         stats = BedwarsMenu(stats, fkdr, bblr, wlr)
         await stats.start(ctx)
 
-    def get_needed_string(self, ratio):
+    @staticmethod
+    def get_needed_string(ratio):
         increase = ratio.increase()
         if increase == float("inf"):
             return f"{increase} needed"
@@ -121,8 +123,9 @@ class Bedwars(commands.Cog):
         ).add_field(
             name="W/L",
             value=mode.wins.ratio.ratio
-        ).set_footer(
-            text=str(mode)
+        ).set_author(
+            name=f"Currently Viewing: {mode}",
+            icon_url=self.icon
         )
 
     def get_fkdr_embed(self, player, mode=None):
@@ -130,7 +133,7 @@ class Bedwars(commands.Cog):
             mode = player.bedwars  # overall
         return discord.Embed(
             color=player.bedwars.prestige.color,
-            title=f"[{player.bedwars.prestige.star}{self.bot.static.star}] {player.display}",
+            title=f"[{player.bedwars.prestige.star}{self.bot.static.star}] {player.display}"
         ).add_field(
             name="Final Kills",
             value=f"{mode.finals.kills:,d}"
@@ -143,8 +146,9 @@ class Bedwars(commands.Cog):
         ).add_field(
             name=f"To {mode.finals.ratio.next} FKDR",
             value=self.get_needed_string(mode.finals.ratio)
-        ).set_footer(
-            text=f"{mode} FKDR"
+        ).set_author(
+            name=f"Currently Viewing: {mode} FKDR",
+            icon_url=self.icon
         )
 
     def get_wlr_embed(self, player, mode=None):
@@ -152,7 +156,7 @@ class Bedwars(commands.Cog):
             mode = player.bedwars  # overall
         return discord.Embed(
             color=player.bedwars.prestige.color,
-            title=f"[{player.bedwars.prestige.star}{self.bot.static.star}] {player.display}",
+            title=f"[{player.bedwars.prestige.star}{self.bot.static.star}] {player.display}"
         ).add_field(
             name="Wins",
             value=f"{mode.wins.wins:,d}"
@@ -165,8 +169,9 @@ class Bedwars(commands.Cog):
         ).add_field(
             name=f"To {mode.wins.ratio.next} WLR",
             value=self.get_needed_string(mode.wins.ratio)
-        ).set_footer(
-            text=f"{mode} WLR"
+        ).set_author(
+            name=f"Currently Viewing: {mode} WLR",
+            icon_url=self.icon
         )
 
     def get_bblr_embed(self, player, mode=None):
@@ -174,7 +179,7 @@ class Bedwars(commands.Cog):
             mode = player.bedwars  # overall
         return discord.Embed(
             color=player.bedwars.prestige.color,
-            title=f"[{player.bedwars.prestige.star}{self.bot.static.star}] {player.display}",
+            title=f"[{player.bedwars.prestige.star}{self.bot.static.star}] {player.display}"
         ).add_field(
             name="Beds Broken",
             value=f"{mode.beds.broken:,d}"
@@ -187,8 +192,9 @@ class Bedwars(commands.Cog):
         ).add_field(
             name=f"To {mode.beds.ratio.next} BBLR",
             value=self.get_needed_string(mode.beds.ratio)
-        ).set_footer(
-            text=f"{mode} BBLR"
+        ).set_author(
+            name=f"Currently Viewing: {mode} BBLR",
+            icon_url=self.icon
         )
 
 

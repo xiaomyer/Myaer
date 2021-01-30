@@ -30,6 +30,7 @@ from discord.ext import commands
 class Hypixel(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.icon = "https://static.myer.wtf/hypixel/main.png"
 
     @commands.group(invoke_without_command=True)
     @commands.max_concurrency(1, per=commands.BucketType.user)
@@ -59,6 +60,9 @@ class Hypixel(commands.Cog):
         ).set_footer(
             text="Avatar",
             icon_url=ctx.bot.static.crafthead.avatar(player.uuid)
+        ).set_author(
+            name="Currently Viewing Hypixel",
+            icon_url=self.icon
         )
         if guild:
             embed.add_field(
