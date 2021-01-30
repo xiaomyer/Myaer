@@ -22,13 +22,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import aiohttp
-import humanfriendly
 import io
+
+import aiohttp
 import discord
+import humanfriendly
+import lastfmpy
+from PIL import Image
 from bs4 import BeautifulSoup
 from discord.ext import commands, menus
-from PIL import Image
 
 
 class LastFM(commands.Cog):
@@ -60,7 +62,7 @@ class LastFM(commands.Cog):
         await menus.MenuPages(
             source=ctx.bot.static.paginators.regular(tracks, ctx, f"{username}'s Recent Tracks", "Recently played"),
             clear_reactions_after=True
-            ).start(ctx)
+        ).start(ctx)
 
     @lastfm.command(aliases=["np"])
     async def now(self, ctx, username=None):
@@ -68,20 +70,25 @@ class LastFM(commands.Cog):
         tracks = await ctx.bot.lastfm.client.user.get_recent_tracks(user=username)
         track = tracks.items[0] if tracks.items[0].playing else None
         if track:
-            await ctx.send(embed=discord.Embed(
+            track_full = await self.try_get_track(artist=track.artist.name, track=track.name, username=username)
+            embed = discord.Embed(
                 title=f"{track.artist.name} - {track.name}",
                 color=ctx.author.color,
-                timestamp=ctx.message.created_at
+                timestamp=ctx.message.created_at,
             ).set_image(
                 url=track.image[-1].url
             ).set_footer(
                 text="Now playing"
-            ))
+            )
+            if bool(track_full):
+                embed.description = f"{track_full.stats.userplaycount} plays"
+            await ctx.send(embed=embed)
         else:
             await ctx.send(embed=ctx.bot.static.embed(ctx, description="Not currently playing anything"))
 
     @lastfm.command(aliases=["servernp"])
     async def servernow(self, ctx):
+        await ctx.trigger_typing()
         usernames = []
         for member in ctx.guild.members:
             if lastfm := ctx.bot.data.users.get(member.id).lastfm:
@@ -90,8 +97,10 @@ class LastFM(commands.Cog):
         for member, user in usernames:
             recent = await ctx.bot.lastfm.client.user.get_recent_tracks(user=user)
             now = recent.items[0] if recent.items[0].playing else None
-            if now:
-                tracks.append(f"{member.mention}: `{now.artist.name} - {now.name}`")
+            if bool(now):
+                now_full = await self.try_get_track(artist=now.artist.name, track=now.name, username=user)
+                string = f"{member.mention}: `{now.artist.name} - {now.name}{f' ({now_full.stats.userplaycount} plays)`' if bool(now_full) else '`'}"
+                tracks.append(string)
         if not tracks:
             return await ctx.send(embed=ctx.bot.static.embed(ctx, f"No one in {ctx.guild} is listening to anything"))
         await menus.MenuPages(source=ctx.bot.static.paginators.regular(tracks, ctx, f"{ctx.guild}'s Now Playing",
@@ -112,6 +121,12 @@ class LastFM(commands.Cog):
         # per ** 2 is the maximum amount of images that could be displayed
         final = self.image_to_bytes(self.merge_images(images, per=second))
         await ctx.send(file=discord.File(final, filename="chart.png"))
+
+    async def try_get_track(self, artist=None, track=None, username=None):
+        try:
+            return await self.bot.lastfm.client.track.get_info(track=track, artist=artist, username=username)
+        except lastfmpy.InvalidInputError:
+            return
 
     async def scrape_images(self, albums: list) -> list:
         urls = []

@@ -22,9 +22,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from .objects import UserConfig, GuildConfig
 from tinydb import TinyDB, where
 from tinydb.operations import delete
+
+from .objects import UserConfig, GuildConfig
 
 
 class Data:

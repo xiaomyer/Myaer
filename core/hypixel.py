@@ -22,10 +22,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from discord.ext import commands
-from .exceptions import NoMinecraftUUID
-import hypixelaPY
 import time
+
+import hypixelaPY
+from .exceptions import NoMinecraftUUID
 
 
 async def Hypixel_(bot, api: str):

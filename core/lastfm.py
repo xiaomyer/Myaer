@@ -22,8 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from .exceptions import NoLastFMUsername
 import lastfmpy
+from .exceptions import NoLastFMUsername
 
 
 async def LastFM_(bot, api: str):

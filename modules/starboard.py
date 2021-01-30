@@ -22,10 +22,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from discord.ext import commands
-import discord
-
 import datetime
+
+import discord
+from discord.ext import commands
 
 
 class Starboard(commands.Cog):

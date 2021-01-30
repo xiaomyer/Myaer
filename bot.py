@@ -1,15 +1,17 @@
-from config import Config
-from core.hypixel import Hypixel_
-from data.data import Data
-from core.static import Static
-from discord.ext import commands
-from core.lastfm import LastFM_
 import asyncio
-import discord
-import hypixelaPY
 import os
 import sys
 import traceback
+
+import discord
+from discord.ext import commands
+
+import hypixelaPY
+from config import Config
+from core.hypixel import Hypixel_
+from core.lastfm import LastFM_
+from core.static import Static
+from data.data import Data
 
 config = Config()
 data = Data()

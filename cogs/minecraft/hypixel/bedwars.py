@@ -22,9 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from discord.ext import commands, menus
 import discord
-import math
+from discord.ext import commands, menus
 
 
 class Bedwars(commands.Cog):
@@ -147,7 +146,7 @@ class Bedwars(commands.Cog):
         ).set_footer(
             text=f"{mode} FKDR"
         )
-    
+
     def get_wlr_embed(self, player, mode=None):
         if not mode:
             mode = player.bedwars  # overall

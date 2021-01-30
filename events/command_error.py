@@ -22,13 +22,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import hypixelaPY
-import lastfmpy
 import sys
 import traceback
 
 import discord
 from discord.ext import commands
+
+import hypixelaPY
+import lastfmpy
 from core.exceptions import NoMinecraftUUID, NoLastFMUsername
 
 
