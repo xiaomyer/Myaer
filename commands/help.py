@@ -35,12 +35,12 @@ class Help(commands.Cog):
     async def help(self, ctx):
         await ctx.send(embed=discord.Embed(
             name="Help",
-            description=f"""Here is some information about me
-[Commands](https://github.com/MyerFire/Myaer#commands)
-[GitHub](https://github.com/MyerFire/Myaer)
-[Support/Info (My Discord Server)](https://inv.wtf/myerfire)
-[Vote](https://discord.boats/bot/700133917264445480)
-[Invite Me]({discord.utils.oauth_url(ctx.me.id, permissions=ctx.bot.static.admin)})""",
+            description=f"Here is some information about me\n"
+                        f"[Commands](https://github.com/MyerFire/Myaer#commands)\n"
+                        f"[GitHub](https://github.com/MyerFire/Myaer)\n"
+                        f"[Support/Info (My Discord Server)](https://inv.wtf/myerfire)\n"
+                        f"[Vote](https://discord.boats/bot/700133917264445480)\n"
+                        f"[Invite Me]({discord.utils.oauth_url(ctx.me.id, permissions=ctx.bot.static.admin)})",
             color=ctx.author.color,
             timestamp=ctx.message.created_at
         ).set_author(
