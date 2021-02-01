@@ -36,3 +36,11 @@ Maintained by [Myer (also known as myerfire, MyerFire)](https://github.com/myerf
 - /duels `ign` - Shows Duels stats with a menu for KDR
 - /lb - Shows leaderboards with a game menu to select game
   - This is a very expensive command and will probably take a minute or so to complete, and results are cached for an hour
+  
+### Last.FM
+- /fm set `username` - Sets your Last.FM username, similar to `/mc set ign`
+- /fm recent `username` - Shows recent tracks
+- /fm np `username` - Shows currently playing track
+- /fm servernp `username` - Shows server's currently playing track
+- /fm wk `artist` - Shows who knows an artist and their plays of the artist in the server
+- /fm chart `username` `per` - (if a number is passed in as the only argument you must be verified) - Shows a weekly chart of albums
