@@ -103,12 +103,14 @@ class LastFM(commands.Cog):
             ctx)
 
     @lastfm.command(aliases=["wk"])
-    async def whoknows(self, ctx, artist=None):
+    async def whoknows(self, ctx, *, artist=None):
         await ctx.trigger_typing()
         if not artist:
             username = await ctx.bot.lastfm.get_username(ctx=ctx)
             now = await self.get_now_playing(username)
             artist = now.artist
+        else:
+            artist = await ctx.bot.lastfm.client.artist.get_info(artist=artist)
         users = self.get_server_lastfm(ctx)
         knows = []
         counts = []
@@ -120,7 +122,7 @@ class LastFM(commands.Cog):
                 counts.append(artist_full.stats.userplaycount)
         knows.sort(key=dict(zip(knows, counts)).get, reverse=True)
         await menus.MenuPages(
-            source=ctx.bot.static.paginators.regular(knows, ctx, f"Who In {ctx.guild} Knows {artist.name}",
+            source=ctx.bot.static.paginators.regular(knows, ctx, f"Who In {ctx.guild} Knows {artist}",
                                                      "Who knows")).start(
             ctx)
 
