@@ -7,6 +7,7 @@ import discord
 from discord.ext import commands
 
 import hypixelaPY
+import ksoftapi
 from config import Config
 from core.hypixel import Hypixel_
 from core.lastfm import LastFM_
@@ -35,6 +36,7 @@ bot.static = Static(bot)
 bot.config = config
 bot.data = data
 bot.mojang = hypixelaPY.Mojang()
+bot.ksoft = ksoftapi.Client(config.keys.ksoft)
 
 extensions = [os.path.join(dp, f) for dp, dn, fn in os.walk("cogs") for f in fn] + \
              [os.path.join(dp, f) for dp, dn, fn in os.walk("commands") for f in fn] + \

@@ -86,38 +86,24 @@ class Paginators:
 
 
 class Paginator(menus.ListPageSource):
-    def __init__(self, data, ctx, title, footer):
+    def __init__(self, data, ctx, embed):
         self.ctx = ctx
-        self.title = title
-        self.footer = footer
+        self.embed = embed
         super().__init__(data, per_page=15)
 
     async def format_page(self, menu, entries):
         joined = "\n".join(entries)
-        return discord.Embed(
-            title=self.title,
-            description=f"{joined}",
-            color=self.ctx.author.color,
-            timestamp=self.ctx.message.created_at
-        ).set_footer(
-            text=self.footer
-        )
+        self.embed.description = f"{joined}"
+        return self.embed
 
 
 class CodeblockPaginator(menus.ListPageSource):
-    def __init__(self, data, ctx, title, footer):
+    def __init__(self, data, ctx, embed):
         self.ctx = ctx
-        self.title = title
-        self.footer = footer
+        self.embed = embed
         super().__init__(data, per_page=15)
 
     async def format_page(self, menu, entries):
         joined = "\n".join(entries)
-        return discord.Embed(
-            title=self.title,
-            description=f"```{joined}```",
-            color=self.ctx.author.color,
-            timestamp=self.ctx.message.created_at
-        ).set_footer(
-            text=self.footer
-        )
+        self.embed.description = f"```{joined}```"
+        return self.embed

@@ -60,7 +60,13 @@ class LastFM(commands.Cog):
                   f"{'(now playing)' if track.playing else f'({humanfriendly.format_timespan(ctx.bot.static.time() - track.played, max_units=2)} ago)'}`"
                   for track in recent.items]
         await menus.MenuPages(
-            source=ctx.bot.static.paginators.regular(tracks, ctx, f"{username}'s Recent Tracks", "Recently played"),
+            source=ctx.bot.static.paginators.regular(tracks, ctx, discord.Embed(
+                title=f"{username}'s Recent Tracks",
+                color=ctx.author.color,
+                timestamp=ctx.message.created_at
+            ).set_footer(
+                text="Recently played",
+            )),
             clear_reactions_after=True
         ).start(ctx)
 
@@ -98,9 +104,14 @@ class LastFM(commands.Cog):
                 tracks.append(string)
         if not tracks:
             return await ctx.send(embed=ctx.bot.static.embed(ctx, f"No one in {ctx.guild} is listening to anything"))
-        await menus.MenuPages(source=ctx.bot.static.paginators.regular(tracks, ctx, f"{ctx.guild}'s Now Playing",
-                                                                       "Server now playing")).start(
-            ctx)
+        await menus.MenuPages(source=ctx.bot.static.paginators.regular(tracks, ctx, discord.Embed(
+                title=f"{ctx.guild}'s Now Playing",
+                color=ctx.author.color,
+                timestamp=ctx.message.created_at
+            ).set_footer(
+                text="Recently played",
+            )), clear_reactions_after=True
+        ).start(ctx)
 
     @lastfm.command(aliases=["wk"])
     async def whoknows(self, ctx, *, artist=None):
