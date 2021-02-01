@@ -67,7 +67,7 @@ class LastFM(commands.Cog):
     @lastfm.command(aliases=["np"])
     async def now(self, ctx, username=None):
         username = await ctx.bot.lastfm.get_username(ctx=ctx, username=username)
-        now = await self.get_now_playing(username)
+        now = await ctx.bot.lastfm.client.user.get_now_playing(username)
         if now:
             now_full = await self.try_get_track(artist=now.artist.name, track=now.name, username=username)
             embed = discord.Embed(
@@ -91,7 +91,7 @@ class LastFM(commands.Cog):
         users = self.get_server_lastfm(ctx)
         tracks = []
         for member, user in users:
-            now = await self.get_now_playing(user)
+            now = await ctx.bot.lastfm.client.user.get_now_playing(user)
             if bool(now):
                 now_full = await self.try_get_track(artist=now.artist.name, track=now.name, username=user)
                 string = f"{member.mention}: `{now.artist.name} - {now.name}{f' ({now_full.stats.userplaycount} plays)`' if bool(now_full) else '`'}"
@@ -107,7 +107,7 @@ class LastFM(commands.Cog):
         await ctx.trigger_typing()
         if not artist:
             username = await ctx.bot.lastfm.get_username(ctx=ctx)
-            now = await self.get_now_playing(username)
+            now = await ctx.bot.lastfm.client.user.get_now_playing(username)
             artist = now.artist
         else:
             artist = await ctx.bot.lastfm.client.artist.get_info(artist=artist)
@@ -121,6 +121,8 @@ class LastFM(commands.Cog):
                 knows.append(string)
                 counts.append(artist_full.stats.userplaycount)
         knows.sort(key=dict(zip(knows, counts)).get, reverse=True)
+        if not knows:
+            return await ctx.send(embed=ctx.bot.static.embed(ctx, f"No one in {ctx.guild} knows `{artist}`"))
         await menus.MenuPages(
             source=ctx.bot.static.paginators.regular(knows, ctx, f"Who In {ctx.guild} Knows {artist}",
                                                      "Who knows")).start(
@@ -205,10 +207,6 @@ class LastFM(commands.Cog):
             if lastfm := ctx.bot.data.users.get(member.id).lastfm:
                 users.append((member, lastfm))
         return users
-
-    async def get_now_playing(self, user):
-        recent = await self.bot.lastfm.client.user.get_recent_tracks(user=user)
-        return recent.items[0] if recent.items[0].playing else None
 
 
 def setup(bot):
