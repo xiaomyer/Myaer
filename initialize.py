@@ -29,7 +29,7 @@ class Initialize(commands.Cog):
                 title=f"Failed to load extension {extension}",
                 description=f"```{error}```"
             ))
-        await self.bot.change_presence(activity=discord.Game(name=f"in {len(self.bot.guilds)} guilds"))
+        await self.bot.static.update_guild_status()
         print("Set Discord presence")
         await self.bot.config.channels.status.send(embed=discord.Embed(
             title="Bot Login",

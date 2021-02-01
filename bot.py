@@ -31,7 +31,7 @@ bot = commands.Bot(
     allowed_mentions=discord.AllowedMentions(everyone=False),
     intents=discord.Intents.all()
 )
-bot.static = Static()
+bot.static = Static(bot)
 bot.config = config
 bot.data = data
 bot.mojang = hypixelaPY.Mojang()

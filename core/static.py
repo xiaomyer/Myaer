@@ -29,7 +29,8 @@ from discord.ext import commands, menus
 
 
 class Static:
-    def __init__(self):
+    def __init__(self, bot):
+        self.bot = bot
         self.arrow = "➤"
         self.star = "✫"
         self.separator = "------------------------------"
@@ -60,6 +61,10 @@ class Static:
             return await bot.static.user_converter.convert(ctx, input_)
         except commands.UserNotFound:
             return
+
+    async def update_guild_status(self):
+        await self.bot.change_presence(activity=discord.Game(name=f"in {len(self.bot.guilds)} guilds | "
+                                                                  f"https://myer.wtf/bot"))
 
 
 class Crafthead:

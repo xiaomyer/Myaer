@@ -67,21 +67,20 @@ class LastFM(commands.Cog):
     @lastfm.command(aliases=["np"])
     async def now(self, ctx, username=None):
         username = await ctx.bot.lastfm.get_username(ctx=ctx, username=username)
-        tracks = await ctx.bot.lastfm.client.user.get_recent_tracks(user=username)
-        track = tracks.items[0] if tracks.items[0].playing else None
-        if track:
-            track_full = await self.try_get_track(artist=track.artist.name, track=track.name, username=username)
+        now = await self.get_now_playing(username)
+        if now:
+            now_full = await self.try_get_track(artist=now.artist.name, track=now.name, username=username)
             embed = discord.Embed(
-                title=f"{track.artist.name} - {track.name}",
+                title=f"{now.artist.name} - {now.name}",
                 color=ctx.author.color,
                 timestamp=ctx.message.created_at,
             ).set_image(
-                url=track.image[-1].url
+                url=now.image[-1].url
             ).set_footer(
                 text="Now playing"
             )
-            if bool(track_full):
-                embed.description = f"{track_full.stats.userplaycount} plays"
+            if bool(now_full):
+                embed.description = f"{now_full.stats.userplaycount} plays"
             await ctx.send(embed=embed)
         else:
             await ctx.send(embed=ctx.bot.static.embed(ctx, description="Not currently playing anything"))
@@ -89,14 +88,10 @@ class LastFM(commands.Cog):
     @lastfm.command(aliases=["servernp"])
     async def servernow(self, ctx):
         await ctx.trigger_typing()
-        usernames = []
-        for member in ctx.guild.members:
-            if lastfm := ctx.bot.data.users.get(member.id).lastfm:
-                usernames.append((member, lastfm))
+        users = self.get_server_lastfm(ctx)
         tracks = []
-        for member, user in usernames:
-            recent = await ctx.bot.lastfm.client.user.get_recent_tracks(user=user)
-            now = recent.items[0] if recent.items[0].playing else None
+        for member, user in users:
+            now = await self.get_now_playing(user)
             if bool(now):
                 now_full = await self.try_get_track(artist=now.artist.name, track=now.name, username=user)
                 string = f"{member.mention}: `{now.artist.name} - {now.name}{f' ({now_full.stats.userplaycount} plays)`' if bool(now_full) else '`'}"
@@ -105,6 +100,28 @@ class LastFM(commands.Cog):
             return await ctx.send(embed=ctx.bot.static.embed(ctx, f"No one in {ctx.guild} is listening to anything"))
         await menus.MenuPages(source=ctx.bot.static.paginators.regular(tracks, ctx, f"{ctx.guild}'s Now Playing",
                                                                        "Server now playing")).start(
+            ctx)
+
+    @lastfm.command(aliases=["wk"])
+    async def whoknows(self, ctx, artist=None):
+        await ctx.trigger_typing()
+        if not artist:
+            username = await ctx.bot.lastfm.get_username(ctx=ctx)
+            now = await self.get_now_playing(username)
+            artist = now.artist
+        users = self.get_server_lastfm(ctx)
+        knows = []
+        counts = []
+        for member, user in users:
+            artist_full = await ctx.bot.lastfm.client.artist.get_info(artist=artist.name, username=user)
+            if bool(artist_full.stats.userplaycount):
+                string = f"{member.mention}: `{artist_full.name} ({artist_full.stats.userplaycount} plays)`"
+                knows.append(string)
+                counts.append(artist_full.stats.userplaycount)
+        knows.sort(key=dict(zip(knows, counts)).get, reverse=True)
+        await menus.MenuPages(
+            source=ctx.bot.static.paginators.regular(knows, ctx, f"Who In {ctx.guild} Knows {artist.name}",
+                                                     "Who knows")).start(
             ctx)
 
     @lastfm.command()
@@ -178,6 +195,18 @@ class LastFM(commands.Cog):
         image.save(image_bytes, format="png")
         image_bytes.seek(0)
         return image_bytes
+
+    @staticmethod
+    def get_server_lastfm(ctx):
+        users = []
+        for member in ctx.guild.members:
+            if lastfm := ctx.bot.data.users.get(member.id).lastfm:
+                users.append((member, lastfm))
+        return users
+
+    async def get_now_playing(self, user):
+        recent = await self.bot.lastfm.client.user.get_recent_tracks(user=user)
+        return recent.items[0] if recent.items[0].playing else None
 
 
 def setup(bot):

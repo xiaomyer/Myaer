@@ -22,8 +22,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import datetime
-
 import discord
 from discord.ext import commands
 
@@ -63,7 +61,7 @@ class Starboard(commands.Cog):
             image = self.image_parser(reaction.message)
             embed = discord.Embed(
                 color=reaction.message.author.color,
-                timestamp=datetime.datetime.now(),
+                timestamp=reaction.message.created_at,
                 description=f"""[Jump to Message]({reaction.message.jump_url})
             {reaction.message.content}"""
             ).set_author(
@@ -74,7 +72,7 @@ class Starboard(commands.Cog):
                 embed.set_image(
                     url=image
                 )
-            message = await starboard.send(f"{self.stars_count(reaction)} {self.star}", embed=embed)
+            message = await starboard.send(f"`{self.stars_count(reaction)}` {self.star}", embed=embed)
             self.starboarded[reaction.message.id] = message
 
     @commands.Cog.listener()
