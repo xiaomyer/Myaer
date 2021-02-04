@@ -148,4 +148,4 @@ class SkywarsMenu(menus.Menu):
 
 def setup(bot):
     bot.add_cog(Skywars(bot))
-    print("Reloaded cogs.minecraft.hypixel.skywars")
+    print("COGS > Reloaded cogs.minecraft.hypixel.skywars")

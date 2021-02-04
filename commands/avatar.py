@@ -52,4 +52,4 @@ class Avatar(commands.Cog):
 
 def setup(bot):
     bot.add_cog(Avatar(bot))
-    print("Reloaded commands.avatar")
+    print("COMMANDS > Reloaded commands.avatar")

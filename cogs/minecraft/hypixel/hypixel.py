@@ -61,7 +61,7 @@ class Hypixel(commands.Cog):
             text="Avatar",
             icon_url=ctx.bot.static.crafthead.avatar(player.uuid)
         ).set_author(
-            name="Currently Viewing Hypixel",
+            name="Currently Viewing: Hypixel",
             icon_url=self.icon
         )
         if guild:
@@ -77,4 +77,4 @@ class Hypixel(commands.Cog):
 
 def setup(bot):
     bot.add_cog(Hypixel(bot))
-    print("Reloaded cogs.minecraft.hypixel.hypixel")
+    print("COGS > cogs.minecraft.hypixel.hypixel")

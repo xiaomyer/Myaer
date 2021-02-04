@@ -282,4 +282,4 @@ class Config(commands.Cog):
 
 def setup(bot):
     bot.add_cog(Config(bot))
-    print("Reloaded cogs.config")
+    print("COGS > Reloaded cogs.config")

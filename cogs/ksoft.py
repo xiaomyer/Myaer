@@ -31,7 +31,7 @@ class KSoft(commands.Cog):
         self.bot = bot
         self.logo = "https://cdn.ksoft.si/images/Logo1024-W.png"
 
-    @commands.command(name="lyrics", aliases=["lyric"])
+    @commands.command(aliases=["lyric"])
     @commands.max_concurrency(1, per=commands.BucketType.user)
     async def lyrics(self, ctx: commands.Context, *query):
         if not query or query[0] == "np":
@@ -65,4 +65,4 @@ class KSoft(commands.Cog):
 
 def setup(bot):
     bot.add_cog(KSoft(bot))
-    print("Reloaded cogs.ksoft")
+    print("COGS > Reloaded cogs.ksoft")

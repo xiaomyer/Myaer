@@ -24,8 +24,11 @@ SOFTWARE.
 
 from datetime import datetime
 
+import aiohttp
 import discord
+import io
 from discord.ext import commands, menus
+from PIL import Image
 
 
 class Static:
@@ -65,6 +68,22 @@ class Static:
     async def update_guild_status(self):
         await self.bot.change_presence(activity=discord.Game(name=f"in {len(self.bot.guilds)} guilds | "
                                                                   f"https://myer.wtf/bot"))
+
+    @staticmethod
+    async def get_image(url):
+        async with aiohttp.request("GET", url) as request:
+            return io.BytesIO(await request.read())
+
+    @staticmethod
+    def image_to_pil(image):
+        return Image.open(image)
+
+    @staticmethod
+    def image_to_bytes(image: Image) -> io.BytesIO:
+        image_bytes = io.BytesIO()
+        image.save(image_bytes, format="png")
+        image_bytes.seek(0)
+        return image_bytes
 
 
 class Crafthead:

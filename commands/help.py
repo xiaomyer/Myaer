@@ -55,4 +55,4 @@ def setup(bot):
     bot.remove_command("help")
     print("Unloaded default help command")
     bot.add_cog(Help(bot))
-    print("Reloaded commands.help")
+    print("COMMANDS > Reloaded commands.help")

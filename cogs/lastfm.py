@@ -28,7 +28,8 @@ import aiohttp
 import discord
 import humanfriendly
 import lastfmpy
-from PIL import Image
+import textwrap
+from PIL import Image, ImageDraw, ImageFont
 from bs4 import BeautifulSoup
 from discord.ext import commands, menus
 
@@ -38,8 +39,13 @@ class LastFM(commands.Cog):
         self.bot = bot
         self.image_default = 900
         self.image_default_size = 900, 900
+        self.template = Image.open("static/nowplaying.png")
+        # width = 400, height = 150
+        # the box on the template is 10 pixels down, 10 pixels to the right
         self.url_cache = {}
         self.image_cache = {}
+        self.font = ImageFont.truetype("static/calibri.ttf", 20)
+        self.font_small = ImageFont.truetype("static/calibri.ttf", 14)
 
     @commands.group(aliases=["fm"])
     async def lastfm(self, ctx):
@@ -76,18 +82,30 @@ class LastFM(commands.Cog):
         now = await ctx.bot.lastfm.client.user.get_now_playing(username)
         if now:
             now_full = await self.try_get_track(artist=now.artist.name, track=now.name, username=username)
-            embed = discord.Embed(
-                title=f"{now.artist.name} - {now.name}",
-                color=ctx.author.color,
-                timestamp=ctx.message.created_at,
-            ).set_image(
-                url=now.image[-1].url
-            ).set_footer(
-                text="Now playing"
-            )
+            cover = ctx.bot.static.image_to_pil(await ctx.bot.static.get_image(now.image[-1].url))
+            cover = cover.resize((129, 129))
+            image = self.template.copy()
+            draw = ImageDraw.Draw(image)
+            image.paste(cover, (11, 11))
             if bool(now_full):
-                embed.description = f"{now_full.stats.userplaycount} plays"
-            await ctx.send(embed=embed)
+                playcount_string = f"{now_full.stats.userplaycount} plays"
+                draw.text((
+                    self.get_playcount_x(self.font_small, playcount_string),
+                    150 - 25
+                ), playcount_string, font=self.font_small)
+            string = f"{now.name} ― {now.artist.name}"
+            string_wrapped = [line for line in textwrap.wrap(string, 25,
+                                                             break_on_hyphens=False, max_lines=6)]
+            total_height = 0
+            for line in string_wrapped:
+                _, height = self.font.getsize(line)
+                total_height += height + 6
+            height, y = self.get_intial_y(total_height)
+            for line in string_wrapped:
+                x = self.get_x(self.font, line)
+                draw.text((x, y,), line, font=self.font)
+                y += self.font.size + 3
+            await ctx.send(file=discord.File(ctx.bot.static.image_to_bytes(image), filename="np.png"))
         else:
             await ctx.send(embed=ctx.bot.static.embed(ctx, description="Not currently playing anything"))
 
@@ -105,13 +123,13 @@ class LastFM(commands.Cog):
         if not tracks:
             return await ctx.send(embed=ctx.bot.static.embed(ctx, f"No one in {ctx.guild} is listening to anything"))
         await menus.MenuPages(source=ctx.bot.static.paginators.regular(tracks, ctx, discord.Embed(
-                title=f"{ctx.guild}'s Now Playing",
-                color=ctx.author.color,
-                timestamp=ctx.message.created_at
-            ).set_footer(
-                text="Recently played",
-            )), clear_reactions_after=True
-        ).start(ctx)
+            title=f"{ctx.guild}'s Now Playing",
+            color=ctx.author.color,
+            timestamp=ctx.message.created_at
+        ).set_footer(
+            text="Recently played",
+        ), clear_reactions_after=True
+                                                                       )).start(ctx)
 
     @lastfm.command(aliases=["wk"])
     async def whoknows(self, ctx, *, artist=None):
@@ -119,6 +137,8 @@ class LastFM(commands.Cog):
         if not artist:
             username = await ctx.bot.lastfm.get_username(ctx=ctx)
             now = await ctx.bot.lastfm.client.user.get_now_playing(username)
+            if not bool(now):
+                return await ctx.send(embed=ctx.bot.static.embed(ctx, f"Not currently playing anything"))
             artist = now.artist
         else:
             artist = await ctx.bot.lastfm.client.artist.get_info(artist=artist)
@@ -135,9 +155,13 @@ class LastFM(commands.Cog):
         if not knows:
             return await ctx.send(embed=ctx.bot.static.embed(ctx, f"No one in {ctx.guild} knows `{artist}`"))
         await menus.MenuPages(
-            source=ctx.bot.static.paginators.regular(knows, ctx, f"Who In {ctx.guild} Knows {artist}",
-                                                     "Who knows")).start(
-            ctx)
+            source=ctx.bot.static.paginators.regular(knows, ctx, discord.Embed(
+                title=f"Who In {ctx.guild} Knows {artist}",
+                color=ctx.author.color,
+                timestamp=ctx.message.created_at
+            ).set_footer(
+                text="Who Knows",
+            ))).start(ctx)
 
     @lastfm.command()
     async def chart(self, ctx, first=None, second=3):
@@ -151,7 +175,7 @@ class LastFM(commands.Cog):
         chart = await ctx.bot.lastfm.client.user.get_weekly_album_chart(first)
         images = await self.get_image_pil(await self.scrape_images(chart.items[:second ** 2]))
         # per ** 2 is the maximum amount of images that could be displayed
-        final = self.image_to_bytes(self.merge_images(images, per=second))
+        final = ctx.bot.static.image_to_bytes(self.merge_images(images, per=second))
         await ctx.send(file=discord.File(final, filename="chart.png"))
 
     async def try_get_track(self, artist=None, track=None, username=None):
@@ -176,40 +200,33 @@ class LastFM(commands.Cog):
 
     async def get_image_pil(self, images: list) -> list:
         files = []
-        async with aiohttp.ClientSession() as session:
-            for image in images:
-                if file := self.image_cache.get(image):
-                    files.append(file)
-                else:
-                    file = Image.open(io.BytesIO(await (await session.get(image)).read()))
-                    files.append(file)
-                    self.image_cache[image] = file
+        for image in images:
+            if file := self.image_cache.get(image):
+                files.append(file)
+            else:
+                file = self.bot.static.image_to_pil(await self.bot.static.get_image(image))
+                files.append(file)
+                self.image_cache[image] = file
         return files
 
     def merge_images(self, images: list, per: int = 3) -> Image:
         final = Image.new("RGB", size=self.image_default_size)
         x = 0
         y = 0
+        pixels = self.image_default // per
         for image in images:
-            image = image.resize((self.image_default // per, self.image_default // per))
+            image = image.resize((pixels, pixels))
             final.paste(image, (x, y))
-            if x == self.image_default or x + self.image_default // per == self.image_default:
+            if x == self.image_default or x + pixels == self.image_default:
                 x = 0
             else:
-                x += self.image_default // per
+                x += pixels
                 continue
-            if y == self.image_default or y + self.image_default // per == self.image_default:
+            if y == self.image_default or y + pixels == self.image_default:
                 y = 0
             else:
-                y += self.image_default // per
+                y += pixels
         return final
-
-    @staticmethod
-    def image_to_bytes(image: Image) -> io.BytesIO:
-        image_bytes = io.BytesIO()
-        image.save(image_bytes, format="png")
-        image_bytes.seek(0)
-        return image_bytes
 
     @staticmethod
     def get_server_lastfm(ctx):
@@ -219,7 +236,26 @@ class LastFM(commands.Cog):
                 users.append((member, lastfm))
         return users
 
+    @staticmethod
+    def get_intial_y(height):
+        center_of_middle = 150 / 2
+        y = center_of_middle - (height / 2)
+        return height, y
+
+    @staticmethod
+    def get_x(font, string):
+        center_of_right = 145 + (250 / 2)
+        width, height = font.getsize(string)
+        x = center_of_right - (width / 2)
+        return x
+
+    @staticmethod
+    def get_playcount_x(font, string):
+        width, height = font.getsize(string)
+        x = 400 - 15 - width
+        return x
+
 
 def setup(bot):
     bot.add_cog(LastFM(bot))
-    print("Reloaded cogs.lastfm")
+    print("COGS > Reloaded cogs.lastfm")

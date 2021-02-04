@@ -185,4 +185,4 @@ class DuelsMenu(menus.Menu):
 
 def setup(bot):
     bot.add_cog(Duels(bot))
-    print("Reloaded cogs.minecraft.hypixel.duels")
+    print("COGS > Reloaded cogs.minecraft.hypixel.duels")

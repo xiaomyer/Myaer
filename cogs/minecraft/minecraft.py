@@ -97,4 +97,4 @@ class Minecraft(commands.Cog):
 
 def setup(bot):
     bot.add_cog(Minecraft(bot))
-    print("Reloaded cogs.minecraft.minecraft")
+    print("COGS > Reloaded cogs.minecraft.minecraft")

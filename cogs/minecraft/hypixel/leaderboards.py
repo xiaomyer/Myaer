@@ -116,4 +116,4 @@ def get_bedwars_leaderboard_entry_string(ctx, leaderboard, player):
 
 def setup(bot):
     bot.add_cog(Leaderboards(bot))
-    print("Reloaded cogs.minecraft.hypixel.leaderboards")
+    print("COGS > Reloaded cogs.minecraft.hypixel.leaderboards")
