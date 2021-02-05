@@ -47,17 +47,19 @@ class LastFM(commands.Cog):
         self.font = ImageFont.truetype("static/calibri.ttf", 20)
         self.font_small = ImageFont.truetype("static/calibri.ttf", 14)
 
-    @commands.group(aliases=["fm"])
+    @commands.group(aliases=["fm"], invoke_without_command=True)
     async def lastfm(self, ctx):
         return
 
     @lastfm.command()
+    @commands.max_concurrency(1, per=commands.BucketType.user)
     async def set(self, ctx, username):
         user = await ctx.bot.lastfm.client.user.get_info(username)
         ctx.bot.data.users.set(ctx.author.id, "lastfm", user.name)
         return await ctx.send(embed=ctx.bot.static.embed(ctx, f"Verified your last.fm account as `{user.name}`"))
 
     @lastfm.command()
+    @commands.max_concurrency(1, per=commands.BucketType.user)
     async def recent(self, ctx, username=None):
         username = await ctx.bot.lastfm.get_username(ctx=ctx, username=username)
         recent = await ctx.bot.lastfm.client.user.get_recent_tracks(user=username)
@@ -77,6 +79,7 @@ class LastFM(commands.Cog):
         ).start(ctx)
 
     @lastfm.command(aliases=["np"])
+    @commands.max_concurrency(1, per=commands.BucketType.user)
     async def now(self, ctx, username=None):
         username = await ctx.bot.lastfm.get_username(ctx=ctx, username=username)
         now = await ctx.bot.lastfm.client.user.get_now_playing(username)
@@ -110,73 +113,92 @@ class LastFM(commands.Cog):
             await ctx.send(embed=ctx.bot.static.embed(ctx, description="Not currently playing anything"))
 
     @lastfm.command(aliases=["servernp"])
+    @commands.max_concurrency(1, per=commands.BucketType.user)
     async def servernow(self, ctx):
-        await ctx.trigger_typing()
-        users = self.get_server_lastfm(ctx)
-        tracks = []
-        for member, user in users:
-            now = await ctx.bot.lastfm.client.user.get_now_playing(user)
-            if bool(now):
-                now_full = await self.try_get_track(artist=now.artist.name, track=now.name, username=user)
-                string = f"{member.mention}: `{now.artist.name} - {now.name}{f' ({now_full.stats.userplaycount} plays)`' if bool(now_full) else '`'}"
-                tracks.append(string)
-        if not tracks:
-            return await ctx.send(embed=ctx.bot.static.embed(ctx, f"No one in {ctx.guild} is listening to anything"))
-        await menus.MenuPages(source=ctx.bot.static.paginators.regular(tracks, ctx, discord.Embed(
-            title=f"{ctx.guild}'s Now Playing",
-            color=ctx.author.color,
-            timestamp=ctx.message.created_at
-        ).set_footer(
-            text="Recently played",
-        ), clear_reactions_after=True
-                                                                       )).start(ctx)
-
-    @lastfm.command(aliases=["wk"])
-    async def whoknows(self, ctx, *, artist=None):
-        await ctx.trigger_typing()
-        if not artist:
-            username = await ctx.bot.lastfm.get_username(ctx=ctx)
-            now = await ctx.bot.lastfm.client.user.get_now_playing(username)
-            if not bool(now):
-                return await ctx.send(embed=ctx.bot.static.embed(ctx, f"Not currently playing anything"))
-            artist = now.artist
-        else:
-            artist = await ctx.bot.lastfm.client.artist.get_info(artist=artist)
-        users = self.get_server_lastfm(ctx)
-        knows = []
-        counts = []
-        for member, user in users:
-            artist_full = await ctx.bot.lastfm.client.artist.get_info(artist=artist.name, username=user)
-            if bool(artist_full.stats.userplaycount):
-                string = f"{member.mention}: `{artist_full.name} ({artist_full.stats.userplaycount} plays)`"
-                knows.append(string)
-                counts.append(artist_full.stats.userplaycount)
-        knows.sort(key=dict(zip(knows, counts)).get, reverse=True)
-        if not knows:
-            return await ctx.send(embed=ctx.bot.static.embed(ctx, f"No one in {ctx.guild} knows `{artist}`"))
-        await menus.MenuPages(
-            source=ctx.bot.static.paginators.regular(knows, ctx, discord.Embed(
-                title=f"Who In {ctx.guild} Knows {artist}",
+        async with ctx.typing():
+            users = self.get_server_lastfm(ctx)
+            tracks = []
+            for member, user in users:
+                now = await ctx.bot.lastfm.client.user.get_now_playing(user)
+                if bool(now):
+                    now_full = await self.try_get_track(artist=now.artist.name, track=now.name, username=user)
+                    string = f"{member.mention}: `{now.artist.name} - {now.name}{f' ({now_full.stats.userplaycount} plays)`' if bool(now_full) else '`'}"
+                    tracks.append(string)
+            if not tracks:
+                return await ctx.send(embed=ctx.bot.static.embed(ctx, f"No one in {ctx.guild} is listening to anything"))
+            await menus.MenuPages(source=ctx.bot.static.paginators.regular(tracks, ctx, discord.Embed(
+                title=f"{ctx.guild}'s Now Playing",
                 color=ctx.author.color,
                 timestamp=ctx.message.created_at
             ).set_footer(
-                text="Who Knows",
-            ))).start(ctx)
+                text="Recently played",
+            ), clear_reactions_after=True
+                                                                           )).start(ctx)
 
-    @lastfm.command()
+    @lastfm.command(aliases=["wk"])
+    @commands.max_concurrency(1, per=commands.BucketType.user)
+    async def whoknows(self, ctx, *, artist=None):
+        async with ctx.typing():
+            if not artist:
+                username = await ctx.bot.lastfm.get_username(ctx=ctx)
+                now = await ctx.bot.lastfm.client.user.get_now_playing(username)
+                if not bool(now):
+                    return await ctx.send(embed=ctx.bot.static.embed(ctx, f"Not currently playing anything"))
+                artist = now.artist
+            else:
+                artist = await ctx.bot.lastfm.client.artist.get_info(artist=artist)
+            users = self.get_server_lastfm(ctx)
+            knows = []
+            counts = []
+            for member, user in users:
+                artist_full = await ctx.bot.lastfm.client.artist.get_info(artist=artist.name, username=user)
+                if bool(artist_full.stats.userplaycount):
+                    string = f"{member.mention}: `{artist_full.name} ({artist_full.stats.userplaycount} plays)`"
+                    knows.append(string)
+                    counts.append(artist_full.stats.userplaycount)
+            knows.sort(key=dict(zip(knows, counts)).get, reverse=True)
+            if not knows:
+                return await ctx.send(embed=ctx.bot.static.embed(ctx, f"No one in {ctx.guild} knows `{artist}`"))
+            await menus.MenuPages(
+                source=ctx.bot.static.paginators.regular(knows, ctx, discord.Embed(
+                    title=f"Who In {ctx.guild} Knows {artist}",
+                    color=ctx.author.color,
+                    timestamp=ctx.message.created_at
+                ).set_footer(
+                    text="Who Knows",
+                ))).start(ctx)
+
+    @lastfm.group(invoke_without_command=True)
+    @commands.max_concurrency(1, per=commands.BucketType.user)
     async def chart(self, ctx, first=None, second=3):
         # first and second argument, if a number is in the first argument then take it as the per value
         # otherwise, take first argument as username and second argument as the per value
-        await ctx.trigger_typing()
-        if bool(first) and first.isdigit():
-            second = int(first)
-            first = None
-        first = await ctx.bot.lastfm.get_username(ctx=ctx, username=first)
-        chart = await ctx.bot.lastfm.client.user.get_weekly_album_chart(first)
-        images = await self.get_image_pil(await self.scrape_images(chart.items[:second ** 2]))
-        # per ** 2 is the maximum amount of images that could be displayed
-        final = ctx.bot.static.image_to_bytes(self.merge_images(images, per=second))
-        await ctx.send(file=discord.File(final, filename="chart.png"))
+        async with ctx.typing():
+            if bool(first) and first.isdigit():
+                second = int(first)
+                first = None
+            first = await ctx.bot.lastfm.get_username(ctx=ctx, username=first)
+            chart = await ctx.bot.lastfm.client.user.get_weekly_album_chart(first)
+            images = await self.get_image_pil(await self.scrape_images(chart.items[:second ** 2]))
+            # per ** 2 is the maximum amount of images that could be displayed
+            final = ctx.bot.static.image_to_bytes(self.merge_images(images, per=second))
+            await ctx.send(file=discord.File(final, filename="chart.png"))
+
+    @chart.command()
+    @commands.max_concurrency(1, per=commands.BucketType.user)
+    async def artist(self, ctx, first=None, second=3):
+        # first and second argument, if a number is in the first argument then take it as the per value
+        # otherwise, take first argument as username and second argument as the per value
+        async with ctx.typing():
+            if bool(first) and first.isdigit():
+                second = int(first)
+                first = None
+            first = await ctx.bot.lastfm.get_username(ctx=ctx, username=first)
+            chart = await ctx.bot.lastfm.client.user.get_weekly_artist_chart(first)
+            images = await self.get_image_pil(await self.scrape_images(chart.items[:second ** 2]))
+            # per ** 2 is the maximum amount of images that could be displayed
+            final = ctx.bot.static.image_to_bytes(self.merge_images(images, per=second))
+            await ctx.send(file=discord.File(final, filename="chart.png"))
 
     async def try_get_track(self, artist=None, track=None, username=None):
         try:
