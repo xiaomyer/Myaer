@@ -44,3 +44,4 @@ Maintained by [Myer (also known as myerfire, MyerFire)](https://github.com/myerf
 - /fm servernp `username` - Shows server's currently playing track
 - /fm wk `artist` - Shows who knows an artist and their plays of the artist in the server
 - /fm chart `username` `per` - (if a number is passed in as the only argument you must be verified) - Shows a weekly chart of albums
+- /fm chart artist `username` `per` - same as above but for artists
