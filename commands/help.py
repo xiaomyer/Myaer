@@ -33,7 +33,7 @@ class Help(commands.Cog):
     @commands.command()
     @commands.max_concurrency(1, per=commands.BucketType.user)
     async def help(self, ctx):
-        await ctx.send(embed=discord.Embed(
+        await ctx.reply(embed=discord.Embed(
             name="Help",
             description=f"Here is some information about me\n"
                         f"[Commands](https://github.com/MyerFire/Myaer#commands)\n"

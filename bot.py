@@ -5,6 +5,7 @@ import traceback
 
 import discord
 from discord.ext import commands
+from discord_slash import SlashCommand
 
 import hypixelaPY
 import ksoftapi
@@ -29,9 +30,10 @@ async def get_prefix(bot, message):
 bot = commands.Bot(
     command_prefix=get_prefix,
     owner_id=config.owner,
-    allowed_mentions=discord.AllowedMentions(everyone=False),
+    allowed_mentions=discord.AllowedMentions(everyone=False, replied_user=False),
     intents=discord.Intents.all()
 )
+slash = SlashCommand(bot, override_type=True, auto_register=True, auto_delete=True)
 bot.static = Static(bot)
 bot.config = config
 bot.data = data

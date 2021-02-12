@@ -47,10 +47,10 @@ class Minecraft(commands.Cog):
             print(f"Failed Minecraft account verification\n"
                   f"Hypixel Discord name of the given Minecraft account was not the same as the user's discord\n"
                   f"Hypixel Discord name: {player.social.discord}")
-            return await ctx.send(embed=ctx.bot.static.embed(ctx, "Set your Discord name and tag on Hypixel first"))
+            return await ctx.reply(embed=ctx.bot.static.embed(ctx, "Set your Discord name and tag on Hypixel first"))
         print("Successfully verified Minecraft account")
         ctx.bot.data.users.set(ctx.author.id, "minecraft_uuid", player.uuid)
-        return await ctx.send(embed=ctx.bot.static.embed(ctx, f"Verified your Minecraft account as `{player.name}`"))
+        return await ctx.reply(embed=ctx.bot.static.embed(ctx, f"Verified your Minecraft account as `{player.name}`"))
 
     @minecraft.command()
     @commands.max_concurrency(1, per=commands.BucketType.user)
@@ -63,8 +63,8 @@ class Minecraft(commands.Cog):
               f"Minecraft UUID: {reset}" if reset else
               f"Failed to unverify Minecraft account\n"
               f"User was not verified")
-        return await ctx.send(embed=ctx.bot.static.embed(ctx,
-                                                         f"{'Unverified your Minecraft account' if reset else 'Your Minecraft account was not verified'}"))
+        return await ctx.reply(embed=ctx.bot.static.embed(ctx,
+                                                          f"{'Unverified your Minecraft account' if reset else 'Your Minecraft account was not verified'}"))
 
     @minecraft.command()
     @commands.is_owner()
@@ -77,7 +77,7 @@ class Minecraft(commands.Cog):
         player = await ctx.bot.hypixel.hypixel.player.get(input_=input_)
         print("Successfully verified Minecraft account")
         ctx.bot.data.users.set(user.id, "minecraft_uuid", player.uuid)
-        return await ctx.send(
+        return await ctx.reply(
             embed=ctx.bot.static.embed(ctx, f"Verified {user.mention}'s Minecraft account as `{player.name}`"))
 
     @minecraft.command()
@@ -91,8 +91,8 @@ class Minecraft(commands.Cog):
               f"Minecraft UUID: {reset.minecraft_uuid} (this has been reset)" if reset else
               f"Failed to unverify Minecraft account\n"
               f"User was not verified")
-        return await ctx.send(embed=ctx.bot.static.embed(ctx,
-                                                         f"""{f"Unverified {user.mention}'s Minecraft account" if reset else f"{user.mention}'s Minecraft account was not verified"}"""))
+        return await ctx.reply(embed=ctx.bot.static.embed(ctx,
+                                                          f"""{f"Unverified {user.mention}'s Minecraft account" if reset else f"{user.mention}'s Minecraft account was not verified"}"""))
 
 
 def setup(bot):

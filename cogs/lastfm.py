@@ -22,8 +22,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import io
-
 import aiohttp
 import discord
 import humanfriendly
@@ -56,7 +54,7 @@ class LastFM(commands.Cog):
     async def set(self, ctx, username):
         user = await ctx.bot.lastfm.client.user.get_info(username)
         ctx.bot.data.users.set(ctx.author.id, "lastfm", user.name)
-        return await ctx.send(embed=ctx.bot.static.embed(ctx, f"Verified your last.fm account as `{user.name}`"))
+        return await ctx.reply(embed=ctx.bot.static.embed(ctx, f"Verified your last.fm account as `{user.name}`"))
 
     @lastfm.command()
     @commands.max_concurrency(1, per=commands.BucketType.user)
@@ -81,6 +79,7 @@ class LastFM(commands.Cog):
     @lastfm.command(aliases=["np"])
     @commands.max_concurrency(1, per=commands.BucketType.user)
     async def now(self, ctx, username=None):
+        # any raw numbers used here are simply magic numbers based on testing with the template image
         username = await ctx.bot.lastfm.get_username(ctx=ctx, username=username)
         now = await ctx.bot.lastfm.client.user.get_now_playing(username)
         if now:
@@ -94,7 +93,7 @@ class LastFM(commands.Cog):
                 playcount_string = f"{now_full.stats.userplaycount} plays"
                 draw.text((
                     self.get_playcount_x(self.font_small, playcount_string),
-                    150 - 25
+                    125
                 ), playcount_string, font=self.font_small)
             string = f"{now.name} ― {now.artist.name}"
             string_wrapped = [line for line in textwrap.wrap(string, 25,
@@ -108,9 +107,9 @@ class LastFM(commands.Cog):
                 x = self.get_x(self.font, line)
                 draw.text((x, y,), line, font=self.font)
                 y += self.font.size + 3
-            await ctx.send(file=discord.File(ctx.bot.static.image_to_bytes(image), filename="np.png"))
+            await ctx.reply(file=discord.File(ctx.bot.static.image_to_bytes(image), filename="np.png"))
         else:
-            await ctx.send(embed=ctx.bot.static.embed(ctx, description="Not currently playing anything"))
+            await ctx.reply(embed=ctx.bot.static.embed(ctx, description="Not currently playing anything"))
 
     @lastfm.command(aliases=["servernp"])
     @commands.max_concurrency(1, per=commands.BucketType.user)
@@ -125,15 +124,14 @@ class LastFM(commands.Cog):
                     string = f"{member.mention}: `{now.artist.name} - {now.name}{f' ({now_full.stats.userplaycount} plays)`' if bool(now_full) else '`'}"
                     tracks.append(string)
             if not tracks:
-                return await ctx.send(embed=ctx.bot.static.embed(ctx, f"No one in {ctx.guild} is listening to anything"))
+                return await ctx.reply(embed=ctx.bot.static.embed(ctx, f"No one in {ctx.guild} is listening to anything"))
             await menus.MenuPages(source=ctx.bot.static.paginators.regular(tracks, ctx, discord.Embed(
                 title=f"{ctx.guild}'s Now Playing",
                 color=ctx.author.color,
                 timestamp=ctx.message.created_at
             ).set_footer(
                 text="Recently played",
-            ), clear_reactions_after=True
-                                                                           )).start(ctx)
+            )), clear_reactions_after=True).start(ctx)
 
     @lastfm.command(aliases=["wk"])
     @commands.max_concurrency(1, per=commands.BucketType.user)
@@ -143,7 +141,7 @@ class LastFM(commands.Cog):
                 username = await ctx.bot.lastfm.get_username(ctx=ctx)
                 now = await ctx.bot.lastfm.client.user.get_now_playing(username)
                 if not bool(now):
-                    return await ctx.send(embed=ctx.bot.static.embed(ctx, f"Not currently playing anything"))
+                    return await ctx.reply(embed=ctx.bot.static.embed(ctx, f"Not currently playing anything"))
                 artist = now.artist
             else:
                 artist = await ctx.bot.lastfm.client.artist.get_info(artist=artist)
@@ -158,7 +156,7 @@ class LastFM(commands.Cog):
                     counts.append(artist_full.stats.userplaycount)
             knows.sort(key=dict(zip(knows, counts)).get, reverse=True)
             if not knows:
-                return await ctx.send(embed=ctx.bot.static.embed(ctx, f"No one in {ctx.guild} knows `{artist}`"))
+                return await ctx.reply(embed=ctx.bot.static.embed(ctx, f"No one in {ctx.guild} knows `{artist}`"))
             await menus.MenuPages(
                 source=ctx.bot.static.paginators.regular(knows, ctx, discord.Embed(
                     title=f"Who In {ctx.guild} Knows {artist}",
@@ -182,7 +180,7 @@ class LastFM(commands.Cog):
             images = await self.get_image_pil(await self.scrape_images(chart.items[:second ** 2]))
             # per ** 2 is the maximum amount of images that could be displayed
             final = ctx.bot.static.image_to_bytes(self.merge_images(images, per=second))
-            await ctx.send(file=discord.File(final, filename="chart.png"))
+            await ctx.reply(file=discord.File(final, filename="chart.png"))
 
     @chart.command()
     @commands.max_concurrency(1, per=commands.BucketType.user)
@@ -198,7 +196,7 @@ class LastFM(commands.Cog):
             images = await self.get_image_pil(await self.scrape_images(chart.items[:second ** 2]))
             # per ** 2 is the maximum amount of images that could be displayed
             final = ctx.bot.static.image_to_bytes(self.merge_images(images, per=second))
-            await ctx.send(file=discord.File(final, filename="chart.png"))
+            await ctx.reply(file=discord.File(final, filename="chart.png"))
 
     async def try_get_track(self, artist=None, track=None, username=None):
         try:
@@ -258,6 +256,7 @@ class LastFM(commands.Cog):
                 users.append((member, lastfm))
         return users
 
+    # these are all magic number functions
     @staticmethod
     def get_intial_y(height):
         center_of_middle = 150 / 2

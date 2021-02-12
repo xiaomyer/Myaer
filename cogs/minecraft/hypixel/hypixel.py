@@ -72,7 +72,7 @@ class Hypixel(commands.Cog):
                       f"Members: {guild.members.count}",
                 inline=False
             )
-        await ctx.send(embed=embed)
+        await ctx.reply(embed=embed)
 
 
 def setup(bot):

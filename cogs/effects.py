@@ -41,7 +41,7 @@ class Effects(commands.Cog):
         image = ctx.bot.static.image_to_pil(await ctx.bot.static.get_image(image))
         image = image.convert("RGB")
         image = image.filter(ImageFilter.CONTOUR)
-        await ctx.send(file=discord.File(ctx.bot.static.image_to_bytes(image), filename="contour.png"))
+        await ctx.reply(file=discord.File(ctx.bot.static.image_to_bytes(image), filename="contour.png"))
 
     # @commands.command()
     # @commands.max_concurrency(1, per=commands.BucketType.user)
@@ -50,7 +50,7 @@ class Effects(commands.Cog):
     #     image = ctx.bot.static.image_to_pil(await ctx.bot.static.get_image(image))
     #     image = image.convert("RGB")
     #     image = await deeppyer.deepfry(image)
-    #     await ctx.send(file=discord.File(ctx.bot.static.image_to_bytes(image), filename="deepfry.png"))
+    #     await ctx.reply(file=discord.File(ctx.bot.static.image_to_bytes(image), filename="deepfry.png"))
 
     @commands.command()
     @commands.max_concurrency(1, per=commands.BucketType.user)
@@ -59,7 +59,7 @@ class Effects(commands.Cog):
         image = ctx.bot.static.image_to_pil(await ctx.bot.static.get_image(image))
         image = image.convert("RGB")
         image = image.filter(ImageFilter.EMBOSS)
-        await ctx.send(file=discord.File(ctx.bot.static.image_to_bytes(image), filename="emboss.png"))
+        await ctx.reply(file=discord.File(ctx.bot.static.image_to_bytes(image), filename="emboss.png"))
 
     async def parse_image_url(self, ctx, input_):
         image = None

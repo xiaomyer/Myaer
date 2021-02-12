@@ -45,35 +45,43 @@ class CommandError(commands.Cog):
         ignored = (commands.CommandNotFound,
                    commands.CheckFailure
                    )
+        lastfm = (
+            lastfmpy.RatelimitExceededError,
+            lastfmpy.InvalidInputError,
+            lastfmpy.APIKeySuspendedError,
+            lastfmpy.OperationFailedError,
+            lastfmpy.TemporaryError,
+            lastfmpy.ServiceOfflineError
+        )
         if isinstance(error, ignored):
             return
         if isinstance(error, hypixelaPY.NoPlayerFoundError):
-            return await ctx.send(
+            return await ctx.reply(
                 embed=ctx.bot.static.embed(ctx, f"\"{error.input_}\" is not a valid Minecraft account"))
         elif isinstance(error, NoMinecraftUUID):
-            return await ctx.send(
+            return await ctx.reply(
                 embed=ctx.bot.static.embed(ctx, f"You are not verified! `/mc verify <ign>`"))
         elif isinstance(error, NoLastFMUsername):
-            return await ctx.send(
+            return await ctx.reply(
                 embed=ctx.bot.static.embed(ctx, f"You are not verified! `/fm set <username>`"))
-        elif isinstance(error, lastfmpy.RatelimitExceededError) or isinstance(error, lastfmpy.InvalidInputError):
-            return await ctx.send(
+        elif isinstance(error, lastfm):
+            return await ctx.reply(
                 embed=ctx.bot.static.embed(ctx, error.message))
         elif isinstance(error, commands.MaxConcurrencyReached):
-            return await ctx.send(
+            return await ctx.reply(
                 embed=ctx.bot.static.embed(ctx, f"{ctx.author.mention}, you are sending commands too fast"))
         elif isinstance(error, commands.MissingRequiredArgument):
-            return await ctx.send(
+            return await ctx.reply(
                 embed=ctx.bot.static.embed(ctx, f"{ctx.author.mention}, `{error.param}` is a required "
                                                 f"argument that is missing"))
         elif isinstance(error, commands.BadArgument):
-            return await ctx.send(embed=ctx.bot.static.embed(ctx, str(error)))
+            return await ctx.reply(embed=ctx.bot.static.embed(ctx, str(error)))
         elif isinstance(error, commands.MissingPermissions):
-            return await ctx.send(
+            return await ctx.reply(
                 embed=ctx.bot.static.embed(ctx, f"You are missing the`{', '.join(error.missing_perms)}` "
                                                 f"permission(s)"))
         elif isinstance(error, commands.BotMissingPermissions):
-            return await ctx.send(embed=ctx.bot.static.embed(ctx, f"I am missing the`{', '.join(error.missing_perms)}` "
+            return await ctx.reply(embed=ctx.bot.static.embed(ctx, f"I am missing the`{', '.join(error.missing_perms)}` "
                                                                   f"permission(s)"))
         elif isinstance(error, discord.Forbidden):
             return await ctx.author.send(embed=ctx.bot.static.embed(
@@ -85,7 +93,7 @@ class CommandError(commands.Cog):
                 support, join my [Discord Server](https://myer.wtf/discord)"""))
 
         error_traceback = "".join(traceback.format_exception(type(error), error, error.__traceback__))
-        await ctx.send(embed=discord.Embed(
+        await ctx.reply(embed=discord.Embed(
             color=ctx.author.color,
             timestamp=ctx.message.created_at,
             description=f"```{error_traceback}```"

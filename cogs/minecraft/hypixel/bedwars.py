@@ -221,7 +221,7 @@ class BedwarsMenu(menus.Menu):
             self.index -= 1
 
     async def send_initial_message(self, ctx, channel):
-        return await channel.send(embed=self.display[self.index])
+        return await ctx.reply(embed=self.display[self.index])
 
     @menus.button("\u2B05")
     async def on_arrow_backwards(self, payload):

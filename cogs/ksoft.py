@@ -38,7 +38,7 @@ class KSoft(commands.Cog):
             username = await ctx.bot.lastfm.get_username(ctx=ctx)
             song = await ctx.bot.lastfm.client.user.get_now_playing(username)
             if not song:
-                return await ctx.send(embed=ctx.bot.static.embed(ctx, description="Not currently playing anything"))
+                return await ctx.reply(embed=ctx.bot.static.embed(ctx, description="Not currently playing anything"))
             query = f"{song.artist.name} - {song.name}"
         else:
             query = " ".join(list(query))

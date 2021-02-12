@@ -61,7 +61,7 @@ class LeaderboardsMenu(menus.Menu):
             self.index -= 1
 
     async def send_initial_message(self, ctx, channel):
-        return await channel.send(embed=ctx.bot.static.embed(self.ctx_, "Leaderboards Game Selector"))
+        return await ctx.reply(embed=ctx.bot.static.embed(self.ctx_, "Leaderboards Game Selector"))
 
     @menus.button("\u2B05")
     async def on_arrow_backwards(self, payload):
