@@ -49,6 +49,16 @@ class Starboard(commands.Cog):
                 if file_type in attachment.filename:
                     return attachment.url
 
+    @staticmethod
+    def content_parser(message):
+        if message.reference and message.reference.resolved:
+            return f"{message.content}\n\n" \
+                   f"*__in reply to__*\n\n" \
+                   f"{message.reference.resolved.content}"
+        else:
+            print("doing this")
+            return message.content
+
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
         if reaction.emoji != self.star or not reaction.message.guild: return
@@ -58,17 +68,15 @@ class Starboard(commands.Cog):
         if message := self.starboarded.get(reaction.message.id):
             return await message.edit(content=f"{self.stars_count(reaction)} {self.star}")
         else:
-            image = self.image_parser(reaction.message)
             embed = discord.Embed(
                 color=reaction.message.author.color,
                 timestamp=reaction.message.created_at,
-                description=f"""[Jump to Message]({reaction.message.jump_url})
-            {reaction.message.content}"""
+                description=self.content_parser(reaction.message)
             ).set_author(
                 name=f"{reaction.message.author}",
                 icon_url=f"{reaction.message.author.avatar_url_as(static_format='png', size=2048)}"
             )
-            if image:
+            if image := self.image_parser(reaction.message):
                 embed.set_image(
                     url=image
                 )

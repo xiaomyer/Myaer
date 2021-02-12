@@ -71,7 +71,7 @@ class Config(commands.Cog):
     async def prefix(self, ctx: commands.Context):
         prefix = ctx.bot.data.guilds.get(ctx.guild.id).prefix
         return await ctx.reply(embed=ctx.bot.static.embed(ctx,
-                                                         f"This server's current prefix is `{prefix}`" if prefix else f"This server is using the default prefix, `{self.bot.config.default_prefix}`"))
+                                                          f"This server's current prefix is `{prefix}`" if prefix else f"This server is using the default prefix, `{self.bot.config.default_prefix}`"))
 
     @prefix.command(name="set")
     @commands.has_guild_permissions(manage_guild=True)
@@ -89,12 +89,12 @@ class Config(commands.Cog):
                       f"Prefix was set to default ({ctx.bot.config.default_prefix})\n"
                       f"Prefix: {reset.prefix} (this has been reset)")
                 return await ctx.reply(embed=ctx.bot.static.embed(ctx,
-                                                                 f"Reset this server's prefix from `{reset.prefix}` to `{ctx.bot.config.default_prefix}`"))
+                                                                  f"Reset this server's prefix from `{reset.prefix}` to `{ctx.bot.config.default_prefix}`"))
             else:
                 print(f"Failed setting prefix\n"
                       f"Prefix was already default ({ctx.bot.config.default_prefix})")
                 return await ctx.reply(embed=ctx.bot.static.embed(ctx,
-                                                                 f"This server's prefix is already the default, `{ctx.bot.config.default_prefix}`"))
+                                                                  f"This server's prefix is already the default, `{ctx.bot.config.default_prefix}`"))
         elif len(prefix) < 10:
             self.bot.data.guilds.set(ctx.guild.id, "prefix", prefix)
             print("Successfully set prefix")
@@ -117,12 +117,12 @@ class Config(commands.Cog):
         if reset:
             print("Successfully reset prefix")
             return await ctx.reply(embed=ctx.bot.static.embed(ctx,
-                                                             f"Reset this server's prefix from `{reset}` to `{ctx.bot.config.default_prefix}`"))
+                                                              f"Reset this server's prefix from `{reset}` to `{ctx.bot.config.default_prefix}`"))
         else:
             print("Failed resetting prefix\n"
                   f"Prefix was already default {ctx.bot.config.default_prefix}")
             return await ctx.reply(embed=ctx.bot.static.embed(ctx,
-                                                             f"This server's prefix is already the default, `{ctx.bot.config.default_prefix}`"))
+                                                              f"This server's prefix is already the default, `{ctx.bot.config.default_prefix}`"))
 
     @commands.group(name="staffonly", invoke_without_command=True)
     @commands.guild_only()
@@ -131,7 +131,7 @@ class Config(commands.Cog):
     async def staffonly(self, ctx: commands.Context):
         staffonly = ctx.bot.data.guilds.get(ctx.guild.id).staffonly
         return await ctx.reply(embed=ctx.bot.static.embed(ctx,
-                                                         f"""The staff-only channels in this server are {', '.join([f"<#{channel}>" for channel in staffonly])}""" if staffonly else "There are no staff-only channels in this server"))
+                                                          f"""The staff-only channels in this server are {', '.join([f"<#{channel}>" for channel in staffonly])}""" if staffonly else "There are no staff-only channels in this server"))
 
     @staffonly.command(name="set")
     @commands.guild_only()
@@ -145,7 +145,7 @@ class Config(commands.Cog):
         ctx.bot.data.guilds.set(ctx.guild.id, "staffonly", [channel.id for channel in channels])
         print("Successfully set staffonly channels")
         return await ctx.reply(embed=ctx.bot.static.embed(ctx,
-                                                         f"Set the staff-only channels in this server to {', '.join([channel.mention for channel in channels])}"))
+                                                          f"Set the staff-only channels in this server to {', '.join([channel.mention for channel in channels])}"))
 
     @staffonly.command(name="reset")
     @commands.guild_only()
@@ -161,7 +161,7 @@ class Config(commands.Cog):
               "Failed resetting staff-only channels\n"
               "staff-only channels were not set")
         return await ctx.reply(embed=ctx.bot.static.embed(ctx,
-                                                         f"Reset this server's staff-only channels" if reset else "No staff-only channels were set"))
+                                                          f"Reset this server's staff-only channels" if reset else "No staff-only channels were set"))
 
     @commands.group(name="modonly", invoke_without_command=True)
     @commands.guild_only()
@@ -170,7 +170,7 @@ class Config(commands.Cog):
     async def modonly(self, ctx: commands.Context):
         modonly = ctx.bot.data.guilds.get(ctx.guild.id).modonly
         return await ctx.reply(embed=ctx.bot.static.embed(ctx,
-                                                         f"""The mod-only channels in this server are {', '.join([f"<#{channel}>" for channel in modonly])}""" if modonly else "There are no mod-only channels in this server"))
+                                                          f"""The mod-only channels in this server are {', '.join([f"<#{channel}>" for channel in modonly])}""" if modonly else "There are no mod-only channels in this server"))
 
     @modonly.command(name="set")
     @commands.guild_only()
@@ -184,7 +184,7 @@ class Config(commands.Cog):
         ctx.bot.data.guilds.set(ctx.guild.id, "modonly", [channel.id for channel in channels])
         print("Successfully set mod-only channels")
         return await ctx.reply(embed=ctx.bot.static.embed(ctx,
-                                                         f"Set the mod-only channels in this server to {', '.join([channel.mention for channel in channels])}"))
+                                                          f"Set the mod-only channels in this server to {', '.join([channel.mention for channel in channels])}"))
 
     @modonly.command(name="reset")
     @commands.guild_only()
@@ -200,7 +200,7 @@ class Config(commands.Cog):
               "Failed resetting mod-only channels\n"
               "mod-only channels were not set")
         return await ctx.reply(embed=ctx.bot.static.embed(ctx,
-                                                         f"Reset this server's mod-only channels" if reset else "No mod-only channels were set"))
+                                                          f"Reset this server's mod-only channels" if reset else "No mod-only channels were set"))
 
     @commands.group(name="adminonly", invoke_without_command=True)
     @commands.guild_only()
@@ -209,7 +209,7 @@ class Config(commands.Cog):
     async def adminonly(self, ctx: commands.Context):
         adminonly = ctx.bot.data.guilds.get(ctx.guild.id).adminonly
         return await ctx.reply(embed=ctx.bot.static.embed(ctx,
-                                                         f"""The admin-only channels in this server are {', '.join([f"<#{channel}>" for channel in adminonly])}""" if adminonly else "There are no admin-only channels in this server"))
+                                                          f"""The admin-only channels in this server are {', '.join([f"<#{channel}>" for channel in adminonly])}""" if adminonly else "There are no admin-only channels in this server"))
 
     @adminonly.command(name="set")
     @commands.guild_only()
@@ -223,7 +223,7 @@ class Config(commands.Cog):
         ctx.bot.data.guilds.set(ctx.guild.id, "adminonly", [channel.id for channel in channels])
         print("Successfully set admin-only channels")
         return await ctx.reply(embed=ctx.bot.static.embed(ctx,
-                                                         f"Set the admin-only channels in this server to {', '.join([channel.mention for channel in channels])}"))
+                                                          f"Set the admin-only channels in this server to {', '.join([channel.mention for channel in channels])}"))
 
     @adminonly.command(name="reset")
     @commands.guild_only()
@@ -239,7 +239,7 @@ class Config(commands.Cog):
               "Failed resetting admin-only channels\n"
               "admin-only channels were not set")
         return await ctx.reply(embed=ctx.bot.static.embed(ctx,
-                                                         f"Reset this server's admin-only channels" if reset else "No admin-only channels were set"))
+                                                          f"Reset this server's admin-only channels" if reset else "No admin-only channels were set"))
 
     @commands.group(name="starboard", invoke_without_command=True)
     @commands.guild_only()
@@ -248,7 +248,7 @@ class Config(commands.Cog):
     async def starboard(self, ctx: commands.Context):
         starboard = ctx.bot.data.guilds.get(ctx.guild.id).starboard
         return await ctx.reply(embed=ctx.bot.static.embed(ctx,
-                                                         f"The starboard for this server is <#{starboard}>" if starboard else "There is no starboard set for this server"))
+                                                          f"The starboard for this server is <#{starboard}>" if starboard else "There is no starboard set for this server"))
 
     @starboard.command(name="set")
     @commands.guild_only()
@@ -277,7 +277,7 @@ class Config(commands.Cog):
               "Failed to reset starboard\n"
               "Starboard was not set")
         return await ctx.reply(embed=ctx.bot.static.embed(ctx,
-                                                         f"{f'Removed the starboard of <#{reset}>' if reset else 'There was no starboard set in this server'}"))
+                                                          f"{f'Removed the starboard of <#{reset}>' if reset else 'There was no starboard set in this server'}"))
 
 
 def setup(bot):
