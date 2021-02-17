@@ -29,6 +29,7 @@ from discord.ext import commands, menus
 class Skywars(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.icon = "https://static.myer.wtf/hypixel/skywars.png"
 
     @commands.group(aliases=["sw"], invoke_without_command=True)
     @commands.max_concurrency(1, per=commands.BucketType.user)
@@ -40,7 +41,10 @@ class Skywars(commands.Cog):
         wlr = (
             self.get_wlr_embed(player),
         )
-        stats = SkywarsMenu(stats, wlr)
+        kdr = (
+            self.get_kdr_embed(player),
+        )
+        stats = SkywarsMenu(stats, wlr, kdr)
         await stats.start(ctx)
 
     def get_stats_embed(self, player, mode=None):
@@ -69,8 +73,9 @@ class Skywars(commands.Cog):
         ).add_field(
             name="W/L",
             value=mode.wins.ratio.ratio
-        ).set_footer(
-            text=str(mode)
+        ).set_author(
+            name=f"Currently Viewing: {mode}",
+            icon_url=self.icon
         )
 
     def get_wlr_embed(self, player, mode=None):
@@ -91,16 +96,41 @@ class Skywars(commands.Cog):
         ).add_field(
             name=f"To {mode.wins.ratio.next} WLR",
             value=f"{mode.wins.ratio.increase():,d} needed"
-        ).set_footer(
-            text=f"{mode} WLR"
+        ).set_author(
+            name=f"Currently Viewing: {mode} WLR",
+            icon_url=self.icon
+        )
+
+    def get_kdr_embed(self, player, mode=None):
+        if not mode:
+            mode = player.skywars  # overall
+        return discord.Embed(
+            color=player.skywars.prestige.color,
+            title=f"[{player.skywars.prestige.star}{self.bot.static.star}] {player.display}",
+        ).add_field(
+            name="Kills",
+            value=f"{mode.kills.kills:,d}"
+        ).add_field(
+            name="Deaths",
+            value=f"{mode.kills.deaths:,d}"
+        ).add_field(
+            name="K/D",
+            value=mode.kills.ratio.ratio
+        ).add_field(
+            name=f"To {mode.kills.ratio.next} KDR",
+            value=f"{mode.kills.ratio.increase():,d} needed"
+        ).set_author(
+            name=f"Currently Viewing: {mode} KDR",
+            icon_url=self.icon
         )
 
 
 class SkywarsMenu(menus.Menu):
-    def __init__(self, stats, wlr):
+    def __init__(self, stats, wlr, kdr):
         super().__init__(timeout=300.0)
         self.stats = stats
         self.wlr = wlr
+        self.kdr = kdr
         self.index = 0
         self.display = stats  # default display mode is stats
 
@@ -119,6 +149,10 @@ class SkywarsMenu(menus.Menu):
     async def send_initial_message(self, ctx, channel):
         return await ctx.reply(embed=self.display[self.index])
 
+    @menus.button("\u21A9")
+    async def on_first(self, payload):
+        return await self.message.edit(embed=self.display[0])
+
     @menus.button("\u2B05")
     async def on_arrow_backwards(self, payload):
         self.decrement_index()
@@ -133,12 +167,19 @@ class SkywarsMenu(menus.Menu):
         self.increment_index()
         return await self.message.edit(embed=self.display[self.index])
 
+    @menus.button("\u21AA")
+    async def on_arrow_last(self, payload):
+        return await self.message.edit(embed=self.display[-1])
+
     @menus.button("<:stats:795017651277135883>")
     async def on_stats(self, payload):
         self.display = self.stats
         return await self.message.edit(embed=self.display[self.index])
 
-    # TODO: KD
+    @menus.button("<:kdr:802191344377528401>")
+    async def on_kdr(self, payload):
+        self.display = self.kdr
+        return await self.message.edit(embed=self.display[self.index])
 
     @menus.button("<:wlr:795017651726450758>")
     async def on_wlr(self, payload):

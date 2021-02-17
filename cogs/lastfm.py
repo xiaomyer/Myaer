@@ -95,7 +95,7 @@ class LastFM(commands.Cog):
                     self.get_playcount_x(self.font_small, playcount_string),
                     125
                 ), playcount_string, font=self.font_small)
-            string = f"{now.name} ― {now.artist.name}"
+            string = f"{now.artist.name} ― {now.name}"
             string_wrapped = [line for line in textwrap.wrap(string, 25,
                                                              break_on_hyphens=False, max_lines=6)]
             total_height = 0

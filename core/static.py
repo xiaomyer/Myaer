@@ -35,6 +35,9 @@ class Static:
     def __init__(self, bot):
         self.bot = bot
         self.arrow = "➤"
+        self.empty_image = io.BytesIO()
+        Image.new("RGB", (1, 1)).save(self.empty_image, format="png")
+        self.empty_image.seek(0)
         self.star = "✫"
         self.separator = "------------------------------"
         self.startup_time = self.time()
@@ -69,8 +72,8 @@ class Static:
         await self.bot.change_presence(activity=discord.Game(name=f"in {len(self.bot.guilds)} guilds | "
                                                                   f"https://myer.wtf/bot"))
 
-    @staticmethod
-    async def get_image(url):
+    async def get_image(self, url):
+        if not bool(url): return self.empty_image
         async with aiohttp.request("GET", url) as request:
             return io.BytesIO(await request.read())
 

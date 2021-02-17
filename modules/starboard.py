@@ -51,13 +51,9 @@ class Starboard(commands.Cog):
 
     @staticmethod
     def content_parser(message):
-        if message.reference and message.reference.resolved:
-            return f"{message.content}\n\n" \
-                   f"*__in reply to__*\n\n" \
-                   f"{message.reference.resolved.content}"
-        else:
-            print("doing this")
-            return message.content
+        if message.reference and message.reference.resolved: return f"{message.content}\n\n" f"*__in reply to__*\n\n" \
+                                                                    f"{message.reference.resolved.content} "
+        else: return message.content
 
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
@@ -68,18 +64,22 @@ class Starboard(commands.Cog):
         if message := self.starboarded.get(reaction.message.id):
             return await message.edit(content=f"{self.stars_count(reaction)} {self.star}")
         else:
-            embed = discord.Embed(
-                color=reaction.message.author.color,
-                timestamp=reaction.message.created_at,
-                description=self.content_parser(reaction.message)
-            ).set_author(
-                name=f"{reaction.message.author}",
-                icon_url=f"{reaction.message.author.avatar_url_as(static_format='png', size=2048)}"
-            )
-            if image := self.image_parser(reaction.message):
-                embed.set_image(
-                    url=image
+            if not reaction.message.content and reaction.message.embeds and reaction.message.author.bot and not reaction.message.system_content:
+                embed = reaction.message.embeds[0]
+            else:
+                embed = discord.Embed(
+                    color=reaction.message.author.color,
+                    timestamp=reaction.message.created_at,
+                    description=f"[Jump to Message]({reaction.message.jump_url})\n"
+                                f"{self.content_parser(reaction.message)}"
+                ).set_author(
+                    name=f"{reaction.message.author}",
+                    icon_url=f"{reaction.message.author.avatar_url_as(static_format='png', size=2048)}"
                 )
+                if image := self.image_parser(reaction.message):
+                    embed.set_image(
+                        url=image
+                    )
             message = await starboard.send(f"`{self.stars_count(reaction)}` {self.star}", embed=embed)
             self.starboarded[reaction.message.id] = message
 
@@ -91,7 +91,10 @@ class Starboard(commands.Cog):
         if message := self.starboarded.get(reaction.message.id):
             if self.stars_count(reaction) == 0:
                 self.starboarded.pop(reaction.message.id)
-                return await message.delete()
+                try:
+                    return await message.delete()
+                except discord.NotFound:
+                    pass  # message was probably deleted by user
             else:
                 return await message.edit(content=f"{self.stars_count(reaction)} {self.star}")
 

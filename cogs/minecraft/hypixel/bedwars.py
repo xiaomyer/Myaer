@@ -223,6 +223,10 @@ class BedwarsMenu(menus.Menu):
     async def send_initial_message(self, ctx, channel):
         return await ctx.reply(embed=self.display[self.index])
 
+    @menus.button("\u21A9")
+    async def on_first(self, payload):
+        return await self.message.edit(embed=self.display[0])
+
     @menus.button("\u2B05")
     async def on_arrow_backwards(self, payload):
         self.decrement_index()
@@ -236,6 +240,10 @@ class BedwarsMenu(menus.Menu):
     async def on_arrow_forward(self, payload):
         self.increment_index()
         return await self.message.edit(embed=self.display[self.index])
+
+    @menus.button("\u21AA")
+    async def on_arrow_last(self, payload):
+        return await self.message.edit(embed=self.display[-1])
 
     @menus.button("<:stats:795017651277135883>")
     async def on_stats(self, payload):
