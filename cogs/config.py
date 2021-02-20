@@ -68,42 +68,38 @@ class Config(commands.Cog):
     @commands.group(invoke_without_command=True)
     @commands.guild_only()
     @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def prefix(self, ctx: commands.Context):
-        prefix = ctx.bot.data.guilds.get(ctx.guild.id).prefix
-        return await ctx.reply(embed=ctx.bot.static.embed(ctx,
-                                                          f"This server's current prefix is `{prefix}`" if prefix else f"This server is using the default prefix, `{self.bot.config.default_prefix}`"))
-
-    @prefix.command(name="set")
-    @commands.has_guild_permissions(manage_guild=True)
-    @commands.guild_only()
-    @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def set_prefix(self, ctx: commands.Context, prefix):
-        print(ctx.bot.static.separator)
-        print(f"Attempting prefix configuration for guild {ctx.guild}\n"
-              f"ID: {ctx.guild.id}\n"
-              f"Input: {prefix}")
-        if prefix == self.bot.config.default_prefix:
-            reset = self.bot.data.guilds.delete(ctx.guild.id, "prefix")
-            if reset:
-                print(f"Successfully set prefix\n"
-                      f"Prefix was set to default ({ctx.bot.config.default_prefix})\n"
-                      f"Prefix: {reset.prefix} (this has been reset)")
-                return await ctx.reply(embed=ctx.bot.static.embed(ctx,
-                                                                  f"Reset this server's prefix from `{reset.prefix}` to `{ctx.bot.config.default_prefix}`"))
+    async def prefix(self, ctx: commands.Context, *, prefix=None):
+        if bool(prefix):
+            print(ctx.bot.static.separator)
+            print(f"Attempting prefix configuration for guild {ctx.guild}\n"
+                  f"ID: {ctx.guild.id}\n"
+                  f"Input: {prefix}")
+            if prefix == self.bot.config.default_prefix:
+                reset = self.bot.data.guilds.delete(ctx.guild.id, "prefix")
+                if reset:
+                    print(f"Successfully set prefix\n"
+                          f"Prefix was set to default ({ctx.bot.config.default_prefix})\n"
+                          f"Prefix: {reset} (this has been reset)")
+                    return await ctx.reply(embed=ctx.bot.static.embed(ctx,
+                                                                      f"Reset this server's prefix from `{reset}` to `{ctx.bot.config.default_prefix}`"))
+                else:
+                    print(f"Failed setting prefix\n"
+                          f"Prefix was already default ({ctx.bot.config.default_prefix})")
+                    return await ctx.reply(embed=ctx.bot.static.embed(ctx,
+                                                                      f"This server's prefix is already the default, `{ctx.bot.config.default_prefix}`"))
+            elif len(prefix) < 10:
+                self.bot.data.guilds.set(ctx.guild.id, "prefix", prefix)
+                print("Successfully set prefix")
+                return await ctx.reply(embed=ctx.bot.static.embed(ctx, f"Set this server's prefix to `{prefix}`"))
             else:
-                print(f"Failed setting prefix\n"
-                      f"Prefix was already default ({ctx.bot.config.default_prefix})")
-                return await ctx.reply(embed=ctx.bot.static.embed(ctx,
-                                                                  f"This server's prefix is already the default, `{ctx.bot.config.default_prefix}`"))
-        elif len(prefix) < 10:
-            self.bot.data.guilds.set(ctx.guild.id, "prefix", prefix)
-            print("Successfully set prefix")
-            return await ctx.reply(embed=ctx.bot.static.embed(ctx, f"Set this server's prefix to `{prefix}`"))
+                print("Failed setting prefix\n"
+                      "Prefix was too long")
+                return await ctx.reply(
+                    embed=ctx.bot.static.embed(ctx, "Prefixes should not be that long. Try a shorter one"))
         else:
-            print("Failed setting prefix\n"
-                  "Prefix was too long")
-            return await ctx.reply(
-                embed=ctx.bot.static.embed(ctx, "Prefixes should not be that long. Try a shorter one"))
+            prefix = ctx.bot.data.guilds.get(ctx.guild.id).prefix
+            return await ctx.reply(embed=ctx.bot.static.embed(ctx,
+                                                              f"This server's current prefix is `{prefix}`" if prefix else f"This server is using the default prefix, `{self.bot.config.default_prefix}`"))
 
     @prefix.command(name="reset")
     @commands.has_guild_permissions(manage_guild=True)

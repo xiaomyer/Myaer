@@ -12,10 +12,8 @@ Maintained by [Myer (also known as myerfire, MyerFire)](https://github.com/myerf
 - /help - ur mom
 - /avatar - Shows your Discord avatar
     - aka: /av
-- /prefix - Shows current server prefix if there is a custom prefix set
+- /prefix `prefix` - Shows current server prefix if there is no prefix specified, otherwise shows current server prefix
   - `myaer `, `Myaer `, and @ing the bot will always work as prefixes. Default prefix is `/`
-- /prefix set `prefix` - Sets server custom prefix
-- /prefix reset - Resets server prefix if a custom prefix was set
 - /starboard - Shows current server starboard if there is one
   - A starboard is like pinned messages but all in one place
 - /starboard set `channel` - Sets server starboard
