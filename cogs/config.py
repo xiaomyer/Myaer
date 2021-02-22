@@ -124,24 +124,20 @@ class Config(commands.Cog):
     @commands.guild_only()
     @commands.has_guild_permissions(manage_guild=True)
     @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def staffonly(self, ctx: commands.Context):
-        staffonly = ctx.bot.data.guilds.get(ctx.guild.id).staffonly
-        return await ctx.reply(embed=ctx.bot.static.embed(ctx,
-                                                          f"""The staff-only channels in this server are {', '.join([f"<#{channel}>" for channel in staffonly])}""" if staffonly else "There are no staff-only channels in this server"))
-
-    @staffonly.command(name="set")
-    @commands.guild_only()
-    @commands.has_guild_permissions(manage_guild=True)
-    @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def staffonly_set(self, ctx: commands.Context, *channels: discord.TextChannel):
-        print(ctx.bot.static.separator)
-        print(f"Attempting staffonly configuration for guild {ctx.guild}\n"
-              f"ID: {ctx.guild.id}\n"
-              f"Input: {channels}")
-        ctx.bot.data.guilds.set(ctx.guild.id, "staffonly", [channel.id for channel in channels])
-        print("Successfully set staffonly channels")
-        return await ctx.reply(embed=ctx.bot.static.embed(ctx,
-                                                          f"Set the staff-only channels in this server to {', '.join([channel.mention for channel in channels])}"))
+    async def staffonly(self, ctx: commands.Context, channels: commands.Greedy[discord.TextChannel] = None):
+        if bool(channels):
+            print(ctx.bot.static.separator)
+            print(f"Attempting staff-only configuration for guild {ctx.guild}\n"
+                  f"ID: {ctx.guild.id}\n"
+                  f"Input: {channels}")
+            ctx.bot.data.guilds.set(ctx.guild.id, "staffonly", [channel.id for channel in channels])
+            print("Successfully set staff-only channels")
+            return await ctx.reply(embed=ctx.bot.static.embed(ctx,
+                                                              f"Set the staff-only channels in this server to {', '.join([channel.mention for channel in channels])}"))
+        else:
+            staffonly = ctx.bot.data.guilds.get(ctx.guild.id).staffonly
+            return await ctx.reply(embed=ctx.bot.static.embed(ctx,
+                                                              f"""The staff-only channels in this server are {', '.join([f"<#{channel}>" for channel in staffonly])}""" if staffonly else "There are no staff-only channels in this server"))
 
     @staffonly.command(name="reset")
     @commands.guild_only()
@@ -163,24 +159,20 @@ class Config(commands.Cog):
     @commands.guild_only()
     @commands.has_guild_permissions(manage_guild=True)
     @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def modonly(self, ctx: commands.Context):
-        modonly = ctx.bot.data.guilds.get(ctx.guild.id).modonly
-        return await ctx.reply(embed=ctx.bot.static.embed(ctx,
-                                                          f"""The mod-only channels in this server are {', '.join([f"<#{channel}>" for channel in modonly])}""" if modonly else "There are no mod-only channels in this server"))
-
-    @modonly.command(name="set")
-    @commands.guild_only()
-    @commands.has_guild_permissions(manage_guild=True)
-    @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def modonly_set(self, ctx: commands.Context, *channels: discord.TextChannel):
-        print(ctx.bot.static.separator)
-        print(f"Attempting mod-only configuration for guild {ctx.guild}\n"
-              f"ID: {ctx.guild.id}\n"
-              f"Input: {channels}")
-        ctx.bot.data.guilds.set(ctx.guild.id, "modonly", [channel.id for channel in channels])
-        print("Successfully set mod-only channels")
-        return await ctx.reply(embed=ctx.bot.static.embed(ctx,
-                                                          f"Set the mod-only channels in this server to {', '.join([channel.mention for channel in channels])}"))
+    async def modonly(self, ctx: commands.Context, channels: commands.Greedy[discord.TextChannel] = None):
+        if bool(channels):
+            print(ctx.bot.static.separator)
+            print(f"Attempting mod-only configuration for guild {ctx.guild}\n"
+                  f"ID: {ctx.guild.id}\n"
+                  f"Input: {channels}")
+            ctx.bot.data.guilds.set(ctx.guild.id, "modonly", [channel.id for channel in channels])
+            print("Successfully set mod-only channels")
+            return await ctx.reply(embed=ctx.bot.static.embed(ctx,
+                                                              f"Set the mod-only channels in this server to {', '.join([channel.mention for channel in channels])}"))
+        else:
+            modonly = ctx.bot.data.guilds.get(ctx.guild.id).modonly
+            return await ctx.reply(embed=ctx.bot.static.embed(ctx,
+                                                              f"""The mod-only channels in this server are {', '.join([f"<#{channel}>" for channel in modonly])}""" if modonly else "There are no mod-only channels in this server"))
 
     @modonly.command(name="reset")
     @commands.guild_only()
@@ -202,24 +194,20 @@ class Config(commands.Cog):
     @commands.guild_only()
     @commands.has_guild_permissions(manage_guild=True)
     @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def adminonly(self, ctx: commands.Context):
-        adminonly = ctx.bot.data.guilds.get(ctx.guild.id).adminonly
-        return await ctx.reply(embed=ctx.bot.static.embed(ctx,
-                                                          f"""The admin-only channels in this server are {', '.join([f"<#{channel}>" for channel in adminonly])}""" if adminonly else "There are no admin-only channels in this server"))
-
-    @adminonly.command(name="set")
-    @commands.guild_only()
-    @commands.has_guild_permissions(manage_guild=True)
-    @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def adminonly_set(self, ctx: commands.Context, *channels: discord.TextChannel):
-        print(ctx.bot.static.separator)
-        print(f"Attempting admin-only configuration for guild {ctx.guild}\n"
-              f"ID: {ctx.guild.id}\n"
-              f"Input: {channels}")
-        ctx.bot.data.guilds.set(ctx.guild.id, "adminonly", [channel.id for channel in channels])
-        print("Successfully set admin-only channels")
-        return await ctx.reply(embed=ctx.bot.static.embed(ctx,
-                                                          f"Set the admin-only channels in this server to {', '.join([channel.mention for channel in channels])}"))
+    async def adminonly(self, ctx: commands.Context, channels: commands.Greedy[discord.TextChannel] = None):
+        if bool(channels):
+            print(ctx.bot.static.separator)
+            print(f"Attempting admin-only configuration for guild {ctx.guild}\n"
+                  f"ID: {ctx.guild.id}\n"
+                  f"Input: {channels}")
+            ctx.bot.data.guilds.set(ctx.guild.id, "adminonly", [channel.id for channel in channels])
+            print("Successfully set admin-only channels")
+            return await ctx.reply(embed=ctx.bot.static.embed(ctx,
+                                                              f"Set the admin-only channels in this server to {', '.join([channel.mention for channel in channels])}"))
+        else:
+            adminonly = ctx.bot.data.guilds.get(ctx.guild.id).adminonly
+            return await ctx.reply(embed=ctx.bot.static.embed(ctx,
+                                                              f"""The admin-only channels in this server are {', '.join([f"<#{channel}>" for channel in adminonly])}""" if adminonly else "There are no admin-only channels in this server"))
 
     @adminonly.command(name="reset")
     @commands.guild_only()
@@ -241,23 +229,19 @@ class Config(commands.Cog):
     @commands.guild_only()
     @commands.has_guild_permissions(manage_guild=True)
     @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def starboard(self, ctx: commands.Context):
-        starboard = ctx.bot.data.guilds.get(ctx.guild.id).starboard
-        return await ctx.reply(embed=ctx.bot.static.embed(ctx,
+    async def starboard(self, ctx: commands.Context, *, channel: discord.TextChannel = None):
+        if channel:
+            print(ctx.bot.static.separator)
+            print(f"Attempting starboard set for guild {ctx.guild}\n"
+                  f"ID: {ctx.guild.id}\n"
+                  f"Input: {channel}")
+            ctx.bot.data.guilds.set(ctx.guild.id, "starboard", channel.id)
+            print("Successfully set starboard")
+            return await ctx.reply(embed=ctx.bot.static.embed(ctx, f"Set the starboard channel to {channel.mention}"))
+        else:
+            starboard = ctx.bot.data.guilds.get(ctx.guild.id).starboard
+            return await ctx.reply(embed=ctx.bot.static.embed(ctx,
                                                           f"The starboard for this server is <#{starboard}>" if starboard else "There is no starboard set for this server"))
-
-    @starboard.command(name="set")
-    @commands.guild_only()
-    @commands.has_guild_permissions(manage_guild=True)
-    @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def starboard_set(self, ctx: commands.Context, channel: discord.TextChannel):
-        print(ctx.bot.static.separator)
-        print(f"Attempting starboard set for guild {ctx.guild}\n"
-              f"ID: {ctx.guild.id}\n"
-              f"Input: {channel}")
-        ctx.bot.data.guilds.set(ctx.guild.id, "starboard", channel.id)
-        print("Successfully set starboard")
-        return await ctx.reply(embed=ctx.bot.static.embed(ctx, f"Set the starboard channel to {channel.mention}"))
 
     @starboard.command(name="reset")
     @commands.guild_only()
