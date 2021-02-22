@@ -39,6 +39,10 @@ class CommandError(commands.Cog):
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
+        if prefix := ctx.bot.data.guilds.get(ctx.guild.id).prefix:
+            prefix = prefix
+        else:
+            prefix = ctx.bot.config.default_prefix
         error = getattr(error, "original", error)
         if hasattr(ctx.command, "on_error"):
             return
@@ -60,10 +64,10 @@ class CommandError(commands.Cog):
                 embed=ctx.bot.static.embed(ctx, f"\"{error.input_}\" is not a valid Minecraft account"))
         elif isinstance(error, NoMinecraftUUID):
             return await ctx.reply(
-                embed=ctx.bot.static.embed(ctx, f"You are not verified! `/mc verify <ign>`"))
+                embed=ctx.bot.static.embed(ctx, f"You are not verified! `{prefix if bool(prefix) else ctx.bot.config.default_prefix}mc verify <ign>`"))
         elif isinstance(error, NoLastFMUsername):
             return await ctx.reply(
-                embed=ctx.bot.static.embed(ctx, f"You are not verified! `/fm set <username>`"))
+                embed=ctx.bot.static.embed(ctx, f"You are not verified! `{prefix if bool(prefix) else ctx.bot.config.default_prefix}fm set <username>`"))
         elif isinstance(error, lastfm):
             return await ctx.reply(
                 embed=ctx.bot.static.embed(ctx, error.message))
