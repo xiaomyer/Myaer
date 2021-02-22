@@ -38,18 +38,27 @@ class Duels(commands.Cog):
         # these need to have the same number of indexes
         stats = (
             self.get_stats_embed(player),
-            self.get_stats_embed(player, mode=player.duels.bow),
-            self.get_stats_embed(player, mode=player.duels.classic)
+            self.get_stats_embed(player, player.duels.bow),
+            self.get_stats_embed(player, player.duels.classic),
+            self.get_stats_embed(player, player.duels.uhc.solo),
+            self.get_stats_embed(player, player.duels.uhc.doubles),
+            self.get_stats_embed(player, player.duels.uhc.fours)
         )
         kdr = (
             self.get_kdr_embed(player),
-            self.get_kdr_embed(player, mode=player.duels.bow),
-            self.get_kdr_embed(player, mode=player.duels.classic)
+            self.get_kdr_embed(player, player.duels.bow),
+            self.get_kdr_embed(player, player.duels.classic),
+            self.get_kdr_embed(player, player.duels.uhc.solo),
+            self.get_kdr_embed(player, player.duels.uhc.doubles),
+            self.get_kdr_embed(player, player.duels.uhc.fours)
         )
         wlr = (
             self.get_wlr_embed(player),
-            self.get_wlr_embed(player, mode=player.duels.bow),
-            self.get_wlr_embed(player, mode=player.duels.classic)
+            self.get_wlr_embed(player, player.duels.bow),
+            self.get_wlr_embed(player, player.duels.classic),
+            self.get_wlr_embed(player, player.duels.uhc.solo),
+            self.get_wlr_embed(player, player.duels.uhc.doubles),
+            self.get_wlr_embed(player, player.duels.uhc.fours)
         )
         stats = DuelsMenu(stats, kdr, wlr)
         await stats.start(ctx)

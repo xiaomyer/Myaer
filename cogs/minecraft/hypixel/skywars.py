@@ -37,12 +37,18 @@ class Skywars(commands.Cog):
         player = await ctx.bot.hypixel.player.get(ctx=ctx, input_=input_)
         stats = (
             self.get_stats_embed(player),
+            self.get_stats_embed(player, player.skywars.insane.solo),
+            self.get_stats_embed(player, player.skywars.insane.doubles)
         )
         wlr = (
             self.get_wlr_embed(player),
+            self.get_wlr_embed(player, player.skywars.insane.solo),
+            self.get_wlr_embed(player, player.skywars.insane.doubles)
         )
         kdr = (
             self.get_kdr_embed(player),
+            self.get_kdr_embed(player, player.skywars.insane.solo),
+            self.get_kdr_embed(player, player.skywars.insane.doubles)
         )
         stats = SkywarsMenu(stats, wlr, kdr)
         await stats.start(ctx)
