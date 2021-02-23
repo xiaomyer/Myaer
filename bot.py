@@ -5,7 +5,6 @@ import traceback
 
 import discord
 from discord.ext import commands
-from discord_slash import SlashCommand
 
 import hypixelaPY
 import ksoftapi
@@ -33,7 +32,6 @@ bot = commands.Bot(
     allowed_mentions=discord.AllowedMentions(everyone=False, replied_user=False),
     intents=discord.Intents.all()
 )
-slash = SlashCommand(bot, override_type=True, auto_register=True, auto_delete=True)
 bot.static = Static(bot)
 bot.config = config
 bot.data = data
@@ -50,25 +48,31 @@ for file in extensions[:]:
         extensions.remove(file)
 bot.static.failed_extensions = []
 
-for extension in extensions:
-    try:
-        bot.load_extension(((extension.replace("/", "."))[:-3]) if extension.endswith(".py") else extension)
-        # i. don't. want. to. talk. about. it.
-    except Exception as e:
-        exception = '{}: {}'.format(type(e).__name__, e)
-        print("Failed to load extension {}\n{}".format(extension, exception))
-        error_traceback = "".join(traceback.format_exception(type(e), e, e.__traceback__))
-        bot.static.failed_extensions.append((extension, error_traceback))
+
+def load_extensions():  # this was purely done for the reason of variable scope
+    for extension in extensions:
+        try:
+            bot.load_extension(((extension.replace("/", "."))[:-3]) if extension.endswith(".py") else extension)
+            # i. don't. want. to. talk. about. it.
+            # the [:-3] is cutting out the three characters of .py
+        except Exception as e:
+            exception = '{}: {}'.format(type(e).__name__, e)
+            print("Failed to load extension {}\n{}".format(extension, exception))
+            error_traceback = "".join(traceback.format_exception(type(e), e, e.__traceback__))
+            bot.static.failed_extensions.append((extension, error_traceback))
+
+
+load_extensions()
 
 
 @bot.event
 async def on_error(event, *args, **kwargs):
-    error = sys.exc_info()
-    error_traceback = "".join(traceback.format_exception(error[0], error[1], error[2]))
-    print(error_traceback)
+    exception, instance, tb = sys.exc_info()
+    error = "".join(traceback.format_exception(exception, instance, tb))
+    print(error)
     await bot.config.channels.events.send(embed=discord.Embed(
         title="Exception",
-        description=f"```{error_traceback}```",
+        description=f"```{error}```",
         timestamp=bot.static.time()
     ))
 
