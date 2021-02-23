@@ -38,20 +38,34 @@ class Skywars(commands.Cog):
         stats = (
             self.get_stats_embed(player),
             self.get_stats_embed(player, player.skywars.insane.solo),
-            self.get_stats_embed(player, player.skywars.insane.doubles)
+            self.get_stats_embed(player, player.skywars.insane.doubles),
+            self.get_stats_embed(player, player.skywars.normal.solo),
+            self.get_stats_embed(player, player.skywars.normal.doubles)
         )
         wlr = (
             self.get_wlr_embed(player),
             self.get_wlr_embed(player, player.skywars.insane.solo),
-            self.get_wlr_embed(player, player.skywars.insane.doubles)
+            self.get_wlr_embed(player, player.skywars.insane.doubles),
+            self.get_wlr_embed(player, player.skywars.normal.solo),
+            self.get_wlr_embed(player, player.skywars.normal.doubles)
         )
         kdr = (
             self.get_kdr_embed(player),
             self.get_kdr_embed(player, player.skywars.insane.solo),
-            self.get_kdr_embed(player, player.skywars.insane.doubles)
+            self.get_kdr_embed(player, player.skywars.insane.doubles),
+            self.get_kdr_embed(player, player.skywars.normal.solo),
+            self.get_kdr_embed(player, player.skywars.normal.doubles)
         )
         stats = SkywarsMenu(stats, wlr, kdr)
         await stats.start(ctx)
+
+    @staticmethod
+    def get_description(mode):
+        if hasattr(mode, "games_played"):
+            return f"Winstreak: {mode.winstreak}\n" \
+                   f"Games Played: {mode.games_played:,d}"
+        else:
+            return f"Winstreak: {mode.winstreak}"
 
     def get_stats_embed(self, player, mode=None):
         if not mode:
@@ -59,8 +73,7 @@ class Skywars(commands.Cog):
         return discord.Embed(
             color=player.skywars.prestige.color,
             title=f"[{player.skywars.prestige.star}{self.bot.static.star}] {player.display}",
-            description=f"Winstreak: {mode.winstreak}\n"
-                        f"Games Played: {mode.games_played:,d}"
+            description=self.get_description(mode)
         ).add_field(
             name="Kills",
             value=f"{mode.kills.kills:,d}"
