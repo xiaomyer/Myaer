@@ -49,20 +49,28 @@ class LastFM(commands.Cog):
     async def lastfm(self, ctx):
         return
 
-    @lastfm.command()
+    @lastfm.command(aliases=["verify", "link"])
     @commands.max_concurrency(1, per=commands.BucketType.user)
     async def set(self, ctx, username):
         user = await ctx.bot.lastfm.client.user.get_info(username)
         ctx.bot.data.users.set(ctx.author.id, "lastfm", user.name)
-        return await ctx.reply(embed=ctx.bot.static.embed(ctx, f"Verified your last.fm account as `{user.name}`"))
+        return await ctx.reply(embed=ctx.bot.static.embed(ctx, f"Verified your Last.FM account as `{user.name}`"))
+
+    @lastfm.command(aliases=["unverify", "unlink"])
+    @commands.max_concurrency(1, per=commands.BucketType.user)
+    async def unset(self, ctx):
+        reset = ctx.bot.data.users.delete(ctx.author.id, "lastfm")
+        return await ctx.reply(embed=ctx.bot.static.embed(ctx, f"Unverified your Last.FM account `{reset}`"
+                                                          if reset else
+                                                          "Your Last.FM account was not set!"))
 
     @lastfm.command()
     @commands.max_concurrency(1, per=commands.BucketType.user)
     async def recent(self, ctx, username=None):
         username = await ctx.bot.lastfm.get_username(ctx=ctx, username=username)
         recent = await ctx.bot.lastfm.client.user.get_recent_tracks(user=username)
-        tracks = [f"`{track.artist.name} - "
-                  f"{track.name} | "
+        tracks = [f"`{track.name} - "
+                  f"{track.artist.name}: "
                   f"{'(now playing)' if track.playing else f'({humanfriendly.format_timespan(ctx.bot.static.time() - track.played, max_units=2)} ago)'}`"
                   for track in recent.items]
         await menus.MenuPages(

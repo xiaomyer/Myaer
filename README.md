@@ -36,6 +36,7 @@ Maintained by [Myer (also known as myerfire, MyerFire)](https://github.com/myerf
   
 ### Last.FM
 - /fm set `username` - Sets your Last.FM username, similar to `/mc set ign`
+- /fm unset - Resets your Last.FM username, similar to `/mc unverify`
 - /fm recent `username` - Shows recent tracks
 - /fm np `username` - Shows currently playing track
 - /fm servernp `username` - Shows server's currently playing track
