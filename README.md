@@ -12,17 +12,16 @@ Maintained by [Myer (also known as myerfire, MyerFire)](https://github.com/myerf
 - /help - ur mom
 - /avatar - Shows your Discord avatar
     - aka: /av
-- /prefix `prefix` - Shows current server prefix if there is no prefix specified, otherwise shows current server prefix
+- /prefix `prefix` - Shows current server prefix if there is no prefix specified, otherwise sets current server prefix
   - `myaer `, `Myaer `, and @ing the bot will always work as prefixes. Default prefix is `/`
 - /starboard - Shows current server starboard if there is one
   - A starboard is like pinned messages but all in one place
 - /starboard set `channel` - Sets server starboard
 - /starboard reset - Resets server starboard if there was one
-- /[staff/mod/admin]only - Shows settings for who can run commands in certain channels if they were set
+- /[staff/mod/admin]only `channels` - Shows settings for who can run commands in certain channels if there are no channels specified, otherwise sets the settings
   - Staff is defined as having manage messages
   - Mod is defined as having manage server
   - Admin is defined as having administrator
-- /[staff/mod/admin]only set `channels` - Sets settings for who can run commands in certain channels
 - /[staff/mod/admin]only reset - Resets settings for who can run commands in certain channels
 ### Minecraft
 - /mc verify `ign` - Saves your Minecraft profile for use with future commands. If you are verified, any commands other than this one that require ign as an input will no longer require ign
