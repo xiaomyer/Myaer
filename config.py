@@ -33,3 +33,10 @@ class Keys:
         self.ksoft = keys["ksoft"]
         self.genius = keys["genius"]
         self.lastfm = keys["lastfm"]
+        self.spotify = Spotify(keys["spotify"])
+
+
+class Spotify:
+    def __init__(self, spotify):
+        self.id = spotify["id"]
+        self.secret = spotify["secret"]

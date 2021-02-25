@@ -40,7 +40,18 @@ class UserConfig:
     def __init__(self, data):
         self.minecraft_uuid = data.get("minecraft_uuid")
         self.lastfm = data.get("lastfm")
+        self.spotify = SpotifyUserConfig(data.get("spotify"))
 
     @staticmethod
     def default():
         return UserConfig({})
+
+
+class SpotifyUserConfig:
+    def __init__(self, data):
+        self.token = data.get("access_token")
+        self.refresh = data.get("refresh_token")
+
+    @staticmethod
+    def default():
+        return SpotifyUserConfig({})
