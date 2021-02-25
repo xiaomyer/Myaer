@@ -1,5 +1,4 @@
 from aiohttp import web
-import aiohttp
 import json
 
 with open("config.json") as config:
@@ -13,16 +12,7 @@ REDIRECT_URI = "https://myer.wtf/spotify"
 async def process(request):
     query, state, success = get_query(request)
     if success:
-        async with aiohttp.request("POST", f"{ACCOUNTS}/api/token", data={
-            "grant_type": "authorization_code",
-            "code": query,
-            "redirect_uri": REDIRECT_URI,
-            "client_id": CLIENT_ID,
-            "client_secret": CLIENT_SECRET
-        }) as response:
-            response = await response.json()
-            print(response)
-        return web.Response(text=str(response))
+        return web.Response(text=f"{query}")
     else:
         return web.Response(text="You shouldn't be here!")
 
@@ -31,10 +21,10 @@ def get_query(request) -> tuple:
     state = request.query.get("state", None)
     if code := request.query.get("code", None):
         return code, state, True  # success
-    elif error := request.query.get("code", None):
+    elif error := request.query.get("error", None):
         return error, state, False  # failure
     else:
-        return "myer", "stupid", False
+        return None, None, False  # you fucked up!
 
 
 async def spotify():
