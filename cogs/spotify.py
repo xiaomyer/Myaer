@@ -21,13 +21,17 @@ class Spotify(commands.Cog):
         self.sessions = {}
         self.template = Image.open("static/nowplaying.png")
         self.font = ImageFont.truetype("static/calibri.ttf", 20)
+        self.disable = False
+
+    def cog_unload(self):
+        self.disable = True
 
     @commands.group(invoke_without_subcommand=True)
     @commands.max_concurrency(1, per=commands.BucketType.user)
     async def spotify(self, ctx):
         return
 
-    @spotify.command()
+    @spotify.command(aliases=["verify", "link", "login"])
     @commands.max_concurrency(1, per=commands.BucketType.user)
     async def set(self, ctx):
         await ctx.reply(embed=ctx.bot.static.embed(ctx, "Sent you a DM with an authentication link"))
@@ -46,7 +50,7 @@ class Spotify(commands.Cog):
             ctx.bot.data.users.set(ctx.author.id, "spotify", token)
             return await code.reply(embed=ctx.bot.static.embed(ctx, "Successfully logged in to your Spotify account"))
 
-    @spotify.command(aliases=["unverify", "unlink"])
+    @spotify.command(aliases=["unverify", "unlink", "logout"])
     @commands.max_concurrency(1, per=commands.BucketType.user)
     async def unset(self, ctx):
         reset = ctx.bot.data.users.delete(ctx.author.id, "spotify")
@@ -70,6 +74,11 @@ class Spotify(commands.Cog):
                                               filename="song.png"))
             retries = 0
             async for song, activity, position in self.continue_getting_songs(member):
+                if self.disable:
+                    return await ctx.reply(embed=ctx.bot.static.embed(ctx, "This cog is undergoing a restart, so your "
+                                                                           "session has been stopped "
+                                                                           "Sorry for any inconvenience, you can "
+                                                                           "restart the listening session"))
                 now_playing = await self.get_now_playing(spotify, ctx.author.id)
                 if not song or not position:
                     if retries < 15:
