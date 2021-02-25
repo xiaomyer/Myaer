@@ -64,10 +64,10 @@ class Spotify(commands.Cog):
             if not track:
                 return await ctx.reply(embed=ctx.bot.static.embed(ctx, f"{member.mention} is not listening to "
                                                                        f"anything on Spotify!"))
+            await self.set_song(spotify, track, position, ctx.author.id)
             await ctx.reply(f"`#{songs}`",
                             file=discord.File(ctx.bot.static.image_to_bytes(await self.get_image(activity)),
                                               filename="song.png"))
-            await self.set_song(spotify, track, position, ctx.author.id)
             retries = 0
             async for song, activity, position in self.continue_getting_songs(member):
                 now_playing = await self.get_now_playing(spotify, ctx.author.id)
@@ -79,7 +79,9 @@ class Spotify(commands.Cog):
                     else:
                         return await ctx.reply(embed=ctx.bot.static.embed(ctx, f"{member.mention} stopped listening "
                                                                                f"to music!"))
-                elif now_playing and (not now_playing.get("is_playing") or now_playing.get("item", {}).get("uri") != song) and song == track:
+                elif not now_playing:
+                    return await ctx.reply(embed=ctx.bot.static.embed(ctx, "Spotify session was interrupted"))
+                elif (not now_playing.get("is_playing") or now_playing.get("item", {}).get("uri") != song) and song == track:
                     return await ctx.reply(embed=ctx.bot.static.embed(ctx,
                                                                       f"Playback was unsynced with {member.mention}'s. "
                                                                       f" If you meant to stop listening along, "
