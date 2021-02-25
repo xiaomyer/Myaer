@@ -79,6 +79,10 @@ class CommandError(commands.Cog):
             return await ctx.reply(
                 embed=ctx.bot.static.embed(ctx, "You do not have Spotify Premium!")
             )
+        elif isinstance(error, NoSpotifyDevice):
+            return await ctx.reply(
+                embed=ctx.bot.static.embed(ctx, "Spotify device was not found. Try playing a song on Spotify and pausing, then try again")
+            )
         elif isinstance(error, commands.MaxConcurrencyReached):
             return await ctx.reply(
                 embed=ctx.bot.static.embed(ctx, f"{ctx.author.mention}, you are sending commands too fast"))

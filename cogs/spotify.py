@@ -79,7 +79,7 @@ class Spotify(commands.Cog):
                     else:
                         return await ctx.reply(embed=ctx.bot.static.embed(ctx, f"{member.mention} stopped listening "
                                                                                f"to music!"))
-                elif (not now_playing.get("is_playing") or now_playing.get("item", {}).get("uri") != song) and song == track:
+                elif now_playing and (not now_playing.get("is_playing") or now_playing.get("item", {}).get("uri") != song) and song == track:
                     return await ctx.reply(embed=ctx.bot.static.embed(ctx,
                                                                       f"Playback was unsynced with {member.mention}'s. "
                                                                       f" If you meant to stop listening along, "
