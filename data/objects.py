@@ -40,7 +40,7 @@ class UserConfig:
     def __init__(self, data):
         self.minecraft_uuid = data.get("minecraft_uuid")
         self.lastfm = data.get("lastfm")
-        self.spotify = SpotifyUserConfig(data.get("spotify"))
+        self.spotify = SpotifyUserConfig(data.get("spotify", {}))
 
     @staticmethod
     def default():

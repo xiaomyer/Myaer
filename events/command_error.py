@@ -30,7 +30,7 @@ from discord.ext import commands
 
 import hypixelaPY
 import lastfmpy
-from core.exceptions import NoMinecraftUUID, NoLastFMUsername
+from core.exceptions import *
 
 
 class CommandError(commands.Cog):
@@ -71,6 +71,14 @@ class CommandError(commands.Cog):
         elif isinstance(error, lastfm):
             return await ctx.reply(
                 embed=ctx.bot.static.embed(ctx, error.message))
+        elif isinstance(error, NoSpotifyAccount):
+            return await ctx.reply(
+                embed=ctx.bot.static.embed(ctx, f"You are not logged into Spotify! `{prefix if bool(prefix) else ctx.bot.config.default_prefix}spotify set`")
+            )
+        elif isinstance(error, NotSpotifyPremium):
+            return await ctx.reply(
+                embed=ctx.bot.static.embed(ctx, "You do not have Spotify Premium!")
+            )
         elif isinstance(error, commands.MaxConcurrencyReached):
             return await ctx.reply(
                 embed=ctx.bot.static.embed(ctx, f"{ctx.author.mention}, you are sending commands too fast"))

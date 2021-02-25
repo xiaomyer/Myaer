@@ -29,3 +29,15 @@ class NoMinecraftUUID(Exception):
 
 class NoLastFMUsername(Exception):
     pass
+
+
+class NotSpotifyPremium(Exception):
+    pass
+
+
+class NoSpotifyAccount(Exception):
+    pass
+
+
+class NoSpotifyDevice(Exception):
+    pass
