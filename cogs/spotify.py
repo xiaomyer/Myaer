@@ -61,48 +61,51 @@ class Spotify(commands.Cog):
     @spotify.command()
     @commands.max_concurrency(1, per=commands.BucketType.user)
     async def listenalong(self, ctx, member: discord.Member):
-        spotify = ctx.bot.data.users.get(ctx.author.id).spotify
-        if spotify.refresh:
-            songs = 1
-            track, activity, position, _ = self.get_member_now_playing(member)
-            if not track:
-                return await ctx.reply(embed=ctx.bot.static.embed(ctx, f"{member.mention} is not listening to "
-                                                                       f"anything on Spotify!"))
-            await self.set_song(spotify, track, position, ctx.author.id)
-            await ctx.reply(f"`#{songs}`",
-                            file=discord.File(ctx.bot.static.image_to_bytes(await self.get_image(activity)),
-                                              filename="song.png"))
-            retries = 0
-            async for song, activity, position in self.continue_getting_songs(member):
-                if self.disable:
-                    return await ctx.reply(embed=ctx.bot.static.embed(ctx, "This cog is undergoing a restart, so your "
-                                                                           "session has been stopped "
-                                                                           "Sorry for any inconvenience, you can "
-                                                                           "restart the listening session"))
-                now_playing = await self.get_now_playing(spotify, ctx.author.id)
-                if not song or not position:
-                    if retries < 15:
-                        retries += 1
-                        await asyncio.sleep(3)
-                        continue
-                    else:
-                        return await ctx.reply(embed=ctx.bot.static.embed(ctx, f"{member.mention} stopped listening "
-                                                                               f"to music!"))
-                elif not now_playing:
-                    return await ctx.reply(embed=ctx.bot.static.embed(ctx, "Spotify session was interrupted"))
-                elif (not now_playing.get("is_playing") or now_playing.get("item", {}).get("uri") != song) and song == track:
-                    return await ctx.reply(embed=ctx.bot.static.embed(ctx,
-                                                                      f"Playback was unsynced with {member.mention}'s. "
-                                                                      f" If you meant to stop listening along, "
-                                                                      f"ignore this message. Otherwise, "
-                                                                      f"try again"))
-                elif song != track:
-                    songs += 1
-                    await ctx.reply(f"`#{songs}`",
-                                    file=discord.File(ctx.bot.static.image_to_bytes(await self.get_image(activity)),
-                                                      filename="song.png"))
-                    await self.set_song(spotify, song, position, ctx.author.id)
-                    track = song
+        spotify = self.get_spotify(ctx.author.id)
+        songs = 1
+        track, activity, position, _ = self.get_member_now_playing(member)
+        if not track:
+            return await ctx.reply(embed=ctx.bot.static.embed(ctx, f"{member.mention} is not listening to "
+                                                                   f"anything on Spotify!"))
+        await self.set_song(spotify, track, position, ctx.author.id)
+        await ctx.reply(f"`#{songs}`",
+                        file=discord.File(ctx.bot.static.image_to_bytes(await self.get_image(activity)),
+                                          filename="song.png"))
+        retries = 0
+        async for song, activity, position in self.continue_getting_songs(member):
+            if self.disable:
+                return await ctx.reply(embed=ctx.bot.static.embed(ctx, "This cog is undergoing a restart, so your "
+                                                                       "session has been stopped "
+                                                                       "Sorry for any inconvenience, you can "
+                                                                       "restart the listening session"))
+            now_playing = await self.get_now_playing(spotify, ctx.author.id)
+            if not song or not position:
+                if retries < 15:
+                    retries += 1
+                    await asyncio.sleep(3)
+                    continue
+                else:
+                    return await ctx.reply(embed=ctx.bot.static.embed(ctx, f"{member.mention} stopped listening "
+                                                                           f"to music!"))
+            elif not now_playing:
+                return await ctx.reply(embed=ctx.bot.static.embed(ctx, "Spotify session was interrupted"))
+            elif (not now_playing.get("is_playing") or now_playing.get("item", {}).get("uri") != song) and song == track:
+                return await ctx.reply(embed=ctx.bot.static.embed(ctx,
+                                                                  f"Playback was unsynced with {member.mention}'s. "
+                                                                  f" If you meant to stop listening along, "
+                                                                  f"ignore this message. Otherwise, "
+                                                                  f"try again"))
+            elif song != track:
+                songs += 1
+                await ctx.reply(f"`#{songs}`",
+                                file=discord.File(ctx.bot.static.image_to_bytes(await self.get_image(activity)),
+                                                  filename="song.png"))
+                await self.set_song(spotify, song, position, ctx.author.id)
+                track = song
+
+    def get_spotify(self, user):
+        if spotify := self.bot.data.users.get(user).spotify:
+            return spotify
         else:
             raise NoSpotifyAccount
 
