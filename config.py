@@ -30,6 +30,7 @@ class Channels:
 class Keys:
     def __init__(self, keys):
         self.hypixel = keys["hypixel"]
+        self.imperator = keys["imperator"]
         self.ksoft = keys["ksoft"]
         self.genius = keys["genius"]
         self.lastfm = keys["lastfm"]

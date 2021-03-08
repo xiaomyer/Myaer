@@ -49,6 +49,9 @@ class Spotify(commands.Cog):
         if token:
             ctx.bot.data.users.set(ctx.author.id, "spotify", token)
             return await code.reply(embed=ctx.bot.static.embed(ctx, "Successfully logged in to your Spotify account"))
+        else:
+            return await code.reply(embed=ctx.bot.static.embed(ctx, "Invalid authentication code. Made sure you "
+                                                                    "copied it correctly!"))
 
     @spotify.command(aliases=["unverify", "unlink", "logout"])
     @commands.max_concurrency(1, per=commands.BucketType.user)
@@ -170,8 +173,7 @@ class Spotify(commands.Cog):
             elif response.status == 404:
                 raise NoSpotifyDevice
             elif response.status != 204:
-                response = await response.json()
-                return response
+                return await response.json()
 
     async def get_now_playing(self, spotify, user):
         async with aiohttp.request("GET",

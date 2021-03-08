@@ -10,6 +10,7 @@ import hypixelaPY
 import ksoftapi
 from config import Config
 from core.hypixel import Hypixel_
+from core.imperator import Imperator_
 from core.lastfm import LastFM_
 from core.static import Static
 from data.data import Data
@@ -81,6 +82,7 @@ async def start():
     try:
         bot.hypixel = await Hypixel_(bot, config.keys.hypixel)
         bot.lastfm = await LastFM_(bot, config.keys.lastfm)
+        bot.imperator = await Imperator_(bot, config.keys.imperator)
         await bot.start(config.token)
     except KeyboardInterrupt:
         await bot.logout()
