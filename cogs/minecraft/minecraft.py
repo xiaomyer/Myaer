@@ -37,12 +37,12 @@ class Minecraft(commands.Cog):
 
     @minecraft.command()
     @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def verify(self, ctx: commands.Context, input_: str):
+    async def verify(self, ctx: commands.Context, query: str):
         print(ctx.bot.static.separator)
         print(f"Attempting Minecraft account verification for user {ctx.author})\n"
               f"ID: {ctx.author.id}\n"
-              f"Input: {input_}")
-        player = await ctx.bot.hypixel.hypixel.player.get(input_=input_)
+              f"Input: {query}")
+        player = await ctx.bot.hypixel.hypixel.player.get(query=query)
         if str(ctx.author) != player.social.discord:
             print(f"Failed Minecraft account verification\n"
                   f"Hypixel Discord name of the given Minecraft account was not the same as the user's discord\n"
@@ -69,12 +69,12 @@ class Minecraft(commands.Cog):
     @minecraft.command()
     @commands.is_owner()
     @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def forceverify(self, ctx: commands.Context, user: discord.User, input_: str):
+    async def forceverify(self, ctx: commands.Context, user: discord.User, query: str):
         print(ctx.bot.static.separator)
         print(f"Attempting Minecraft account verification for user {user})\n"
               f"ID: {user.id}\n"
-              f"Input: {input_}")
-        player = await ctx.bot.hypixel.hypixel.player.get(input_=input_)
+              f"Input: {query}")
+        player = await ctx.bot.hypixel.hypixel.player.get(query=query)
         print("Successfully verified Minecraft account")
         ctx.bot.data.users.set(user.id, "minecraft_uuid", player.uuid)
         return await ctx.reply(

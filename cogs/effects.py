@@ -36,8 +36,8 @@ class Effects(commands.Cog):
 
     @commands.command()
     @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def contour(self, ctx, input_=None):
-        image = await self.parse_image_url(ctx, input_)
+    async def contour(self, ctx, query=None):
+        image = await self.parse_image_url(ctx, query)
         image = ctx.bot.static.image_to_pil(await ctx.bot.static.get_image(image))
         image = image.convert("RGB")
         image = image.filter(ImageFilter.CONTOUR)
@@ -45,8 +45,8 @@ class Effects(commands.Cog):
 
     # @commands.command()
     # @commands.max_concurrency(1, per=commands.BucketType.user)
-    # async def deepfry(self, ctx, input_=None):
-    #     image = await self.parse_image_url(ctx, input_)
+    # async def deepfry(self, ctx, query=None):
+    #     image = await self.parse_image_url(ctx, query)
     #     image = ctx.bot.static.image_to_pil(await ctx.bot.static.get_image(image))
     #     image = image.convert("RGB")
     #     image = await deeppyer.deepfry(image)
@@ -54,28 +54,28 @@ class Effects(commands.Cog):
 
     @commands.command()
     @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def emboss(self, ctx, input_=None):
-        image = await self.parse_image_url(ctx, input_)
+    async def emboss(self, ctx, query=None):
+        image = await self.parse_image_url(ctx, query)
         image = ctx.bot.static.image_to_pil(await ctx.bot.static.get_image(image))
         image = image.convert("RGB")
         image = image.filter(ImageFilter.EMBOSS)
         await ctx.reply(file=discord.File(ctx.bot.static.image_to_bytes(image), filename="emboss.png"))
 
-    async def parse_image_url(self, ctx, input_):
+    async def parse_image_url(self, ctx, query):
         image = None
-        if not input_:
+        if not query:
             if ctx.message.attachments:
                 if self.image_files in ctx.message.attachments[0].filename:
                     image = ctx.message.attachments[0].url
             else:
                 image = str(ctx.author.avatar_url_as(static_format="png", size=2048))
         else:
-            if user := await self.bot.static.try_user_convert(self.bot, ctx, input_):
+            if user := await self.bot.static.try_user_convert(self.bot, ctx, query):
                 if user.mentioned_in(ctx.message):
                     image = str(user.avatar_url_as(static_format="png", size=2048))
-            if input_.isdigit():
-                input_ = int(input_)
-                if user := ctx.bot.get_user(input_):
+            if query.isdigit():
+                query = int(query)
+                if user := ctx.bot.get_user(query):
                     image = str(user.avatar_url_as(static_format="png", size=2048))
         return image
 

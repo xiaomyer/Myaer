@@ -49,22 +49,22 @@ class Player:
         self._imperator = imperator
         self.bot = bot
 
-    async def get(self, *, ctx=None, input_: str, uuid: str = "", name: str = ""):
-        if not (bool(uuid) or bool(name) or bool(input_)):
+    async def get(self, *, ctx=None, query: str, uuid: str = "", name: str = ""):
+        if not (bool(uuid) or bool(name) or bool(query)):
             if user := self.bot.data.users.get(ctx.author.id):
                 uuid = user.minecraft_uuid
             else:
                 uuid = None
         else:
-            if bool(input_):
-                if user := await self.bot.static.try_user_convert(self.bot, ctx, input_):
+            if bool(query):
+                if user := await self.bot.static.try_user_convert(self.bot, ctx, query):
                     if user.mentioned_in(ctx.message):
                         uuid = self.bot.data.users.get(user.id).minecraft_uuid
-                if input_.isdigit():
-                    input_ = int(input_)
-                    if bool(self.bot.get_user(input_)):
-                        uuid = self.bot.data.users.get(input_).minecraft_uuid
-        if not uuid and not (bool(uuid) or bool(name) or bool(input_)):  # if uuid wasn't retrieved from a call with
+                if query.isdigit():
+                    query = int(query)
+                    if bool(self.bot.get_user(query)):
+                        uuid = self.bot.data.users.get(query).minecraft_uuid
+        if not uuid and not (bool(uuid) or bool(name) or bool(query)):  # if uuid wasn't retrieved from a call with
             # no inputs, then the user was not in the database
             raise NoMinecraftUUID
-        return await self._imperator.fetch.player(input_=input_, name=name, uuid=uuid)
+        return await self._imperator.fetch.player(query=query, name=name, uuid=uuid)

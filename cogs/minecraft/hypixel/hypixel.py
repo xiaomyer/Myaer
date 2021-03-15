@@ -34,8 +34,8 @@ class Hypixel(commands.Cog):
 
     @commands.group(invoke_without_command=True)
     @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def hypixel(self, ctx, input_=None):
-        player = await ctx.bot.hypixel.player.get(ctx=ctx, input_=input_)
+    async def hypixel(self, ctx, query=None):
+        player = await ctx.bot.hypixel.player.get(ctx=ctx, query=query)
         guild = await ctx.bot.hypixel.guild.get(uuid=player.uuid)
         embed = discord.Embed(
             color=player.rank.color,

@@ -33,8 +33,8 @@ class Bedwars(commands.Cog):
 
     @commands.group(aliases=["bw"], invoke_without_command=True)
     @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def bedwars(self, ctx, input_=None):
-        player = await ctx.bot.hypixel.player.get(ctx=ctx, input_=input_)
+    async def bedwars(self, ctx, query=None):
+        player = await ctx.bot.hypixel.player.get(ctx=ctx, query=query)
         # these need to have the same number of indexes
         stats = (
             self.get_stats_embed(player),

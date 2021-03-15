@@ -61,7 +61,7 @@ class CommandError(commands.Cog):
             return
         if isinstance(error, hypixelaPY.NoPlayerFoundError):
             return await ctx.reply(
-                embed=ctx.bot.static.embed(ctx, f"\"{error.input_}\" is not a valid Minecraft account"))
+                embed=ctx.bot.static.embed(ctx, f"\"{error}\" is not a valid Minecraft account"))
         elif isinstance(error, NoMinecraftUUID):
             return await ctx.reply(
                 embed=ctx.bot.static.embed(ctx, f"You are not verified! `{prefix if bool(prefix) else ctx.bot.config.default_prefix}mc verify <ign>`"))
@@ -81,7 +81,8 @@ class CommandError(commands.Cog):
             )
         elif isinstance(error, NoSpotifyDevice):
             return await ctx.reply(
-                embed=ctx.bot.static.embed(ctx, "Spotify device was not found. Try playing a song on Spotify and pausing, then try again")
+                embed=ctx.bot.static.embed(ctx, "Spotify device was not found. Try playing a song on Spotify and "
+                                                "pausing, then try again")
             )
         elif isinstance(error, commands.MaxConcurrencyReached):
             return await ctx.reply(

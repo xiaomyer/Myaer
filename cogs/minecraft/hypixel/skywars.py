@@ -33,8 +33,8 @@ class Skywars(commands.Cog):
 
     @commands.group(aliases=["sw"], invoke_without_command=True)
     @commands.max_concurrency(1, per=commands.BucketType.user)
-    async def skywars(self, ctx, input_=None):
-        player = await ctx.bot.hypixel.player.get(ctx=ctx, input_=input_)
+    async def skywars(self, ctx, query=None):
+        player = await ctx.bot.hypixel.player.get(ctx=ctx, query=query)
         stats = (
             self.get_stats_embed(player),
             self.get_stats_embed(player, player.skywars.insane.solo),

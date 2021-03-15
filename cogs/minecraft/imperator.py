@@ -35,8 +35,8 @@ class Imperator(commands.Cog):
         return
 
     @imperator.command()
-    async def player(self, ctx: commands.Context, input_=None):
-        player = await ctx.bot.imperator.player.get(ctx=ctx, input_=input_)
+    async def player(self, ctx: commands.Context, query=None):
+        player = await ctx.bot.imperator.player.get(ctx=ctx, query=query)
         return await ctx.send(embed=discord.Embed(
             color=ctx.author.color,
             title=f"{player.role} {player.name}",

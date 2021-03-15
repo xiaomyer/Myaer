@@ -62,9 +62,9 @@ class Static:
         )
 
     @staticmethod
-    async def try_user_convert(bot, ctx, input_):
+    async def try_user_convert(bot, ctx, query):
         try:
-            return await bot.static.user_converter.convert(ctx, input_)
+            return await bot.static.user_converter.convert(ctx, query)
         except commands.UserNotFound:
             return
 
@@ -93,12 +93,12 @@ class Crafthead:
     def __init__(self):
         self.CRAFTHEAD = "https://crafthead.net"
 
-    def avatar(self, input_):
-        return f"{self.CRAFTHEAD}/helm/{input_}.png"
+    def avatar(self, query):
+        return f"{self.CRAFTHEAD}/helm/{query}.png"
         # helm returns regular avatar + helm and only avatar if the player no helm
 
-    def skin(self, input_):
-        return f"{self.CRAFTHEAD}/skin/{input_}.png"
+    def skin(self, query):
+        return f"{self.CRAFTHEAD}/skin/{query}.png"
 
 
 class Paginators:
