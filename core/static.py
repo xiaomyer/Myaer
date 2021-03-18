@@ -70,7 +70,7 @@ class Static:
 
     async def update_guild_status(self):
         await self.bot.change_presence(activity=discord.Game(name=f"in {len(self.bot.guilds)} guilds | "
-                                                                  f"https://myer.wtf/bot"))
+                                                                  f"JOIN https://myer.wtf/discord FOR NEW OVERLAY"))
 
     async def get_image(self, url):
         if not bool(url): return self.empty_image

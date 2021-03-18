@@ -34,7 +34,7 @@ class Command(commands.Cog):
 
     @commands.Cog.listener()
     async def on_command(self, ctx):
-        if random.random() < 0.25:
+        if random.random() < 0.1:
             await ctx.send("Join discord.gg/kXwsrPy to download my custom Bedwars overlay")
 
 
