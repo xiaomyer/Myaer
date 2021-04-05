@@ -108,17 +108,8 @@ class CommandError(commands.Cog):
                 and `Embed Links`. (moderation commands may require more permissions) If you are having trouble with 
                 permissions, giving me the `Administrator` permission will solve any and all problems. For more 
                 support, join my [Discord Server](https://myer.wtf/discord)"""))
-
+        await ctx.reply(embed=self.bot.static.embed(ctx, error))
         error_traceback = "".join(traceback.format_exception(type(error), error, error.__traceback__))
-        await ctx.reply(embed=discord.Embed(
-            color=ctx.author.color,
-            timestamp=ctx.message.created_at,
-            description=f"```{error_traceback}```"
-        ).set_author(
-            name="Join my Discord server for help",
-            url="https://myer.wtf/discord"
-        ))
-
         await ctx.bot.config.channels.events.send(embed=discord.Embed(
             color=ctx.author.color,
             timestamp=ctx.message.created_at,

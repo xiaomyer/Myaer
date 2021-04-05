@@ -106,6 +106,8 @@ class Hypixel(commands.Cog):
         await menus.MenuPages(source=ctx.bot.static.paginators.codeblock(string, ctx, discord.Embed(
             color=guild.tag.color,
             title=f"{guild.display} Weekly Guild XP",
+        ).set_footer(
+            text=f"Total GEXP: {guild.experience}"
         )), clear_reactions_after=True).start(ctx)
 
     @staticmethod
