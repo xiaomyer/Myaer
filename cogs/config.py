@@ -70,6 +70,7 @@ class Config(commands.Cog):
     @commands.max_concurrency(1, per=commands.BucketType.user)
     async def prefix(self, ctx: commands.Context, *, prefix=None):
         if bool(prefix):
+            if not ctx.author.permissions_in(ctx.channel).manage_guild: return
             print(ctx.bot.static.separator)
             print(f"Attempting prefix configuration for guild {ctx.guild}\n"
                   f"ID: {ctx.guild.id}\n"
