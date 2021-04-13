@@ -62,6 +62,9 @@ class CommandError(commands.Cog):
         if isinstance(error, hypixelaPY.NoPlayerFoundError):
             return await ctx.reply(
                 embed=ctx.bot.static.embed(ctx, f"\"{error}\" is not a valid Minecraft account"))
+        elif isinstance(error, hypixelaPY.APIError):
+            return await ctx.reply(
+                embed=ctx.bot.static.embed(ctx, f"The Hypixel API is down. Please try again later"))
         elif isinstance(error, NoMinecraftUUID):
             return await ctx.reply(
                 embed=ctx.bot.static.embed(ctx, f"You are not verified! `{prefix if bool(prefix) else ctx.bot.config.default_prefix}mc verify <ign>`"))
