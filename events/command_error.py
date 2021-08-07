@@ -111,7 +111,7 @@ class CommandError(commands.Cog):
                 and `Embed Links`. (moderation commands may require more permissions) If you are having trouble with 
                 permissions, giving me the `Administrator` permission will solve any and all problems. For more 
                 support, join my [Discord Server](https://myer.wtf/discord)"""))
-        await ctx.reply(embed=self.bot.static.embed(ctx, error))
+        await ctx.reply(embed=self.bot.static.embed(ctx, str(error)))
         error_traceback = "".join(traceback.format_exception(type(error), error, error.__traceback__))
         await ctx.bot.config.channels.events.send(embed=discord.Embed(
             color=ctx.author.color,

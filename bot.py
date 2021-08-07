@@ -82,7 +82,7 @@ async def start():
     try:
         bot.hypixel = await Hypixel_(bot, config.keys.hypixel)
         bot.lastfm = await LastFM_(bot, config.keys.lastfm)
-        bot.imperator = await Imperator_(bot, config.keys.imperator)
+#        bot.imperator = await Imperator_(bot, config.keys.imperator)
         await bot.start(config.token)
     except KeyboardInterrupt:
         await bot.logout()

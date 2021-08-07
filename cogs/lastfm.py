@@ -174,6 +174,43 @@ class LastFM(commands.Cog):
                     text="Who Knows",
                 ))).start(ctx)
 
+    @lastfm.command(aliases=["wkt"])
+    @commands.max_concurrency(1, per=commands.BucketType.user)
+    async def whoknowstrack(self, ctx, *, query=None):
+        async with ctx.typing():
+            if not query:
+                username = await ctx.bot.lastfm.get_username(ctx=ctx)
+                now = await ctx.bot.lastfm.client.user.get_now_playing(username)
+                if not bool(now):
+                    return await ctx.reply(embed=ctx.bot.static.embed(ctx, f"Not currently playing anything"))
+                artist = now.artist
+                track = now.name
+            else:
+                query = query.split("|")
+                artist = query[0][:-1]
+                track = query[1][-1:]
+                now = await ctx.bot.lastfm.client.track.get_info(artist=artist, track=track)
+            users = self.get_server_lastfm(ctx)
+            knows = []
+            counts = []
+            for member, user in users:
+                now_full = await self.try_get_track(artist=now.artist.name, track=now.name, username=user)
+                if bool(now_full.stats.userplaycount):
+                    string = f"{member.mention}: `{now_full.name} - {now_full.artist.name} ({now_full.stats.userplaycount} plays)`"
+                    knows.append(string)
+                    counts.append(now_full.stats.userplaycount)
+            knows.sort(key=dict(zip(knows, counts)).get, reverse=True)
+            if not knows:
+                return await ctx.reply(embed=ctx.bot.static.embed(ctx, f"No one in {ctx.guild} knows `{artist}`"))
+            await menus.MenuPages(
+                source=ctx.bot.static.paginators.regular(knows, ctx, discord.Embed(
+                    title=f"Who in {ctx.guild} knows {artist} - {track}",
+                    color=ctx.author.color,
+                    timestamp=ctx.message.created_at
+                ).set_footer(
+                    text="Who Knows",
+                ))).start(ctx)
+
     @lastfm.group(invoke_without_command=True)
     @commands.max_concurrency(1, per=commands.BucketType.user)
     async def chart(self, ctx, first=None, second=3):
