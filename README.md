@@ -1,7 +1,9 @@
-# Myaer - Hypixel Stats Bot
-[![widget](https://inv.wtf/widget/myerfire)](https://myer.wtf/discord)
+# Myaer (DEPRECATED)
+**THIS PROJECT HAS BEEN DISCONTINUED**
 
-[Bot Invite Link](https//myer.wtf/bot)
+See [Yarn](https://github.com/myerfire/Yarn), a discord.js bot that aims to replace Myaer.
+
+[![widget](https://inv.wtf/widget/myerfire)](https://myer.wtf/discord)
 
 Maintained by [Myer (also known as myerfire, MyerFire)](https://github.com/myerfire)
 - [YouTube](https://myer.wtf/youtube)
